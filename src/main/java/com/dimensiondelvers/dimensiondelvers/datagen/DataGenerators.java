@@ -29,6 +29,7 @@ public class DataGenerators {
 
         generator.addProvider(event.includeServer(), new LootTableProvider(output, Collections.emptySet(),
                 List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)), lookupProvider));
+        generator.addProvider(event.includeServer(), new ModRecipeProvider(output, lookupProvider));
 
         BlockTagsProvider blockTagsProvider = new ModBlockTagProvider(output, lookupProvider, fileHelper);
         generator.addProvider(event.includeServer(), blockTagsProvider);
