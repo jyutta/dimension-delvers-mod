@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.dimensiondelvers.dimensiondelvers.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "dimensiondelvers.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
