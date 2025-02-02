@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -104,5 +105,15 @@ public class DimensionDelvers {
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
+    }
+
+    /**
+     * Helper method to get a {@code ResourceLocation} with our Mod Id and a passed in name
+     *
+     * @param name the name to create the {@code ResourceLocation} with
+     * @return A {@code ResourceLocation} with the given name
+     */
+    public static ResourceLocation id(String name) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, name);
     }
 }
