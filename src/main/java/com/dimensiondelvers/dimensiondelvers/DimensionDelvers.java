@@ -5,10 +5,13 @@ import com.dimensiondelvers.dimensiondelvers.init.ModCreativeTabs;
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -115,5 +118,16 @@ public class DimensionDelvers {
      */
     public static ResourceLocation id(String name) {
         return ResourceLocation.fromNamespaceAndPath(MODID, name);
+    }
+
+
+    /**
+     * Helper method to get a {@code TagKey} with our Mod Id and a passed in name
+     *
+     * @param name the name to create the {@code TagKey} with
+     * @return A {@code TagKey} with the given name
+     */
+    public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
+        return TagKey.create(registry, id(name));
     }
 }

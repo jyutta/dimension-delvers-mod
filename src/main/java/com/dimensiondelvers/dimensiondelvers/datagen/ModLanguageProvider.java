@@ -26,6 +26,10 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Adds an item translation.
         addItem(ModItems.EXAMPLE_ITEM, "Example Item");
+        addItem(ModItems.RAW_ATTACK_RUNE, "Raw Attack Rune");
+        addItem(ModItems.CUT_ATTACK_RUNE, "Cut Attack Rune");
+        addItem(ModItems.FRAMED_ATTACK_RUNE, "Framed Attack Rune");
+
 
         // Adds a generic translation
         add("itemGroup.dimensiondelvers", "Dimension Delvers");
