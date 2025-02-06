@@ -8,6 +8,7 @@ import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 
+// Vanilla Equivalent ItemEnchantments
 public record GearSocket(String type, Holder<Enchantment> modifier, Holder<Item> runegem) {
     // Further define type
     // Needs to have a modifier and a Runegem

@@ -3,6 +3,7 @@ package com.dimensiondelvers.dimensiondelvers;
 import com.dimensiondelvers.dimensiondelvers.gui.screen.SocketTableScreen;
 import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import com.dimensiondelvers.dimensiondelvers.init.ModCreativeTabs;
+import com.dimensiondelvers.dimensiondelvers.init.ModDataComponentType;
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import com.dimensiondelvers.dimensiondelvers.init.ModMenuTypes;
 import com.mojang.logging.LogUtils;
@@ -64,6 +65,7 @@ public class DimensionDelvers {
         ModItems.ITEMS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
 
 
 

@@ -5,6 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.util.ExtraCodecs;
 
+
+// Vanilla Equivalent = Enchantment
 public record GearModifier(GearModifierDefinition definition, DataComponentMap effects) {
 
    /* public static final Codec<GearModifier> DIRECT_CODEC = RecordCodecBuilder.create(
