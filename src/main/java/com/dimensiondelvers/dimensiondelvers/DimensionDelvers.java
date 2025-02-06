@@ -58,10 +58,10 @@ public class DimensionDelvers {
 
 
         // Register things
+        ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
-        ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
 
 
 

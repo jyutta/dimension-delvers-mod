@@ -1,11 +1,18 @@
 package com.dimensiondelvers.dimensiondelvers.init;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
+import com.dimensiondelvers.dimensiondelvers.item.runegem.RuneGemTier;
+import com.dimensiondelvers.dimensiondelvers.item.runegem.Runegem;
+import com.dimensiondelvers.dimensiondelvers.item.runegem.RunegemData;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import static com.dimensiondelvers.dimensiondelvers.DimensionDelvers.id;
+import static com.dimensiondelvers.dimensiondelvers.DimensionDelvers.tagId;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(DimensionDelvers.MODID);
@@ -32,6 +39,10 @@ public class ModItems {
     );
 
     //Runegems
-    public static final DeferredItem<Item> RUNEGEM = ITEMS.registerSimpleItem("runegem");
+    public static final DeferredItem<Item> RUNEGEM = ITEMS.register("runegem",
+            registryName -> new Runegem(new Item.Properties()
+                    .component(ModDataComponentType.RUNEGEM_DATA,
+                            new RunegemData("shapeless", tagId(Registries.ENCHANTMENT, "raw_fire_rune"), RuneGemTier.RAW)))
+            );
 
 }
