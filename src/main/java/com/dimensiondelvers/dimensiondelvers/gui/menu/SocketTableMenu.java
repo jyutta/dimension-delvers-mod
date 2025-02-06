@@ -6,6 +6,8 @@ import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import com.dimensiondelvers.dimensiondelvers.init.ModMenuTypes;
 import com.dimensiondelvers.dimensiondelvers.item.socket.GearSocket;
 import com.dimensiondelvers.dimensiondelvers.item.socket.GearSockets;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,11 +24,13 @@ import org.joml.Vector2i;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SocketTableMenu extends AbstractContainerMenu {
-    private static final int GEAR_SLOT = 36;
+//    private static final int GEAR_SLOT = 36;
     private static final Vector2i GEAR_SLOT_POSITION = new Vector2i(80, 76);
-    private static final List<Integer> RUNE_SLOTS = List.of(37, 38, 39, 40, 41, 42, 43, 44);
+//    private static final List<Integer> RUNE_SLOTS = List.of(37, 38, 39, 40, 41, 42, 43, 44);
     public static final List<Vector2i> RUNE_SLOT_POSITIONS = List.of( // CLOCKWISE FROM TOP CENTER
             new Vector2i(80, 22),
             new Vector2i(116, 40),
@@ -41,6 +46,7 @@ public class SocketTableMenu extends AbstractContainerMenu {
     private ContainerLevelAccess access;
     private Container gearSlotContainer;
     private Container socketSlotsContainer;
+    public int activeSocketSlots = 0;
 
     // Client
     public SocketTableMenu(int containerId, Inventory playerInventory) {
@@ -55,9 +61,6 @@ public class SocketTableMenu extends AbstractContainerMenu {
         this.createInventorySlots(playerInventory);
         this.createGearSlot();
         this.createSocketSlots();
-        for (int i = 0; i < 8; i++) {
-            this.socketSlotsContainer.setItem(i, Items.BARRIER.getDefaultInstance());
-        }
     }
 
     private void createInventorySlots(Inventory inventory) {
@@ -85,36 +88,74 @@ public class SocketTableMenu extends AbstractContainerMenu {
         this.socketSlotsContainer = createContainer(8);
         for (int i = 0; i < 8; i++) {
             Vector2i position = RUNE_SLOT_POSITIONS.get(i);
-            this.addSlot(new Slot(this.socketSlotsContainer, i, position.x, position.y) {
+            int finalI = i;
+            this.addSlot(new Slot(this.socketSlotsContainer, finalI, position.x, position.y) {
+                private final int index = finalI;
+
                 public boolean mayPlace(@NotNull ItemStack stack) {
                     return stack.is(ModItems.RUNEGEM) && stack.getCount() == 1;
                 }
 
-                public boolean mayPickup(@NotNull Player player) {
-                    return !getItem().is(Items.BARRIER);
+                public boolean isHighlightable() {
+                    return this.index < activeSocketSlots;
                 }
             });
         }
     }
 
-    public void slotsChanged(Container inventory) {
+    public void slotsChanged(@NotNull Container inventory) {
         super.slotsChanged(inventory);
         if (inventory == this.gearSlotContainer) {
             ItemStack gear = this.gearSlotContainer.getItem(0);
             if (gear.isEmpty()) {
+                this.activeSocketSlots = 0;
                 for (int i = 0; i < 8; i++) {
-                    this.socketSlotsContainer.setItem(i, Items.BARRIER.getDefaultInstance());
-                }
-            } else {
-                Random random = new Random();
-                int amount = random.nextInt(8) + 1;
-                for (int i = 0; i < amount; i++) {
                     this.socketSlotsContainer.setItem(i, ItemStack.EMPTY);
                 }
-                for (int i = amount; i < 8; i++) {
-                    this.socketSlotsContainer.setItem(i, Items.BARRIER.getDefaultInstance());
+            } else {
+                this.activeSocketSlots = 3;
+                ItemLore lore = gear.get(DataComponents.LORE);
+                if (lore == null) {
+                    return;
+                }
+                List<Component> loreLines = lore.lines();
+                if (loreLines.isEmpty()) {
+                    return;
+                }
+                Component firstLine = loreLines.getFirst();
+                if (firstLine == null) {
+                    return;
+                }
+                Pattern pattern = Pattern.compile("Socketed with (\\d+)/(\\d+) runes");
+                Matcher matcher = pattern.matcher(firstLine.getString());
+                if (matcher.find()) {
+                    if (matcher.groupCount() != 2 || matcher.group(1) == null || matcher.group(2) == null) {
+                        return;
+                    }
+                    int activeSocketSlots = Integer.parseInt(matcher.group(1));
+                    int maxSocketSlots = Integer.parseInt(matcher.group(2));
+                    if (activeSocketSlots > maxSocketSlots) {
+                        activeSocketSlots = maxSocketSlots;
+                    }
+                    this.activeSocketSlots = maxSocketSlots;
+                    for (int i = 0; i < activeSocketSlots; i++) {
+                        this.socketSlotsContainer.setItem(i, ModItems.RUNEGEM.toStack());
+                    }
                 }
             }
+        } else if (inventory == this.socketSlotsContainer) {
+            ItemStack gear = this.gearSlotContainer.getItem(0);
+            if (gear.isEmpty()) {
+                return;
+            }
+            List<ItemStack> runes = new ArrayList<>();
+            for (int i = 0; i < 8; i++) {
+                ItemStack rune = this.socketSlotsContainer.getItem(i);
+                if (!rune.isEmpty()) {
+                    runes.add(rune);
+                }
+            }
+            gear.set(DataComponents.LORE, new ItemLore(List.of(Component.literal("Socketed with " + runes.size() + "/3 runes"))));
         }
     }
 

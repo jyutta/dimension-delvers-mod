@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector2i;
 
 public class SocketTableScreen extends AbstractContainerScreen<SocketTableMenu> implements ContainerListener {
     private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/gui/container/socket_table.png");
@@ -26,6 +27,12 @@ public class SocketTableScreen extends AbstractContainerScreen<SocketTableMenu> 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
+
+        // Render socket slots
+        for (int i = 0; i < this.menu.activeSocketSlots; i++) {
+            this.renderSocketSlot(guiGraphics, SocketTableMenu.RUNE_SLOT_POSITIONS.get(i));
+        }
+
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
@@ -36,13 +43,13 @@ public class SocketTableScreen extends AbstractContainerScreen<SocketTableMenu> 
 
     @Override
     protected void renderSlot(@NotNull GuiGraphics guiGraphics, @NotNull Slot slot) {
-        if (slot.getItem().is(Items.BARRIER)) {
-            return;
-        }
-        int x = slot.x - 1;
-        int y = slot.y - 1;
-        guiGraphics.blit(SLOT, x, y, 0, 0, 18, 18);
         super.renderSlot(guiGraphics, slot);
+    }
+
+    protected void renderSocketSlot(@NotNull GuiGraphics guiGraphics, @NotNull Vector2i position) {
+        int x = this.leftPos + position.x - 1;
+        int y = this.topPos + position.y - 1;
+        guiGraphics.blit(SLOT, x, y, 0, 0, 17, 17);
     }
 
     /*
