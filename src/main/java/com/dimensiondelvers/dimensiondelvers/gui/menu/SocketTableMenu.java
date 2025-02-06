@@ -77,16 +77,16 @@ public class SocketTableMenu extends AbstractContainerMenu {
     }
 
     private void createGearSlot() {
-        this.gearSlotContainer = createContainer(1);
+        this.gearSlotContainer = createContainer(1, 1);
         this.addSlot(new Slot(this.gearSlotContainer, 0, GEAR_SLOT_POSITION.x, GEAR_SLOT_POSITION.y) {
             public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.getCount() == 1;
+                return stack.has(ModDataComponentType.GEAR_SOCKETS);
             }
         });
     }
 
     private void createSocketSlots() {
-        this.socketSlotsContainer = createContainer(8);
+        this.socketSlotsContainer = createContainer(8, 1);
         for (int i = 0; i < 8; i++) {
             Vector2i position = RUNE_SLOT_POSITIONS.get(i);
             int finalI = i;
@@ -95,7 +95,7 @@ public class SocketTableMenu extends AbstractContainerMenu {
 
                 public boolean mayPlace(@NotNull ItemStack stack) {
                     if (this.isFake()) return false;
-                    return stack.is(ModItems.RUNEGEM) && stack.getCount() == 1;
+                    return stack.is(ModItems.RUNEGEM);
                 }
 
                 public boolean isHighlightable() {
@@ -166,10 +166,18 @@ public class SocketTableMenu extends AbstractContainerMenu {
     }
 
     private Container createContainer(int size) {
+        return createContainer(size, 99);
+    }
+
+    private Container createContainer(int size, int maxStackSize) {
         return new SimpleContainer(size) {
             public void setChanged() {
                 super.setChanged();
                 SocketTableMenu.this.slotsChanged(this);
+            }
+
+            public int getMaxStackSize() {
+                return maxStackSize;
             }
         };
     }
