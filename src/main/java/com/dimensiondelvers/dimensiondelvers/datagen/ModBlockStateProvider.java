@@ -17,6 +17,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         blockWithItem(ModBlocks.DEV_BLOCK);
         blockWithItem(ModBlocks.EXAMPLE_BLOCK);
+        blockWithItem(ModBlocks.SOCKET_TABLE_BLOCK);
     }
 
 

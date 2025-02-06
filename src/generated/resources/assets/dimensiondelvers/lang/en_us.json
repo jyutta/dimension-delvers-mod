@@ -1,6 +1,9 @@
 {
   "block.dimensiondelvers.dev_block": "Dev Block",
   "block.dimensiondelvers.example_block": "Example Block",
+  "block.dimensiondelvers.socket_table": "Socket Table",
+  "container.dimensiondelvers.socket_table": "Socket Table",
+  "item.dimensiondelvers.cut_attack_rune": "Cut Attack Rune",
   "item.dimensiondelvers.example_item": "Example Item",
   "item.dimensiondelvers.runegem": "Runegem",
   "itemGroup.dimensiondelvers": "Dimension Delvers"
