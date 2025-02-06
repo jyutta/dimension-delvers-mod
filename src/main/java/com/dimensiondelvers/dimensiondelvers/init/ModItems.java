@@ -12,7 +12,6 @@ import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import static com.dimensiondelvers.dimensiondelvers.DimensionDelvers.id;
 import static com.dimensiondelvers.dimensiondelvers.DimensionDelvers.tagId;
 
 public class ModItems {

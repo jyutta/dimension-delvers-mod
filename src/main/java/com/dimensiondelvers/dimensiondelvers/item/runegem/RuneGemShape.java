@@ -17,7 +17,7 @@ public enum RuneGemShape {
 
     private final String name;
 
-    private RuneGemShape(String name) {
+    RuneGemShape(String name) {
         this.name = name;
     }
 

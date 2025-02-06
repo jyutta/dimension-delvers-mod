@@ -39,7 +39,7 @@ public class Runegem extends Item {
                         if (!applied) {
                             return false;
                         }
-                        //stack.shrink(1);
+                        stack.shrink(1);
                         return true;
                     }
                 }
