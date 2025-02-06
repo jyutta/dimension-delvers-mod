@@ -1,6 +1,5 @@
 package com.dimensiondelvers.dimensiondelvers.item.runegem;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.init.ModDataComponentType;
 import com.dimensiondelvers.dimensiondelvers.item.socket.GearSocket;
 import com.dimensiondelvers.dimensiondelvers.item.socket.GearSockets;
@@ -36,7 +35,7 @@ public class Runegem extends Item {
                     if (gearSockets == null) {
                         return false;
                     } else {
-                        boolean applied = this.applyRunegemToItem(stack, targetStack, gearSockets);
+                        boolean applied = this.applyRunegemToItem(stack, targetStack, runegemData, gearSockets);
                         if (!applied) {
                             return false;
                         }
@@ -48,15 +47,15 @@ public class Runegem extends Item {
         }
     }
 
-    private boolean applyRunegemToItem(ItemStack stack, ItemStack targetStack, GearSockets gearSockets) {
+    private boolean applyRunegemToItem(ItemStack stack, ItemStack targetStack, RunegemData runegemData, GearSockets gearSockets) {
         List<GearSocket> sockets = gearSockets.sockets();
         int idx = 0;
         for (GearSocket socket : sockets) {
-            if (!socket.isEmpty()) {
+            if (!socket.canBeApplied(runegemData)) {
                 idx++;
                 continue;
             }
-            sockets.set(idx, new GearSocket(socket.type(), null, stack));
+            sockets.set(idx, new GearSocket(socket.runeGemShape(), null, stack));
             targetStack.set(ModDataComponentType.GEAR_SOCKETS, new GearSockets(sockets));
             LogUtils.getLogger().info("Applied Runegem to item");
             return true;

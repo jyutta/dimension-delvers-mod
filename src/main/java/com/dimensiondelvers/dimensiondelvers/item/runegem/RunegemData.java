@@ -6,9 +6,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-public record RunegemData(String shape, TagKey<Enchantment> tagKey, RuneGemTier tier) {
+public record RunegemData(RuneGemShape shape, TagKey<Enchantment> tagKey, RuneGemTier tier) {
     public static Codec<RunegemData> CODEC = RecordCodecBuilder.create(inst -> inst.group(
-            Codec.STRING.fieldOf("shape").forGetter(RunegemData::shape),
+            RuneGemShape.CODEC.fieldOf("shape").forGetter(RunegemData::shape),
             TagKey.codec(Registries.ENCHANTMENT).fieldOf("tag").forGetter(RunegemData::tagKey),
             RuneGemTier.CODEC.fieldOf("tier").forGetter(RunegemData::tier)
     ).apply(inst, RunegemData::new));
