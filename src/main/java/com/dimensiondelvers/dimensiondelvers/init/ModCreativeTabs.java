@@ -23,9 +23,7 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.DEV_BLOCK_ITEM);
                                 output.accept(ModItems.SOCKET_TABLE_BLOCK_ITEM);
 
-                                output.accept(ModItems.CUT_ATTACK_RUNE);
-                                output.accept(ModItems.RAW_ATTACK_RUNE);
-                                output.accept(ModItems.FRAMED_ATTACK_RUNE);
+                                output.accept(ModItems.RUNEGEM);
                             }).build());
 
 }
