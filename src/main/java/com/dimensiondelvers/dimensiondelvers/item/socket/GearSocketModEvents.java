@@ -1,6 +1,7 @@
 package com.dimensiondelvers.dimensiondelvers.item.socket;
 
 import com.dimensiondelvers.dimensiondelvers.init.ModDataComponentType;
+import com.dimensiondelvers.dimensiondelvers.item.runegem.RuneGemShape;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -24,7 +25,7 @@ public class GearSocketModEvents {
 
     private static @NotNull ArrayList<GearSocket> getSockets() {
         ArrayList<GearSocket> objects = new ArrayList<>();
-        objects.add(new GearSocket("shapeless", null, null));
+        objects.add(new GearSocket(RuneGemShape.CIRCLE, null, null));
         return objects;
     }
 }

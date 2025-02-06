@@ -1,6 +1,7 @@
 package com.dimensiondelvers.dimensiondelvers.init;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
+import com.dimensiondelvers.dimensiondelvers.item.runegem.RuneGemShape;
 import com.dimensiondelvers.dimensiondelvers.item.runegem.RuneGemTier;
 import com.dimensiondelvers.dimensiondelvers.item.runegem.Runegem;
 import com.dimensiondelvers.dimensiondelvers.item.runegem.RunegemData;
@@ -42,7 +43,7 @@ public class ModItems {
     public static final DeferredItem<Item> RUNEGEM = ITEMS.register("runegem",
             registryName -> new Runegem(new Item.Properties()
                     .component(ModDataComponentType.RUNEGEM_DATA,
-                            new RunegemData("shapeless", tagId(Registries.ENCHANTMENT, "raw_fire_rune"), RuneGemTier.RAW)))
+                            new RunegemData(RuneGemShape.CIRCLE, tagId(Registries.ENCHANTMENT, "raw_fire_rune"), RuneGemTier.RAW)))
             );
 
 }
