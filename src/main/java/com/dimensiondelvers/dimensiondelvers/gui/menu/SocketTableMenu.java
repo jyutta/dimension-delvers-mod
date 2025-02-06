@@ -1,5 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.gui.menu;
 
+import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import com.dimensiondelvers.dimensiondelvers.init.ModDataComponentType;
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
@@ -93,11 +94,16 @@ public class SocketTableMenu extends AbstractContainerMenu {
                 private final int index = finalI;
 
                 public boolean mayPlace(@NotNull ItemStack stack) {
+                    if (this.isFake()) return false;
                     return stack.is(ModItems.RUNEGEM) && stack.getCount() == 1;
                 }
 
                 public boolean isHighlightable() {
                     return this.index < activeSocketSlots;
+                }
+
+                public boolean isFake() {
+                    return this.index >= activeSocketSlots;
                 }
             });
         }
