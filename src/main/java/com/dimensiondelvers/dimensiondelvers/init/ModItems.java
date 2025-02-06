@@ -1,6 +1,7 @@
 package com.dimensiondelvers.dimensiondelvers.init;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
+import com.dimensiondelvers.dimensiondelvers.block.SocketTableBlock;
 import com.dimensiondelvers.dimensiondelvers.item.runegem.RuneGemTier;
 import com.dimensiondelvers.dimensiondelvers.item.runegem.Runegem;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +26,11 @@ public class ModItems {
     public static final DeferredItem<BlockItem> DEV_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(
             "dev_block",
             ModBlocks.DEV_BLOCK
+    );
+
+    public static final DeferredItem<BlockItem> SOCKET_TABLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(
+            "socket_table",
+            ModBlocks.SOCKET_TABLE_BLOCK
     );
 
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem(
