@@ -39,11 +39,11 @@ public class DimensionDelvers {
         modEventBus.addListener(this::commonSetup);
 
         // Register things
+        ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
-        ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (DimensionDelvers) to respond directly to events.
