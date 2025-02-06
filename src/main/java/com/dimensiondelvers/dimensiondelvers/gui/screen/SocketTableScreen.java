@@ -8,22 +8,56 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
 public class SocketTableScreen extends AbstractContainerScreen<SocketTableMenu> implements ContainerListener {
     private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/gui/container/socket_table.png");
+    private static final ResourceLocation SLOT = ResourceLocation.withDefaultNamespace("textures/gui/container/slot.png");
 
     public SocketTableScreen(SocketTableMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.imageHeight = 256;
+        this.imageHeight = 248;
         this.inventoryLabelY = this.imageHeight - 94;
+    }
+
+    @Override
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
+
+    @Override
+    protected void renderSlot(@NotNull GuiGraphics guiGraphics, @NotNull Slot slot) {
+        if (slot.getItem().is(Items.BARRIER)) {
+            return;
+        }
+        int x = slot.x - 1;
+        int y = slot.y - 1;
+        guiGraphics.blit(SLOT, x, y, 0, 0, 18, 18);
+        super.renderSlot(guiGraphics, slot);
+    }
+
+    /*
+    private void createInventorySlots(Inventory inventory) {
+        for(int i = 0; i < 3; ++i) {
+            for(int j = 0; j < 9; ++j) {
+                this.addSlot(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 166 + i * 18));
+            }
+        }
+
+        for(int k = 0; k < 9; ++k) {
+            this.addSlot(new Slot(inventory, k, 8 + k * 18, 224));
+        }
+    }
+     */
 
     @Override
     public void slotChanged(@NotNull AbstractContainerMenu abstractContainerMenu, int i, @NotNull ItemStack itemStack) {

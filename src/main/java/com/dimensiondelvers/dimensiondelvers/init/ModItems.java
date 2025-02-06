@@ -37,6 +37,9 @@ public class ModItems {
     );
 
     //Runegems
-    public static final DeferredItem<Item> RUNEGEM = ITEMS.registerSimpleItem("runegem");
+    public static final DeferredItem<Item> RUNEGEM = ITEMS.registerSimpleItem(
+            "runegem",
+            new Item.Properties()
+    );
 
 }
