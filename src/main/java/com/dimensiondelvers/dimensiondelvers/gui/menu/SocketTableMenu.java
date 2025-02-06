@@ -165,10 +165,6 @@ public class SocketTableMenu extends AbstractContainerMenu {
         }
     }
 
-    private Container createContainer(int size) {
-        return createContainer(size, 99);
-    }
-
     private Container createContainer(int size, int maxStackSize) {
         return new SimpleContainer(size) {
             public void setChanged() {
@@ -183,13 +179,19 @@ public class SocketTableMenu extends AbstractContainerMenu {
     }
 
     @Override
+    public void removed(@NotNull Player player) {
+        super.removed(player);
+        this.access.execute((world, pos) -> this.clearContainer(player, this.gearSlotContainer));
+    }
+
+    @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         return new ItemStack(Items.STICK);
     }
 
     @Override
     public boolean stillValid(@NotNull Player player) {
-        return access.evaluate((world, pos) -> !isValidBlock(world.getBlockState(pos)) ? false : player.canInteractWithBlock(pos, 4.0F), true);
+        return access.evaluate((world, pos) -> isValidBlock(world.getBlockState(pos)) && player.canInteractWithBlock(pos, 4.0F), true);
     }
 
     protected boolean isValidBlock(BlockState state) {
