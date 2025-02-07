@@ -58,6 +58,8 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
         super(ModMenuTypes.RUNE_ANVIL_MENU.get(), containerId);
         this.playerInventory = playerInventory;
         this.access = access;
+
+        // please for the love of all that is holy, do not change the order of these lines else it will fuck everything up
         this.createInventorySlots(playerInventory);
         this.createGearSlot();
         this.createSocketSlots();
