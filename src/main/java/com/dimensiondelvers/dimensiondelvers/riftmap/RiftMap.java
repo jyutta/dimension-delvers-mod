@@ -41,13 +41,16 @@ public class RiftMap {
 
         BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
 
-
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-        buffer.addVertex(0.0f, 0.0f, 0f).setColor(1f, 1f, 1f, 1f);
-        buffer.addVertex(0.0f, 5.0f, 0f).setColor(1f, 1f, 1f, 1f);
+        buffer.addVertex(1.0f, 1.0f, 0f).setColor(1f, 1f, 1f, 1f);
+        buffer.addVertex(1.0f, 5.0f, 0f).setColor(1f, 1f, 1f, 1f);
+        buffer.addVertex(1.0f, 5.0f, 0f).setColor(1f, 1f, 1f, 1f);
         buffer.addVertex(5.0f, 5.0f, 0f).setColor(1f, 1f, 1f, 1f);
-        buffer.addVertex(5.0f, 0.0f, 0f).setColor(1f, 1f, 1f, 1f);
+        buffer.addVertex(5.0f, 5.0f, 0f).setColor(1f, 1f, 1f, 1f);
+        buffer.addVertex(5.0f, 1.0f, 0f).setColor(1f, 1f, 1f, 1f);
+        buffer.addVertex(5.0f, 1.0f, 0f).setColor(1f, 1f, 1f, 1f);
+        buffer.addVertex(1.0f, 1.0f, 0f).setColor(1f, 1f, 1f, 1f);
 
 
         BufferUploader.drawWithShader(buffer.buildOrThrow());
