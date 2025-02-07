@@ -1,7 +1,7 @@
 package com.dimensiondelvers.dimensiondelvers.init;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.block.SocketTableBlock;
+import com.dimensiondelvers.dimensiondelvers.block.RuneAnvilBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -25,9 +25,9 @@ public class ModBlocks {
                     .lightLevel(state -> 7)
             ));
 
-    public static final DeferredBlock<SocketTableBlock> SOCKET_TABLE_BLOCK = BLOCKS.register(
-            "socket_table",
-            () -> new SocketTableBlock(BlockBehaviour.Properties.of()
+    public static final DeferredBlock<RuneAnvilBlock> RUNE_ANVIL_BLOCK = BLOCKS.register(
+            "rune_anvil",
+            () -> new RuneAnvilBlock(BlockBehaviour.Properties.of()
                     .strength(2.5F)
                     .sound(SoundType.METAL)
             )

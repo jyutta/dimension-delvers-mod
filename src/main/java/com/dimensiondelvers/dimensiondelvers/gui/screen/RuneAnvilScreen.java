@@ -1,8 +1,7 @@
 package com.dimensiondelvers.dimensiondelvers.gui.screen;
 
-import com.dimensiondelvers.dimensiondelvers.gui.menu.SocketTableMenu;
+import com.dimensiondelvers.dimensiondelvers.gui.menu.RuneAnvilMenu;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -11,17 +10,13 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.client.event.ContainerScreenEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector2i;
 
-public class SocketTableScreen extends AbstractContainerScreen<SocketTableMenu> implements ContainerListener {
-    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/gui/container/socket_table.png");
-    private static final ResourceLocation SLOT = ResourceLocation.withDefaultNamespace("textures/gui/container/slot.png");
+public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> implements ContainerListener {
+    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/gui/container/rune_anvil/background.png");
+    private static final ResourceLocation SLOTS = ResourceLocation.withDefaultNamespace("textures/gui/container/rune_anvil/slots.png");
 
-    public SocketTableScreen(SocketTableMenu menu, Inventory playerInventory, Component title) {
+    public RuneAnvilScreen(RuneAnvilMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageHeight = 248;
         this.inventoryLabelY = this.imageHeight - 94;
@@ -43,7 +38,7 @@ public class SocketTableScreen extends AbstractContainerScreen<SocketTableMenu> 
         if (!slot.isFake()) {
             int x = slot.x - 1;
             int y = slot.y - 1;
-            guiGraphics.blit(SLOT, x, y, 0, 0, 18, 18);
+            guiGraphics.blit(SLOTS, x, y, 0, 0, 18, 18);
         }
         super.renderSlot(guiGraphics, slot);
     }

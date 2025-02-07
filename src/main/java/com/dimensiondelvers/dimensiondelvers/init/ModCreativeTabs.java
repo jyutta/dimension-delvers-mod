@@ -21,7 +21,7 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.EXAMPLE_BLOCK_ITEM.get());
                                 output.accept(ModItems.EXAMPLE_ITEM);
                                 output.accept(ModItems.DEV_BLOCK_ITEM);
-                                output.accept(ModItems.SOCKET_TABLE_BLOCK_ITEM);
+                                output.accept(ModItems.RUNE_ANVIL_BLOCK_ITEM);
 
                                 output.accept(ModItems.RUNEGEM);
                             }).build());

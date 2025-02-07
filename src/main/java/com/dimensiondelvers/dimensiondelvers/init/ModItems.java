@@ -28,9 +28,9 @@ public class ModItems {
             ModBlocks.DEV_BLOCK
     );
 
-    public static final DeferredItem<BlockItem> SOCKET_TABLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(
-            "socket_table",
-            ModBlocks.SOCKET_TABLE_BLOCK
+    public static final DeferredItem<BlockItem> RUNE_ANVIL_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(
+            "rune_anvil",
+            ModBlocks.RUNE_ANVIL_BLOCK
     );
 
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem(

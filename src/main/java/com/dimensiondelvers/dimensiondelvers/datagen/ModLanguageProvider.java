@@ -23,7 +23,7 @@ public class ModLanguageProvider extends LanguageProvider {
         // Adds a block translation.
         addBlock(ModBlocks.EXAMPLE_BLOCK, "Example Block");
         addBlock(ModBlocks.DEV_BLOCK, "Dev Block");
-        addBlock(ModBlocks.SOCKET_TABLE_BLOCK, "Socket Table");
+        addBlock(ModBlocks.RUNE_ANVIL_BLOCK, "Rune Anvil");
 
         // Adds an item translation.
         addItem(ModItems.EXAMPLE_ITEM, "Example Item");
@@ -33,6 +33,6 @@ public class ModLanguageProvider extends LanguageProvider {
         // Adds a generic translation
         add("itemGroup.dimensiondelvers", "Dimension Delvers");
 
-        add("container.dimensiondelvers.socket_table", "Socket Table");
+        add("container.dimensiondelvers.rune_anvil", "Rune Anvil");
     }
 }

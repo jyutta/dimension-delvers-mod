@@ -1,12 +1,9 @@
 package com.dimensiondelvers.dimensiondelvers.gui.menu;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import com.dimensiondelvers.dimensiondelvers.init.ModDataComponentType;
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import com.dimensiondelvers.dimensiondelvers.init.ModMenuTypes;
-import com.dimensiondelvers.dimensiondelvers.item.socket.GearSocket;
-import com.dimensiondelvers.dimensiondelvers.item.socket.GearSockets;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
@@ -19,19 +16,17 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SocketTableMenu extends AbstractContainerMenu {
-//    private static final int GEAR_SLOT = 36;
+public class RuneAnvilMenu extends AbstractContainerMenu {
+    //    private static final int GEAR_SLOT = 36;
     private static final Vector2i GEAR_SLOT_POSITION = new Vector2i(80, 76);
-//    private static final List<Integer> RUNE_SLOTS = List.of(37, 38, 39, 40, 41, 42, 43, 44);
+    //    private static final List<Integer> RUNE_SLOTS = List.of(37, 38, 39, 40, 41, 42, 43, 44);
     public static final List<Vector2i> RUNE_SLOT_POSITIONS = List.of( // CLOCKWISE FROM TOP CENTER
             new Vector2i(80, 22),
             new Vector2i(116, 40),
@@ -50,13 +45,13 @@ public class SocketTableMenu extends AbstractContainerMenu {
     public int activeSocketSlots = 0;
 
     // Client
-    public SocketTableMenu(int containerId, Inventory playerInventory) {
+    public RuneAnvilMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
     }
 
     // Server
-    public SocketTableMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access) {
-        super(ModMenuTypes.SOCKET_TABLE_MENU.get(), containerId);
+    public RuneAnvilMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access) {
+        super(ModMenuTypes.RUNE_ANVIL_MENU.get(), containerId);
         this.playerInventory = playerInventory;
         this.access = access;
         this.createInventorySlots(playerInventory);
@@ -169,7 +164,7 @@ public class SocketTableMenu extends AbstractContainerMenu {
         return new SimpleContainer(size) {
             public void setChanged() {
                 super.setChanged();
-                SocketTableMenu.this.slotsChanged(this);
+                RuneAnvilMenu.this.slotsChanged(this);
             }
 
             public int getMaxStackSize() {
@@ -195,6 +190,6 @@ public class SocketTableMenu extends AbstractContainerMenu {
     }
 
     protected boolean isValidBlock(BlockState state) {
-        return state.is(ModBlocks.SOCKET_TABLE_BLOCK);
+        return state.is(ModBlocks.RUNE_ANVIL_BLOCK);
     }
 }
