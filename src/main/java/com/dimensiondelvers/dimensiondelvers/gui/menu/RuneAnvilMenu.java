@@ -1,5 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.gui.menu;
 
+import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import com.dimensiondelvers.dimensiondelvers.init.ModDataComponentType;
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
@@ -27,9 +28,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RuneAnvilMenu extends AbstractContainerMenu {
-    //    private static final int GEAR_SLOT = 36;
+    private static final int GEAR_SLOT = 36;
     private static final Vector2i GEAR_SLOT_POSITION = new Vector2i(80, 76);
-    //    private static final List<Integer> RUNE_SLOTS = List.of(37, 38, 39, 40, 41, 42);
+    private static final List<Integer> RUNE_SLOTS = List.of(37, 38, 39, 40, 41, 42);
     public static final List<Vector2i> RUNE_SLOT_POSITIONS = List.of( // CLOCKWISE FROM TOP CENTER
             new Vector2i(80, 26),
             new Vector2i(127, 51),
@@ -43,6 +44,7 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
     private ContainerLevelAccess access;
     private Container gearSlotContainer;
     private Container socketSlotsContainer;
+    private Slot gearSlot;
     private final List<RunegemSlot> socketSlots = new ArrayList<>();
     public int activeSocketSlots = 0;
 
@@ -75,7 +77,7 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
 
     private void createGearSlot() {
         this.gearSlotContainer = createContainer(1, 1);
-        this.addSlot(new Slot(this.gearSlotContainer, 0, GEAR_SLOT_POSITION.x, GEAR_SLOT_POSITION.y) {
+        this.gearSlot = this.addSlot(new Slot(this.gearSlotContainer, 0, GEAR_SLOT_POSITION.x, GEAR_SLOT_POSITION.y) {
             public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.has(ModDataComponentType.GEAR_SOCKETS);
             }
@@ -180,9 +182,45 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
         this.access.execute((world, pos) -> this.clearContainer(player, this.gearSlotContainer));
     }
 
+    /**
+     * i deeply apologize to anyone reading this code for the monstrosity below
+     */
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
-        return new ItemStack(Items.STICK);
+        if (index >= this.slots.size()) return ItemStack.EMPTY; // just to be sure
+        Slot slot = this.slots.get(index);
+        if (!slot.hasItem()) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack stack = slot.getItem();
+        if (index < GEAR_SLOT) {
+            if (stack.has(ModDataComponentType.GEAR_SOCKETS)) {
+                if (this.gearSlot.hasItem() || !this.gearSlot.mayPlace(stack)) {
+                    return ItemStack.EMPTY;
+                }
+                this.gearSlot.set(stack.copy());
+                slot.set(ItemStack.EMPTY);
+                return ItemStack.EMPTY;
+            }
+            if (stack.has(ModDataComponentType.RUNEGEM_DATA)) {
+                for (Slot socketSlot : this.socketSlots) {
+                    if (socketSlot.hasItem() || !socketSlot.mayPlace(stack)) {
+                        continue;
+                    }
+                    socketSlot.set(stack.copy());
+                    slot.set(ItemStack.EMPTY);
+                    return ItemStack.EMPTY;
+                }
+            }
+        } else {
+            Inventory inventory = player.getInventory();
+            if (inventory.add(stack)) {
+                slot.set(ItemStack.EMPTY);
+                return ItemStack.EMPTY;
+            }
+            return ItemStack.EMPTY;
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override
