@@ -1,0 +1,44 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "dimensiondelvers:item/runegem/shape/circle",
+      "predicate": {
+        "dimensiondelvers:runegem_property": 0.0
+      }
+    },
+    {
+      "model": "dimensiondelvers:item/runegem/shape/square",
+      "predicate": {
+        "dimensiondelvers:runegem_property": 0.1
+      }
+    },
+    {
+      "model": "dimensiondelvers:item/runegem/shape/triangle",
+      "predicate": {
+        "dimensiondelvers:runegem_property": 0.2
+      }
+    },
+    {
+      "model": "dimensiondelvers:item/runegem/shape/diamond",
+      "predicate": {
+        "dimensiondelvers:runegem_property": 0.3
+      }
+    },
+    {
+      "model": "dimensiondelvers:item/runegem/shape/heart",
+      "predicate": {
+        "dimensiondelvers:runegem_property": 0.4
+      }
+    },
+    {
+      "model": "dimensiondelvers:item/runegem/shape/pentagon",
+      "predicate": {
+        "dimensiondelvers:runegem_property": 0.5
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "dimensiondelvers:item/runegem"
+  }
+}
