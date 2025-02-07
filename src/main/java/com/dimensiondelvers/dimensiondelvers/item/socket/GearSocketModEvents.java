@@ -19,12 +19,54 @@ public class GearSocketModEvents {
     @SubscribeEvent
     public static void modifyComponents(ModifyDefaultComponentsEvent event) {
         event.modify(Items.IRON_SWORD, builder ->
-                builder.set(ModDataComponentType.GEAR_SOCKETS.get(), new GearSockets(getSockets()))
+                builder.set(ModDataComponentType.GEAR_SOCKETS.get(), new GearSockets(getExampleSockets1()))
+        );
+
+        event.modify(Items.GOLDEN_SWORD, builder ->
+                builder.set(ModDataComponentType.GEAR_SOCKETS.get(), new GearSockets(getExampleSockets2()))
+        );
+
+        event.modify(Items.DIAMOND_SWORD, builder ->
+                builder.set(ModDataComponentType.GEAR_SOCKETS.get(), new GearSockets(getExampleSockets3()))
+        );
+
+        event.modify(Items.NETHERITE_SWORD, builder ->
+                builder.set(ModDataComponentType.GEAR_SOCKETS.get(), new GearSockets(getExampleSockets4()))
         );
     }
 
-    private static @NotNull ArrayList<GearSocket> getSockets() {
+    private static @NotNull ArrayList<GearSocket> getExampleSockets1() {
         ArrayList<GearSocket> objects = new ArrayList<>();
+        objects.add(new GearSocket(RuneGemShape.CIRCLE, null, null));
+        objects.add(new GearSocket(RuneGemShape.SQUARE, null, null));
+        return objects;
+    }
+
+    private static @NotNull ArrayList<GearSocket> getExampleSockets2() {
+        ArrayList<GearSocket> objects = new ArrayList<>();
+        objects.add(new GearSocket(RuneGemShape.CIRCLE, null, null));
+        objects.add(new GearSocket(RuneGemShape.SQUARE, null, null));
+        objects.add(new GearSocket(RuneGemShape.TRIANGLE, null, null));
+        return objects;
+    }
+
+    private static @NotNull ArrayList<GearSocket> getExampleSockets3() {
+        ArrayList<GearSocket> objects = new ArrayList<>();
+        objects.add(new GearSocket(RuneGemShape.CIRCLE, null, null));
+        objects.add(new GearSocket(RuneGemShape.SQUARE, null, null));
+        objects.add(new GearSocket(RuneGemShape.TRIANGLE, null, null));
+        objects.add(new GearSocket(RuneGemShape.DIAMOND, null, null));
+        objects.add(new GearSocket(RuneGemShape.HEART, null, null));
+        return objects;
+    }
+
+    private static @NotNull ArrayList<GearSocket> getExampleSockets4() {
+        ArrayList<GearSocket> objects = new ArrayList<>();
+        objects.add(new GearSocket(RuneGemShape.PENTAGON, null, null));
+        objects.add(new GearSocket(RuneGemShape.HEART, null, null));
+        objects.add(new GearSocket(RuneGemShape.DIAMOND, null, null));
+        objects.add(new GearSocket(RuneGemShape.TRIANGLE, null, null));
+        objects.add(new GearSocket(RuneGemShape.SQUARE, null, null));
         objects.add(new GearSocket(RuneGemShape.CIRCLE, null, null));
         return objects;
     }

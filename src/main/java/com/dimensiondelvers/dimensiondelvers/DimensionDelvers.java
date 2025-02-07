@@ -1,6 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers;
 
-import com.dimensiondelvers.dimensiondelvers.gui.screen.SocketTableScreen;
+import com.dimensiondelvers.dimensiondelvers.gui.screen.RuneAnvilScreen;
 import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import com.dimensiondelvers.dimensiondelvers.init.ModCreativeTabs;
 import com.dimensiondelvers.dimensiondelvers.init.ModDataComponentType;
@@ -90,7 +90,7 @@ public class DimensionDelvers {
 
         @SubscribeEvent
         private static void registerScreens(RegisterMenuScreensEvent event) {
-            event.register(ModMenuTypes.SOCKET_TABLE_MENU.get(), SocketTableScreen::new);
+            event.register(ModMenuTypes.RUNE_ANVIL_MENU.get(), RuneAnvilScreen::new);
         }
     }
 

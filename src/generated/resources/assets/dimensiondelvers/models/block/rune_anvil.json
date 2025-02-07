@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "dimensiondelvers:block/socket_table"
+    "all": "dimensiondelvers:block/rune_anvil"
   }
 }

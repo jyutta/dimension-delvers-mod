@@ -19,7 +19,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     protected void generate() {
         dropSelf(ModBlocks.EXAMPLE_BLOCK.get());
         dropSelf(ModBlocks.DEV_BLOCK.get());
-        dropSelf(ModBlocks.SOCKET_TABLE_BLOCK.get());
+        dropSelf(ModBlocks.RUNE_ANVIL_BLOCK.get());
     }
 
     @Override
