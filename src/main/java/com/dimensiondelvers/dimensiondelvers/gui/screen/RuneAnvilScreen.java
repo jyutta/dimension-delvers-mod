@@ -1,5 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.gui.screen;
 
+import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.gui.menu.RuneAnvilMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -13,8 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> implements ContainerListener {
-    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/gui/container/rune_anvil/background.png");
-    private static final ResourceLocation SLOTS = ResourceLocation.withDefaultNamespace("textures/gui/container/rune_anvil/slots.png");
+    private static final ResourceLocation BACKGROUND = DimensionDelvers.id("textures/gui/container/rune_anvil/background.png");
+    private static final ResourceLocation SLOTS = DimensionDelvers.id("textures/gui/container/rune_anvil/slots.png");
 
     public RuneAnvilScreen(RuneAnvilMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
