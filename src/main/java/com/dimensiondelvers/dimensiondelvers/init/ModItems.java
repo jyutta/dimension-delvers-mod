@@ -1,7 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.init;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.block.SocketTableBlock;
 import com.dimensiondelvers.dimensiondelvers.item.runegem.RuneGemShape;
 import com.dimensiondelvers.dimensiondelvers.item.runegem.RuneGemTier;
 import com.dimensiondelvers.dimensiondelvers.item.runegem.Runegem;
