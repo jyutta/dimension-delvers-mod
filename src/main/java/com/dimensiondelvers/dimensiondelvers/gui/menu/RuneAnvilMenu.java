@@ -4,6 +4,7 @@ import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import com.dimensiondelvers.dimensiondelvers.init.ModDataComponentType;
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import com.dimensiondelvers.dimensiondelvers.init.ModMenuTypes;
+import com.dimensiondelvers.dimensiondelvers.item.runegem.RunegemData;
 import com.dimensiondelvers.dimensiondelvers.item.socket.GearSocket;
 import com.dimensiondelvers.dimensiondelvers.item.socket.GearSockets;
 import net.minecraft.core.component.DataComponents;
@@ -91,8 +92,15 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
                         private final int index = finalI;
 
                         public boolean mayPlace(@NotNull ItemStack stack) {
-                            if (this.isFake()) return false;
-                            return stack.is(ModItems.RUNEGEM);
+                            if (this.isFake() || !stack.is(ModItems.RUNEGEM)) return false;
+                            ItemStack item = gearSlotContainer.getItem(0);
+                            GearSockets gearSockets = item.get(ModDataComponentType.GEAR_SOCKETS.get());
+                            RunegemData runegemData = stack.get(ModDataComponentType.RUNEGEM_DATA.get());
+                            if(item.isEmpty() || stack.isEmpty() || gearSockets == null || runegemData == null) return false;
+                            List<GearSocket> sockets = gearSockets.sockets();
+                            if (sockets.size() <= this.index) return false;
+                            GearSocket socket = sockets.get(this.index);
+                            return socket.canBeApplied(runegemData);
                         }
 
                         public boolean isHighlightable() {
