@@ -54,7 +54,7 @@ public class ImageTooltipRenderer implements ClientTooltipComponent {
 
     @Override
     public int getWidth(Font font) {
-        return Math.max(0, font.width(this.component.base.getString()) + textureWidth);
+        return Math.max(0, font.width(this.component.base.getString()) + textureWidth) + 2;
     }
 
     public record ImageComponent(ItemStack stack, Component base, ResourceLocation asset) implements TooltipComponent {}
