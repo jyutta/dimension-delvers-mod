@@ -4,6 +4,8 @@ import com.dimensiondelvers.dimensiondelvers.events.RenderEvents;
 import com.google.common.eventbus.Subscribe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.neoforged.api.distmarker.Dist;
@@ -25,6 +27,12 @@ public class RiftMap {
     public static ArrayList<MapCell> cells = new ArrayList<>();
     public static int x, y, z;
 
+    private static Camera camera;
+
+    public static Camera getCamera() {
+        return camera;
+    }
+
     public static void addCell(MapCell cell) {
         cells.add(cell);
     }
@@ -32,9 +40,22 @@ public class RiftMap {
     public static void removeCell(MapCell cell) {
         cells.remove(cell);
     }
+    public static double i;
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void renderMap(RenderGuiEvent.Post event) {
+        if (camera == null) {
+            camera = new Camera((float) Math.toRadians(60.0), 1.0f, 0.01f, 100.0f);
+            camera.setPosition(0, 0, 0); // Example position
+            camera.setRotation(new Quaternionf().rotateY((float) Math.toRadians(i%90))); // Example rotation
+        }
+        //camera.setRotation(new Quaternionf().rotateX((float) Math.toRadians((i++/4)%90))); // Example rotation
+
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player != null) {
+            camera.setRotationFromYawPitch(-player.getYRot(), -player.getXRot());
+        }
+
         for (MapCell cell : cells) {
             // Render cell
         }
@@ -49,6 +70,8 @@ public class RiftMap {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
+        RenderSystem.enableCull();
 
         BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
 
@@ -66,7 +89,9 @@ public class RiftMap {
         //addCube(buffer, pose, 50f, 50f, 50f, 5f, Color.RED);
         addCube(buffer, pose, 56f, 50f, 56f, 5f, Color.GREEN);
 
-        renderWireframeCube(poseStack, buffer, 50f, 50f, 50f, 5f, new Quaternionf().rotateY((float) Math.toRadians(30)));
+        renderWireframeCube(poseStack, buffer, camera, 50f, 50f, 50f, 5f, new Quaternionf().rotateY((float) Math.toRadians(0)));
+        renderWireframeCube(poseStack, buffer, camera, 50f, 50f, 60f, 5f, new Quaternionf().rotateY((float) Math.toRadians(0)));
+        renderWireframeCube(poseStack, buffer, camera, 0f, 0f, 0f, 5f, new Quaternionf().rotateY((float) Math.toRadians(0)));
 
 
         BufferUploader.drawWithShader(buffer.buildOrThrow());
@@ -110,7 +135,7 @@ public class RiftMap {
         buffer.addVertex(pose, x, y + size, z + size).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
         buffer.addVertex(pose, x, y, z + size).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }
-    public static void renderWireframeCube(PoseStack poseStack, BufferBuilder buffer, float x, float y, float z, float m, Quaternionf rotation) {
+    public static void renderWireframeCube(PoseStack poseStack, BufferBuilder buffer, Camera camera, float x, float y, float z, float m, Quaternionf rotation) {
         poseStack.pushPose(); // Save state
 
         // Apply transformations
@@ -119,7 +144,19 @@ public class RiftMap {
         poseStack.scale(m, m, m);      // Scale to match size
 
         // Get transformation matrix
-        Matrix4f matrix = poseStack.last().pose();
+        Matrix4f modelMatrix = poseStack.last().pose();
+
+        // Get view and projection matrices from the camera
+        Matrix4f viewMatrix = camera.getViewMatrix();
+        Matrix4f projectionMatrix = camera.getProjectionMatrix();
+
+        // Combine model, view, and projection matrices
+        Matrix4f mvpMatrix = new Matrix4f(projectionMatrix).mul(viewMatrix).mul(modelMatrix);
+
+
+        //Matrix4f projectionMatrix = new Matrix4f().perspective((float) Math.toRadians(45.0), 16.0f / 9.0f, 0.1f, 100.0f);
+
+        //Matrix4f mvpMatrix = new Matrix4f(projectionMatrix).mul(matrix);
 
         // Get buffer for wireframe (DEBUG_LINES)
 
@@ -141,7 +178,7 @@ public class RiftMap {
 
         // Draw each line
         for (int[] edge : edges) {
-            addLine(buffer, matrix,
+            addLine(buffer, mvpMatrix,
                     vertices[edge[0]][0], vertices[edge[0]][1], vertices[edge[0]][2],
                     vertices[edge[1]][0], vertices[edge[1]][1], vertices[edge[1]][2]);
         }
@@ -150,7 +187,7 @@ public class RiftMap {
     }
 
     private static void addLine(BufferBuilder vertexBuilder, Matrix4f matrix, float x1, float y1, float z1, float x2, float y2, float z2) {
-        vertexBuilder.addVertex(matrix, x1, y1, z1).setColor(255, 255, 255, 255);
+        vertexBuilder.addVertex(matrix, x1, y1, z1).setColor(10, 255, 255, 255);
         vertexBuilder.addVertex(matrix, x2, y2, z2).setColor(255, 255, 255, 255);
     }
 }

@@ -3,6 +3,7 @@ package com.dimensiondelvers.dimensiondelvers;
 import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import com.dimensiondelvers.dimensiondelvers.init.ModCreativeTabs;
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
+import com.dimensiondelvers.dimensiondelvers.riftmap.KeyHandler;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -50,6 +51,8 @@ public class DimensionDelvers {
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public DimensionDelvers(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup); // Register the commonSetup method for modloading
+
+        KeyHandler.register();
 
 
 
