@@ -3,26 +3,33 @@ package com.dimensiondelvers.dimensiondelvers.modifier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class Modifier extends AbstractModifier {
 
-    private final String attribute;
+    private final Attribute attribute;
+    // private final ObjectArrayList<Integer> rolls;
     private final int minRoll;
     private final int maxRoll;
 
-    public Modifier(String attribute, int minRoll, int maxRoll) {
+    public Modifier(Attribute attribute, int minRoll, int maxRoll) {
 
         this.attribute = attribute;
         this.minRoll = minRoll;
         this.maxRoll = maxRoll;
     }
+
+    // Still being worked on, reference modifier.ModifierInstance
     @Override
     public MapCodec<? extends AbstractModifier> getCodec() {
         return MODIFIER_CODEC;
     }
 
     public static final MapCodec<Modifier> MODIFIER_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.STRING.fieldOf("attribute").forGetter(Modifier::getAttribute),
+            BuiltInRegistries.ATTRIBUTE.byNameCodec().fieldOf("attribute").forGetter(Modifier::getAttribute),
             Codec.INT.fieldOf("minRoll").forGetter(Modifier::getMinimumRoll),
             Codec.INT.fieldOf("maxRoll").forGetter(Modifier::getMaximumRoll)
             ).apply(instance, Modifier::new)
@@ -33,7 +40,7 @@ public class Modifier extends AbstractModifier {
 
     }
 
-    public String getAttribute(){
+    public Attribute getAttribute(){
         return attribute;
     }
 

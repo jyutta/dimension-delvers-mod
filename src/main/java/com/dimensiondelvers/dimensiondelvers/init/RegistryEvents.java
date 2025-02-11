@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 public class RegistryEvents {
     @SubscribeEvent
     static void registerRegistries(NewRegistryEvent event) {
-        event.register(ModAbstractModifiers.ABSTRACT_MODIFIER_REGISTRY);
+        event.register(ModAbstractModifiers.MODIFIER_TYPE_REGISTRY);
     }
     @SubscribeEvent
     public static void registerDatapackRegistries(DataPackRegistryEvent.NewRegistry event) {

@@ -41,7 +41,7 @@ public class DimensionDelvers {
         ModItems.ITEMS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
-        ModAbstractModifiers.ABSTRACT_MODIFIER.register(modEventBus);
+        ModAbstractModifiers.MODIFIER_TYPES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (DimensionDelvers) to respond directly to events.
