@@ -1,12 +1,12 @@
 package com.dimensiondelvers.dimensiondelvers.block;
 
+import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
 
-import static net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion.MOD_ID;
 
 public class BlockFamilyHelper {
     public static final String SLAB_SUFFIX = "_slab";
@@ -96,7 +96,7 @@ public class BlockFamilyHelper {
     }
 
     public ResourceLocation getBaseResourceLocation() {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, blockId);
+        return DimensionDelvers.id(blockId);
     }
 
     public static class Builder {
