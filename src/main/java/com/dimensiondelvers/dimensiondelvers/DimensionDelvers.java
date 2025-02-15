@@ -30,7 +30,6 @@ import org.slf4j.Logger;
 public class DimensionDelvers {
     public static final String MODID = "dimensiondelvers";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static ResourceLocation id;
 
     public DimensionDelvers(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
