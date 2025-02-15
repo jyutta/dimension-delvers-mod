@@ -58,6 +58,7 @@ public class DimensionDelvers {
         modEventBus.addListener(this::addCreative); // Register the item to a creative tab
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
+        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
