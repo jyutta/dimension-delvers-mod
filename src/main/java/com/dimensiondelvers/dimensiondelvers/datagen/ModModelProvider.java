@@ -34,7 +34,7 @@ public class ModModelProvider extends ModelProvider {
 
         this.generateRunegemItem(ModItems.RUNEGEM.get(), itemModels);
 
-        ModBlocks.BUILD_BLOCK_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels, itemModels));
+        ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels, itemModels));
     }
 
     private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
