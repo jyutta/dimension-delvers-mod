@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * InventorySnapshot is used to record the contents of a player's inventory at a point in time.
  * <p>
- * This is composed of a list of ids corresponding to nonstackable items and a list of
+ * This is composed of an id which all non-stackable items will be marked with and
  * ItemStacks corresponding to all stackable items
  * </p>
  */

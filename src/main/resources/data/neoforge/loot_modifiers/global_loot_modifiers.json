@@ -1,6 +1,6 @@
 {
   "replace" : false,
   "entries" : [
-    "dimensiondelvers:retain_inventory_snapshot"
+    "dimensiondelvers:retain_inventory_snapshot_id"
   ]
 }

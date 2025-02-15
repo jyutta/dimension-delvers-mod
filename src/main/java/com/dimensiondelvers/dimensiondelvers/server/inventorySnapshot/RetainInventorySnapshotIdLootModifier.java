@@ -19,12 +19,12 @@ import java.util.UUID;
 /**
  * This Loot Modifier ensures that the inventory snapshot id is retained when an item is placed as a block and then destroyed.
  */
-public class RetainInventorySnapshotLootModifier extends LootModifier {
+public class RetainInventorySnapshotIdLootModifier extends LootModifier {
 
-    public static final MapCodec<RetainInventorySnapshotLootModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
-            LootModifier.codecStart(inst).apply(inst, RetainInventorySnapshotLootModifier::new));
+    public static final MapCodec<RetainInventorySnapshotIdLootModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
+            LootModifier.codecStart(inst).apply(inst, RetainInventorySnapshotIdLootModifier::new));
 
-    protected RetainInventorySnapshotLootModifier(LootItemCondition[] conditions) {
+    protected RetainInventorySnapshotIdLootModifier(LootItemCondition[] conditions) {
         super(conditions);
     }
 
