@@ -36,6 +36,11 @@ Examples of unacceptable behavior include:
 - Other conduct which could reasonably be considered inappropriate in a
   professional setting
 
+## AI
+The standard for our project will be to utilize the work of the artists and creators on our team rather than relying on AI for these creative works. 
+
+We trust our team members who utilize AI will do so in a way that complements their original work and not  use it as a final product so we can avoid copyright issues. Assets discovered to be purely Generative AI will result in the replacement of the asset. We reserve the right as a team to determine whether an asset is the work of AI and call for a replacement. 
+
 ## Enforcement Responsibilities
 
 Community coordinators are responsible for clarifying and enforcing our standards
