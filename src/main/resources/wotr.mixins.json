@@ -13,7 +13,8 @@
     "MixinLivingEntity",
     "MixinServerPlayer",
     "MixinSetItemDamageFunction",
-    "MixinStructureTemplate"
+    "MixinStructureTemplate",
+    "AccessorMinecraftServer"
   ],
   "client": [
     "MixinAccessibilityOptionsScreen",
