@@ -1,5 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.modifier;
 
+import com.dimensiondelvers.dimensiondelvers.modifier.effect.AbstractModifierEffect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
@@ -9,20 +10,20 @@ import net.minecraft.core.Holder;
 public class ModifierInstance {
 
     public static Codec<ModifierInstance> CODEC = RecordCodecBuilder.create(inst -> inst.group(
-            AbstractModifier.CODEC.fieldOf("modifier").forGetter(ModifierInstance::getModifier),
+            AbstractModifierEffect.CODEC.fieldOf("modifier").forGetter(ModifierInstance::getModifier),
             Codec.FLOAT.fieldOf("roll").forGetter(ModifierInstance::getRoll)
     ).apply(inst, ModifierInstance::new));
 
-    public final Holder<AbstractModifier> modifier;
+    public final Holder<AbstractModifierEffect> modifier;
 
     public final float roll;
 
-    public ModifierInstance(Holder<AbstractModifier> modifier, float roll) {
+    public ModifierInstance(Holder<AbstractModifierEffect> modifier, float roll) {
         this.modifier = modifier;
         this.roll = roll;
     }
 
-    public Holder<AbstractModifier> getModifier() {
+    public Holder<AbstractModifierEffect> getModifier() {
         return modifier;
     }
 
