@@ -6,6 +6,7 @@ import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -44,34 +45,6 @@ public class BlockFamilyHelper {
         return baseBlock;
     }
 
-    public Supplier<Block> getSlab() {
-        return variants.get(SLAB);
-    }
-
-    public Supplier<Block> getStairs() {
-        return variants.get(BlockFamily.Variant.STAIRS);
-    }
-
-    public Supplier<Block> getButton() {
-        return variants.get(BlockFamily.Variant.BUTTON);
-    }
-
-    public Supplier<Block> getPressurePlate() {
-        return variants.get(BlockFamily.Variant.PRESSURE_PLATE);
-    }
-
-    public Supplier<Block> getFence() {
-        return variants.get(BlockFamily.Variant.FENCE);
-    }
-
-    public Supplier<Block> getWall() {
-        return variants.get(BlockFamily.Variant.WALL);
-    }
-
-    public Supplier<Block> getTrapdoor() {
-        return variants.get(BlockFamily.Variant.TRAPDOOR);
-    }
-
     public BlockFamily getFamily() {
         if (blockFamily == null) {
             blockFamily = generateBlockFamily();
@@ -93,6 +66,10 @@ public class BlockFamilyHelper {
 
     public ResourceLocation getBaseResourceLocation() {
         return DimensionDelvers.id(blockId);
+    }
+
+    public Map<BlockFamily.Variant, Supplier<Block>> getVariants() {
+        return new HashMap<>(variants);
     }
 
     public static class Builder {

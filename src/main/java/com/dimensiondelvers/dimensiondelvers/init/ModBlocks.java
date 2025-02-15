@@ -20,7 +20,7 @@ import static com.dimensiondelvers.dimensiondelvers.block.BlockFamilyHelper.*;
 
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(DimensionDelvers.MODID);
-    public static final List<BlockFamilyHelper> BUILD_BLOCK_HELPERS = new ArrayList<>();
+    public static final List<BlockFamilyHelper> BLOCK_FAMILY_HELPERS = new ArrayList<>();
 
     public static final DeferredBlock<Block> DEV_BLOCK = registerBlock("dev_block", () -> new Block(BlockBehaviour.Properties.of()
             .setId(blockId("dev_block"))
@@ -54,7 +54,7 @@ public class ModBlocks {
                 .withFence(registerBlock(id + FENCE_SUFFIX, () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_SUFFIX)))))
                 .withTrapdoor(registerBlock(id + TRAPDOOR_SUFFIX, () -> new TrapDoorBlock(BlockSetType.STONE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + TRAPDOOR_SUFFIX)))))
                 .createBuildBlockHelper();
-        BUILD_BLOCK_HELPERS.add(buildingBlockHelper);
+        BLOCK_FAMILY_HELPERS.add(buildingBlockHelper);
         return buildingBlockHelper;
     }
 
