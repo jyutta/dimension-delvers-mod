@@ -18,11 +18,15 @@ public class MixinAccessibilityOptionsScreen extends Screen {
     @Inject(method = "init", at = @At("HEAD"))
     private void addAccessibilityButton(CallbackInfo ci) {
         AccessibilityOptionsScreen screen = ((AccessibilityOptionsScreen) (Object) this);
-        Button coombineButton = Button
-                .builder(Component.translatable("accessibility.dimensiondelvers.menubutton"), (button) ->  this.minecraft.setScreen(new com.dimensiondelvers.dimensiondelvers.gui.screen.AccessibilityOptionsScreen(screen)))
+        Button accessibilityButton = Button
+                .builder(Component.translatable("accessibility.dimensiondelvers.menubutton"), (button) -> {
+                    if(this.minecraft != null) {
+                        this.minecraft.setScreen(new com.dimensiondelvers.dimensiondelvers.gui.screen.AccessibilityOptionsScreen(screen));
+                    }
+                })
                 .pos(5 , 5)
                 .size(125, 20)
                 .build();
-        this.addRenderableWidget(coombineButton); // using 'this' here feels dangerous but it works so im not complaining
+        this.addRenderableWidget(accessibilityButton); // using 'this' here feels dangerous but it works so im not complaining
     }
 }
