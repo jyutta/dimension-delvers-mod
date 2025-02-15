@@ -1,11 +1,15 @@
 package com.dimensiondelvers.dimensiondelvers.block;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
+import com.google.common.collect.Maps;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
+import java.util.Map;
 import java.util.function.Supplier;
+
+import static net.minecraft.data.BlockFamily.Variant.*;
 
 
 public class BlockFamilyHelper {
@@ -18,26 +22,14 @@ public class BlockFamilyHelper {
     public static final String TRAPDOOR_SUFFIX = "_trapdoor";
 
     private final String blockId;
-    private final Supplier<Block> block;
-    private final Supplier<Block> slab;
-    private final Supplier<Block> stairs;
-    private final Supplier<Block> button;
-    private final Supplier<Block> pressurePlate;
-    private final Supplier<Block> wall;
-    private final Supplier<Block> fence;
-    private final Supplier<Block> trapdoor;
+    private final Supplier<Block> baseBlock;
+    private final Map<BlockFamily.Variant, Supplier<Block>> variants = Maps.newHashMap();
     private BlockFamily blockFamily;
 
-    public BlockFamilyHelper(String blockId, Supplier<Block> block, Supplier<Block> slab, Supplier<Block> stairs, Supplier<Block> button, Supplier<Block> pressurePlate, Supplier<Block> wall, Supplier<Block> fence, Supplier<Block> trapdoor) {
+    public BlockFamilyHelper(String blockId, Supplier<Block> baseBlock, Map<BlockFamily.Variant, Supplier<Block>> variants){
         this.blockId = blockId;
-        this.block = block;
-        this.slab = slab;
-        this.stairs = stairs;
-        this.button = button;
-        this.pressurePlate = pressurePlate;
-        this.wall = wall;
-        this.fence = fence;
-        this.trapdoor = trapdoor;
+        this.baseBlock = baseBlock;
+        this.variants.putAll(variants);
     }
 
     public String getBlockId() {
@@ -49,50 +41,54 @@ public class BlockFamilyHelper {
     }
 
     public Supplier<Block> getBlock() {
-        return block;
+        return baseBlock;
     }
 
     public Supplier<Block> getSlab() {
-        return slab;
+        return variants.get(SLAB);
     }
 
     public Supplier<Block> getStairs() {
-        return stairs;
+        return variants.get(BlockFamily.Variant.STAIRS);
     }
 
     public Supplier<Block> getButton() {
-        return button;
+        return variants.get(BlockFamily.Variant.BUTTON);
     }
 
     public Supplier<Block> getPressurePlate() {
-        return pressurePlate;
+        return variants.get(BlockFamily.Variant.PRESSURE_PLATE);
     }
 
     public Supplier<Block> getFence() {
-        return fence;
+        return variants.get(BlockFamily.Variant.FENCE);
     }
 
     public Supplier<Block> getWall() {
-        return wall;
+        return variants.get(BlockFamily.Variant.WALL);
     }
 
     public Supplier<Block> getTrapdoor() {
-        return trapdoor;
+        return variants.get(BlockFamily.Variant.TRAPDOOR);
     }
 
     public BlockFamily getFamily() {
         if (blockFamily == null) {
-            blockFamily = new BlockFamily.Builder(block.get())
-                    .slab(slab.get())
-                    .stairs(stairs.get())
-                    .button(button.get())
-                    .pressurePlate(pressurePlate.get())
-                    .wall(wall.get())
-                    .fence(fence.get())
-                    .trapdoor(trapdoor.get())
-                    .getFamily();
+            blockFamily = generateBlockFamily();
         }
         return blockFamily;
+    }
+
+    private BlockFamily generateBlockFamily() {
+        BlockFamily.Builder blockFamilyBuilder = new BlockFamily.Builder(baseBlock.get());
+        if(variants.containsKey(SLAB)) blockFamilyBuilder.slab(variants.get(SLAB).get());
+        if(variants.containsKey(STAIRS)) blockFamilyBuilder.stairs(variants.get(STAIRS).get());
+        if(variants.containsKey(BUTTON)) blockFamilyBuilder.button(variants.get(BUTTON).get());
+        if(variants.containsKey(PRESSURE_PLATE)) blockFamilyBuilder.pressurePlate(variants.get(PRESSURE_PLATE).get());
+        if(variants.containsKey(WALL)) blockFamilyBuilder.wall(variants.get(WALL).get());
+        if(variants.containsKey(FENCE)) blockFamilyBuilder.fence(variants.get(FENCE).get());
+        if(variants.containsKey(TRAPDOOR)) blockFamilyBuilder.trapdoor(variants.get(TRAPDOOR).get());
+        return blockFamilyBuilder.getFamily();
     }
 
     public ResourceLocation getBaseResourceLocation() {
@@ -102,14 +98,8 @@ public class BlockFamilyHelper {
     public static class Builder {
 
         private String blockId;
-        private Supplier<Block> block;
-        private Supplier<Block> slab;
-        private Supplier<Block> stairs;
-        private Supplier<Block> button;
-        private Supplier<Block> pressurePlate;
-        private Supplier<Block> wall;
-        private Supplier<Block> fence;
-        private Supplier<Block> trapdoor;
+        private Supplier<Block> baseBlock;
+        private final Map<BlockFamily.Variant, Supplier<Block>> variants = Maps.newHashMap();
 
         public Builder withBlockId(String blockId) {
             this.blockId = blockId;
@@ -117,47 +107,47 @@ public class BlockFamilyHelper {
         }
 
         public Builder withBlock(Supplier<Block> block) {
-            this.block = block;
+            this.baseBlock = block;
             return this;
         }
 
         public Builder withSlab(Supplier<Block> slab) {
-            this.slab = slab;
+            this.variants.put(SLAB, slab);
             return this;
         }
 
         public Builder withStairs(Supplier<Block> stairs) {
-            this.stairs = stairs;
+            this.variants.put(BlockFamily.Variant.STAIRS, stairs);
             return this;
         }
 
         public Builder withButton(Supplier<Block> button) {
-            this.button = button;
+            this.variants.put(BlockFamily.Variant.BUTTON, button);
             return this;
         }
 
         public Builder withPressurePlate(Supplier<Block> pressurePlate) {
-            this.pressurePlate = pressurePlate;
+            this.variants.put(BlockFamily.Variant.PRESSURE_PLATE, pressurePlate);
             return this;
         }
 
         public Builder withFence(Supplier<Block> fence) {
-            this.fence = fence;
+            this.variants.put(BlockFamily.Variant.FENCE, fence);
             return this;
         }
 
         public Builder withWall(Supplier<Block> wall) {
-            this.wall = wall;
+            this.variants.put(BlockFamily.Variant.WALL, wall);
             return this;
         }
 
         public Builder withTrapdoor(Supplier<Block> trapdoor) {
-            this.trapdoor = trapdoor;
+            this.variants.put(BlockFamily.Variant.TRAPDOOR, trapdoor);
             return this;
         }
 
         public BlockFamilyHelper createBuildBlockHelper() {
-            return new BlockFamilyHelper(blockId, block, slab, stairs, button, pressurePlate, wall, fence, trapdoor);
+            return new BlockFamilyHelper(blockId, baseBlock, variants);
         }
     }
 
