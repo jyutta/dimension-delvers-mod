@@ -11,6 +11,16 @@ group = mod_group_id
 repositories {
     mavenLocal()
     maven { url = "https://api.modrinth.com/maven" }
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 base {
@@ -117,6 +127,7 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    runtimeOnly "curse.maven:spark-361579:${spark_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
