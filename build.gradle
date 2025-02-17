@@ -109,6 +109,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     runtimeOnly "curse.maven:cloth-config-348521:${cloth_config_version}"
     runtimeOnly "curse.maven:architectury-api-419699:${architectury_version}"
+    runtimeOnly "curse.maven:sodium-394468:${sodium_version}"
     runtimeOnly "curse.maven:spark-361579:${spark_version}"
     runtimeOnly "curse.maven:jade-324717:${jade_version}"
     runtimeOnly "curse.maven:roughly-enough-items-310111:${rei_version}"
