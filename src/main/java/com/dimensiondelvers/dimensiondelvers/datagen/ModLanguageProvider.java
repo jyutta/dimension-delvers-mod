@@ -9,6 +9,8 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 /* Handles Data Generation for I18n of the locale 'en_us' of the DimensionDelvers mod */
 public class ModLanguageProvider extends LanguageProvider {
     public ModLanguageProvider(PackOutput output) {
@@ -46,8 +48,8 @@ public class ModLanguageProvider extends LanguageProvider {
     private static @NotNull String getTranslationString(Block block) {
         String idString = BuiltInRegistries.BLOCK.getKey(block).getPath();
         StringBuilder sb = new StringBuilder();
-        for (String word : idString.toLowerCase().split("_")) {
-            sb.append(word.substring(0, 1).toUpperCase());
+        for (String word : idString.toLowerCase(Locale.ROOT).split("_")) {
+            sb.append(word.substring(0, 1).toUpperCase(Locale.ROOT));
             sb.append(word.substring(1));
             sb.append(" ");
         }
