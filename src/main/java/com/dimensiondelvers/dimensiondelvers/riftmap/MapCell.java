@@ -1,5 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.riftmap;
 
+// Unused for now
 public class MapCell {
     public int x;
     public int y;
