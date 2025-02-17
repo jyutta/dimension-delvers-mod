@@ -36,17 +36,21 @@ public class Cube {
 
         Vector4f transformed = new Vector4f(worldPos, 1.0f).mul(mvpMatrix); // Transform point
 
+
         if (transformed.w != 0) {
             transformed.div(transformed.w); // Normalize perspective divide
-        }
-
-        if (transformed.x < -1 || transformed.x > 1 || transformed.y < -1 || transformed.y > 1) {
-            return null; // Points outside the frustum, discard them
+        } else {
+            System.out.println("SOMETHING IS WRONG");
         }
 
         // Convert from clip space (-1 to 1) to screen space (0 to width/height)
         float screenX = (transformed.x + 1.0f) * 0.5f * SCREEN_WIDTH;
         float screenY = (1.0f - transformed.y) * 0.5f * SCREEN_HEIGHT; // Flip Y for screen space
+
+        if (screenX > 0.5f*SCREEN_WIDTH) {
+            System.out.println("screenX: " + screenX);
+            System.out.println("screenY: " + screenY);
+        }
 
         return new Vector3f(screenX, screenY, transformed.z);
     }
@@ -90,8 +94,8 @@ public class Cube {
                 continue; // Skip lines outside the screen
             }
 
-            System.out.println(sProj);
-            System.out.println(eProj);
+            //System.out.println(sProj);
+            //System.out.println(eProj);
 
 
             float f = 50;

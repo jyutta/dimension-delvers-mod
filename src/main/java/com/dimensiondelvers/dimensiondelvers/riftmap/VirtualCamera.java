@@ -10,7 +10,7 @@ public class VirtualCamera {
 
     public VirtualCamera(float fov, float aspectRatio, float nearPlane, float farPlane) {
         this.position = new Vector3f(0, 10, 0);
-        this.pitch = 90;
+        this.pitch = 80;
         this.yaw = 0;
         this.roll = 0;
         this.fov = fov;

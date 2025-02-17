@@ -2,7 +2,7 @@ package com.dimensiondelvers.dimensiondelvers.riftmap;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.*;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -19,7 +19,7 @@ public class RiftMap {
     public static ArrayList<MapCell> cells = new ArrayList<>();
     public static int x, y, z;
 
-    private static VirtualCamera camera = new VirtualCamera(70.0f, 16f/9f, 100.0f, 1000.0f);
+    private static VirtualCamera camera = new VirtualCamera(70.0f, 16f/9f, 0.1f, 1000.0f);
 
     public static VirtualCamera getCamera() {
         return camera;
@@ -67,7 +67,7 @@ public class RiftMap {
 
         BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
 
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(CoreShaders.POSITION_COLOR);
 
         Cube cube1 = new Cube(-1.0f, 0.0f, 0.0f, 1.0f);
         cube1.render(buffer, camera);
