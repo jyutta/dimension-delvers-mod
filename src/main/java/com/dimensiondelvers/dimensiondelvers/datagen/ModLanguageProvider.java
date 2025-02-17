@@ -23,12 +23,16 @@ public class ModLanguageProvider extends LanguageProvider {
         // Adds a block translation.
         addBlock(ModBlocks.EXAMPLE_BLOCK, "Example Block");
         addBlock(ModBlocks.DEV_BLOCK, "Dev Block");
+        addBlock(ModBlocks.RUNE_ANVIL_BLOCK, "Rune Anvil");
 
         // Adds an item translation.
         addItem(ModItems.EXAMPLE_ITEM, "Example Item");
+        addItem(ModItems.RUNEGEM, "Runegem");
+
 
         // Adds a generic translation
         add("itemGroup.dimensiondelvers", "Dimension Delvers");
 
+        add("container.dimensiondelvers.rune_anvil", "Rune Anvil");
     }
 }

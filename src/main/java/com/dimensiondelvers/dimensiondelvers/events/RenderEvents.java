@@ -64,16 +64,12 @@ public class RenderEvents {
 
 
             if (!blockState.isAir() && world.getWorldBorder().isWithinBounds(pos) /* && TODO: Each custom model that we want to accurately display needs to be checked here */) {
-                ProfilerFiller profiler = world.getProfiler();
-                profiler.push("DIMDELV_CUSTOM_OUTLINE");
-
                 matrix.pushPose();
                 Vec3 viewPosition = info.getPosition();
                 matrix.translate(pos.getX() - viewPosition.x, pos.getY() - viewPosition.y, pos.getZ() - viewPosition.z);
                 renderBlockWireFrame(blockState, renderer.getBuffer(RenderType.lines()), matrix, world.random);
                 matrix.popPose();
 
-                profiler.pop();
                 event.setCanceled(true);
             }
         }
