@@ -23,12 +23,12 @@ public class KeyHandler {
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
-        Camera camera = RiftMap.getCamera();
-        if (moveForward.isDown()) camera.move(0, 0, -1f);
+        VirtualCamera camera = RiftMap.getCamera();
+        /*if (moveForward.isDown()) camera.move(0, 0, -1f);
         if (moveBackward.isDown()) camera.move(0, 0, 1f);
         if (moveLeft.isDown()) camera.move(1f, 0, 0);
         if (moveRight.isDown()) camera.move(-1f, 0, 0);
         if (moveUp.isDown()) camera.move(0, 1f, 0);
-        if (moveDown.isDown()) camera.move(0, -1f, 0);
+        if (moveDown.isDown()) camera.move(0, -1f, 0);*/
     }
 }

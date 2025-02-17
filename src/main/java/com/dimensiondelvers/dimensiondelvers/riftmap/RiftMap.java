@@ -1,35 +1,27 @@
 package com.dimensiondelvers.dimensiondelvers.riftmap;
 
-import com.dimensiondelvers.dimensiondelvers.events.RenderEvents;
-import com.google.common.eventbus.Subscribe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
-import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Vector;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = "dimensiondelvers", value = Dist.CLIENT)
 public class RiftMap {
     public static ArrayList<MapCell> cells = new ArrayList<>();
     public static int x, y, z;
 
-    private static Camera camera;
+    private static VirtualCamera camera = new VirtualCamera(70.0f, 16f/9f, 100.0f, 1000.0f);
 
-    public static Camera getCamera() {
+    public static VirtualCamera getCamera() {
         return camera;
     }
 
@@ -44,7 +36,7 @@ public class RiftMap {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void renderMap(RenderGuiEvent.Post event) {
-        if (camera == null) {
+        /*if (camera == null) {
             camera = new Camera((float) Math.toRadians(60.0), 1.0f, 0.01f, 100.0f);
             camera.setPosition(0, 0, 0); // Example position
             camera.setRotation(new Quaternionf().rotateY((float) Math.toRadians(i%90))); // Example rotation
@@ -58,7 +50,7 @@ public class RiftMap {
 
         for (MapCell cell : cells) {
             // Render cell
-        }
+        }*/
         PoseStack poseStack = new PoseStack();
         poseStack.pushPose();
         poseStack.scale(2f, 2f, 2f);
@@ -71,13 +63,21 @@ public class RiftMap {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        RenderSystem.enableCull();
+        RenderSystem.disableCull();
 
         BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
 
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-        buffer.addVertex(pose, 1.0f, 1.0f, 0f).setColor(1f, 1f, 1f, 1f);
+        Cube cube1 = new Cube(-1.0f, 0.0f, 0.0f, 1.0f);
+        cube1.render(buffer, camera);
+        camera.setPosition(0, (float) i, 0);
+        i += 0.005;
+        if (i > 5) {
+            i = 0;
+        }
+
+        /*buffer.addVertex(pose, 1.0f, 1.0f, 0f).setColor(1f, 1f, 1f, 1f);
         buffer.addVertex(pose, 1.0f, 5.0f, 0f).setColor(1f, 1f, 1f, 1f);
         buffer.addVertex(pose, 1.0f, 5.0f, 0f).setColor(1f, 1f, 1f, 1f);
         buffer.addVertex(pose, 5.0f, 5.0f, 0f).setColor(1f, 1f, 1f, 1f);
@@ -91,10 +91,14 @@ public class RiftMap {
 
         renderWireframeCube(poseStack, buffer, camera, 50f, 50f, 50f, 5f, new Quaternionf().rotateY((float) Math.toRadians(0)));
         renderWireframeCube(poseStack, buffer, camera, 50f, 50f, 60f, 5f, new Quaternionf().rotateY((float) Math.toRadians(0)));
-        renderWireframeCube(poseStack, buffer, camera, 0f, 0f, 0f, 5f, new Quaternionf().rotateY((float) Math.toRadians(0)));
+        renderWireframeCube(poseStack, buffer, camera, 0f, 0f, 0f, 5f, new Quaternionf().rotateY((float) Math.toRadians(0)));*/
 
 
-        BufferUploader.drawWithShader(buffer.buildOrThrow());
+
+        MeshData bufferData = buffer.build();
+        if (bufferData != null) {
+            BufferUploader.drawWithShader(bufferData);
+        }
         RenderSystem.disableBlend();
     }
 
@@ -135,7 +139,7 @@ public class RiftMap {
         buffer.addVertex(pose, x, y + size, z + size).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
         buffer.addVertex(pose, x, y, z + size).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }
-    public static void renderWireframeCube(PoseStack poseStack, BufferBuilder buffer, Camera camera, float x, float y, float z, float m, Quaternionf rotation) {
+    public static void renderWireframeCube(PoseStack poseStack, BufferBuilder buffer, VirtualCamera camera, float x, float y, float z, float m, Quaternionf rotation) {
         poseStack.pushPose(); // Save state
 
         // Apply transformations
