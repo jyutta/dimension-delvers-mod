@@ -14,7 +14,8 @@
     "MixinServerPlayer",
     "MixinSetItemDamageFunction",
     "MixinStructureTemplate",
-    "AccessorMinecraftServer"
+    "AccessorMinecraftServer",
+    "MixinMinecraftServer"
   ],
   "client": [
     "MixinAccessibilityOptionsScreen",
