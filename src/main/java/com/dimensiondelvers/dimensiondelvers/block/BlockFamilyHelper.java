@@ -72,6 +72,10 @@ public class BlockFamilyHelper {
         return new HashMap<>(variants);
     }
 
+    public  Supplier<Block> getVariant(BlockFamily.Variant variant) {
+        return getVariants().get(variant);
+    }
+
     public static class Builder {
 
         private String blockId;
