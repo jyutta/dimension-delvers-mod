@@ -10,6 +10,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import org.joml.Vector2i;
+import org.joml.Vector3d;
 
 import java.util.ArrayList;
 
@@ -60,9 +61,9 @@ public class RiftMap {
         drawOutline(buffer); // draw *debug* outlines around the map
 
         // just some testing cubes to render
-        Cube cube1 = new Cube(0.0f, 0.0f, 0.0f, 1.0f);
-        Cube cube2 = new Cube(2.0f, 0.0f, 0.0f, 1.0f);
-        Cube cube3 = new Cube(-2.0f, -2.0f, 2.0f, 1.0f);
+        Cube cube1 = new Cube(new Vector3d(0, 0, 0), new Vector3d(1, -2, 1));
+        Cube cube2 = new Cube(new Vector3d(2,0,0), new Vector3d(3,2,1));// 2,0,0
+        Cube cube3 = new Cube(new Vector3d(-2, -2, 2), new Vector3d(-1, -1, 3)); //-2,-2,2
         cube1.render(buffer, camera);
         cube2.render(buffer, camera);
         cube3.render(buffer, camera);

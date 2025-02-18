@@ -4,6 +4,7 @@ import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.Minecraft;
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -12,16 +13,12 @@ import org.joml.Vector4f;
  * Holds the position and size of a cube and contains the render method used to draw it
  */
 public class Cube {
-    public float x;
-    public float y;
-    public float z;
-    public float size;
+    private Vector3d point1 = new Vector3d(0,0,0);
+    private Vector3d point2 = new Vector3d(0,0,0);
 
-    public Cube(float x, float y, float z, float size) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.size = size;
+    public Cube(Vector3d point1, Vector3d point2) {
+        this.point1 = point1;
+        this.point2 = point2;
     }
 
     /**
@@ -58,20 +55,30 @@ public class Cube {
         return new Vector3f(screenX, screenY, transformed.z);
     }
 
+    private float[][] calculateVertices() {
+
+        float minX = (float) Math.min(point1.x, point2.x);
+        float maxX = (float) Math.max(point1.x, point2.x);
+        float minY = (float) Math.min(point1.y, point2.y);
+        float maxY = (float) Math.max(point1.y, point2.y);
+        float minZ = (float) Math.min(point1.z, point2.z);
+        float maxZ = (float) Math.max(point1.z, point2.z);
+
+        return new float[][]{
+            {minX, minY, minZ}, {maxX, minY, minZ},
+                {maxX, minY, maxZ}, {minX, minY, maxZ},
+                {minX, maxY, minZ}, {maxX, maxY, minZ},
+                {maxX, maxY, maxZ}, {minX, maxY, maxZ}
+        };
+    }
+
     /**
      * Adds the cube to the buffer for rendering
      * @param buffer
      * @param camera
      */
     public void render(BufferBuilder buffer, VirtualCamera camera) {
-        float halfSize = size / 2.0f;
-
-        float[][] vertices = {
-                { x - halfSize, y - halfSize, z - halfSize }, { x + halfSize, y - halfSize, z - halfSize },
-                { x + halfSize, y - halfSize, z + halfSize }, { x - halfSize, y - halfSize, z + halfSize },
-                { x - halfSize, y + halfSize, z - halfSize }, { x + halfSize, y + halfSize, z - halfSize },
-                { x + halfSize, y + halfSize, z + halfSize }, { x - halfSize, y + halfSize, z + halfSize }
-        };
+        float[][] vertices = calculateVertices();
 
         int[][] edges = {
                 { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 },
