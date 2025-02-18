@@ -37,6 +37,10 @@ public class VirtualCamera {
         this.roll = roll;
     }
 
+    public void setAspectRatio(float aspectRatio) {
+        this.aspectRatio = aspectRatio;
+    }
+
     /**
      * Positions the camera on a sphere of radius around the origin
      * and orients it so that it always looks at (0,0,0).
@@ -67,6 +71,10 @@ public class VirtualCamera {
         setRotation(computedPitch, computedYaw, 0);
     }
 
+    /**
+     * Prepares and returns the View Matrix of the virtual camera
+     * @return
+     */
     public Matrix4f getViewMatrix() {
         Matrix4f view = new Matrix4f();
         view.identity();
@@ -77,6 +85,10 @@ public class VirtualCamera {
         return view;
     }
 
+    /**
+     * Prepares and returns the Projection Matrix of the virtual camera
+     * @return
+     */
     public Matrix4f getProjectionMatrix() {
         return new Matrix4f().perspective((float) Math.toRadians(fov), aspectRatio, nearPlane, farPlane);
     }

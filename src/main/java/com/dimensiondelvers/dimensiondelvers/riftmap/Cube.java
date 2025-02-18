@@ -24,9 +24,15 @@ public class Cube {
         this.size = size;
     }
 
+    /**
+     * Calculates the screen position of a 3D point
+     * @param worldPos
+     * @param camera
+     * @return
+     */
     private static Vector3f projectPoint(Vector3f worldPos, VirtualCamera camera) {
-        int SCREEN_WIDTH = Minecraft.getInstance().getWindow().getGuiScaledWidth(); // this is the width and height of the window we want to draw
-        int SCREEN_HEIGHT = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+        int mapWidth = RiftMap.mapSize.x; // this is the width and height of the window we want to draw
+        int mapHeight = RiftMap.mapSize.y;
 
         Matrix4f mvpMatrix = new Matrix4f()
                 .set(camera.getProjectionMatrix())
@@ -45,13 +51,18 @@ public class Cube {
             System.out.println("SOMETHING IS WRONG");
         }
 
-        // convert from clip space (-1 to 1) to screen space (0 to width/height)
-        float screenX = (transformed.x + 1.0f) * 0.5f * SCREEN_WIDTH;
-        float screenY = (1.0f - transformed.y) * 0.5f * SCREEN_HEIGHT; // y flipped for screen space
+        // convert from clip space (-1 to 1) to screen space (0 to width/height) and apply position offset
+        float screenX = RiftMap.mapPosition.x + (transformed.x + 1.0f) * 0.5f * mapWidth;
+        float screenY = RiftMap.mapPosition.y + (1.0f - transformed.y) * 0.5f * mapHeight; // y flipped for screen space
 
         return new Vector3f(screenX, screenY, transformed.z);
     }
 
+    /**
+     * Adds the cube to the buffer for rendering
+     * @param buffer
+     * @param camera
+     */
     public void render(BufferBuilder buffer, VirtualCamera camera) {
         float halfSize = size / 2.0f;
 
