@@ -1,10 +1,6 @@
 {
   "model": {
-    "type": "minecraft:special",
-    "base": "dimensiondelvers:item/rift_chest",
-    "model": {
-      "type": "minecraft:chest",
-      "texture": "dimensiondelvers:models/block/rift_chest"
-    }
+    "type": "minecraft:model",
+    "model": "dimensiondelvers:block/rift_chest"
   }
 }
