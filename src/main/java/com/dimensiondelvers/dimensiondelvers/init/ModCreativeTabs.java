@@ -20,9 +20,6 @@ public class ModCreativeTabs {
                             .displayItems((parameters, output) -> {
                                 output.accept(ModItems.EXAMPLE_ITEM);
                                 ModItems.BLOCK_ITEMS.forEach(item -> output.accept(item.get()));
-                                output.accept(ModItems.DEV_BLOCK_ITEM);
-                                output.accept(ModItems.RUNE_ANVIL_BLOCK_ITEM);
-                                output.accept(ModItems.RIFT_CHEST_BLOCK_ITEM);
 
                                 output.accept(ModItems.RUNEGEM);
                             }).build());

@@ -37,6 +37,15 @@ public class ModBlocks {
             .sound(SoundType.METAL)
     ));
 
+    public static final DeferredBlock<RiftChestEntityBlock> RIFT_CHEST = registerBlock(
+            "rift_chest",
+            () -> new RiftChestEntityBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("rift_chest"))
+                    .strength(1.5F)
+                    .sound(SoundType.WOOD)
+            )
+    );
+
     public static final BlockFamilyHelper PROCESSOR_BLOCK_1 = registerBuildingBlock("processor_block_1", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_1"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_2 = registerBuildingBlock("processor_block_2", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_2"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_3 = registerBuildingBlock("processor_block_3", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_3"))));
@@ -64,15 +73,6 @@ public class ModBlocks {
         ModItems.registerSimpleBlockItem(key, register);
         return register;
     }
-
-    public static final DeferredBlock<RiftChestEntityBlock> RIFT_CHEST = BLOCKS.register(
-            "rift_chest",
-            () -> new RiftChestEntityBlock(BlockBehaviour.Properties.of()
-                    .setId(blockId("rift_chest"))
-                    .strength(1.5F)
-                    .sound(SoundType.WOOD)
-            )
-    );
 
     private static ResourceKey<Block> blockId(String name) {
         return ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(DimensionDelvers.MODID, name));
