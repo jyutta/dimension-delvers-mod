@@ -2,6 +2,7 @@ package com.dimensiondelvers.dimensiondelvers.init;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.block.BlockFamilyHelper;
+import com.dimensiondelvers.dimensiondelvers.block.RiftChestEntityBlock;
 import com.dimensiondelvers.dimensiondelvers.block.RuneAnvilBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -63,6 +64,15 @@ public class ModBlocks {
         ModItems.registerSimpleBlockItem(key, register);
         return register;
     }
+
+    public static final DeferredBlock<RiftChestEntityBlock> RIFT_CHEST = BLOCKS.register(
+            "rift_chest",
+            () -> new RiftChestEntityBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("rift_chest"))
+                    .strength(1.5F)
+                    .sound(SoundType.WOOD)
+            )
+    );
 
     private static ResourceKey<Block> blockId(String name) {
         return ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(DimensionDelvers.MODID, name));

@@ -25,6 +25,11 @@ public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(DimensionDelvers.MODID);
     public static final List<DeferredItem<BlockItem>> BLOCK_ITEMS = new ArrayList<>();
 
+    public static final DeferredItem<BlockItem> RIFT_CHEST_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(
+            "rift_chest",
+            ModBlocks.RIFT_CHEST
+    );
+
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem(
             "example_item",
             new Item.Properties().food(new FoodProperties.Builder()
@@ -41,7 +46,7 @@ public class ModItems {
                     .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(DimensionDelvers.MODID, "runegem")))
                     .component(ModDataComponentType.RUNEGEM_DATA,
                             new RunegemData(RuneGemShape.CIRCLE, tagId(ModModifiers.MODIFIER_KEY, "raw_fire_rune"), RuneGemTier.RAW)))
-            );
+    );
 
     public static <T extends Block> DeferredItem<BlockItem> registerSimpleBlockItem(String id, DeferredBlock<T> block){
         DeferredItem<BlockItem> simpleBlockItem = ITEMS.registerSimpleBlockItem(id, block);

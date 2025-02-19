@@ -42,6 +42,7 @@ public class DimensionDelvers {
         // Register things
         ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
@@ -60,6 +61,26 @@ public class DimensionDelvers {
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
+    /**
+     * Helper method to get a {@code ResourceLocation} with our Mod Id and a passed in name
+     *
+     * @param name the name to create the {@code ResourceLocation} with
+     * @return A {@code ResourceLocation} with the given name
+     */
+    public static ResourceLocation id(String name) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, name);
+    }
+
+    /**
+     * Helper method to get a {@code TagKey} with our Mod Id and a passed in name
+     *
+     * @param name the name to create the {@code TagKey} with
+     * @return A {@code TagKey} with the given name
+     */
+    public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
+        return TagKey.create(registry, id(name));
+    }
+
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
@@ -68,7 +89,7 @@ public class DimensionDelvers {
 
         LOGGER.info("{} {}", Config.magicNumberIntroduction, Config.magicNumber);
 
-       // Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        // Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     @SubscribeEvent
@@ -115,26 +136,5 @@ public class DimensionDelvers {
         private static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.RUNE_ANVIL_MENU.get(), RuneAnvilScreen::new);
         }
-    }
-
-    /**
-     * Helper method to get a {@code ResourceLocation} with our Mod Id and a passed in name
-     *
-     * @param name the name to create the {@code ResourceLocation} with
-     * @return A {@code ResourceLocation} with the given name
-     */
-    public static ResourceLocation id(String name) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, name);
-    }
-
-
-    /**
-     * Helper method to get a {@code TagKey} with our Mod Id and a passed in name
-     *
-     * @param name the name to create the {@code TagKey} with
-     * @return A {@code TagKey} with the given name
-     */
-    public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
-        return TagKey.create(registry, id(name));
     }
 }
