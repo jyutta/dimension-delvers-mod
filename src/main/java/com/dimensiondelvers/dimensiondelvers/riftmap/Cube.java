@@ -13,6 +13,11 @@ import org.joml.Vector4f;
  * Holds the position and size of a cube and contains the render method used to draw it
  */
 public class Cube {
+    public enum RenderType {
+        WireFrame,
+        Full
+    }
+
     private Vector3d point1 = new Vector3d(0,0,0);
     private Vector3d point2 = new Vector3d(0,0,0);
 

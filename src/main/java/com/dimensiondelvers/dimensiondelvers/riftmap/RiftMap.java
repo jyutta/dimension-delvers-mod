@@ -64,9 +64,13 @@ public class RiftMap {
         Cube cube1 = new Cube(new Vector3d(0, 0, 0), new Vector3d(1, -2, 1));
         Cube cube2 = new Cube(new Vector3d(2,0,0), new Vector3d(3,2,1));// 2,0,0
         Cube cube3 = new Cube(new Vector3d(-2, -2, 2), new Vector3d(-1, -1, 3)); //-2,-2,2
+
+        Cube player = new Cube(new Vector3d(0.25f, 0.25f, 0.25f), new Vector3d(0.75f, 0.75f, 0.75f));
         cube1.render(buffer, camera);
         cube2.render(buffer, camera);
         cube3.render(buffer, camera);
+
+        player.render(buffer, camera);
 
         // sets both position and rotation
         camera.orbitAroundOrigin(Minecraft.getInstance().player.getViewXRot(1.0f), -Minecraft.getInstance().player.getViewYRot(1.0f), 10.0f);
