@@ -29,4 +29,5 @@ jobs:
         prerelease: true
         generate_release_notes: true
         name: Nightly Release ${{ steps.vars.outputs.sha_short }}
+        tag_name: nightly_${{ steps.vars.outputs.sha_short }}
         files: build/libs/dimensiondelvers-nightly-${{ steps.vars.outputs.sha_short }}.jar
