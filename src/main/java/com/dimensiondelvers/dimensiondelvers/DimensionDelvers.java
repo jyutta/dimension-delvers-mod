@@ -1,5 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers;
 
+import com.dimensiondelvers.dimensiondelvers.commands.DebugCommands;
 import com.dimensiondelvers.dimensiondelvers.commands.InventorySnapshotCommands;
 import com.dimensiondelvers.dimensiondelvers.gui.screen.RuneAnvilScreen;
 import com.dimensiondelvers.dimensiondelvers.init.*;
@@ -31,6 +32,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Debug;
 
 @Mod(DimensionDelvers.MODID)
 public class DimensionDelvers {
@@ -75,6 +77,8 @@ public class DimensionDelvers {
     @SubscribeEvent
     private void registerCommands(RegisterCommandsEvent event) {
         InventorySnapshotCommands.register(event.getDispatcher(), event.getBuildContext());
+        new DebugCommands().registerCommand(event.getDispatcher(), event.getBuildContext());
+
     }
 
     @SubscribeEvent
