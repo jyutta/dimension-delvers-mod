@@ -50,8 +50,17 @@ public class ModBlocks {
     public static final BlockFamilyHelper PROCESSOR_BLOCK_2 = registerBuildingBlock("processor_block_2", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_2"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_3 = registerBuildingBlock("processor_block_3", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_3"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_4 = registerBuildingBlock("processor_block_4", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_4"))));
-
-
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_5 = registerBuildingBlock("processor_block_5", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_5"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_6 = registerBuildingBlock("processor_block_6", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_6"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_7 = registerBuildingBlock("processor_block_7", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_7"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_8 = registerBuildingBlock("processor_block_8", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_8"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_9 = registerBuildingBlock("processor_block_9", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_9"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_10 = registerBuildingBlock("processor_block_10", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_10"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_11 = registerBuildingBlock("processor_block_11", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_11"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_12 = registerBuildingBlock("processor_block_12", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_12"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_13 = registerBuildingBlock("processor_block_13", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_13"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_14 = registerBuildingBlock("processor_block_14", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_14"))));
+    
     private static BlockFamilyHelper registerBuildingBlock(String id, Supplier<Block> sup) {
         DeferredBlock<Block> block = registerBlock(id, sup);
         BlockFamilyHelper buildingBlockHelper = new BlockFamilyHelper.Builder()
