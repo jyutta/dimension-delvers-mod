@@ -97,7 +97,7 @@ public class RiftMap {
         cube2.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 0.2f));
         player.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 1f));
 
-
+        RenderSystem.depthMask(true);
 
 
         MeshData quadBufferData = quadBuffer.build();
