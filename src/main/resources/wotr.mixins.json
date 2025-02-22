@@ -6,6 +6,8 @@
   "refmap": "wotr.refmap.json",
   "mixins": [
     "TrialSpawnerAccessor",
+    "AccessorMappedRegistry",
+    "AccessorMinecraftServer",
     "InvokerAbstractContainerMenu",
     "InvokerBlockBehaviour",
     "MixinEnchantingTableBlock",
@@ -14,8 +16,8 @@
     "MixinServerPlayer",
     "MixinSetItemDamageFunction",
     "MixinStructureTemplate",
-    "AccessorMinecraftServer",
-    "MixinMinecraftServer"
+    "MixinMinecraftServer",
+    "MixinWorldDimensions"
   ],
   "client": [
     "MixinAccessibilityOptionsScreen",
