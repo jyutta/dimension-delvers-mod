@@ -13,12 +13,19 @@ import org.joml.Vector4f;
  * Holds the position and size of a cube and contains the render method used to draw it
  */
 public class Cube {
-    private Vector3d point1 = new Vector3d(0,0,0);
-    private Vector3d point2 = new Vector3d(0,0,0);
+    private Vector3d point1;
+    private Vector3d point2;
 
+    // more advanced cuboid constructor
     public Cube(Vector3d point1, Vector3d point2) {
         this.point1 = point1;
         this.point2 = point2;
+    }
+
+    // simplified constructor for simple cubes
+    public Cube(Vector3d point, double size) {
+        this.point1 = new Vector3d(point.x, point.y, point.z);
+        this.point2 = new Vector3d(point.x+size, point.y+size, point.z+size);
     }
 
     /**
