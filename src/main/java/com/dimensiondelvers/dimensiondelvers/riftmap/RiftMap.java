@@ -13,6 +13,7 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import org.joml.Vector2i;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -71,25 +72,33 @@ public class RiftMap {
         drawOutline(lineBuffer); // draw *debug* outlines around the map
 
         // just some testing cubes to render
-        Cube cube1 = new Cube(new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
-        Cube cube2 = new Cube(new Vector3d(2,0,0), new Vector3d(3,2,1));// 2,0,0
-        Cube cube3 = new Cube(new Vector3d(-2, -2, 2), new Vector3d(-1, -1, 3)); //-2,-2,2
+        Cube cube1 = new Cube(new Vector3d(-0.5, -0.5, -0.5), new Vector3d(0.5, 0.5, 0.5));
+        Cube cube2 = new Cube(new Vector3d(1.5,-0.5,-0.5), new Vector3d(2.5,1.5,0.5));// 2,0,0
+        Cube cube3 = new Cube(new Vector3d(-2.5, -2.5, 1.5), new Vector3d(-1.5, -0.5, 2.5)); //-2,-2,2
+        Cube cube4 = new Cube(new Vector3d(-5.5, -2.5, 1.5), new Vector3d(-4.5, -1.5, 2.5)); //-2,-2,2
 
-        Cube player = new Cube(new Vector3d(0.25f, 0.25f, 0.25f), new Vector3d(0.75f, 0.75f, 0.75f));
+        Cube player = new Cube(new Vector3d(-0.25f, -0.25f, -0.25f), new Vector3d(0.25f, 0.25f, 0.25f));
         cube1.renderWireframe(lineBuffer, camera);
         cube2.renderWireframe(lineBuffer, camera);
         cube3.renderWireframe(lineBuffer, camera);
+        cube4.renderWireframe(lineBuffer, camera);
 
         // prepare the buffer for rendering and draw it
         MeshData bufferData = lineBuffer.build();
-
+;
         if (bufferData != null) {
             BufferUploader.drawWithShader(bufferData);
         }
 
         BufferBuilder quadBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
 
-        player.renderCube(quadBuffer, camera);
+        RenderSystem.depthMask(false);
+
+        cube2.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 0.2f));
+        player.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 1f));
+
+
+
 
         MeshData quadBufferData = quadBuffer.build();
         if (quadBufferData != null) {

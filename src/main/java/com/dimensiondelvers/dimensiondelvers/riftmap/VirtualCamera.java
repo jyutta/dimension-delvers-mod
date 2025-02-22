@@ -8,7 +8,7 @@ import org.joml.Vector3f;
  * Holds position and rotation of the camera and provides view and projection matrix for rendering
  */
 public class VirtualCamera {
-    private Vector3f position;
+    private Vector3f position, originPos;
     private float pitch, yaw, roll;
     private float fov, aspectRatio, nearPlane, farPlane;
 

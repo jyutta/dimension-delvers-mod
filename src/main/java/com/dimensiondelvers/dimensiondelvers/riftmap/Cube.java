@@ -52,7 +52,7 @@ public class Cube {
         float screenX = RiftMap.mapPosition.x + (transformed.x + 1.0f) * 0.5f * mapWidth;
         float screenY = RiftMap.mapPosition.y + (1.0f - transformed.y) * 0.5f * mapHeight; // y flipped for screen space
 
-        return new Vector3f(screenX, screenY, -transformed.z);
+        return new Vector3f(screenX, screenY, -transformed.z*10); // multiplied by 10 because otherwise the float errors were too significant to work properly on z ordering
     }
 
     private float[][] calculateVertices() {
@@ -114,16 +114,16 @@ public class Cube {
      * @param buffer
      * @param camera
      */
-    public void renderCube(BufferBuilder buffer, VirtualCamera camera) {
+    public void renderCube(BufferBuilder buffer, VirtualCamera camera, Vector4f color) {
         float[][] vertices = calculateVertices();
 
         int[][] faces = {
                 {0, 1, 2, 3}, // bottom
-                {4, 5, 6, 7}, // top
-                {0, 1, 5, 4}, // front
-                {2, 3, 7, 6}, // back
+                {7, 6, 5, 4}, // top
+                {4, 5, 1, 0}, // front
+                {6, 7, 3, 2}, // back
                 {0, 3, 7, 4}, // left
-                {1, 2, 6, 5}  // right
+                {5, 6, 2, 1}  // right
         };
 
         for (int[] face : faces) {
@@ -137,10 +137,10 @@ public class Cube {
             Vector3f p3 = projectPoint(new Vector3f(v3.x, v3.y, v3.z), camera);
             Vector3f p4 = projectPoint(new Vector3f(v4.x, v4.y, v4.z), camera);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(0f, 0f, 1.0f, 1.0f);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(0f, 0f, 1.0f, 1.0f);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(0f, 0f, 1.0f, 1.0f);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(0f, 0f, 1.0f, 1.0f);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w);
         }
     }
 
