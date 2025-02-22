@@ -1,5 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.riftmap;
 
+import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import org.joml.Vector2i;
 import org.joml.Vector3d;
+import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 
@@ -42,43 +45,57 @@ public class RiftMap {
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void renderMap(RenderGuiEvent.Post event) {
-        setMapSize(0,0, 100, 100); // set the position and size of the map, will not be here in prod, here for testing
+        setMapSize(0,0, 200, 200); // set the position and size of the map, will not be here in prod, here for testing
+
+        // sets both position and rotation
+        camera.orbitAroundOrigin(Minecraft.getInstance().player.getViewXRot(1.0f), -Minecraft.getInstance().player.getViewYRot(1.0f), 10.0f);
         
         // bunch of RenderSystem stuff, don't touch, it's radioactive and extremely volatile
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
+        RenderSystem.depthFunc(GL11.GL_LEQUAL);
         RenderSystem.disableCull();
 
         // !!! Scissor coords are from bottom left and not scaled with gui scale !!! the below code renders top left quadrant
         // the RenderSystem is from top left instead because yes
         RenderSystem.enableScissor(scissorCoords.x, scissorCoords.y, scissorSize.x, scissorSize.y);
 
-        BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
-        
+
+        RenderSystem.lineWidth(10.0f);
+        BufferBuilder lineBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
+
+
         RenderSystem.setShader(CoreShaders.POSITION_COLOR);
 
-        drawOutline(buffer); // draw *debug* outlines around the map
+        drawOutline(lineBuffer); // draw *debug* outlines around the map
 
         // just some testing cubes to render
-        Cube cube1 = new Cube(new Vector3d(0, 0, 0), new Vector3d(1, -2, 1));
+        Cube cube1 = new Cube(new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
         Cube cube2 = new Cube(new Vector3d(2,0,0), new Vector3d(3,2,1));// 2,0,0
         Cube cube3 = new Cube(new Vector3d(-2, -2, 2), new Vector3d(-1, -1, 3)); //-2,-2,2
 
         Cube player = new Cube(new Vector3d(0.25f, 0.25f, 0.25f), new Vector3d(0.75f, 0.75f, 0.75f));
-        cube1.render(buffer, camera);
-        cube2.render(buffer, camera);
-        cube3.render(buffer, camera);
-
-        player.render(buffer, camera);
-
-        // sets both position and rotation
-        camera.orbitAroundOrigin(Minecraft.getInstance().player.getViewXRot(1.0f), -Minecraft.getInstance().player.getViewYRot(1.0f), 10.0f);
+        cube1.renderWireframe(lineBuffer, camera);
+        cube2.renderWireframe(lineBuffer, camera);
+        cube3.renderWireframe(lineBuffer, camera);
 
         // prepare the buffer for rendering and draw it
-        MeshData bufferData = buffer.build();
+        MeshData bufferData = lineBuffer.build();
+
         if (bufferData != null) {
             BufferUploader.drawWithShader(bufferData);
+        }
+
+        BufferBuilder quadBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
+
+        player.renderCube(quadBuffer, camera);
+
+        MeshData quadBufferData = quadBuffer.build();
+        if (quadBufferData != null) {
+            BufferUploader.drawWithShader(quadBufferData);
+        } else {
+            DimensionDelvers.LOGGER.error("NO QUADS");
         }
         RenderSystem.disableScissor();
         RenderSystem.disableBlend();
