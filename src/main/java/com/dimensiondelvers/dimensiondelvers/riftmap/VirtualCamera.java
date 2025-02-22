@@ -49,23 +49,24 @@ public class VirtualCamera {
      * @param orbitYaw    the horizontal orbit angle in degrees (azimuth)
      * @param distance    the distance from the origin
      */
-    public void orbitAroundOrigin(float orbitPitch, float orbitYaw, float distance) {
+    public void orbitAroundOrigin(float orbitPitch, float orbitYaw, float distance, float targetX, float targetY, float targetZ) {
         // convert degrees to radians for computing stuffs
         float radOrbitPitch = (float) Math.toRadians(Math.clamp(orbitPitch, -89.99, 89.99)); // float math sometimes results in parameters slightly beyond -90 and 90 which leads to weird behavior
         float radOrbitYaw   = (float) Math.toRadians(orbitYaw);
 
         // calculate the camera's position on the sphere.
-        // technically adding position to these should move all the stuffs properly..
-        float x = distance * (float)(Math.cos(radOrbitPitch) * Math.sin(radOrbitYaw));
-        float y = distance * (float)Math.sin(radOrbitPitch);
-        float z = distance * (float)(Math.cos(radOrbitPitch) * Math.cos(radOrbitYaw));
+        float x = targetX + distance * (float)(Math.cos(radOrbitPitch) * Math.sin(radOrbitYaw));
+        float y = targetY + distance * (float)Math.sin(radOrbitPitch);
+        float z = targetZ + distance * (float)(Math.cos(radOrbitPitch) * Math.cos(radOrbitYaw));
 
         // update the position
         setPosition(x, y, z);
 
-        // compute the pitch and yaw angles, note
-        float computedPitch = Math.clamp((float) -Math.toDegrees(Math.asin(-y / distance)), -90, 90); //just make sure no bad stuff happens
-        float computedYaw   = (float) Math.toDegrees(Math.atan2(-x, z));
+        float deltaX = targetX - x;
+        float deltaY = targetY - y;
+        float deltaZ = targetZ - z;
+        float computedPitch = Math.clamp((float) -Math.toDegrees(Math.asin(-deltaY / distance)), -90, 90);
+        float computedYaw = (float) Math.toDegrees(Math.atan2(-deltaX, deltaZ));
 
         // update the rotation
         setRotation(computedPitch, computedYaw, 0);
