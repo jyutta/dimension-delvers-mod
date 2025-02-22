@@ -46,10 +46,11 @@ public class RiftMap {
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void renderMap(RenderGuiEvent.Post event) {
-        setMapSize(0,0, 200, 200); // set the position and size of the map, will not be here in prod, here for testing
+        //setMapSize(0,0, 400, 400); // set the position and size of the map, will not be here in prod, here for testing
+        setMapSize(0,0,Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 
         // sets both position and rotation
-        camera.orbitAroundOrigin(Minecraft.getInstance().player.getViewXRot(1.0f), -Minecraft.getInstance().player.getViewYRot(1.0f), 10.0f);
+        camera.orbitAroundOrigin(Minecraft.getInstance().player.getViewXRot(1.0f), Minecraft.getInstance().player.getViewYRot(1.0f), 10.0f, 0.5f, 0.5f, 0.5f);
         
         // bunch of RenderSystem stuff, don't touch, it's radioactive and extremely volatile
         RenderSystem.enableBlend();
@@ -72,16 +73,29 @@ public class RiftMap {
         drawOutline(lineBuffer); // draw *debug* outlines around the map
 
         // just some testing cubes to render
-        Cube cube1 = new Cube(new Vector3d(-0.5, -0.5, -0.5), new Vector3d(0.5, 0.5, 0.5));
-        Cube cube2 = new Cube(new Vector3d(1.5,-0.5,-0.5), new Vector3d(2.5,1.5,0.5));// 2,0,0
-        Cube cube3 = new Cube(new Vector3d(-2.5, -2.5, 1.5), new Vector3d(-1.5, -0.5, 2.5)); //-2,-2,2
-        Cube cube4 = new Cube(new Vector3d(-5.5, -2.5, 1.5), new Vector3d(-4.5, -1.5, 2.5)); //-2,-2,2
+        //Cube cube1 = new Cube(new Vector3d(0,0,0), new Vector3d(1, 1, 1));
+        Cube cube1 = new Cube(new Vector3d(0, 0, 0), 1);
+        Cube cube5 = new Cube(new Vector3d(1, 0, 0), 1);
+        Cube cube6 = new Cube(new Vector3d(0,0,1), new Vector3d(2,1,2));
 
-        Cube player = new Cube(new Vector3d(-0.25f, -0.25f, -0.25f), new Vector3d(0.25f, 0.25f, 0.25f));
+        Cube cube7 = new Cube(new Vector3d(0, 0, 2.1), 0.9);
+        Cube cube8 = new Cube(new Vector3d(1, 0, 2.1), 0.9);
+
+        Cube cube2 = new Cube(new Vector3d(3,0,0), new Vector3d(4,2,1));// 2,0,0
+        Cube cube3 = new Cube(new Vector3d(-2, -2, 2), new Vector3d(-1, 0, 3)); //-2,-2,2
+        Cube cube4 = new Cube(new Vector3d(-5, -2, 1), new Vector3d(-4, -1, 2)); //-2,-2,2
+
+        Cube player = new Cube(new Vector3d(0.25f, 0.25f, 0.25f), new Vector3d(0.75f, 0.75f, 0.75f));
         cube1.renderWireframe(lineBuffer, camera);
         cube2.renderWireframe(lineBuffer, camera);
         cube3.renderWireframe(lineBuffer, camera);
         cube4.renderWireframe(lineBuffer, camera);
+
+        cube5.renderWireframe(lineBuffer, camera);
+        cube6.renderWireframe(lineBuffer, camera);
+
+        cube7.renderWireframe(lineBuffer, camera);
+        cube8.renderWireframe(lineBuffer, camera);
 
         // prepare the buffer for rendering and draw it
         MeshData bufferData = lineBuffer.build();
@@ -90,15 +104,12 @@ public class RiftMap {
             BufferUploader.drawWithShader(bufferData);
         }
 
+        // render transparents
         BufferBuilder quadBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
 
         RenderSystem.depthMask(false);
 
         cube2.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 0.2f));
-        player.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 1f));
-
-        RenderSystem.depthMask(true);
-
 
         MeshData quadBufferData = quadBuffer.build();
         if (quadBufferData != null) {
@@ -106,6 +117,34 @@ public class RiftMap {
         } else {
             DimensionDelvers.LOGGER.error("NO QUADS");
         }
+
+        // render non-transparents with proper occlusion
+        quadBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
+
+        RenderSystem.depthMask(true);
+
+        player.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 1f));
+
+        quadBufferData = quadBuffer.build();
+        if (quadBufferData != null) {
+            BufferUploader.drawWithShader(quadBufferData);
+        } else {
+            DimensionDelvers.LOGGER.error("NO QUADS");
+        }
+
+        RenderSystem.depthMask(true);
+
+        BufferBuilder line2Buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
+
+        player.renderWireframe(line2Buffer, camera);
+
+        // prepare the buffer for rendering and draw it
+        MeshData buffer2Data = line2Buffer.build();
+        ;
+        if (buffer2Data != null) {
+            BufferUploader.drawWithShader(buffer2Data);
+        }
+
         RenderSystem.disableScissor();
         RenderSystem.disableBlend();
     }
