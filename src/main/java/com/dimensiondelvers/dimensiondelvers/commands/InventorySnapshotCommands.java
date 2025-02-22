@@ -1,8 +1,10 @@
 package com.dimensiondelvers.dimensiondelvers.commands;
 
+import com.dimensiondelvers.dimensiondelvers.gui.screen.RiftMapScreen;
 import com.dimensiondelvers.dimensiondelvers.server.inventorySnapshot.InventorySnapshotSystem;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -20,6 +22,11 @@ public class InventorySnapshotCommands {
                     (ctx) -> createInventorySnapshot(ctx.getSource()
                 )
         ));
+        dispatcher.register(
+                Commands.literal("dimensiondelvers:riftmap").executes(
+                        (ctx) -> {Minecraft.getInstance().execute(() ->Minecraft.getInstance().setScreen(new RiftMapScreen(Component.literal("test")))); return 1;}
+                )
+        );
 
     }
 

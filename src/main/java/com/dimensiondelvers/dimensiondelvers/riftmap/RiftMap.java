@@ -28,6 +28,11 @@ public class RiftMap {
 
     private static VirtualCamera camera = new VirtualCamera(70.0f, 16f/9f, 0.1f, 1000.0f);
 
+    public static float camPitch = 0;
+    public static float camYaw = 0;
+    public static Vector3f camPos = new Vector3f(0.5f);
+    public static float distance = 10;
+
     public static VirtualCamera getCamera() {
         return camera;
     }
@@ -40,17 +45,19 @@ public class RiftMap {
         cells.remove(cell);
     }
 
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void e(RenderGuiEvent.Post event) {}
     /**
      * Renders the map - duh
      * @param event
      */
-    @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void renderMap(RenderGuiEvent.Post event) {
+    //@SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void renderMap(){//(RenderGuiEvent.Post event) {
         //setMapSize(0,0, 400, 400); // set the position and size of the map, will not be here in prod, here for testing
         setMapSize(0,0,Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 
         // sets both position and rotation
-        camera.orbitAroundOrigin(Minecraft.getInstance().player.getViewXRot(1.0f), Minecraft.getInstance().player.getViewYRot(1.0f), 10.0f, 0.5f, 0.5f, 0.5f);
+        camera.orbitAroundOrigin(camPitch, camYaw, distance, camPos.x, camPos.y, camPos.z);
         
         // bunch of RenderSystem stuff, don't touch, it's radioactive and extremely volatile
         RenderSystem.enableBlend();
