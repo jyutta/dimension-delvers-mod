@@ -28,8 +28,8 @@ public class RiftMap {
 
     private static VirtualCamera camera = new VirtualCamera(70.0f, 16f/9f, 0.1f, 1000.0f);
 
-    public static float camPitch = 0;
-    public static float camYaw = 0;
+    public static float camPitch = 35;
+    public static float camYaw = -25;
     public static Vector3f camPos = new Vector3f(0.5f);
     public static float distance = 10;
 
@@ -45,16 +45,22 @@ public class RiftMap {
         cells.remove(cell);
     }
 
+    public static void resetCam() {
+        camPitch = 35;
+        camYaw = -25;
+        camPos = new Vector3f(0.5f);
+        distance = 10;
+    }
+
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void e(RenderGuiEvent.Post event) {}
     /**
      * Renders the map - duh
-     * @param event
      */
     //@SubscribeEvent(priority = EventPriority.NORMAL)
     public static void renderMap(){//(RenderGuiEvent.Post event) {
         //setMapSize(0,0, 400, 400); // set the position and size of the map, will not be here in prod, here for testing
-        setMapSize(0,0,Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
+        //setMapSize(0,0,Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 
         // sets both position and rotation
         camera.orbitAroundOrigin(camPitch, camYaw, distance, camPos.x, camPos.y, camPos.z);
@@ -77,10 +83,10 @@ public class RiftMap {
 
         RenderSystem.setShader(CoreShaders.POSITION_COLOR);
 
-        drawOutline(lineBuffer); // draw *debug* outlines around the map
-
         // just some testing cubes to render
         //Cube cube1 = new Cube(new Vector3d(0,0,0), new Vector3d(1, 1, 1));
+        Cube centerCube = new Cube(new Vector3d(camPos.x-0.01, camPos.y-0.01, camPos.z-0.01), 0.02);
+
         Cube cube1 = new Cube(new Vector3d(0, 0, 0), 1);
         Cube cube5 = new Cube(new Vector3d(1, 0, 0), 1);
         Cube cube6 = new Cube(new Vector3d(0,0,1), new Vector3d(2,1,2));
@@ -130,6 +136,7 @@ public class RiftMap {
 
         RenderSystem.depthMask(true);
 
+        centerCube.renderCube(quadBuffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, 1f));
         player.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 1f));
 
         quadBufferData = quadBuffer.build();
@@ -175,7 +182,7 @@ public class RiftMap {
         float heightCoef = (float) Minecraft.getInstance().getWindow().getHeight() / Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
         // calculate the scissor coords - pos is from top left, scissors are from bottom left
-        scissorCoords.x = x;
+        scissorCoords.x = (int) (x*widthCoef);
         scissorCoords.y = (int) (Minecraft.getInstance().getWindow().getHeight()-(y+height)*heightCoef);
 
         // calculate the scissor size - width, height are scaled to gui, scissor is not so it has to be scaled back
