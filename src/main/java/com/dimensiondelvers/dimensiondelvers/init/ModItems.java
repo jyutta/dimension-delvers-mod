@@ -30,6 +30,11 @@ public class ModItems {
             ModBlocks.DEV_BLOCK
     );
 
+    public static final DeferredItem<BlockItem> DITTO_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(
+            "ditto_block",
+            ModBlocks.DITTO_BLOCK
+    );
+
     public static final DeferredItem<BlockItem> RUNE_ANVIL_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(
             "rune_anvil",
             ModBlocks.RUNE_ANVIL_BLOCK

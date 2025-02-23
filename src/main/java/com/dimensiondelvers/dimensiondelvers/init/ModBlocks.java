@@ -2,6 +2,7 @@ package com.dimensiondelvers.dimensiondelvers.init;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.block.RuneAnvilBlock;
+import com.dimensiondelvers.dimensiondelvers.block.entity.DittoBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -37,6 +38,16 @@ public class ModBlocks {
                     .sound(SoundType.METAL)
             )
     );
+
+    public static final DeferredBlock<DittoBlock> DITTO_BLOCK = BLOCKS.register(
+            "ditto_block",
+            () -> new DittoBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("ditto_block"))
+                    .destroyTime(-1F)
+                    .explosionResistance(3600000F)
+                    .sound(SoundType.STONE)
+                    .noOcclusion()
+            ));
 
     private static ResourceKey<Block> blockId(String name) {
         return ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(DimensionDelvers.MODID, name));
