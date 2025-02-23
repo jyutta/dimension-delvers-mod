@@ -1,5 +1,6 @@
-// 1.21.1	2025-02-09T21:40:16.7932511	Loot Tables
+// 1.21.4	2025-02-23T21:58:06.4319192	Loot Tables
 853d2dea27b6090b66198b34d7d2ff32c0ae7d80 data/dimensiondelvers/loot_table/blocks/dev_block.json
+d8336c04bc36fb4749e40853d9f8091aea068751 data/dimensiondelvers/loot_table/blocks/ditto_block.json
 be4f52c12c7a2603c83cc6463f10b0017728819b data/dimensiondelvers/loot_table/blocks/example_block.json
 24a2eff2d54d9ef1589621c0af1a20800ad1fb14 data/dimensiondelvers/loot_table/blocks/mob_trap_block.json
 0e695e8f7967bdb299422122dc022f7d739f41ee data/dimensiondelvers/loot_table/blocks/player_trap_block.json

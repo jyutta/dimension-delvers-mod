@@ -1,13 +1,11 @@
 package com.dimensiondelvers.dimensiondelvers.block;
 
+import com.dimensiondelvers.dimensiondelvers.block.entity.DittoBlock;
+import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -16,18 +14,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
-import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 
-
-public class TrapBlock extends Block {
+public class TrapBlock extends DittoBlock {
     private static final int DEACTIVATION_TIME = 60;
     private static final int TICK_DELAY = 4;
     private static final int STAGES = 2;
@@ -113,6 +107,7 @@ public class TrapBlock extends Block {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(STAGE);
         builder.add(WAITING_FOR_TICK);
         builder.add(DEACTIVATED);
@@ -136,6 +131,16 @@ public class TrapBlock extends Block {
 
     public BlockState getTweak() {
         return ModBlocks.PLAYER_TRAP_BLOCK.get().defaultBlockState();
+    }
+
+    @Override
+    public boolean shouldRender(BlockState state) {
+		return !state.getValue(DEACTIVATED);
+	}
+
+    @Override
+    public Vec3 getTint(BlockState state) {
+        return new Vec3(0.5, 0.5, 0.5);
     }
 }
 

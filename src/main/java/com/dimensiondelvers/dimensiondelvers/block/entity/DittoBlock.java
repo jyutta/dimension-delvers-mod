@@ -2,6 +2,7 @@ package com.dimensiondelvers.dimensiondelvers.block.entity;
 
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
@@ -153,5 +155,13 @@ public class DittoBlock extends BaseEntityBlock {
 			}
 		}
 		return 0;
+	}
+
+	public boolean shouldRender(BlockState state) {
+		return true;
+	}
+
+	public Vec3 getTint(BlockState state) {
+		return new Vec3(255, 255, 255);
 	}
 }

@@ -18,7 +18,12 @@ public class ModBlockEntityTypes {
 			// The block entity type.
 			() -> new BlockEntityType<>(
 					DittoBlockEntity::new,
-					Set.of(ModBlocks.DITTO_BLOCK.get())
+					Set.of(
+							ModBlocks.DITTO_BLOCK.get(),
+							ModBlocks.TRAP_BLOCK.get(),
+							ModBlocks.MOB_TRAP_BLOCK.get(),
+							ModBlocks.PLAYER_TRAP_BLOCK.get()
+					)
 			)
 	);
 }

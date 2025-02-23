@@ -76,7 +76,9 @@ public class ModItems {
     //Tools
     public static final DeferredItem<Item> DD_TWEAKER = ITEMS.register(
             "dd_tweaker",
-            registryName -> new DDTweaker(new Item.Properties())
+            registryName -> new DDTweaker(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(DimensionDelvers.MODID, "dd_tweaker")))
+            )
     );
 
     //Runegems

@@ -24,14 +24,11 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.EXAMPLE_BLOCK, "Example Block");
         addBlock(ModBlocks.DEV_BLOCK, "Dev Block");
         addBlock(ModBlocks.RUNE_ANVIL_BLOCK, "Rune Anvil");
-<<<<<<< HEAD
         addBlock(ModBlocks.DITTO_BLOCK, "Ditto Block");
-=======
         addBlock(ModBlocks.TRAP_BLOCK, "Trap Block");
         addBlock(ModBlocks.PLAYER_TRAP_BLOCK, "Player Trap Block");
         addBlock(ModBlocks.MOB_TRAP_BLOCK, "Mob Trap Block");
         addBlock(ModBlocks.SPRING_BLOCK, "Spring Block");
->>>>>>> mcmelon/spring_block
 
         // Adds an item translation.
         addItem(ModItems.EXAMPLE_ITEM, "Example Item");

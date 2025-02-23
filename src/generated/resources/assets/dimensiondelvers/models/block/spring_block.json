@@ -1,12 +1,6 @@
 {
-  "parent": "minecraft:block/cube",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "down": "dimensiondelvers:block/spring_block_bottom",
-    "east": "dimensiondelvers:block/spring_block_side",
-    "north": "dimensiondelvers:block/spring_block_side",
-    "particle": "dimensiondelvers:block/spring_block_bottom",
-    "south": "dimensiondelvers:block/spring_block_side",
-    "up": "dimensiondelvers:block/spring_block_top",
-    "west": "dimensiondelvers:block/spring_block_side"
+    "all": "dimensiondelvers:block/spring_block"
   }
 }

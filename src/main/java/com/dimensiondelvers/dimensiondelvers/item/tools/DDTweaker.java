@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 public class DDTweaker extends Item {
     public DDTweaker(Properties properties) {
         super(properties);
-
     }
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
