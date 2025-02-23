@@ -1,11 +1,15 @@
 package com.dimensiondelvers.dimensiondelvers.init;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
+<<<<<<< HEAD
 import com.dimensiondelvers.dimensiondelvers.block.RuneAnvilBlock;
 import com.dimensiondelvers.dimensiondelvers.block.entity.DittoBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+=======
+import com.dimensiondelvers.dimensiondelvers.block.*;
+>>>>>>> mcmelon/spring_block
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -28,7 +32,8 @@ public class ModBlocks {
                     .explosionResistance(3600000F)
                     .sound(SoundType.STONE)
                     .lightLevel(state -> 7)
-            ));
+            )
+    );
 
     public static final DeferredBlock<RuneAnvilBlock> RUNE_ANVIL_BLOCK = BLOCKS.register(
             "rune_anvil",
@@ -39,6 +44,7 @@ public class ModBlocks {
             )
     );
 
+<<<<<<< HEAD
     public static final DeferredBlock<DittoBlock> DITTO_BLOCK = BLOCKS.register(
             "ditto_block",
             () -> new DittoBlock(BlockBehaviour.Properties.of()
@@ -52,4 +58,41 @@ public class ModBlocks {
     private static ResourceKey<Block> blockId(String name) {
         return ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(DimensionDelvers.MODID, name));
     }
+=======
+    public static final DeferredBlock<SpringBlock> SPRING_BLOCK = BLOCKS.register(
+            "spring_block",
+            () -> new SpringBlock(BlockBehaviour.Properties.of()
+                    .strength(2.0F)
+                    .sound(SoundType.WOOD)
+            )
+    );
+
+    // Trap blocks
+    public static final DeferredBlock<TrapBlock> TRAP_BLOCK = BLOCKS.register(
+            "trap_block",
+            () -> new TrapBlock (BlockBehaviour.Properties.of()
+                    .strength(0.5F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<PlayerTrapBlock> PLAYER_TRAP_BLOCK = BLOCKS.register(
+            "player_trap_block",
+            () -> new PlayerTrapBlock (BlockBehaviour.Properties.of()
+                    .strength(0.5F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<MobTrapBlock> MOB_TRAP_BLOCK = BLOCKS.register(
+            "mob_trap_block",
+            () -> new MobTrapBlock (BlockBehaviour.Properties.of()
+                    .strength(0.5F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
+            )
+    );
+>>>>>>> mcmelon/spring_block
 }

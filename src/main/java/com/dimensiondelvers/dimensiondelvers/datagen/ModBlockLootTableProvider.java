@@ -20,7 +20,14 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.EXAMPLE_BLOCK.get());
         dropSelf(ModBlocks.DEV_BLOCK.get());
         dropSelf(ModBlocks.RUNE_ANVIL_BLOCK.get());
+<<<<<<< HEAD
         dropSelf(ModBlocks.DITTO_BLOCK.get());
+=======
+        dropSelf(ModBlocks.TRAP_BLOCK.get());
+        dropSelf(ModBlocks.PLAYER_TRAP_BLOCK.get());
+        dropSelf(ModBlocks.MOB_TRAP_BLOCK.get());
+        dropSelf(ModBlocks.SPRING_BLOCK.get());
+>>>>>>> mcmelon/spring_block
     }
 
     @Override
