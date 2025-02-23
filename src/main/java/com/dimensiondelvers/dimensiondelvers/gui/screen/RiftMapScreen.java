@@ -1,13 +1,16 @@
 package com.dimensiondelvers.dimensiondelvers.gui.screen;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
+import com.dimensiondelvers.dimensiondelvers.gui.widget.RiftMap3DWidget;
 import com.dimensiondelvers.dimensiondelvers.riftmap.RiftMap;
 import com.mojang.blaze3d.platform.InputConstants;
 import cpw.mods.util.Lazy;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,15 +18,15 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
+import java.util.Optional;
+
 public class RiftMapScreen extends Screen {
     public RiftMapScreen(Component title) {
         super(title);
-
-        RiftMap.camPitch = 0;
-        RiftMap.camYaw = 0;
+        RiftMap.camPitch = 35;
+        RiftMap.camYaw = -25;
 
         RiftMap.camPos = new Vector3f(0.5f);
-        //this.minecraft = Minecraft.getInstance();
     }
 
 
@@ -31,55 +34,52 @@ public class RiftMapScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addRenderableWidget(new EditBox(font, 100, 10, Component.literal("TEST")));
-    }
+        int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
-    // In some Screen subclass
-    @Override
-    public boolean mouseClicked(double x, double y, int button) {
-        //DimensionDelvers.LOGGER.info("clicked da mause at "+ x+ y+ button);
-        return super.mouseClicked(x, y, button);
-    }
+        Button button = Button.builder(Component.literal("X"), (btn) -> onClose())
+                .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
+                .bounds(screenWidth-27, 2, 12, 12)
+                .build();
+        Button resetButton = Button.builder(Component.literal("Reset"), (btn) -> RiftMap.resetCam())
+                .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
+                .bounds(screenWidth-50, screenHeight-14, 35, 12)
+                .build();
 
-    @Override
-    public boolean mouseReleased(double x, double y, int button) {
-        //DimensionDelvers.LOGGER.info("unclicked da mause at "+ x+ y+ button);
-        return super.mouseReleased(x, y, button);
-    }
-    @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        //DimensionDelvers.LOGGER.info("dragged da mause at %f %f %d %f %f".formatted(mouseX, mouseY, button , dragX,dragY));
-        if (button == 0) {
-            RiftMap.camPitch += (float)dragY;
-            RiftMap.camYaw += (float)dragX;
-        } else if (button == 1) {
-            float yawRad = (float) Math.toRadians(RiftMap.camYaw);
+        this.addRenderableWidget(button);
+        this.addRenderableWidget(resetButton);
 
-            RiftMap.camPos.z += (float) (-dragY * Math.cos(yawRad) - dragX * Math.sin(yawRad))/20;
-            RiftMap.camPos.x += (float) (-dragY * Math.sin(yawRad) + dragX * Math.cos(yawRad))/20;
-        }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
-    }
-
-    @Override
-    public boolean mouseScrolled(double a, double b, double c, double d) {
-        //DimensionDelvers.LOGGER.info("moved da wheel at %f %f %f %f".formatted(a, b, c, d));
-
-        RiftMap.distance -= (float) d;
-
-        return super.mouseScrolled(a, b, c, d);
-    }
-
-    @Override
-    protected boolean shouldNarrateNavigation() {
-        return false;
+        // register buttons first to be clickable and not occluded by RiftMap
+        GuiEventListener e = this.addRenderableWidget(new RiftMap3DWidget(15, 15, screenWidth-30, screenHeight-30));
     }
 
     @Override
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
+    }
 
-        RiftMap.renderMap();
+    // needs to be overriden to allow right click drag
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        Optional<GuiEventListener> optional = this.getChildAt(mouseX, mouseY);
+        if (optional.isEmpty()) {
+            return false;
+        } else {
+            GuiEventListener guieventlistener = optional.get();
+            if (guieventlistener.mouseClicked(mouseX, mouseY, button)) {
+                this.setFocused(guieventlistener);
+                if (button == 0 || button == 1) { // changed here to allow rightclick drag
+                    this.setDragging(true);
+                }
+            }
+
+            return true;
+        }
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        return this.getFocused() != null && this.isDragging() && (button == 0 || button == 1) && this.getFocused().mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
 }
