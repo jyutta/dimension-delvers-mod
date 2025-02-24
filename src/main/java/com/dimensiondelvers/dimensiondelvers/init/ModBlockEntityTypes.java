@@ -22,7 +22,8 @@ public class ModBlockEntityTypes {
 							ModBlocks.DITTO_BLOCK.get(),
 							ModBlocks.TRAP_BLOCK.get(),
 							ModBlocks.MOB_TRAP_BLOCK.get(),
-							ModBlocks.PLAYER_TRAP_BLOCK.get()
+							ModBlocks.PLAYER_TRAP_BLOCK.get(),
+							ModBlocks.SPRING_BLOCK.get()
 					)
 			)
 	);

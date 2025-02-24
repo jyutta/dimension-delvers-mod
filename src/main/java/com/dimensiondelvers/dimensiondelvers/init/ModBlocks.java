@@ -61,6 +61,7 @@ public class ModBlocks {
                     .setId(blockId("spring_block"))
                     .strength(2.0F)
                     .sound(SoundType.WOOD)
+                    .noOcclusion()
             )
     );
 

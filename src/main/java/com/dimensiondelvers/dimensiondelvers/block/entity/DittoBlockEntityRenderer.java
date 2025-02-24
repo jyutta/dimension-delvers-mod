@@ -1,7 +1,5 @@
 package com.dimensiondelvers.dimensiondelvers.block.entity;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
 import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -10,20 +8,16 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.chunk.RenderRegionCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.RedStoneOreBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +40,7 @@ public class DittoBlockEntityRenderer implements BlockEntityRenderer<DittoBlockE
 		if (!dittoBlock.shouldRender(blockEntity.getBlockState())) {
 			return;
 		}
-		Vec3 color =  dittoBlock.getTint(blockEntity.getBlockState());
+		Vec3 color = dittoBlock.getTint(blockEntity.getBlockState());
 		if ((blockEntity.getTheItem().getItem() instanceof BlockItem) && blockEntity.getTheItem().getItem() != ModItems.DITTO_BLOCK_ITEM.asItem()) {
 			BlockState blockstate = ((BlockItem)blockEntity.getTheItem().getItem()).getBlock().defaultBlockState();
 			if (blockEntity.getLevel() == null) return;
@@ -67,6 +61,7 @@ public class DittoBlockEntityRenderer implements BlockEntityRenderer<DittoBlockE
 					ModelData.EMPTY,
 					rendertype
 			);
+			//this.dispatcher.renderBreakingTexture(blockEntity.getBlockState(), blockEntity.getBlockPos(), blockEntity.getLevel(), stack, bufferSource.getBuffer(rendertype), ModelData.EMPTY);
 		} else {
 			this.dispatcher.getModelRenderer().tesselateBlock(
 					blockEntity.getLevel(),
