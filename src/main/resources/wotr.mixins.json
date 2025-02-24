@@ -16,7 +16,6 @@
     "MixinServerPlayer",
     "MixinSetItemDamageFunction",
     "MixinStructureTemplate",
-    "MixinMinecraftServer",
     "MixinWorldDimensions"
   ],
   "client": [
