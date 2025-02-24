@@ -1,14 +1,18 @@
 package com.dimensiondelvers.dimensiondelvers.block;
 
 import com.dimensiondelvers.dimensiondelvers.block.entity.DittoBlock;
+import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
 
 public class SpringBlock extends DittoBlock {
@@ -40,10 +44,10 @@ public class SpringBlock extends DittoBlock {
     }
 
     public void launch(@NotNull Entity entity, @NotNull BlockState state) {
-        double delta = DELTA_AT_STRENGTH[state.getValue(STRENGTH) - MIN_STRENGTH];
-        if (entity.isShiftKeyDown()) delta /= 2.0;
-
         entity.resetFallDistance();
+        if (entity.isShiftKeyDown()) return;
+        double delta = DELTA_AT_STRENGTH[state.getValue(STRENGTH) - MIN_STRENGTH];
+
         entity.setDeltaMovement(entity.getDeltaMovement().add(0, delta, 0));
     }
 
@@ -51,5 +55,10 @@ public class SpringBlock extends DittoBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(STRENGTH);
+    }
+
+    @Override
+    public DeferredItem<BlockItem> getBlockItem() {
+        return ModItems.SPRING_BLOCK_ITEM;
     }
 }

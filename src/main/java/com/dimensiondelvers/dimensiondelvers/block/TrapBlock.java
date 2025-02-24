@@ -2,10 +2,13 @@ package com.dimensiondelvers.dimensiondelvers.block;
 
 import com.dimensiondelvers.dimensiondelvers.block.entity.DittoBlock;
 import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
+import com.dimensiondelvers.dimensiondelvers.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -18,6 +21,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -139,8 +143,8 @@ public class TrapBlock extends DittoBlock {
 	}
 
     @Override
-    public Vec3 getTint(BlockState state) {
-        return new Vec3(0.5, 0.5, 0.5);
+    public DeferredItem<BlockItem> getBlockItem() {
+        return ModItems.TRAP_BLOCK_ITEM;
     }
 }
 

@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -29,6 +30,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import javax.annotation.Nullable;
 
@@ -61,11 +63,11 @@ public class DittoBlock extends BaseEntityBlock {
 
 		ItemStack itemstack1 = dittoBlockEntity.getTheItem();
 		if (!itemstack1.isEmpty()) {
-			ItemStack itemstack = ModItems.DITTO_BLOCK_ITEM.toStack();
+			ItemStack itemstack = getBlockItem().toStack();
 			if (dittoBlockEntity.isEmpty()) {
 				return InteractionResult.PASS;
 			} else {
-				if (itemstack1.getItem() != ModItems.DITTO_BLOCK_ITEM.asItem())
+				if (itemstack1.getItem() != getBlockItem().asItem())
 					Containers.dropContents(level, pos, dittoBlockEntity);
 				else
 					return InteractionResult.PASS;
@@ -106,7 +108,7 @@ public class DittoBlock extends BaseEntityBlock {
 						dittoBlockEntity.setTheItem(itemstack);
 						f = (float)itemstack.getCount() / (float)itemstack.getMaxStackSize();
 					} else {
-						if (!(itemstack1.getItem() == ModItems.DITTO_BLOCK_ITEM.asItem()))
+						if (!(itemstack1.getItem() == getBlockItem().asItem()))
 							Containers.dropContents(level, pos, dittoBlockEntity);
 						dittoBlockEntity.setTheItem(itemstack);
 						f = (float)itemstack1.getCount() / (float)itemstack1.getMaxStackSize();
@@ -165,11 +167,7 @@ public class DittoBlock extends BaseEntityBlock {
 		return true;
 	}
 
-	public Vec3 getTint(BlockState state) {
-		return new Vec3(255, 255, 255);
-	}
-
-	public ResourceLocation getOverlay(BlockState state) {
-		return null;
+	public DeferredItem<BlockItem> getBlockItem() {
+		return ModItems.DITTO_BLOCK_ITEM;
 	}
 }

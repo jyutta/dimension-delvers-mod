@@ -9,8 +9,15 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.chunk.RenderRegionCache;
+import net.minecraft.client.renderer.entity.TntMinecartRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,6 +25,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.model.UnbakedModelLoader;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,28 +48,12 @@ public class DittoBlockEntityRenderer implements BlockEntityRenderer<DittoBlockE
 		if (!dittoBlock.shouldRender(blockEntity.getBlockState())) {
 			return;
 		}
-		Vec3 color = dittoBlock.getTint(blockEntity.getBlockState());
-		if ((blockEntity.getTheItem().getItem() instanceof BlockItem) && blockEntity.getTheItem().getItem() != ModItems.DITTO_BLOCK_ITEM.asItem()) {
+		if ((blockEntity.getTheItem().getItem() instanceof BlockItem) && blockEntity.getTheItem().getItem() != dittoBlock.getBlockItem().asItem()) {
 			BlockState blockstate = ((BlockItem)blockEntity.getTheItem().getItem()).getBlock().defaultBlockState();
 			if (blockEntity.getLevel() == null) return;
-
-			RenderType rendertype = blockstate.isSolidRender() ? RenderType.cutout() : RenderType.translucent();
-
-			this.dispatcher.getModelRenderer().tesselateBlock(
-					blockEntity.getLevel(),
-					dispatcher.getBlockModel(blockstate),
-					blockstate,
-					blockEntity.getBlockPos(),
-					stack,
-					bufferSource.getBuffer(rendertype),
-					false,
-					RandomSource.create(),
-					blockstate.getSeed(blockEntity.getBlockPos()),
-					packedOverlay,
-					ModelData.EMPTY,
-					rendertype
-			);
-			//this.dispatcher.renderBreakingTexture(blockEntity.getBlockState(), blockEntity.getBlockPos(), blockEntity.getLevel(), stack, bufferSource.getBuffer(rendertype), ModelData.EMPTY);
+			int i;
+			i = OverlayTexture.pack(OverlayTexture.u(0.15F), 10);
+			this.dispatcher.renderSingleBlock(blockstate, stack, bufferSource, packedLight, i);
 		} else {
 			this.dispatcher.getModelRenderer().tesselateBlock(
 					blockEntity.getLevel(),
