@@ -30,5 +30,7 @@ public class DataGenerators {
 
         event.createProvider((output, lookupProvider)
                 -> new ModItemTagProvider(output, lookupProvider, modBlockTagProvider.contentsGetter()));
+
+        event.createProvider(ModDataMapProvider::new);
     }
 }

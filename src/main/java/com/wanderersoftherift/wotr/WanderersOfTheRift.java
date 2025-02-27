@@ -6,6 +6,8 @@ import com.mojang.logging.LogUtils;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.commands.SpawnPieceCommand;
 import com.wanderersoftherift.wotr.config.ClientConfig;
+import com.wanderersoftherift.wotr.gui.screen.KeyForgeScreen;
+import com.wanderersoftherift.wotr.gui.screen.RuneAnvilScreen;
 import com.wanderersoftherift.wotr.init.*;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import com.wanderersoftherift.wotr.client.map.MapCell;
@@ -57,6 +59,7 @@ public class WanderersOfTheRift {
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
+        ModEssenceTypes.ESSENCE_TYPES.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModProcessors.PROCESSORS.register(modEventBus);
@@ -106,7 +109,7 @@ public class WanderersOfTheRift {
 
         if (Config.logDirtBlock) LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
 
-        LOGGER.info("{} {}", Config.magicNumberIntroduction, Config.magicNumber);
+        LOGGER.info("Reticulating splines");
 
         // Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }

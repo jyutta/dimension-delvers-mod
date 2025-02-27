@@ -17,6 +17,7 @@ public class RegistryEvents {
         event.register(ModInputBlockStateTypes.INPUT_BLOCKSTATE_TYPE_REGISTRY);
         event.register(ModOutputBlockStateTypes.OUTPUT_BLOCKSTATE_TYPE_REGISTRY);
         event.register(ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPE_REGISTRY);
+        event.register(ModEssenceTypes.ESSENCE_TYPE_REGISTRY);
     }
 
     @SubscribeEvent
