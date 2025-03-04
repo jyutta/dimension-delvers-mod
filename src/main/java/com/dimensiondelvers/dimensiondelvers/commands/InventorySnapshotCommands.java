@@ -10,6 +10,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.fml.util.thread.EffectiveSide;
 
 /**
  * Debug commands for testing the inventory snapshot system
@@ -19,15 +20,9 @@ public class InventorySnapshotCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
         dispatcher.register(
                 Commands.literal("dimensiondelvers:createInventorySnapshot").executes(
-                    (ctx) -> createInventorySnapshot(ctx.getSource()
-                )
-        ));
-        dispatcher.register(
-                Commands.literal("dimensiondelvers:riftmap").executes(
-                        (ctx) -> {Minecraft.getInstance().execute(() ->Minecraft.getInstance().setScreen(new RiftMapScreen(Component.literal("test")))); return 1;}
-                )
-        );
-
+                        (ctx) -> createInventorySnapshot(ctx.getSource()
+                        )
+                ));
     }
 
     private static int createInventorySnapshot(CommandSourceStack source) {

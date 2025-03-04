@@ -3,6 +3,7 @@ package com.dimensiondelvers.dimensiondelvers;
 import com.dimensiondelvers.dimensiondelvers.client.map.MapCell;
 import com.dimensiondelvers.dimensiondelvers.client.map.MapData;
 import com.dimensiondelvers.dimensiondelvers.commands.InventorySnapshotCommands;
+import com.dimensiondelvers.dimensiondelvers.commands.RiftMapCommands;
 import com.dimensiondelvers.dimensiondelvers.config.ClientConfig;
 import com.dimensiondelvers.dimensiondelvers.gui.screen.RuneAnvilScreen;
 import com.dimensiondelvers.dimensiondelvers.init.*;
@@ -25,6 +26,8 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.util.thread.EffectiveSide;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -101,6 +104,9 @@ public class DimensionDelvers {
     @SubscribeEvent
     private void registerCommands(RegisterCommandsEvent event) {
         InventorySnapshotCommands.register(event.getDispatcher(), event.getBuildContext());
+        if (FMLEnvironment.dist.isClient()) {
+            RiftMapCommands.register(event.getDispatcher(), event.getBuildContext());
+        }
     }
 
     @SubscribeEvent
