@@ -67,7 +67,7 @@ public class MapRenderer3D {
 
         MapCell player = new MapCell(new Vector3f(0.25f, 0.25f, 0.25f), new Vector3f(0.75f, 0.75f, 0.75f), 0);
 
-        cells.forEach((cell) -> {
+        cells.forEach((pos, cell) -> {
             cell.renderWireframe(lineBuffer, camera, mapPosition, mapSize);
         });
         // prepare the buffer for rendering and draw it
@@ -82,7 +82,7 @@ public class MapRenderer3D {
 
         RenderSystem.depthMask(false);
 
-        cells.forEach((cell) -> {
+        cells.forEach((pos, cell) -> {
             cell.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 0.2f), mapPosition, mapSize);
         });
 
