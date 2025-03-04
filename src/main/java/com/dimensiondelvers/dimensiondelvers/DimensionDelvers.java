@@ -2,6 +2,7 @@ package com.dimensiondelvers.dimensiondelvers;
 
 import com.dimensiondelvers.dimensiondelvers.commands.DebugCommands;
 import com.dimensiondelvers.dimensiondelvers.commands.InventorySnapshotCommands;
+import com.dimensiondelvers.dimensiondelvers.config.ClientConfig;
 import com.dimensiondelvers.dimensiondelvers.gui.screen.RuneAnvilScreen;
 import com.dimensiondelvers.dimensiondelvers.init.*;
 import com.dimensiondelvers.dimensiondelvers.server.inventorySnapshot.InventorySnapshotSystem;
@@ -13,7 +14,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -45,6 +45,7 @@ public class DimensionDelvers {
         // Register things
         ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
@@ -60,7 +61,28 @@ public class DimensionDelvers {
         modEventBus.addListener(this::addCreative); // Register the item to a creative tab
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
+        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    /**
+     * Helper method to get a {@code ResourceLocation} with our Mod Id and a passed in name
+     *
+     * @param name the name to create the {@code ResourceLocation} with
+     * @return A {@code ResourceLocation} with the given name
+     */
+    public static ResourceLocation id(String name) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, name);
+    }
+
+    /**
+     * Helper method to get a {@code TagKey} with our Mod Id and a passed in name
+     *
+     * @param name the name to create the {@code TagKey} with
+     * @return A {@code TagKey} with the given name
+     */
+    public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
+        return TagKey.create(registry, id(name));
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -71,7 +93,7 @@ public class DimensionDelvers {
 
         LOGGER.info("{} {}", Config.magicNumberIntroduction, Config.magicNumber);
 
-       // Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        // Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     @SubscribeEvent
@@ -97,7 +119,7 @@ public class DimensionDelvers {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(ModBlocks.EXAMPLE_BLOCK);
+        //if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(ModBlocks.EXAMPLE_BLOCK);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -120,26 +142,5 @@ public class DimensionDelvers {
         private static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.RUNE_ANVIL_MENU.get(), RuneAnvilScreen::new);
         }
-    }
-
-    /**
-     * Helper method to get a {@code ResourceLocation} with our Mod Id and a passed in name
-     *
-     * @param name the name to create the {@code ResourceLocation} with
-     * @return A {@code ResourceLocation} with the given name
-     */
-    public static ResourceLocation id(String name) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, name);
-    }
-
-
-    /**
-     * Helper method to get a {@code TagKey} with our Mod Id and a passed in name
-     *
-     * @param name the name to create the {@code TagKey} with
-     * @return A {@code TagKey} with the given name
-     */
-    public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
-        return TagKey.create(registry, id(name));
     }
 }
