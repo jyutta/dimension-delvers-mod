@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.riftmap;
+package com.dimensiondelvers.dimensiondelvers.client.map;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

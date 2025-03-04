@@ -1,32 +1,25 @@
 package com.dimensiondelvers.dimensiondelvers.gui.screen;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.gui.widget.RiftMap3DWidget;
-import com.dimensiondelvers.dimensiondelvers.riftmap.RiftMap;
-import com.mojang.blaze3d.platform.InputConstants;
-import cpw.mods.util.Lazy;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 
 import java.util.Optional;
 
 public class RiftMapScreen extends Screen {
+
+
     public RiftMapScreen(Component title) {
         super(title);
-        RiftMap.camPitch = 35;
-        RiftMap.camYaw = -25;
+        //RiftMap.camPitch = 35;
+        //RiftMap.camYaw = -25;
 
-        RiftMap.camPos = new Vector3f(0.5f);
+        //RiftMap.camPos = new Vector3f(0.5f);
     }
 
 
@@ -37,11 +30,13 @@ public class RiftMapScreen extends Screen {
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
+        RiftMap3DWidget mapWidget = new RiftMap3DWidget(15, 15, screenWidth-30, screenHeight-30);
+
         Button button = Button.builder(Component.literal("X"), (btn) -> onClose())
                 .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
                 .bounds(screenWidth-27, 2, 12, 12)
                 .build();
-        Button resetButton = Button.builder(Component.literal("Reset"), (btn) -> RiftMap.resetCam())
+        Button resetButton = Button.builder(Component.literal("Reset"), (btn) -> mapWidget.resetCam())
                 .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
                 .bounds(screenWidth-50, screenHeight-14, 35, 12)
                 .build();
@@ -50,7 +45,7 @@ public class RiftMapScreen extends Screen {
         this.addRenderableWidget(resetButton);
 
         // register buttons first to be clickable and not occluded by RiftMap
-        GuiEventListener e = this.addRenderableWidget(new RiftMap3DWidget(15, 15, screenWidth-30, screenHeight-30));
+        GuiEventListener e = this.addRenderableWidget(mapWidget);
     }
 
     @Override

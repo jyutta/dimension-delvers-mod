@@ -1,5 +1,7 @@
 package com.dimensiondelvers.dimensiondelvers;
 
+import com.dimensiondelvers.dimensiondelvers.client.map.MapCell;
+import com.dimensiondelvers.dimensiondelvers.client.map.MapData;
 import com.dimensiondelvers.dimensiondelvers.commands.InventorySnapshotCommands;
 import com.dimensiondelvers.dimensiondelvers.config.ClientConfig;
 import com.dimensiondelvers.dimensiondelvers.gui.screen.RuneAnvilScreen;
@@ -30,6 +32,8 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
 import org.slf4j.Logger;
 
 @Mod(DimensionDelvers.MODID)
@@ -132,6 +136,9 @@ public class DimensionDelvers {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            MapData.addCell( new MapCell(new Vector3f(0, 0,0), 1f, 0));
+            MapData.addCell( new MapCell(new Vector3f(2, 0,0), 1f, 0));
+
         }
 
         @SubscribeEvent
