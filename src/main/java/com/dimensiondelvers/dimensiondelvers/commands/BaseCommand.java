@@ -6,6 +6,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 
 /**
@@ -22,12 +24,27 @@ public abstract class BaseCommand {
      * @param context    The command build context (used for parameter parsing).
      */
     public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
+        // Prevent registration if it's a client-only command running on the server
+        if (isClientSideOnly() && FMLEnvironment.dist != Dist.CLIENT) {
+            return;
+        }
+
         // Define the base command with permission level
         LiteralArgumentBuilder<CommandSourceStack> argumentBuilder = Commands.literal(getName())
                 .requires(sender -> sender.hasPermission(getPermissionLevel()));
 
         this.buildCommand(argumentBuilder, context); // Build subcommands
         dispatcher.register(Commands.literal(DimensionDelvers.MODID).then(argumentBuilder)); // Register under the mod's namespace
+    }
+
+    /**
+     * Determines whether this command should be registered only on the client.<br>
+     * If this returns {@code true}, the command won't be available on a dedicated server.
+     *
+     * @return {@code true} if this command should be client-side only, {@code false} if both sides should have it.
+     */
+    protected boolean isClientSideOnly() {
+        return false; // Default is both client & server
     }
 
     /**
