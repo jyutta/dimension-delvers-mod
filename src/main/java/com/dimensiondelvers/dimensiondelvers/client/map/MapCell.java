@@ -11,7 +11,7 @@ import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.calculate
 import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.projectPoint;
 
 public class MapCell {
-    private Vector3f pos1; // should only be used for rendering, TODO: convert the constructors to use x,y,z position
+    public Vector3f pos1; // should only be used for rendering, TODO: convert the constructors to use x,y,z position
     private Vector3f pos2;
     int x, y, z;
     private int type;
