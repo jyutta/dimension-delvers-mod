@@ -17,9 +17,11 @@ import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.projectPo
 public class MapCell {
     public Vector3f pos1; // should only be used for rendering, TODO: convert the constructors to use x,y,z position
     private Vector3f pos2;
+    // connection is 1wide tunnel between rooms
+    public int connections = 0; // 0 - no connection, 1 - connection North, 2 - connection East, 3 - connection both
     int x, y, z;
     private int type;
-    // TODO: figure out how I want to connect cells when rendering
+    // TODO: move rendering over to MapRoom
 
     public MapCell(Vector3f loc, float size, int type) {
         this.pos1 = loc;

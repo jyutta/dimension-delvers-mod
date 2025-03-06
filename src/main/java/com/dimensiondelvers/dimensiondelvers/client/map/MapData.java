@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MapData {
     public static HashMap<Vector3i, MapCell> cells = new HashMap<>();
-
+    public static HashMap<Vector3i, MapRoom> rooms = new HashMap<>();
     /**
      * Used to add new cell to the map
      * In the future will be used to process cell changes like the small 1wide tunnels between rooms
@@ -26,7 +26,14 @@ public class MapData {
         cells.put(new Vector3i((int) cell.pos1.x, (int) cell.pos1.y, (int) cell.pos1.z), cell);
     }
 
-    public static void removeCell(MapCell cell) {
-        cells.remove(new Vector3i(cell.x, cell.y, cell.z));
+    public static void addRoom(MapRoom room) {
+        room.cells.forEach((cell) -> {
+            cells.put(new Vector3i(cell.x, cell.y, cell.z), cell);
+        });
+        rooms.put(new Vector3i(room.x, room.y, room.z), room);
+    }
+
+    public static void reset() {
+        cells.clear();
     }
 }
