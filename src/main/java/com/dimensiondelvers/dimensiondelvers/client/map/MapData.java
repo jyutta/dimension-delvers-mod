@@ -23,7 +23,7 @@ public class MapData {
      * @param cell
      */
     public static void addCell(MapCell cell) {
-        cells.put(new Vector3i(cell.x, cell.y, cell.z), cell);
+        cells.put(new Vector3i((int) cell.pos1.x, (int) cell.pos1.y, (int) cell.pos1.z), cell);
     }
 
     public static void removeCell(MapCell cell) {
