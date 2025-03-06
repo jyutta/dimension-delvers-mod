@@ -1,14 +1,18 @@
 package com.dimensiondelvers.dimensiondelvers.abilities.effects;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
+import com.dimensiondelvers.dimensiondelvers.abilities.AbilityAttributeHelper;
+import com.dimensiondelvers.dimensiondelvers.abilities.AbstractAbility;
 import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -47,11 +51,12 @@ public class HealEffect extends AbstractEffect {
         applyParticlesToUser(user);
 
         DimensionDelvers.LOGGER.info("Healing: " + targets.size());
+        float finalHealAmount = AbilityAttributeHelper.getAbilityAttribute(Attributes.ATTACK_DAMAGE, healAmount, user);
         for(Entity target: targets) {
             applyParticlesToTarget(target);
             if(target instanceof LivingEntity living)
             {
-                living.heal(healAmount);
+                living.heal(finalHealAmount);
             }
             //Then apply children affects to targets
             super.apply(target, getTargeting().getBlocks(user), caster);
