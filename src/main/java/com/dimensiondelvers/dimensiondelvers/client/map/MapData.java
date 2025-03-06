@@ -9,6 +9,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * This class contains all map data and methods for manipulating it
  * Rendering is separated into client.render package
  * Mostly empty for now, will contain player data as well
+ *
+ * MapCells are stored in two lists/arrays/hashmaps/whatever is decided:
+ * 1. a list of all cells for easier granular processing (mainly for 1wide tunnels between rooms)
+ * 2. a list inside each MapRoom for rendering
  */
 public class MapData {
     public static HashMap<Vector3i, MapCell> cells = new HashMap<>();

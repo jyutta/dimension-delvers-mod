@@ -10,6 +10,10 @@ import org.joml.Vector4f;
 import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.calculateVertices;
 import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.projectPoint;
 
+/**
+ * Represents a single cell in the map
+ * Contains the position and type of the cell
+ */
 public class MapCell {
     private Vector3f pos1; // should only be used for rendering, TODO: convert the constructors to use x,y,z position
     private Vector3f pos2;
