@@ -1,0 +1,23 @@
+{
+  "type": "dimensiondelvers:standard_ability",
+  "ability_name": "dimensiondelvers:mega_boost",
+  "cooldown": "dimensiondelvers:boost_cooldown",
+  "strength": "dimensiondelvers:large_boost_strength",
+  "effects":
+  [
+    {
+      "type": "dimensiondelvers:projectile_effect",
+      "targeting": {
+        "target_type": "raycast",
+        "range": 200
+      },
+      "projectile_type": "minecraft:arrow",
+      "velocity": [0,0,0],
+      "effects":
+      [
+
+      ]
+    }
+
+  ]
+}
