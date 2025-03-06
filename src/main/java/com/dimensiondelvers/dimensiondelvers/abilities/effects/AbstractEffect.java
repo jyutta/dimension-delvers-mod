@@ -12,6 +12,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
@@ -85,5 +86,9 @@ public abstract class AbstractEffect {
     public Optional<ParticleInfo> getParticles() {
         return this.particles;
     }
+
+    public List<Holder<Attribute>> getApplicableAttributes(){
+        return getEffects().stream().map(AbstractEffect::getApplicableAttributes).flatMap(List::stream).toList();
+    };
 
 }

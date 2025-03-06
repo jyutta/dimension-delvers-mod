@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
@@ -67,5 +68,10 @@ public class HealEffect extends AbstractEffect {
         {
             super.apply(null, getTargeting().getBlocks(user), caster);
         }
+    }
+
+    @Override
+    public List<Holder<Attribute>> getApplicableAttributes() {
+        return super.getApplicableAttributes();
     }
 }
