@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class HealEffect extends AbstractEffect {
     private float healAmount = 0;
@@ -71,7 +72,7 @@ public class HealEffect extends AbstractEffect {
     }
 
     @Override
-    public List<Holder<Attribute>> getApplicableAttributes() {
+    public Set<Holder<Attribute>> getApplicableAttributes() {
         return super.getApplicableAttributes();
     }
 }

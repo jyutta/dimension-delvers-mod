@@ -18,7 +18,9 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public abstract class AbstractEffect {
 
@@ -87,8 +89,8 @@ public abstract class AbstractEffect {
         return this.particles;
     }
 
-    public List<Holder<Attribute>> getApplicableAttributes(){
-        return getEffects().stream().map(AbstractEffect::getApplicableAttributes).flatMap(List::stream).toList();
+    public Set<Holder<Attribute>> getApplicableAttributes(){
+        return getEffects().stream().map(AbstractEffect::getApplicableAttributes).flatMap(Set::stream).collect(Collectors.toSet());
     };
 
 }
