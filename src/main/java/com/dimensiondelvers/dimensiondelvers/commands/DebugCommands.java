@@ -66,7 +66,10 @@ public class DebugCommands extends BaseCommand {
         if (player != null) {
             ItemStack heldItem = player.getMainHandItem();
 
-            if(heldItem.isEmpty()) stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_item"));
+            if(heldItem.isEmpty()) {
+                stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_item"));
+                return 0;
+            }
 
             stack.getSource().sendSuccess(() -> Component.translatable("command.dimensiondelvers.get_item_stack_components.success", heldItem.getDisplayName().getString()).withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.UNDERLINE), false);
             for (TypedDataComponent<?> c : heldItem.getComponents()) {
