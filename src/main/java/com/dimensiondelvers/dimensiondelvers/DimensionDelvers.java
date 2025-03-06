@@ -32,7 +32,6 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Debug;
 
 @Mod(DimensionDelvers.MODID)
 public class DimensionDelvers {
