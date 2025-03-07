@@ -6,12 +6,11 @@
   "effects":
   [
     {
-      "type": "dimensiondelvers:heal_effect",
+      "type": "dimensiondelvers:target_effect",
       "targeting": {
         "target_type": "raycast",
         "range": 200
       },
-      "amount": 2.5,
       "effects":
       [
         {

@@ -1,14 +1,13 @@
 package com.dimensiondelvers.dimensiondelvers.Registries;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.abilities.*;
+import com.dimensiondelvers.dimensiondelvers.abilities.AbstractAbility;
+import com.dimensiondelvers.dimensiondelvers.abilities.StandardAbility;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.*;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 
 import java.util.function.Supplier;
@@ -49,6 +48,9 @@ public class AbilityRegistry {
     public static final DeferredRegister<MapCodec<? extends AbstractEffect>> EFFECTS = DeferredRegister.create(
             EFFECTS_REG_KEY, DimensionDelvers.MODID
     );
+
+    public static final Supplier<MapCodec<? extends AbstractEffect>> TARGET_EFFECT = EFFECTS.register(
+            "target_effect", ()-> TargetEffect.CODEC);
 
     public static final Supplier<MapCodec<? extends AbstractEffect>> HEAL_EFFECT = EFFECTS.register(
             "heal_effect", ()-> HealEffect.CODEC);
