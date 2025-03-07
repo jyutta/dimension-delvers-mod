@@ -18,6 +18,10 @@ import java.util.Objects;
 
 public class DebugCommands extends BaseCommand {
 
+    public DebugCommands() {
+        super("debug", PermissionLevels.GAME_MASTER);
+    }
+
     @Override
     protected void buildCommand(LiteralArgumentBuilder<CommandSourceStack> builder, CommandBuildContext context) {
         builder.then(Commands.literal("devWorld")
@@ -28,16 +32,6 @@ public class DebugCommands extends BaseCommand {
         );
 
 
-    }
-
-    @Override
-    protected String getName() {
-        return "debug";
-    }
-
-    @Override
-    protected int getPermissionLevel() {
-        return 2;
     }
 
     private int devWorld(CommandContext<CommandSourceStack> stack) {
@@ -82,8 +76,4 @@ public class DebugCommands extends BaseCommand {
         stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_player"));
         return 0;
     }
-
-
-
-
 }
