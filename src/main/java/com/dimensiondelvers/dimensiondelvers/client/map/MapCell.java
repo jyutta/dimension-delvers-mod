@@ -19,6 +19,7 @@ public class MapCell {
     private Vector3f pos2;
     // connection is 1wide tunnel between rooms
     public int connections = 0; // 0 - no connection, 1 - connection North, 2 - connection East, 3 - connection both
+    public int openings = 0; // places where connection can happen, 1000 - North, 0100 - East, 0010 - South, 0001 - West
     int x, y, z;
     private int type;
     // TODO: move rendering over to MapRoom

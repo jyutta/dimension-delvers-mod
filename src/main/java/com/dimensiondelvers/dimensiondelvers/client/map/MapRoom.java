@@ -12,6 +12,8 @@ import java.util.ArrayList;
  */
 public class MapRoom {
     public int x, y, z;
+    public int sizeX, sizeY, sizeZ; // sizes for the room cuboid !! don't forget to remove .1 from north and east when rendering to make space for potential tunnels - maybe even make the size configurable
+    private final float TWEEN_TUNNEL_SIZE = 0.1f; // size of the tunnel between rooms - gets subtracted from room size when rendering
     public Vector3f pos1, pos2;
     public ArrayList<MapCell> cells;
 
