@@ -53,16 +53,16 @@ public class EffectTargeting {
 
 
     /**
-     * @param user This is the entity which is using the effect, this can be any entity down a chain based on the effect list, this determines the location around where the effect is targeting
+     * @param currentEntity This is the entity which is using the effect, this can be any entity down a chain based on the effect list, this determines the location around where the effect is targeting
      * @param blocks A list of blocks which can be a point of reference for targeting enemies around them. This is mainly used for raycasting based effects
      * @param caster The original player starting the effect chain
      * @return The list of entities selected by the targeting method.
      */
-    public List<Entity> getTargets(Entity user, List<BlockPos> blocks, Player caster) {
+    public List<Entity> getTargets(Entity currentEntity, List<BlockPos> blocks, Player caster) {
         List<Entity> targets = new ArrayList<>();
-        if(user != null)
+        if(currentEntity != null)
         {
-            targets.addAll(getTargetsFromUser(user));
+            targets.addAll(getTargetsFromUser(currentEntity));
         }
         else
         {

@@ -31,7 +31,7 @@ public abstract class AbstractAbility {
     public static final Codec<Holder<AbstractAbility>> CODEC = RegistryFixedCodec.create(DATA_PACK_ABILITY_REG_KEY);
     private ResourceLocation name;
     private ResourceLocation icon = ResourceLocation.withDefaultNamespace("textures/misc/forcefield.png");
-    public Holder<Attribute> cooldownAttribute = null;
+    public float baseCooldown = 0;
     public Holder<Attribute> durationAttribute = null;
     private boolean isToggle = false;
     public AbstractAbility(ResourceLocation abilityName, List<AbstractEffect> effects)
@@ -51,10 +51,10 @@ public abstract class AbstractAbility {
         return this.effects;
     }
 
-    public abstract void OnActivate(Player p);
-    public abstract void onDeactivate(Player p);
+    public abstract void OnActivate(Player player);
+    public abstract void onDeactivate(Player player);
 
-    public boolean CanPlayerUse(Player p)
+    public boolean CanPlayerUse(Player player)
     {
 //        return p.getData(ModAbilities.ABILITY_UNLOCKED_ATTACHMENTS.get(this.getName()));
         return true;
@@ -74,52 +74,52 @@ public abstract class AbstractAbility {
     COOL DOWN RELATED STUFF HERE
     */
 
-    public boolean IsOnCooldown(Player p) {
+    public boolean IsOnCooldown(Player player) {
         //If we registered this ability as one that has a cooldown and the player has a cooldown active for this ability.
-        return p.getData(ModAbilities.COOL_DOWNS).isOnCooldown(this.getName());
+        return player.getData(ModAbilities.COOL_DOWNS).isOnCooldown(this.getName());
 //        return ModAbilities.COOL_DOWN_ATTACHMENTS.containsKey(this.getName()) && p.getData(ModAbilities.COOL_DOWN_ATTACHMENTS.get(this.getName())) > 0;
     }
 
     //TODO refactor this because I dont think we need to pass in this attribute anymore?
-    public void setCooldown(Player p, Holder<Attribute> attribute) {
-
+    public void setCooldown(Player player) {
+        float cooldown = AbilityAttributeHelper.getAbilityAttribute(AbilityAttributes.COOLDOWN, this.getBaseCooldown(), player);
         //We only need to set a cooldown for ones that have cooldowns
         if(this.hasCooldown())
         {
-            DimensionDelvers.LOGGER.info("Setting cooldown for: " + this.getName() + " length: " + (int)p.getAttributeValue(attribute) * 20);
-            PlayerCooldownData cooldowns = p.getData(ModAbilities.COOL_DOWNS);
-            cooldowns.setCooldown(this.getName(), (int)p.getAttributeValue(attribute) * 20);
-            p.setData(ModAbilities.COOL_DOWNS, cooldowns);
+            DimensionDelvers.LOGGER.info("Setting cooldown for: " + this.getName() + " length: " + cooldown);
+            PlayerCooldownData cooldowns = player.getData(ModAbilities.COOL_DOWNS);
+            cooldowns.setCooldown(this.getName(), (int) cooldown);
+            player.setData(ModAbilities.COOL_DOWNS, cooldowns);
         }
          //TODO maybe make helper to calculate time based on ticks for find a different method (maybe include in the attribute???)
-        PacketDistributor.sendToPlayer((ServerPlayer) p, new CooldownActivated(this.getName().toString(),(int)p.getAttributeValue(attribute) * 20 ));
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(this.getName().toString(),(int) cooldown ));
     }
-    public boolean hasCooldown() { return cooldownAttribute != null; }
-    public Holder<Attribute> getCooldownLength() {
-        return cooldownAttribute;
+    public boolean hasCooldown() { return getBaseCooldown() > 0; }
+
+    public int getActiveCooldown(Player player) {
+        return player.getData(ModAbilities.COOL_DOWNS).getCooldown(this.getName());
     }
 
-    public int getCooldown(Player p) {
-        return p.getData(ModAbilities.COOL_DOWNS).getCooldown(this.getName());
+    public float getBaseCooldown() {
+        return baseCooldown;
     }
-
 
     /*
-    DURATION RELATED STUFF BELOW
-    */
+        DURATION RELATED STUFF BELOW
+        */
     public boolean hasDuration() {return durationAttribute != null;}
-    public boolean isActive(Player p) {
-        return p.getData(ModAbilities.DURATIONS).isDurationRunning(this.getName());
+    public boolean isActive(Player player) {
+        return player.getData(ModAbilities.DURATIONS).isDurationRunning(this.getName());
     }
 
-    public void setDuration(Player p, Holder<Attribute> attribute) {
+    public void setDuration(Player player, Holder<Attribute> attribute) {
         //TODO look into combining this and the cooldown
         if(this.hasDuration())
         {
             DimensionDelvers.LOGGER.info("Setting duration for: " + this.getName());
-            PlayerDurationData durations = p.getData(ModAbilities.DURATIONS);
-            durations.beginDuration(this.getName(), (int)p.getAttributeValue(attribute) * 20);
-            p.setData(ModAbilities.DURATIONS, durations);
+            PlayerDurationData durations = player.getData(ModAbilities.DURATIONS);
+            durations.beginDuration(this.getName(), (int)player.getAttributeValue(attribute) * 20);
+            player.setData(ModAbilities.DURATIONS, durations);
         }
     }
 
@@ -127,7 +127,7 @@ public abstract class AbstractAbility {
         return durationAttribute;
     }
 
-    public abstract void tick(Player p);
+    public abstract void tick(Player player);
 
     /*
     TOGGLE STUFF BELOW
@@ -137,12 +137,12 @@ public abstract class AbstractAbility {
     {
         this.isToggle = shouldToggle;
     }
-    public boolean IsToggled(Player p) {
+    public boolean IsToggled(Player player) {
 //        return ModAbilities.TOGGLE_ATTACHMENTS.containsKey(this.getName()) && p.getData(ModAbilities.TOGGLE_ATTACHMENTS.get(this.getName()));
         return false;
     }
 
-    public void Toggle(Player p)
+    public void Toggle(Player player)
     {
         //Change the toggle to opposite and then tell the player
 //        if(TOGGLE_ATTACHMENTS.containsKey(this.getName())) p.setData(TOGGLE_ATTACHMENTS.get(this.getName()), !IsToggled(p));

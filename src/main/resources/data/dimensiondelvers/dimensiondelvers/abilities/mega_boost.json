@@ -1,7 +1,7 @@
 {
   "type": "dimensiondelvers:standard_ability",
   "ability_name": "dimensiondelvers:mega_boost",
-  "cooldown": "dimensiondelvers:boost_cooldown",
+  "cooldown": 1,
   "strength": "dimensiondelvers:large_boost_strength",
   "effects":
   [

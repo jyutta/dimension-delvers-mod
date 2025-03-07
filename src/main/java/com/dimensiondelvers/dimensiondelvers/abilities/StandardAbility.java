@@ -19,10 +19,6 @@ import java.util.List;
 
 public class StandardAbility extends AbstractAbility{
 
-    public StandardAbility(ResourceLocation resourceLocation, Holder<Attribute> cooldown, List<AbstractEffect> effects) {
-        super(resourceLocation, effects);
-        this.cooldownAttribute = cooldown;
-    }
 
     @Override
     public MapCodec<? extends AbstractAbility> getCodec() {
@@ -31,46 +27,48 @@ public class StandardAbility extends AbstractAbility{
     public static final MapCodec<StandardAbility> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     ResourceLocation.CODEC.fieldOf("ability_name").forGetter(StandardAbility::getName),
-                    RangedAttribute.CODEC.fieldOf("cooldown").forGetter(StandardAbility::getCooldownLength),
+                    Codec.INT.fieldOf("cooldown").forGetter(ability -> (int) ability.getBaseCooldown()),
                     Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractAbility::getEffects)
             ).apply(instance, StandardAbility::new)
     );
 
+    public StandardAbility(ResourceLocation resourceLocation, int baseCooldown, List<AbstractEffect> effects) {
+        super(resourceLocation, effects);
+        this.baseCooldown = baseCooldown;
+    }
+
     @Override
-    public void OnActivate(Player p) {
-        //TODO move this to abstract effect and perform on cooldown
-        this.getEffects().forEach(effect -> effect.apply(p, new ArrayList<>(), p));
-
-        if(this.CanPlayerUse(p)) {
-            if(!this.IsOnCooldown(p))
+    public void OnActivate(Player player) {
+        if(this.CanPlayerUse(player)) {
+            if(!this.IsOnCooldown(player))
             {
-                this.setCooldown(p, getCooldownLength()); //TODO maybe make helper to calculate time based on ticks for find a different method (maybe include in the attribute???)
-
+                this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), player));
+                this.setCooldown(player);
             }
 
             //TODO clean this up, since we should just send this data on when the player joins the server. But for now, the player can just press the button to sync back up
             else {
-                PacketDistributor.sendToPlayer((ServerPlayer) p, new CooldownActivated(this.getName().toString(),this.getCooldown(p) ));
+                PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(this.getName().toString(),this.getActiveCooldown(player) ));
             }
 
         }
 
         //this is an example of handing a case where the player cannot use an ability
-        if(!this.CanPlayerUse(p))
+        if(!this.CanPlayerUse(player))
         {
-            ((ServerPlayer)p).sendSystemMessage(Component.literal("You cannot use this"));
+            ((ServerPlayer) player).sendSystemMessage(Component.literal("You cannot use this"));
         }
     }
 
 
 
     @Override
-    public void onDeactivate(Player p) {
+    public void onDeactivate(Player player) {
 
     }
 
     @Override
-    public void tick(Player p) {
+    public void tick(Player player) {
 
     }
 }

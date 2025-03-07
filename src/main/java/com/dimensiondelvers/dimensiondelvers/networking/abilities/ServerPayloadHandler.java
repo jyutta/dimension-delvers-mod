@@ -20,35 +20,35 @@ import java.util.Optional;
 //import static com.dimensiondelvers.dimensiondelvers.Registries.AbilityRegistry.ABILITY_REGISTRY;
 
 public class ServerPayloadHandler {
-    public static void handleAbilityOnServer(final UseAbility ability, final IPayloadContext context)
+    public static void handleAbilityOnServer(final UseAbility useAbilityPacket, final IPayloadContext context)
     {
         Optional<Registry<AbstractAbility>> reg = context.player().getServer().registryAccess().lookup(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY);
         if(reg.isPresent())
         {
-            if(!reg.get().get(ResourceLocation.parse(ability.ability_location())).isPresent())
+            if(!reg.get().get(ResourceLocation.parse(useAbilityPacket.ability_location())).isPresent())
             {
-                DimensionDelvers.LOGGER.error("Invalid Ability Activated: " + ResourceLocation.parse(ability.ability_location()));
+                DimensionDelvers.LOGGER.error("Invalid Ability Activated: " + ResourceLocation.parse(useAbilityPacket.ability_location()));
             }
             else
             {
 
-                AbstractAbility abilility = reg.get().get(ResourceLocation.parse(ability.ability_location())).get().value();
-                if(abilility.IsToggle())
+                AbstractAbility ability = reg.get().get(ResourceLocation.parse(useAbilityPacket.ability_location())).get().value();
+                if(ability.IsToggle()) // Should check last toggle, because pressing a button can send multiple packets
                 {
-                    if(!abilility.IsToggled(context.player()))
+                    if(!ability.IsToggled(context.player()))
                     {
-                        abilility.OnActivate(context.player());
+                        ability.OnActivate(context.player());
                     }
                     else
                     {
-                        abilility.onDeactivate(context.player());
+                        ability.onDeactivate(context.player());
                     }
 
-                    if(abilility.CanPlayerUse(context.player())) abilility.Toggle(context.player());
+                    if(ability.CanPlayerUse(context.player())) ability.Toggle(context.player());
                 }
                 else
                 {
-                    abilility.OnActivate(context.player());
+                    ability.OnActivate(context.player());
                 }
             }
         }

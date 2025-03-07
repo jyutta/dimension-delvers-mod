@@ -6,7 +6,6 @@ import com.dimensiondelvers.dimensiondelvers.Registries.AbilityRegistry;
 import com.dimensiondelvers.dimensiondelvers.Registries.UpgradeRegistry;
 import com.dimensiondelvers.dimensiondelvers.abilities.AbilityAttributes;
 import com.dimensiondelvers.dimensiondelvers.abilities.AbstractAbility;
-import com.dimensiondelvers.dimensiondelvers.init.ModAbilities;
 import com.dimensiondelvers.dimensiondelvers.networking.ModPayloads;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -67,10 +66,6 @@ public class CommonModEvents {
             event.add(EntityType.PLAYER, AbilityAttributes.HEAL_EFFECTIVENESS);
         }
 
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.HEAL_COOLDOWN)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.HEAL_COOLDOWN);
-        }
-
         if(!event.has(EntityType.PLAYER, AbilityAttributes.BOOST_STRENGTH)) {
             event.add(EntityType.PLAYER, AbilityAttributes.BOOST_STRENGTH);
         }
@@ -79,8 +74,8 @@ public class CommonModEvents {
             event.add(EntityType.PLAYER, AbilityAttributes.LARGE_BOOST_STRENGTH);
         }
 
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.BOOST_COOLDOWN)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.BOOST_COOLDOWN);
+        if(!event.has(EntityType.PLAYER, AbilityAttributes.COOLDOWN)) {
+            event.add(EntityType.PLAYER, AbilityAttributes.COOLDOWN);
         }
         if(!event.has(EntityType.PLAYER, AbilityAttributes.ARROW_COOLDOWN)) {
             event.add(EntityType.PLAYER, AbilityAttributes.ARROW_COOLDOWN);
@@ -92,10 +87,6 @@ public class CommonModEvents {
 
         if(!event.has(EntityType.PLAYER, AbilityAttributes.SMOL_TIME)) {
             event.add(EntityType.PLAYER, AbilityAttributes.SMOL_TIME);
-        }
-
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.SMOL_COOLDOWN)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.SMOL_COOLDOWN);
         }
 
     }

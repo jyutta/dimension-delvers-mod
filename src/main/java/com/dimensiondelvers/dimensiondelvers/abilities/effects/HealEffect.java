@@ -53,7 +53,7 @@ public class HealEffect extends AbstractEffect {
         applyParticlesToUser(user);
 
         DimensionDelvers.LOGGER.info("Healing: " + targets.size());
-        float finalHealAmount = AbilityAttributeHelper.getAbilityAttribute(Attributes.ATTACK_DAMAGE, healAmount, user);
+        float finalHealAmount = AbilityAttributeHelper.getAbilityAttribute(Attributes.ATTACK_DAMAGE, healAmount, caster);
         for(Entity target: targets) {
             applyParticlesToTarget(target);
             if(target instanceof LivingEntity living)

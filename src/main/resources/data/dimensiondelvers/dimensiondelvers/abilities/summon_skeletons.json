@@ -1,8 +1,7 @@
 {
   "type": "dimensiondelvers:standard_ability",
   "ability_name": "dimensiondelvers:summon_skeletons",
-  "cooldown": "dimensiondelvers:boost_cooldown",
-  "strength": "dimensiondelvers:large_boost_strength",
+  "cooldown": 100,
   "effects":
   [
     {
