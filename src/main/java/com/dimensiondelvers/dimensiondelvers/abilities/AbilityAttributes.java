@@ -30,7 +30,7 @@ public class AbilityAttributes {
 
     //TODO these can be stages from the level up system to apply different rates or multipliers to the different skills
 //    public static final AttributeModifier HEAL_MODIFIER = new AttributeModifier(DimensionDelvers.id("increase_max_heal"), 2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-//    public static final AttributeModifier BOOST_COOLDOWN_MODIFIER = new AttributeModifier(DimensionDelvers.id("reduce_boost_cooldown"), -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+    public static final AttributeModifier BOOST_COOLDOWN_MODIFIER = new AttributeModifier(DimensionDelvers.id("reduce_boost_cooldown"), -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 //    public static final AttributeModifier SMOL_MODIFIER = new AttributeModifier(DimensionDelvers.id("make_smol"), -0.75, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
 

@@ -66,29 +66,9 @@ public class CommonModEvents {
             event.add(EntityType.PLAYER, AbilityAttributes.HEAL_POWER);
         }
 
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.BOOST_STRENGTH)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.BOOST_STRENGTH);
-        }
-
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.LARGE_BOOST_STRENGTH)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.LARGE_BOOST_STRENGTH);
-        }
-
         if(!event.has(EntityType.PLAYER, AbilityAttributes.COOLDOWN)) {
             event.add(EntityType.PLAYER, AbilityAttributes.COOLDOWN);
         }
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.ARROW_COOLDOWN)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.ARROW_COOLDOWN);
-        }
-
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.PARTICLE_TIME)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.PARTICLE_TIME);
-        }
-
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.SMOL_TIME)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.SMOL_TIME);
-        }
-
     }
 
 
