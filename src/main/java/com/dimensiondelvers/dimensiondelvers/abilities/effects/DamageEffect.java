@@ -1,5 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.abilities.effects;
 
+import com.dimensiondelvers.dimensiondelvers.abilities.AbilityAttributeHelper;
 import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
@@ -13,6 +14,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -62,11 +64,12 @@ public class DamageEffect extends AbstractEffect{
 
         applyParticlesToUser(user);
 
+        float finalDamage = AbilityAttributeHelper.getAbilityAttribute(Attributes.ATTACK_DAMAGE, damageAmount, caster);
         for(Entity target: targets) {
             applyParticlesToTarget(target);
             if(target instanceof LivingEntity livingTarget)
             {
-                livingTarget.hurtServer((ServerLevel) user.level(), damageSource, damageAmount);
+                livingTarget.hurtServer((ServerLevel) user.level(), damageSource, finalDamage);
             }
             //Then apply children affects to targets
             super.apply(target, getTargeting().getBlocks(user), caster);
