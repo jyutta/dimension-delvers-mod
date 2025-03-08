@@ -3,43 +3,40 @@
   "ability_name": "dimensiondelvers:test_ability",
   "cooldown": 1,
   "strength": "dimensiondelvers:large_boost_strength",
-  "effects":
-  [
-
-{
-  "type": "dimensiondelvers:blank_effect",
-  "targeting": {
-    "target_type": "raycast",
-    "range": 200
-  },
-
-  "effects":
-  [
+  "effects": [
     {
-      "type": "dimensiondelvers:teleport_effect",
+      "type": "dimensiondelvers:blank_effect",
       "targeting": {
         "target_type": "raycast",
         "range": 200
       },
-      "tele_info": {
-        "teleport_target": "user",
-        "position": [0,0,0]
-      },
-
       "effects": [
-
+        {
+          "type": "dimensiondelvers:teleport_effect",
+          "targeting": {
+            "target_type": "raycast",
+            "range": 200
+          },
+          "tele_info": {
+            "teleport_target": "user",
+            "position": [
+              0,
+              0,
+              0
+            ]
+          },
+          "effects": [
+          ],
+          "particles": {
+            "user": "minecraft:bubble",
+            "target": "minecraft:explosion"
+          }
+        }
       ],
       "particles": {
         "user": "minecraft:bubble",
         "target": "minecraft:explosion"
       }
     }
-
-  ],
-  "particles": {
-    "user": "minecraft:bubble",
-    "target": "minecraft:explosion"
-  }
-}
   ]
 }
