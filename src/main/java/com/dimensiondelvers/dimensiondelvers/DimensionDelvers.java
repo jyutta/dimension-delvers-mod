@@ -145,16 +145,26 @@ public class DimensionDelvers {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-            int cnt = 30;
+            int cnt = 5;
             for (int x = -cnt/2; x <= cnt/2; x++) {
-                for (int y = -cnt/2; y <= cnt/2; y++) {
+                //for (int y = -cnt/2; y <= cnt/2; y++) {
                     for (int z = -cnt/2; z <= cnt/2; z++) {
-                        MapData.addRoom(new MapRoom(x, y, z, 1, 1, 1, null));
+                        MapCell cell = new MapCell(new Vector3f(x, 0, z), 1f, 0);
+                        ArrayList<MapCell> cells = new ArrayList<>();
+                        cells.add(cell);
+                        MapData.addRoom(new MapRoom(x, 0, z, 1, 1, 1, cells));
                     }
-                }
+                //}
             }
             MapData.addCell( new MapCell(new Vector3f(0, 0,0), 1f, 0));
             MapData.addCell( new MapCell(new Vector3f(2, 0,0), 1f, 0));
+
+            MapCell cell = new MapCell(new Vector3f(5, 0, 5), 1f, 0);
+            MapCell cell2 = new MapCell(new Vector3f(5, 0, 4), 1f, 0, 2);
+            ArrayList<MapCell> cells = new ArrayList<>();
+            cells.add(cell);
+            cells.add(cell2);
+            MapData.addRoom(new MapRoom(4, 0, 4, 2, 1, 2, cells));
 
         }
 

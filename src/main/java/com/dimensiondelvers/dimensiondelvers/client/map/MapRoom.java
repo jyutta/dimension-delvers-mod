@@ -71,6 +71,7 @@ public class MapRoom {
             }
             i++;
         }
+
     }
 
     private final int [][] cubeFaces = {
@@ -88,10 +89,10 @@ public class MapRoom {
      * @param camera
      */
     public void renderCube(BufferBuilder buffer, VirtualCamera camera, Vector4f color, Vector2i mapPosition, Vector2i mapSize) {
-        Vector3f pos2_sub = new Vector3f(pos2.x - TWEEN_TUNNEL_SIZE, pos2.y - TWEEN_TUNNEL_SIZE, pos2.z - TWEEN_TUNNEL_SIZE);
-        float[][] vertices = calculateVertices(pos1, pos2_sub);
+        Vector3f pos2_sub = new Vector3f(this.pos2.x - this.TWEEN_TUNNEL_SIZE, this.pos2.y - this.TWEEN_TUNNEL_SIZE, this.pos2.z - this.TWEEN_TUNNEL_SIZE);
+        float[][] vertices = calculateVertices(this.pos1, pos2_sub);
 
-        for (int[] face : cubeFaces) {
+        for (int[] face : this.cubeFaces) {
             Vector3f p1 = projectPoint(vertices[face[0]][0], vertices[face[0]][1], vertices[face[0]][2], camera, mapPosition, mapSize);
             Vector3f p2 = projectPoint(vertices[face[1]][0], vertices[face[1]][1], vertices[face[1]][2], camera, mapPosition, mapSize);
             Vector3f p3 = projectPoint(vertices[face[2]][0], vertices[face[2]][1], vertices[face[2]][2], camera, mapPosition, mapSize);
@@ -101,6 +102,21 @@ public class MapRoom {
             buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w);
             buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w);
             buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w);
+        }
+
+        // tunnels
+        for (MapCell cell : this.cells) {
+            if (cell.connections == 2) {
+                // draw tunnel
+                cell.renderEastConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
+
+            } else if (cell.connections == 1) {
+                // draw door
+                cell.renderNorthConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
+            } else if (cell.connections == 3) {
+                cell.renderEastConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
+                cell.renderNorthConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
+            }
         }
     }
 

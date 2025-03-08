@@ -36,8 +36,8 @@ public class MapRenderer3D {
 
     public void resetCam() {
         camPitch = 35;
-        camYaw = -25;
-        camPos = new Vector3f(0.45f);
+        camYaw = 155;
+        camPos = new Vector3f(0.35f);
         distance = 10;
     }
 
@@ -75,8 +75,8 @@ public class MapRenderer3D {
 
         //MapCell player = new MapCell(new Vector3f(0.25f, 0.25f, 0.25f), new Vector3f(0.75f, 0.75f, 0.75f), 0);
 
-        float pos1 = (float) (0.45f - (0.45/2f));
-        MapCell player = new MapCell(new Vector3f(pos1, pos1, pos1), 0.45F, 0);
+        float pos1 = (float) (0.35f - (0.35/2f));
+        MapCell player = new MapCell(new Vector3f(pos1, pos1, pos1), 0.35F, 0);
 
         rooms.forEach((pos, room) -> {
             if (isInRenderDistance(room.pos1)) room.renderWireframe(lineBuffer, camera, mapPosition, mapSize);
