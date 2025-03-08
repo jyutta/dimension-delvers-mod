@@ -64,7 +64,9 @@ public class DamageEffect extends AbstractEffect{
 
         applyParticlesToUser(user);
 
+        // for now its ATTACK_DAMAGE but needs to be considered how multiple types are going to be implemented ie AP or AD
         float finalDamage = AbilityAttributeHelper.getAbilityAttribute(Attributes.ATTACK_DAMAGE, damageAmount, caster);
+
         for(Entity target: targets) {
             applyParticlesToTarget(target);
             if(target instanceof LivingEntity livingTarget)

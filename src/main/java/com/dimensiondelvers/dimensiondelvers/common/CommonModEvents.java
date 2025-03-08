@@ -62,8 +62,8 @@ public class CommonModEvents {
             event.add(EntityType.PLAYER, AbilityAttributes.MAX_MANA);
         }
 
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.HEAL_EFFECTIVENESS)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.HEAL_EFFECTIVENESS);
+        if(!event.has(EntityType.PLAYER, AbilityAttributes.HEAL_POWER)) {
+            event.add(EntityType.PLAYER, AbilityAttributes.HEAL_POWER);
         }
 
         if(!event.has(EntityType.PLAYER, AbilityAttributes.BOOST_STRENGTH)) {
