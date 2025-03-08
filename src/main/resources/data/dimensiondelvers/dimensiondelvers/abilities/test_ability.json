@@ -5,34 +5,14 @@
   "strength": "dimensiondelvers:large_boost_strength",
   "effects": [
     {
-      "type": "dimensiondelvers:blank_effect",
+      "type": "dimensiondelvers:damage_effect",
+      "amount": 10000,
+      "damage_type": "dimensiondelvers:fire",
       "targeting": {
-        "target_type": "raycast",
+        "target_type": "self",
         "range": 200
       },
-      "effects": [
-        {
-          "type": "dimensiondelvers:teleport_effect",
-          "targeting": {
-            "target_type": "raycast",
-            "range": 200
-          },
-          "tele_info": {
-            "teleport_target": "user",
-            "position": [
-              0,
-              0,
-              0
-            ]
-          },
-          "effects": [
-          ],
-          "particles": {
-            "user": "minecraft:bubble",
-            "target": "minecraft:explosion"
-          }
-        }
-      ],
+      "effects": [],
       "particles": {
         "user": "minecraft:bubble",
         "target": "minecraft:explosion"
