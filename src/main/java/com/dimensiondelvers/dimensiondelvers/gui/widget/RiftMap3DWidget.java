@@ -2,6 +2,8 @@ package com.dimensiondelvers.dimensiondelvers.gui.widget;
 
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.client.render.MapRenderer3D;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -10,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class RiftMap3DWidget extends AbstractWidget {
     private MapRenderer3D mapRenderer;
-    public RiftMap3DWidget(int x, int y, int width, int height) {
+    public RiftMap3DWidget(int x, int y, int width, int height, float renderDistance) {
         super(x, y, width, height, Component.literal("mapRenderer"));
-        mapRenderer = new MapRenderer3D(x, y, width, height);
+        mapRenderer = new MapRenderer3D(x, y, width, height, renderDistance);
     }
 
     public void resetCam() {
@@ -22,6 +24,7 @@ public class RiftMap3DWidget extends AbstractWidget {
     @Override
     protected void renderWidget(@NotNull GuiGraphics guiGraphics, int i, int i1, float v) {
         guiGraphics.renderOutline(this.getX()-1, this.getY(), this.getWidth()+1, this.getHeight(), 0xFFFFFFFF);
+        guiGraphics.drawString(Minecraft.getInstance().font, Minecraft.getInstance().fpsString, this.getX(), this.getY(), 0xFFFFFFFF);
         mapRenderer.renderMap();
     }
 
@@ -53,7 +56,7 @@ public class RiftMap3DWidget extends AbstractWidget {
     @Override
     public boolean mouseScrolled(double a, double b, double c , double d) {
         mapRenderer.distance -= (float) d;
-        mapRenderer.distance = Math.clamp(mapRenderer.distance, 1, 20);
+        mapRenderer.distance = Math.clamp(mapRenderer.distance, 1, 50);
 
         return super.mouseScrolled(a, b, c, d);
     }

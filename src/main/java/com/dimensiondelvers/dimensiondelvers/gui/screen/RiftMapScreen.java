@@ -14,13 +14,16 @@ import java.util.Optional;
 public class RiftMapScreen extends Screen {
 
 
-    public RiftMapScreen(Component title) {
+    public RiftMapScreen(Component title, float renderDistance) {
         super(title);
         //RiftMap.camPitch = 35;
         //RiftMap.camYaw = -25;
 
         //RiftMap.camPos = new Vector3f(0.5f);
+        this.renderDistance = renderDistance;
     }
+
+    private float renderDistance = 10;
 
 
     @Override
@@ -30,7 +33,7 @@ public class RiftMapScreen extends Screen {
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
-        RiftMap3DWidget mapWidget = new RiftMap3DWidget(15, 15, screenWidth-30, screenHeight-30);
+        RiftMap3DWidget mapWidget = new RiftMap3DWidget(15, 15, screenWidth-30, screenHeight-30, renderDistance);
 
         Button button = Button.builder(Component.literal("X"), (btn) -> onClose())
                 .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))

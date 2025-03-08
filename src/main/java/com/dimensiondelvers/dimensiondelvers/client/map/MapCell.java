@@ -15,14 +15,14 @@ import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.projectPo
  * Contains the position and type of the cell
  */
 public class MapCell {
-    public Vector3f pos1; // should only be used for rendering, TODO: convert the constructors to use x,y,z position
+    public Vector3f pos1; // should only be used for rendering,
     private Vector3f pos2;
     // connection is 1wide tunnel between rooms
     public int connections = 0; // 0 - no connection, 1 - connection North, 2 - connection East, 3 - connection both
     public int openings = 0; // places where connection can happen, 1000 - North, 0100 - East, 0010 - South, 0001 - West
     int x, y, z;
     private int type;
-    // TODO: move rendering over to MapRoom
+    // add rendering for connections inside here (probably), might be inside MapRoom as well
 
     public MapCell(Vector3f loc, float size, int type) {
         this.pos1 = loc;

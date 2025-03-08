@@ -2,6 +2,7 @@ package com.dimensiondelvers.dimensiondelvers;
 
 import com.dimensiondelvers.dimensiondelvers.client.map.MapCell;
 import com.dimensiondelvers.dimensiondelvers.client.map.MapData;
+import com.dimensiondelvers.dimensiondelvers.client.map.MapRoom;
 import com.dimensiondelvers.dimensiondelvers.commands.InventorySnapshotCommands;
 import com.dimensiondelvers.dimensiondelvers.commands.RiftMapCommands;
 import com.dimensiondelvers.dimensiondelvers.config.ClientConfig;
@@ -38,6 +39,8 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.slf4j.Logger;
+
+import java.util.ArrayList;
 
 @Mod(DimensionDelvers.MODID)
 public class DimensionDelvers {
@@ -142,6 +145,14 @@ public class DimensionDelvers {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            int cnt = 30;
+            for (int x = -cnt/2; x <= cnt/2; x++) {
+                for (int y = -cnt/2; y <= cnt/2; y++) {
+                    for (int z = -cnt/2; z <= cnt/2; z++) {
+                        MapData.addRoom(new MapRoom(x, y, z, 1, 1, 1, null));
+                    }
+                }
+            }
             MapData.addCell( new MapCell(new Vector3f(0, 0,0), 1f, 0));
             MapData.addCell( new MapCell(new Vector3f(2, 0,0), 1f, 0));
 

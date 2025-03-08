@@ -11,6 +11,8 @@ public class VirtualCamera {
     private Vector3f position, originPos;
     private float pitch, yaw, roll;
     private float fov, aspectRatio, nearPlane, farPlane;
+    private Matrix4f viewMatrix;
+    private Matrix4f mvpMatrix;
 
     public VirtualCamera(float fov, float aspectRatio, float nearPlane, float farPlane) {
         this.position = new Vector3f(0, 0, 0);
@@ -21,10 +23,14 @@ public class VirtualCamera {
         this.aspectRatio = aspectRatio;
         this.nearPlane = nearPlane;
         this.farPlane = farPlane;
+        updateViewMatrix(); // TODO: clean up all this stuff, doesn't really need to be two functions here
+        updateMVPMatrix();
     }
 
     public void setPosition(float x, float y, float z) {
         this.position.set(x, y, z);
+        updateViewMatrix();
+        updateMVPMatrix();
     }
 
     public Vector3f getPosition() {
@@ -35,6 +41,8 @@ public class VirtualCamera {
         this.pitch = pitch;
         this.yaw = yaw;
         this.roll = roll;
+        updateViewMatrix();
+        updateMVPMatrix();
     }
 
     public void setAspectRatio(float aspectRatio) {
@@ -72,18 +80,30 @@ public class VirtualCamera {
         setRotation(computedPitch, computedYaw, 0);
     }
 
-    /**
-     * Prepares and returns the View Matrix of the virtual camera
-     * @return
-     */
-    public Matrix4f getViewMatrix() {
+    public void updateMVPMatrix() {
+        this.mvpMatrix = new Matrix4f().set(getProjectionMatrix()).mul(getViewMatrix());
+    }
+
+    public Matrix4f getMVPMatrix() {
+        return this.mvpMatrix;
+    }
+
+    public void updateViewMatrix() {
         Matrix4f view = new Matrix4f();
         view.identity();
         view.rotate((float) Math.toRadians(pitch), new Vector3f(1, 0, 0))
                 .rotate((float) Math.toRadians(yaw), new Vector3f(0, 1, 0))
                 .rotate((float) Math.toRadians(roll), new Vector3f(0, 0, 1));
         view.translate(-position.x, -position.y, -position.z);
-        return view;
+        this.viewMatrix = view;
+    }
+
+    /**
+     * Prepares and returns the View Matrix of the virtual camera
+     * @return
+     */
+    public Matrix4f getViewMatrix() {
+       return this.viewMatrix;
     }
 
     /**

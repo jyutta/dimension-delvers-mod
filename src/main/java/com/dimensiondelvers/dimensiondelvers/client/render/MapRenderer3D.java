@@ -14,6 +14,7 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
 import static com.dimensiondelvers.dimensiondelvers.client.map.MapData.cells;
+import static com.dimensiondelvers.dimensiondelvers.client.map.MapData.rooms;
 
 public class MapRenderer3D {
     public Vector2i mapPosition = new Vector2i(0, 0);
@@ -28,15 +29,22 @@ public class MapRenderer3D {
     public Vector3f camPos = new Vector3f(0.5f);
     public float distance = 10;
 
-    public MapRenderer3D(int x, int y, int width, int height) {
+    public MapRenderer3D(int x, int y, int width, int height, float renderDistance) {
         setMapSize(x, y, width, height);
+        this.renderDistance = renderDistance;
     }
 
     public void resetCam() {
         camPitch = 35;
         camYaw = -25;
-        camPos = new Vector3f(0.5f);
+        camPos = new Vector3f(0.45f);
         distance = 10;
+    }
+
+    private float renderDistance = 10;
+
+    private boolean isInRenderDistance(Vector3f pos) {
+        return pos.distance(camPos) < renderDistance;
     }
 
     public void renderMap() {
@@ -65,11 +73,17 @@ public class MapRenderer3D {
         //Cube cube1 = new Cube(new Vector3d(0,0,0), new Vector3d(1, 1, 1));
         MapCell centerCube = new MapCell(new Vector3f((float) (camPos.x-0.01), (float) (camPos.y-0.01), (float) (camPos.z-0.01)), 0.02f, 0);
 
-        MapCell player = new MapCell(new Vector3f(0.25f, 0.25f, 0.25f), new Vector3f(0.75f, 0.75f, 0.75f), 0);
+        //MapCell player = new MapCell(new Vector3f(0.25f, 0.25f, 0.25f), new Vector3f(0.75f, 0.75f, 0.75f), 0);
 
-        cells.forEach((pos, cell) -> {
-            cell.renderWireframe(lineBuffer, camera, mapPosition, mapSize);
+        float pos1 = (float) (0.45f - (0.45/2f));
+        MapCell player = new MapCell(new Vector3f(pos1, pos1, pos1), 0.45F, 0);
+
+        rooms.forEach((pos, room) -> {
+            if (isInRenderDistance(room.pos1)) room.renderWireframe(lineBuffer, camera, mapPosition, mapSize);
         });
+        /*cells.forEach((pos, cell) -> {
+            cell.renderWireframe(lineBuffer, camera, mapPosition, mapSize);
+        });*/
         // prepare the buffer for rendering and draw it
         MeshData bufferData = lineBuffer.build();
         ;
@@ -82,15 +96,16 @@ public class MapRenderer3D {
 
         RenderSystem.depthMask(false);
 
-        cells.forEach((pos, cell) -> {
-            cell.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 0.2f), mapPosition, mapSize);
+        rooms.forEach((pos, room) -> {
+            if (isInRenderDistance(room.pos1)) room.renderCube(quadBuffer, camera, new Vector4f(0f, 1f, 0f, 0.2f), mapPosition, mapSize);
         });
+        /*cells.forEach((pos, cell) -> {
+            cell.renderCube(quadBuffer, camera, new Vector4f(0f, 0f, 1f, 0.2f), mapPosition, mapSize);
+        });*/
 
         MeshData quadBufferData = quadBuffer.build();
         if (quadBufferData != null) {
             BufferUploader.drawWithShader(quadBufferData);
-        } else {
-            DimensionDelvers.LOGGER.error("NO QUADS");
         }
 
         // render non-transparents with proper occlusion
@@ -104,8 +119,6 @@ public class MapRenderer3D {
         MeshData quadBufferData2 = quadBuffer2.build();
         if (quadBufferData2 != null) {
             BufferUploader.drawWithShader(quadBufferData2);
-        } else {
-            DimensionDelvers.LOGGER.error("NO QUADS");
         }
 
         RenderSystem.depthMask(true);
