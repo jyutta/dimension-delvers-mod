@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.AbilityAttributeHelper;
 import com.wanderersoftherift.wotr.abilities.AbilityAttributes;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,15 +18,21 @@ import java.util.List;
 
 public class AreaTargeting extends AbstractTargeting {
     private float range = 0;
+    private boolean includeSelf = true;
+    private EntityPredicate entityPredicate = EntityPredicate.Builder.entity().build();
 
     public static final MapCodec<AreaTargeting> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                    Codec.FLOAT.fieldOf("range").forGetter(AreaTargeting::getRange)
+                    Codec.FLOAT.fieldOf("range").forGetter(AreaTargeting::getRange),
+                    Codec.BOOL.optionalFieldOf("include_self", true).forGetter(AreaTargeting::getIncludeSelf),
+                    EntityPredicate.CODEC.optionalFieldOf("exclude_list", EntityPredicate.Builder.entity().build()).forGetter(AreaTargeting::getEntityPredicate)
             ).apply(instance, AreaTargeting::new)
     );
 
-    public AreaTargeting(float range) {
+    public AreaTargeting(float range, boolean includeSelf, EntityPredicate entityPredicate) {
         this.range = range;
+        this.includeSelf = includeSelf;
+        this.entityPredicate = entityPredicate;
     }
 
     public float getRange() {
@@ -35,6 +42,10 @@ public class AreaTargeting extends AbstractTargeting {
     private float getRange(LivingEntity user) {
         return AbilityAttributeHelper.getAbilityAttribute(AbilityAttributes.AOE_SIZE, range, user);
     }
+
+    public boolean getIncludeSelf() { return includeSelf; }
+
+    public EntityPredicate getEntityPredicate() { return entityPredicate; }
 
     @Override
     public MapCodec<? extends AbstractTargeting> getCodec() {
