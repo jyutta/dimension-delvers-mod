@@ -3,6 +3,10 @@ package com.dimensiondelvers.dimensiondelvers.Registries;
 import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.abilities.AbstractAbility;
 import com.dimensiondelvers.dimensiondelvers.abilities.StandardAbility;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.AbstractTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.AreaTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.RaycastTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.SelfTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.*;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
@@ -78,4 +82,23 @@ public class AbilityRegistry {
 
     public static final Supplier<MapCodec<? extends BlankEffect>> BLANK_EFFECT = EFFECTS.register(
             "blank_effect", ()-> BlankEffect.CODEC);
+
+    // EFFECT_TARGETING_TYPES Registry
+    public static final ResourceKey<Registry<MapCodec<? extends AbstractTargeting>>> EFFECT_TARGETING_REG_KEY = ResourceKey.createRegistryKey(DimensionDelvers.id("effect_targeting"));
+
+    public static final Registry<MapCodec<? extends AbstractTargeting>> EFFECT_TARGETING_REGISTRY = new RegistryBuilder<>(EFFECT_TARGETING_REG_KEY).create();
+
+    public static final DeferredRegister<MapCodec<? extends AbstractTargeting>> EFFECT_TARGETING = DeferredRegister.create(
+            EFFECT_TARGETING_REG_KEY, DimensionDelvers.MODID
+    );
+
+    public static final Supplier<MapCodec<AreaTargeting>> AREA_TARGETING = EFFECT_TARGETING.register(
+            "area_targeting", () -> AreaTargeting.CODEC
+    );
+    public static final Supplier<MapCodec<RaycastTargeting>> RAYCAST_TARGETING = EFFECT_TARGETING.register(
+            "raycast_targeting", () -> RaycastTargeting.CODEC
+    );
+    public static final Supplier<MapCodec<SelfTargeting>> SELF_TARGETING = EFFECT_TARGETING.register(
+            "self_targeting", () -> SelfTargeting.CODEC
+    );
 }

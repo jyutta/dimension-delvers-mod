@@ -78,6 +78,7 @@ public class DimensionDelvers {
 
         AbilityRegistry.ABILITY_TYPES.register(modEventBus);
         AbilityRegistry.EFFECTS.register(modEventBus);
+        AbilityRegistry.EFFECT_TARGETING.register(modEventBus);
 
         ModAbilities.ATTACHMENT_TYPES.register(modEventBus);
 

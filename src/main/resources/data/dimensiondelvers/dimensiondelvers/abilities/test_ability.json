@@ -9,8 +9,7 @@
       "amount": 10000,
       "damage_type": "dimensiondelvers:fire",
       "targeting": {
-        "target_type": "self",
-        "range": 200
+        "type": "dimensiondelvers:self_targeting"
       },
       "effects": [],
       "particles": {

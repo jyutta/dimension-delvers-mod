@@ -1,8 +1,5 @@
 package com.dimensiondelvers.dimensiondelvers.abilities.effects.util;
 
-import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
-import com.dimensiondelvers.dimensiondelvers.abilities.effects.AbstractEffect;
-import com.dimensiondelvers.dimensiondelvers.abilities.effects.TeleportEffect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

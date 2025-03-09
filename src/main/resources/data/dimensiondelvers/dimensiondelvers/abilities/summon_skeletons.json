@@ -7,7 +7,7 @@
     {
       "type": "dimensiondelvers:target_effect",
       "targeting": {
-        "target_type": "raycast",
+        "type": "dimensiondelvers:raycast_targeting",
         "range": 200
       },
       "effects":
@@ -15,7 +15,7 @@
         {
           "type": "dimensiondelvers:summon_effect",
           "targeting": {
-            "target_type": "area",
+            "type": "dimensiondelvers:area_targeting",
             "range": 25
           },
           "entity_type":"minecraft:skeleton",
@@ -25,8 +25,7 @@
             {
               "type": "dimensiondelvers:movement_effect",
               "targeting": {
-                "target_type": "self",
-                "range": 10
+                "type": "dimensiondelvers:self_targeting"
               },
               "velocity": [0,1,0],
               "effects":

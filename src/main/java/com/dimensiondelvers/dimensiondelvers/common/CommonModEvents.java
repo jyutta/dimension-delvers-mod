@@ -30,6 +30,7 @@ public class CommonModEvents {
         event.register(UpgradeRegistry.UPGRADE_REGISTRY);
         event.register(AbilityRegistry.ABILITY_TYPES_REGISTRY);
         event.register(AbilityRegistry.EFFECTS_REGISTRY);
+        event.register(AbilityRegistry.EFFECT_TARGETING_REGISTRY);
     }
 
     @SubscribeEvent
