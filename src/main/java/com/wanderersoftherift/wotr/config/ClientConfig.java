@@ -15,6 +15,9 @@ public class ClientConfig {
     public static final ModConfigSpec.BooleanValue ACCESSIBILITY_REDUCED_MOTION;
     public static final ModConfigSpec.BooleanValue ACCESSIBILITY_HARD_OF_HEARING; // I am unsure what this should change currently
 
+    // Rift Map Settings
+    public static final ModConfigSpec.BooleanValue MOUSE_MODE;
+
     static {
         BUILDER.comment(" == Wotr Client Configs ==");
 
@@ -28,6 +31,9 @@ public class ClientConfig {
             ACCESSIBILITY_REDUCED_MOTION = BUILDER.comment(" Whether motion should be reduced").define("accessibilityReducedMotion", false);
             ACCESSIBILITY_HARD_OF_HEARING = BUILDER.comment(" Whether certain sounds should be upped").define("accessibilityHardOfHearing", false);
         BUILDER.pop();
+
+        BUILDER.push(" == Rift Map == ");
+            MOUSE_MODE = BUILDER.comment(" Whether to use the Whale mouse mode").define("mouseMode", false);
 
 
 

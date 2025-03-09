@@ -1,8 +1,8 @@
 package com.wanderersoftherift.wotr.commands;
 
-import com.dimensiondelvers.dimensiondelvers.gui.screen.RiftMapScreen;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.wanderersoftherift.wotr.gui.screen.RiftMapScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;

@@ -1,6 +1,7 @@
 package com.wanderersoftherift.wotr.gui.widget;
 
 import com.wanderersoftherift.wotr.client.render.MapRenderer3D;
+import com.wanderersoftherift.wotr.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -49,53 +50,70 @@ public class RiftMap3DWidget extends AbstractWidget {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (!setMouse) {
-            int invertY = Minecraft.getInstance().options.invertYMouse().get() ? -1 : 1;
-            
+        if (ClientConfig.MOUSE_MODE.get()) {
+            if (!setMouse) {
+                int invertY = Minecraft.getInstance().options.invertYMouse().get() ? 1 : -1;
+
+                if (button == 0) {
+                    mapRenderer.camPitch += (float) dragY * invertY;
+                    mapRenderer.camPitch = Math.clamp(mapRenderer.camPitch, -90, 90);
+                    mapRenderer.camYaw -= (float) dragX;
+                } else if (button == 1) {
+                    float yawRad = (float) Math.toRadians(mapRenderer.camYaw);
+                    float speed = (float) Mth.map(mapRenderer.distance, MIN_DISTANCE, MAX_DISTANCE, MIN_SPEED, MAX_SPEED);
+
+                    mapRenderer.camPos.z += (float) (-dragY * invertY * speed * Math.cos(yawRad) + dragX * speed * Math.sin(yawRad)) / 20;
+                    mapRenderer.camPos.x += (float) (-dragY * invertY * speed * Math.sin(yawRad) + dragX * speed * Math.cos(yawRad)) / 20;
+                }
+                setMouse = true;
+            }
+            else {
+                GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().getWindow(), targetMousePos.x, targetMousePos.y);
+                setMouse = false;
+            }
+
+            return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        } else {
+
             if (button == 0) {
-                mapRenderer.camPitch += (float) dragY * invertY;
+                mapRenderer.camPitch += (float)dragY;
                 mapRenderer.camPitch = Math.clamp(mapRenderer.camPitch, -90, 90);
-                mapRenderer.camYaw += (float) dragX;
+                mapRenderer.camYaw += (float)dragX;
             } else if (button == 1) {
                 float yawRad = (float) Math.toRadians(mapRenderer.camYaw);
-                float speed = (float) Mth.map(mapRenderer.distance, MIN_DISTANCE, MAX_DISTANCE, MIN_SPEED, MAX_SPEED);
 
-                mapRenderer.camPos.z += (float) (-dragY * invertY * speed * Math.cos(yawRad) - dragX * speed * Math.sin(yawRad)) / 20;
-                mapRenderer.camPos.x += (float) (-dragY * invertY * speed * Math.sin(yawRad) + dragX * speed * Math.cos(yawRad)) / 20;
+                mapRenderer.camPos.z += (float) (-dragY * Math.cos(yawRad) - dragX * Math.sin(yawRad))/20;
+                mapRenderer.camPos.x += (float) (-dragY * Math.sin(yawRad) + dragX * Math.cos(yawRad))/20;
             }
-            setMouse = true;
+            return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
         }
-        else {
-            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().getWindow(), targetMousePos.x, targetMousePos.y);
-            setMouse = false;
-        }
-
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (!pressingButton) {
-            DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
-            DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
+        if (ClientConfig.MOUSE_MODE.get()) {
+            if (!pressingButton) {
+                DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
+                DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
 
-            GLFW.glfwGetCursorPos(Minecraft.getInstance().getWindow().getWindow(), x, y);
+                GLFW.glfwGetCursorPos(Minecraft.getInstance().getWindow().getWindow(), x, y);
 
-            targetMousePos = new Vector2d(x.get(), y.get());
-            GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+                targetMousePos = new Vector2d(x.get(), y.get());
+                GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+            }
+
+            pressingButton = true;
         }
-
-        pressingButton = true;
-
         return true;
     }
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        pressingButton = false;
+        if (ClientConfig.MOUSE_MODE.get()) {
+            pressingButton = false;
 
-        GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-
+            GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+        }
         return super.mouseReleased(mouseX, mouseY, button);
     }
 

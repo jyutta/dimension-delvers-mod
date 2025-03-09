@@ -1,5 +1,6 @@
-package com.dimensiondelvers.dimensiondelvers.gui.screen;
+package com.wanderersoftherift.wotr.gui.screen;
 
+import com.wanderersoftherift.wotr.config.ClientConfig;
 import com.wanderersoftherift.wotr.gui.widget.RiftMap3DWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -44,8 +45,19 @@ public class RiftMapScreen extends Screen {
                 .bounds(screenWidth-50, screenHeight-14, 35, 12)
                 .build();
 
+        Button mouseToggleButton = Button.builder(Component.literal("Toggle Mouse"),
+                        (btn) -> {
+                            ClientConfig.MOUSE_MODE.set(!ClientConfig.MOUSE_MODE.get());
+                            btn.setMessage(Component.literal(ClientConfig.MOUSE_MODE.get() ? "Toggle Mouse (True)" : "Toggle Mouse (False)"));
+                }
+                )
+                .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
+                .bounds(screenWidth-180, screenHeight-14, 110, 12)
+                .build();
+
         this.addRenderableWidget(button);
         this.addRenderableWidget(resetButton);
+        this.addRenderableWidget(mouseToggleButton);
 
         // register buttons first to be clickable and not occluded by RiftMap
         GuiEventListener e = this.addRenderableWidget(mapWidget);
