@@ -63,16 +63,18 @@ public class RiftMap3DWidget extends AbstractWidget {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (!setMouse) {
-			if (button == 0) {
-                mapRenderer.camPitch += (float) dragY;
+            int invertY = Minecraft.getInstance().options.invertYMouse().get() ? -1 : 1;
+            
+            if (button == 0) {
+                mapRenderer.camPitch += (float) dragY * invertY;
                 mapRenderer.camPitch = Math.clamp(mapRenderer.camPitch, -90, 90);
                 mapRenderer.camYaw += (float) dragX;
             } else if (button == 1) {
                 float yawRad = (float) Math.toRadians(mapRenderer.camYaw);
                 float speed = (float) Mth.map(mapRenderer.distance, MIN_DISTANCE, MAX_DISTANCE, MIN_SPEED, MAX_SPEED);
 
-                mapRenderer.camPos.z += (float) (-dragY * speed * Math.cos(yawRad) - dragX * speed * Math.sin(yawRad)) / 20;
-                mapRenderer.camPos.x += (float) (-dragY * speed * Math.sin(yawRad) + dragX * speed * Math.cos(yawRad)) / 20;
+                mapRenderer.camPos.z += (float) (-dragY * invertY * speed * Math.cos(yawRad) - dragX * speed * Math.sin(yawRad)) / 20;
+                mapRenderer.camPos.x += (float) (-dragY * invertY * speed * Math.sin(yawRad) + dragX * speed * Math.cos(yawRad)) / 20;
             }
             setMouse = true;
         }
