@@ -25,7 +25,7 @@ public class AreaTargeting extends AbstractTargeting {
             instance.group(
                     Codec.FLOAT.fieldOf("range").forGetter(AreaTargeting::getRange),
                     Codec.BOOL.optionalFieldOf("include_self", true).forGetter(AreaTargeting::getIncludeSelf),
-                    EntityPredicate.CODEC.optionalFieldOf("exclude_list", EntityPredicate.Builder.entity().build()).forGetter(AreaTargeting::getEntityPredicate)
+                    EntityPredicate.CODEC.optionalFieldOf("entity_predicate", EntityPredicate.Builder.entity().build()).forGetter(AreaTargeting::getEntityPredicate)
             ).apply(instance, AreaTargeting::new)
     );
 
