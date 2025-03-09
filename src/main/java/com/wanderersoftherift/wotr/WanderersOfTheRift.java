@@ -70,8 +70,6 @@ public class WanderersOfTheRift {
         AbilityRegistry.EFFECTS.register(modEventBus);
         AbilityRegistry.EFFECT_TARGETING.register(modEventBus);
 
-        ModAbilities.ATTACHMENT_TYPES.register(modEventBus);
-
         UpgradeRegistry.UPGRADE_REGISTRY_DEF.register(modEventBus);
 
         AbilityAttributes.REGISTRY.register(modEventBus);
