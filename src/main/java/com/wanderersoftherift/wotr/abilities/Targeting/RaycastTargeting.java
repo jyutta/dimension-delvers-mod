@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityTypeTest;
@@ -41,7 +42,7 @@ public class RaycastTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromEntity(Entity entity) {
+    public List<Entity> getTargetsFromEntity(Entity entity, Player caster) {
         WanderersOfTheRift.LOGGER.debug("Targeting Raycast");
 
         //TODO optimize AABB to not look behind player
@@ -74,7 +75,7 @@ public class RaycastTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<BlockPos> getBlocksInArea(Level level, Entity entity, List<BlockPos> targetPos) {
+    public List<BlockPos> getBlocksInArea(Player caster, Entity entity, List<BlockPos> targetPos) {
         WanderersOfTheRift.LOGGER.debug("Raycasting blocks in area");
 
         List<BlockPos> blocks = new ArrayList<>();

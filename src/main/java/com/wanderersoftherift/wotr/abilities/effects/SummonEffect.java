@@ -62,7 +62,7 @@ public class SummonEffect extends AbstractEffect{
         //No entity was selected as the summon position
         if(targets.isEmpty())
         {
-            List<BlockPos> blockInArea = getTargeting().getBlocksInArea(caster.level(), user, blocks);
+            List<BlockPos> blockInArea = getTargeting().getBlocksInArea(caster, user, blocks);
             //TODO look into more systematically placing summons
             for(int i = 0; i < summonAmount; i++) {
                 if(blockInArea.isEmpty())

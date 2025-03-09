@@ -17,8 +17,6 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.Optional;
 
-//import static com.wanderersoftherift.wotr.Registries.AbilityRegistry.ABILITY_REGISTRY;
-
 public class ServerPayloadHandler {
     public static void handleAbilityOnServer(final UseAbility useAbilityPacket, final IPayloadContext context)
     {

@@ -36,7 +36,7 @@ public class BreakBlockEffect extends AbstractEffect{
         List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
         applyParticlesToUser(user);
 
-        List<BlockPos> areaBlocks = getTargeting().getBlocksInArea(caster.level(), user, blocks);
+        List<BlockPos> areaBlocks = getTargeting().getBlocksInArea(caster, user, blocks);
 
         for(BlockPos pos: areaBlocks)
         {

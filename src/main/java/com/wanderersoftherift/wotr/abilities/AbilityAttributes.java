@@ -27,6 +27,7 @@ public class AbilityAttributes {
     public static final DeferredHolder<Attribute, RangedAttribute> MAX_MANA = REGISTRY.register("max_mana", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".max_mana", 100, 0, 100));
     public static final DeferredHolder<Attribute, RangedAttribute> HEAL_POWER = REGISTRY.register("heal_power", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".heal_amount", 3, 0, Integer.MAX_VALUE));
     public static final DeferredHolder<Attribute, RangedAttribute> COOLDOWN = REGISTRY.register("cooldown", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".cooldown", 1, 0, Integer.MAX_VALUE));
+    public static final DeferredHolder<Attribute, RangedAttribute> AOE_SIZE = REGISTRY.register("aoe_size", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".aoe_size", 1, 0, Integer.MAX_VALUE));
 
     //TODO these can be stages from the level up system to apply different rates or multipliers to the different skills
 //    public static final AttributeModifier HEAL_MODIFIER = new AttributeModifier(WanderersOfTheRift.id("increase_max_heal"), 2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);

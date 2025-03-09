@@ -70,6 +70,10 @@ public class CommonModEvents {
         if(!event.has(EntityType.PLAYER, AbilityAttributes.COOLDOWN)) {
             event.add(EntityType.PLAYER, AbilityAttributes.COOLDOWN);
         }
+
+        if (!event.has(EntityType.PLAYER, AbilityAttributes.AOE_SIZE)) {
+            event.add(EntityType.PLAYER, AbilityAttributes.AOE_SIZE);
+        }
     }
 
 

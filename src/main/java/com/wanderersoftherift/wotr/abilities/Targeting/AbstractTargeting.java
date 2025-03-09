@@ -6,7 +6,6 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public abstract class AbstractTargeting {
     public List<Entity> getTargets(Entity currentEntity, List<BlockPos> blocks, Player caster) {
         List<Entity> targets = new ArrayList<>();
         if(currentEntity != null) {
-            targets.addAll(getTargetsFromEntity(currentEntity));
+            targets.addAll(getTargetsFromEntity(currentEntity, caster));
         }
         else {
             targets.addAll(getTargetsFromBlocks(blocks, caster));
@@ -34,7 +33,7 @@ public abstract class AbstractTargeting {
         return targets;
     }
 
-    public List<Entity> getTargetsFromEntity(Entity entity) {
+    public List<Entity> getTargetsFromEntity(Entity entity, Player caster) {
         return new ArrayList<>();
     }
 
@@ -46,7 +45,7 @@ public abstract class AbstractTargeting {
         return new ArrayList<>();
     }
 
-    public List<BlockPos> getBlocksInArea(Level level, Entity entity, List<BlockPos> targetPos) {
+    public List<BlockPos> getBlocksInArea(Player caster, Entity entity, List<BlockPos> targetPos) {
         return new ArrayList<>();
     }
 }
