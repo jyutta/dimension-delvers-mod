@@ -19,7 +19,7 @@ public class MixinAccessibilityOptionsScreen extends Screen {
     private void addAccessibilityButton(CallbackInfo ci) {
         AccessibilityOptionsScreen screen = ((AccessibilityOptionsScreen) (Object) this);
         Button accessibilityButton = Button
-                .builder(Component.translatable("accessibility.dimensiondelvers.menubutton"), (button) -> {
+                .builder(Component.translatable("accessibility.wotr.menubutton"), (button) -> {
                     if(this.minecraft != null) {
                         this.minecraft.setScreen(new com.wanderersoftherift.wotr.gui.screen.AccessibilityOptionsScreen(screen));
                     }

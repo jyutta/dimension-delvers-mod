@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class RuneAnvilBlock extends Block {
     public static final MapCodec<RuneAnvilBlock> CODEC = simpleCodec(RuneAnvilBlock::new);
-    private static final Component CONTAINER_TITLE = Component.translatable("container.dimensiondelvers.rune_anvil");
+    private static final Component CONTAINER_TITLE = Component.translatable("container.wotr.rune_anvil");
 
     public @NotNull MapCodec<RuneAnvilBlock> codec() {
         return CODEC;

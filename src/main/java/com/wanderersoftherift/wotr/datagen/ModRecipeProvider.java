@@ -10,7 +10,7 @@ import net.minecraft.world.item.Item;
 
 import java.util.concurrent.CompletableFuture;
 
-/* Handles Data Generation for Recipes of the DimensionDelvers mod */
+/* Handles Data Generation for Recipes of the Wotr mod */
 public class ModRecipeProvider extends RecipeProvider {
 
     // Construct the provider to run

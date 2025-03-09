@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class AccessibilityOptionsScreen extends Screen {
-    private static final Component TITLE = Component.translatable("accessibility.dimensiondelvers.screen.title");
+    private static final Component TITLE = Component.translatable("accessibility.wotr.screen.title");
     private final LogoRenderer logoRenderer;
     private FocusableTextWidget textWidget;
     private final HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this, 90, 33);
@@ -47,44 +47,44 @@ public class AccessibilityOptionsScreen extends Screen {
 
 
         gridLayout$rowHelper.addChild(this.createConfigButton(
-                Component.translatable("accessibility.dimensiondelvers.screen.trypophobia"),
-                Component.translatable("accessibility.dimensiondelvers.screen.tooltip.trypophobia"),
+                Component.translatable("accessibility.wotr.screen.trypophobia"),
+                Component.translatable("accessibility.wotr.screen.tooltip.trypophobia"),
                 ClientConfig.ACCESSIBILITY_TRYPOPHOBIA
         ));
 
         gridLayout$rowHelper.addChild(this.createConfigButton(
-                Component.translatable("accessibility.dimensiondelvers.screen.arachnophobia"),
-                Component.translatable("accessibility.dimensiondelvers.screen.tooltip.arachnophobia"),
+                Component.translatable("accessibility.wotr.screen.arachnophobia"),
+                Component.translatable("accessibility.wotr.screen.tooltip.arachnophobia"),
                 ClientConfig.ACCESSIBILITY_ARACHNOPHOBIA
         ));
 
         gridLayout$rowHelper.addChild(this.createConfigButton(
-                Component.translatable("accessibility.dimensiondelvers.screen.flashing_lights"),
-                Component.translatable("accessibility.dimensiondelvers.screen.tooltip.flashing_lights"),
+                Component.translatable("accessibility.wotr.screen.flashing_lights"),
+                Component.translatable("accessibility.wotr.screen.tooltip.flashing_lights"),
                 ClientConfig.ACCESSIBILITY_FLASHING_LIGHTS
         ));
 
         gridLayout$rowHelper.addChild(this.createConfigButton(
-                Component.translatable("accessibility.dimensiondelvers.screen.misophonia"),
-                Component.translatable("accessibility.dimensiondelvers.screen.tooltip.misophonia"),
+                Component.translatable("accessibility.wotr.screen.misophonia"),
+                Component.translatable("accessibility.wotr.screen.tooltip.misophonia"),
                 ClientConfig.ACCESSIBILITY_MISOPHONIA
         ));
 
         gridLayout$rowHelper.addChild(this.createConfigButton(
-                Component.translatable("accessibility.dimensiondelvers.screen.high_contrast"),
-                Component.translatable("accessibility.dimensiondelvers.screen.tooltip.high_contrast"),
+                Component.translatable("accessibility.wotr.screen.high_contrast"),
+                Component.translatable("accessibility.wotr.screen.tooltip.high_contrast"),
                 ClientConfig.ACCESSIBILITY_HIGH_CONTRAST
         ));
 
         gridLayout$rowHelper.addChild(this.createConfigButton(
-                Component.translatable("accessibility.dimensiondelvers.screen.hard_of_hearing"),
-                Component.translatable("accessibility.dimensiondelvers.screen.tooltip.hard_of_hearing"),
+                Component.translatable("accessibility.wotr.screen.hard_of_hearing"),
+                Component.translatable("accessibility.wotr.screen.tooltip.hard_of_hearing"),
                 ClientConfig.ACCESSIBILITY_HARD_OF_HEARING
         ));
 
         gridLayout$rowHelper.addChild(this.createConfigButton(
-                Component.translatable("accessibility.dimensiondelvers.screen.reduced_motion"),
-                Component.translatable("accessibility.dimensiondelvers.screen.tooltip.reduced_motion"),
+                Component.translatable("accessibility.wotr.screen.reduced_motion"),
+                Component.translatable("accessibility.wotr.screen.tooltip.reduced_motion"),
                 ClientConfig.ACCESSIBILITY_REDUCED_MOTION
         ));
 

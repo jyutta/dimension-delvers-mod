@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-/* Handles Data Generation for I18n of the locale 'en_us' of the DimensionDelvers mod */
+/* Handles Data Generation for I18n of the locale 'en_us' of the Wotr mod */
 public class ModLanguageProvider extends LanguageProvider {
     public ModLanguageProvider(PackOutput output) {
         super(output, WanderersOfTheRift.MODID, "en_us");

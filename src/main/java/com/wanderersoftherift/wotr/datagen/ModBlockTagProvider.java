@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import static net.minecraft.tags.BlockTags.FENCES;
 import static net.minecraft.tags.BlockTags.WALLS;
 
-/* Handles Data Generation for Block Tags of the DimensionDelvers mod */
+/* Handles Data Generation for Block Tags of the Wotr mod */
 public class ModBlockTagProvider extends BlockTagsProvider {
     public ModBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider, WanderersOfTheRift.MODID);

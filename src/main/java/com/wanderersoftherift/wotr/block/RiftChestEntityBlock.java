@@ -31,7 +31,7 @@ public class RiftChestEntityBlock extends BaseEntityBlock {
     public static final MapCodec<RiftChestEntityBlock> CODEC = simpleCodec(RiftChestEntityBlock::new);
     protected static final VoxelShape SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 14.0, 15.0);
 
-    private static final Component CONTAINER_TITLE = Component.translatable("container.dimensiondelvers.rift_chest");
+    private static final Component CONTAINER_TITLE = Component.translatable("container.wotr.rift_chest");
 
     public RiftChestEntityBlock(BlockBehaviour.Properties properties) {
         super(properties);

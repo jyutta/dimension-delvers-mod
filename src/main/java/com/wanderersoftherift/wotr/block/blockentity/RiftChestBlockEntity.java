@@ -39,7 +39,7 @@ public class RiftChestBlockEntity extends BaseContainerBlockEntity implements Li
 
     @Override
     protected @NotNull Component getDefaultName() {
-        return Component.translatable("container.dimensiondelvers.rift_chest");
+        return Component.translatable("container.wotr.rift_chest");
     }
 
     @Override

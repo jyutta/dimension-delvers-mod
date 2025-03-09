@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.concurrent.CompletableFuture;
 
-/* Handles Data Generation for Block Tags of the DimensionDelvers mod */
+/* Handles Data Generation for Block Tags of the Wotr mod */
 public class ModItemTagProvider extends ItemTagsProvider {
     public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                               CompletableFuture<TagLookup<Block>> blockTags) {

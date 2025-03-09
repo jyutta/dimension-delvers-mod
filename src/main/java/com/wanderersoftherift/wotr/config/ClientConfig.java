@@ -16,7 +16,7 @@ public class ClientConfig {
     public static final ModConfigSpec.BooleanValue ACCESSIBILITY_HARD_OF_HEARING; // I am unsure what this should change currently
 
     static {
-        BUILDER.comment(" == DimensionDelvers Client Configs ==");
+        BUILDER.comment(" == Wotr Client Configs ==");
 
         // Pushing Client configs related to accessibility
         BUILDER.push(" == Accessibility == ");

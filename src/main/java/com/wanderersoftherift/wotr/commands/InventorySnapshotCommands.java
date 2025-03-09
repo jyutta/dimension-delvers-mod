@@ -16,7 +16,7 @@ public class InventorySnapshotCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
         dispatcher.register(
-                Commands.literal("dimensiondelvers:createInventorySnapshot").executes(
+                Commands.literal("wotr:createInventorySnapshot").executes(
                     (ctx) -> createInventorySnapshot(ctx.getSource()
                 )
         ));
