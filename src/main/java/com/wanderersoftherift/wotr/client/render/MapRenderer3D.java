@@ -1,20 +1,17 @@
-package com.dimensiondelvers.dimensiondelvers.client.render;
+package com.wanderersoftherift.wotr.client.render;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.client.map.MapCell;
-import com.dimensiondelvers.dimensiondelvers.client.map.VirtualCamera;
+import com.wanderersoftherift.wotr.client.map.MapCell;
+import com.wanderersoftherift.wotr.client.map.VirtualCamera;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.CoreShaders;
 import org.joml.Vector2i;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
-import static com.dimensiondelvers.dimensiondelvers.client.map.MapData.cells;
-import static com.dimensiondelvers.dimensiondelvers.client.map.MapData.rooms;
+import static com.wanderersoftherift.wotr.client.map.MapData.rooms;
 
 public class MapRenderer3D {
     public Vector2i mapPosition = new Vector2i(0, 0);

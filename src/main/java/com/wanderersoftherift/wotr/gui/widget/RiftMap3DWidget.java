@@ -1,31 +1,18 @@
-package com.dimensiondelvers.dimensiondelvers.gui.widget;
+package com.wanderersoftherift.wotr.gui.widget;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.dimensiondelvers.dimensiondelvers.client.render.MapRenderer3D;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.screens.options.VideoSettingsScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec2;
-import net.neoforged.neoforge.common.NeoForgeConfig;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
-import org.joml.Vector2f;
-import org.joml.Vector2i;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 
-import java.net.SocketOptions;
-import java.nio.Buffer;
 import java.nio.DoubleBuffer;
-import java.nio.IntBuffer;
-import java.util.ArrayList;
 
 public class RiftMap3DWidget extends AbstractWidget {
     private static final double MIN_SPEED = 0.5;

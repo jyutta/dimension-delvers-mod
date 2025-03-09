@@ -1,9 +1,8 @@
-package com.dimensiondelvers.dimensiondelvers.client.map;
+package com.wanderersoftherift.wotr.client.map;
 
 import org.joml.Vector3i;
 
 import java.util.HashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This class contains all map data and methods for manipulating it
@@ -30,6 +29,9 @@ public class MapData {
         room.cells.forEach((cell) -> {
             cells.put(new Vector3i(cell.x, cell.y, cell.z), cell);
         });
+        if (room.cells == null) {
+            room.cells = new java.util.ArrayList<>();
+        }
         rooms.put(new Vector3i(room.x, room.y, room.z), room);
     }
 

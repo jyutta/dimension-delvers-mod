@@ -1,6 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.gui.screen;
 
-import com.dimensiondelvers.dimensiondelvers.gui.widget.RiftMap3DWidget;
+import com.wanderersoftherift.wotr.gui.widget.RiftMap3DWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

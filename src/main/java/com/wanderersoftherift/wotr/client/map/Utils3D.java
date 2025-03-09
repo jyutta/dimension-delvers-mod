@@ -1,7 +1,6 @@
-package com.dimensiondelvers.dimensiondelvers.client.map;
+package com.wanderersoftherift.wotr.client.map;
 
 
-import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector4f;

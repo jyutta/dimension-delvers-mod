@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.client.map;
+package com.wanderersoftherift.wotr.client.map;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import org.joml.Vector2i;
@@ -7,8 +7,8 @@ import org.joml.Vector4f;
 
 import java.util.ArrayList;
 
-import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.calculateVertices;
-import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.projectPoint;
+import static com.wanderersoftherift.wotr.client.map.Utils3D.calculateVertices;
+import static com.wanderersoftherift.wotr.client.map.Utils3D.projectPoint;
 
 /**
  * Represents a room on the map
@@ -49,7 +49,7 @@ public class MapRoom {
      * @param buffer
      * @param camera
      */
-    public void renderWireframe(BufferBuilder buffer, com.dimensiondelvers.dimensiondelvers.client.map.VirtualCamera camera, Vector2i mapPosition, Vector2i mapSize) {
+    public void renderWireframe(BufferBuilder buffer, com.wanderersoftherift.wotr.client.map.VirtualCamera camera, Vector2i mapPosition, Vector2i mapSize) {
         Vector3f pos2_sub = new Vector3f(pos2.x - TWEEN_TUNNEL_SIZE, pos2.y - TWEEN_TUNNEL_SIZE, pos2.z - TWEEN_TUNNEL_SIZE);
         float[][] vertices = calculateVertices(pos1, pos2_sub);
 

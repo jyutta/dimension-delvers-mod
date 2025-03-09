@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.commands;
+package com.wanderersoftherift.wotr.commands;
 
 import com.dimensiondelvers.dimensiondelvers.gui.screen.RiftMapScreen;
 import com.mojang.brigadier.CommandDispatcher;

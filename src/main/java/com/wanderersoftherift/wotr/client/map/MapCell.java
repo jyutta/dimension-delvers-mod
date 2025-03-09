@@ -1,14 +1,13 @@
-package com.dimensiondelvers.dimensiondelvers.client.map;
+package com.wanderersoftherift.wotr.client.map;
 
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import org.joml.Vector2i;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.calculateVertices;
-import static com.dimensiondelvers.dimensiondelvers.client.map.Utils3D.projectPoint;
+import static com.wanderersoftherift.wotr.client.map.Utils3D.calculateVertices;
+import static com.wanderersoftherift.wotr.client.map.Utils3D.projectPoint;
 
 /**
  * Represents a single cell in the map
@@ -50,7 +49,7 @@ public class MapCell {
      * @param buffer
      * @param camera
      */
-    public void renderWireframe(BufferBuilder buffer, com.dimensiondelvers.dimensiondelvers.client.map.VirtualCamera camera, Vector2i mapPosition, Vector2i mapSize) {
+    public void renderWireframe(BufferBuilder buffer, com.wanderersoftherift.wotr.client.map.VirtualCamera camera, Vector2i mapPosition, Vector2i mapSize) {
         float[][] vertices = calculateVertices(pos1, pos2);
 
         int[][] edges = {
