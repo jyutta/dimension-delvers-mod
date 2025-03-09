@@ -5,7 +5,7 @@ import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
-import com.wanderersoftherift.wotr.init.ModAbilities;
+import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -76,7 +76,7 @@ public abstract class AbstractAbility {
 
     public boolean IsOnCooldown(Player player) {
         //If we registered this ability as one that has a cooldown and the player has a cooldown active for this ability.
-        return player.getData(ModAbilities.COOL_DOWNS).isOnCooldown(this.getName());
+        return player.getData(ModAttachments.COOL_DOWNS).isOnCooldown(this.getName());
 //        return ModAbilities.COOL_DOWN_ATTACHMENTS.containsKey(this.getName()) && p.getData(ModAbilities.COOL_DOWN_ATTACHMENTS.get(this.getName())) > 0;
     }
 
@@ -87,9 +87,9 @@ public abstract class AbstractAbility {
         if(this.hasCooldown())
         {
             WanderersOfTheRift.LOGGER.info("Setting cooldown for: " + this.getName() + " length: " + cooldown);
-            PlayerCooldownData cooldowns = player.getData(ModAbilities.COOL_DOWNS);
+            PlayerCooldownData cooldowns = player.getData(ModAttachments.COOL_DOWNS);
             cooldowns.setCooldown(this.getName(), (int) cooldown);
-            player.setData(ModAbilities.COOL_DOWNS, cooldowns);
+            player.setData(ModAttachments.COOL_DOWNS, cooldowns);
         }
          //TODO maybe make helper to calculate time based on ticks for find a different method (maybe include in the attribute???)
         PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(this.getName().toString(),(int) cooldown ));
@@ -97,7 +97,7 @@ public abstract class AbstractAbility {
     public boolean hasCooldown() { return getBaseCooldown() > 0; }
 
     public int getActiveCooldown(Player player) {
-        return player.getData(ModAbilities.COOL_DOWNS).getCooldown(this.getName());
+        return player.getData(ModAttachments.COOL_DOWNS).getCooldown(this.getName());
     }
 
     public float getBaseCooldown() {
@@ -109,7 +109,7 @@ public abstract class AbstractAbility {
         */
     public boolean hasDuration() {return durationAttribute != null;}
     public boolean isActive(Player player) {
-        return player.getData(ModAbilities.DURATIONS).isDurationRunning(this.getName());
+        return player.getData(ModAttachments.DURATIONS).isDurationRunning(this.getName());
     }
 
     public void setDuration(Player player, Holder<Attribute> attribute) {
@@ -117,9 +117,9 @@ public abstract class AbstractAbility {
         if(this.hasDuration())
         {
             WanderersOfTheRift.LOGGER.info("Setting duration for: " + this.getName());
-            PlayerDurationData durations = player.getData(ModAbilities.DURATIONS);
+            PlayerDurationData durations = player.getData(ModAttachments.DURATIONS);
             durations.beginDuration(this.getName(), (int)player.getAttributeValue(attribute) * 20);
-            player.setData(ModAbilities.DURATIONS, durations);
+            player.setData(ModAttachments.DURATIONS, durations);
         }
     }
 

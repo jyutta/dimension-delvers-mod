@@ -20,7 +20,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.Optional;
 
 import static com.wanderersoftherift.wotr.client.ModClientEvents.*;
-import static com.wanderersoftherift.wotr.init.ModAbilities.COOL_DOWNS;
+import static com.wanderersoftherift.wotr.init.ModAttachments.COOL_DOWNS;
 import static net.minecraft.client.renderer.RenderType.GUI_TEXTURED_OVERLAY;
 
 @EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)

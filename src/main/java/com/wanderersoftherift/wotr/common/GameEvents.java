@@ -4,7 +4,7 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
-import com.wanderersoftherift.wotr.init.ModAbilities;
+import com.wanderersoftherift.wotr.init.ModAttachments;
 import net.minecraft.core.Registry;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -28,12 +28,12 @@ public class GameEvents {
     {
         Player p = event.getEntity();
 
-        PlayerCooldownData cooldowns = p.getData(ModAbilities.COOL_DOWNS);
+        PlayerCooldownData cooldowns = p.getData(ModAttachments.COOL_DOWNS);
         cooldowns.reduceCooldowns();
-        p.setData(ModAbilities.COOL_DOWNS, cooldowns);
+        p.setData(ModAttachments.COOL_DOWNS, cooldowns);
 
         //TODO replace this with similar situation to above
-        PlayerDurationData durations = p.getData(ModAbilities.DURATIONS);
+        PlayerDurationData durations = p.getData(ModAttachments.DURATIONS);
         Optional<Registry<AbstractAbility>> abilities = p.level().registryAccess().lookup(DATA_PACK_ABILITY_REG_KEY);
         if(abilities.isPresent())
         {
