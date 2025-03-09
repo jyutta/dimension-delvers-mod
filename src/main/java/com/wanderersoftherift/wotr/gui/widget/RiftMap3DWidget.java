@@ -1,6 +1,6 @@
 package com.wanderersoftherift.wotr.gui.widget;
 
-import com.dimensiondelvers.dimensiondelvers.client.render.MapRenderer3D;
+import com.wanderersoftherift.wotr.client.render.MapRenderer3D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
