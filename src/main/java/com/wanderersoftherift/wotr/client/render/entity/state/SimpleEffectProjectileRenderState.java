@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.client.render.entity.state;
+package com.wanderersoftherift.wotr.client.render.entity.state;
 
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.ResourceLocation;

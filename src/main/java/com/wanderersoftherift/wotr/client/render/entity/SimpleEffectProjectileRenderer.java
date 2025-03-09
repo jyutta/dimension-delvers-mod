@@ -1,8 +1,8 @@
-package com.dimensiondelvers.dimensiondelvers.client.render.entity;
+package com.wanderersoftherift.wotr.client.render.entity;
 
-import com.dimensiondelvers.dimensiondelvers.client.model.SimpleEffectProjectileModel;
-import com.dimensiondelvers.dimensiondelvers.client.render.entity.state.SimpleEffectProjectileRenderState;
-import com.dimensiondelvers.dimensiondelvers.entity.projectile.SimpleEffectProjectile;
+import com.wanderersoftherift.wotr.client.model.SimpleEffectProjectileModel;
+import com.wanderersoftherift.wotr.client.render.entity.state.SimpleEffectProjectileRenderState;
+import com.wanderersoftherift.wotr.entity.projectile.SimpleEffectProjectile;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;

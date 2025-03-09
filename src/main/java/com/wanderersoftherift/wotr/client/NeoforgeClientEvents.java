@@ -1,13 +1,13 @@
-package com.dimensiondelvers.dimensiondelvers.client;
+package com.wanderersoftherift.wotr.client;
 
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.Registries.AbilityRegistry;
-import com.dimensiondelvers.dimensiondelvers.abilities.AbilityAttributeHelper;
-import com.dimensiondelvers.dimensiondelvers.abilities.AbilityAttributes;
-import com.dimensiondelvers.dimensiondelvers.abilities.AbstractAbility;
-import com.dimensiondelvers.dimensiondelvers.abilities.Serializable.PlayerCooldownData;
-import com.dimensiondelvers.dimensiondelvers.networking.data.UseAbility;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
+import com.wanderersoftherift.wotr.abilities.AbilityAttributeHelper;
+import com.wanderersoftherift.wotr.abilities.AbilityAttributes;
+import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
+import com.wanderersoftherift.wotr.networking.data.UseAbility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.neoforged.api.distmarker.Dist;
@@ -19,11 +19,11 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Optional;
 
-import static com.dimensiondelvers.dimensiondelvers.client.ModClientEvents.*;
-import static com.dimensiondelvers.dimensiondelvers.init.ModAbilities.COOL_DOWNS;
+import static com.wanderersoftherift.wotr.client.ModClientEvents.*;
+import static com.wanderersoftherift.wotr.init.ModAbilities.COOL_DOWNS;
 import static net.minecraft.client.renderer.RenderType.GUI_TEXTURED_OVERLAY;
 
-@EventBusSubscriber(modid = DimensionDelvers.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public class NeoforgeClientEvents {
 
     //NOTE: Placeholder to activating abilities, we would want a better way handling the control scheme in the future
@@ -32,15 +32,15 @@ public class NeoforgeClientEvents {
         //TODO Better handling of this for better control scheme based on weapons etc.
         //Also look into not allowing hold down in the future
         while (ABILITY_1_KEY.consumeClick()) {
-            PacketDistributor.sendToServer(new UseAbility(DimensionDelvers.id("fireball").toString()));
+            PacketDistributor.sendToServer(new UseAbility(WanderersOfTheRift.id("fireball").toString()));
         }
 
         while (ABILITY_2_KEY.consumeClick()) {
-            PacketDistributor.sendToServer(new UseAbility(DimensionDelvers.id("test_ability").toString()));
+            PacketDistributor.sendToServer(new UseAbility(WanderersOfTheRift.id("test_ability").toString()));
         }
 
         while (ABILITY_3_KEY.consumeClick()) {
-            PacketDistributor.sendToServer(new UseAbility(DimensionDelvers.id("summon_skeletons").toString()));
+            PacketDistributor.sendToServer(new UseAbility(WanderersOfTheRift.id("summon_skeletons").toString()));
         }
 
 //        while (ARMOR_STAND_KEY.consumeClick()) {
@@ -56,7 +56,7 @@ public class NeoforgeClientEvents {
 //        }
 
 //        while (SMOL_KEY.consumeClick()) {
-//            PacketDistributor.sendToServer(new UseAbility(DimensionDelvers.id("be_smol").toString()));
+//            PacketDistributor.sendToServer(new UseAbility(WanderersOfTheRift.id("be_smol").toString()));
 //        }
     }
 

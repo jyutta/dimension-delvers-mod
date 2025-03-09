@@ -1,7 +1,7 @@
-package com.dimensiondelvers.dimensiondelvers.client;
+package com.wanderersoftherift.wotr.client;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.client.gui.screen.AbilityScreen;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.client.gui.screen.AbilityScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -13,28 +13,28 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.lwjgl.glfw.GLFW;
 
-import static com.dimensiondelvers.dimensiondelvers.init.ModMenuTypes.TEST_MENU;
+import static com.wanderersoftherift.wotr.init.ModMenuTypes.TEST_MENU;
 
-@EventBusSubscriber(modid = DimensionDelvers.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModClientEvents {
 
     //TODO: Replace these with finalized skill keybindings
     public static final KeyMapping ABILITY_1_KEY = new KeyMapping(
-            "key." + DimensionDelvers.id("ability1"), // Will be localized using this translation key //arrow
+            "key." + WanderersOfTheRift.id("ability1"), // Will be localized using this translation key //arrow
             InputConstants.Type.KEYSYM, // Default mapping is on the keyboard
             GLFW.GLFW_KEY_O, // Default key is P
             "key.categories.misc" // Mapping will be in the misc category
     );
 
     public static final KeyMapping ABILITY_2_KEY = new KeyMapping(
-            "key." + DimensionDelvers.id("ability2"), // Will be localized using this translation key //heal
+            "key." + WanderersOfTheRift.id("ability2"), // Will be localized using this translation key //heal
             InputConstants.Type.KEYSYM, // Default mapping is on the keyboard
             GLFW.GLFW_KEY_U, // Default key is P
             "key.categories.misc" // Mapping will be in the misc category
     );
 
     public static final KeyMapping ABILITY_3_KEY = new KeyMapping(
-            "key." + DimensionDelvers.id("ability3"), // Will be localized using this translation key //boost
+            "key." + WanderersOfTheRift.id("ability3"), // Will be localized using this translation key //boost
             InputConstants.Type.KEYSYM, // Default mapping is on the keyboard
             GLFW.GLFW_KEY_I, // Default key is P
             "key.categories.misc" // Mapping will be in the misc category
@@ -42,28 +42,28 @@ public class ModClientEvents {
 
 
 //    public static final KeyMapping ARMOR_STAND_KEY = new KeyMapping(
-//            "key." + DimensionDelvers.id("armor_stand"), // Will be localized using this translation key
+//            "key." + WanderersOfTheRift.id("armor_stand"), // Will be localized using this translation key
 //            InputConstants.Type.KEYSYM, // Default mapping is on the keyboard
 //            GLFW.GLFW_KEY_Y, // Default key is P
 //            "key.categories.misc" // Mapping will be in the misc category
 //    );
 
 //    public static final KeyMapping OPEN_UPGRADE_MENU_KEY = new KeyMapping(
-//            "key." + DimensionDelvers.id("unlock_all"), // Will be localized using this translation key
+//            "key." + WanderersOfTheRift.id("unlock_all"), // Will be localized using this translation key
 //            InputConstants.Type.KEYSYM, // Default mapping is on the keyboard
 //            GLFW.GLFW_KEY_J, // Default key is P
 //            "key.categories.misc" // Mapping will be in the misc category
 //    );
 //
 //    public static final KeyMapping PRETTY_KEY = new KeyMapping(
-//            "key." + DimensionDelvers.id("be_pretty"), // Will be localized using this translation key
+//            "key." + WanderersOfTheRift.id("be_pretty"), // Will be localized using this translation key
 //            InputConstants.Type.KEYSYM, // Default mapping is on the keyboard
 //            GLFW.GLFW_KEY_H, // Default key is P
 //            "key.categories.misc" // Mapping will be in the misc category
 //    );
 //
 //    public static final KeyMapping SMOL_KEY = new KeyMapping(
-//            "key." + DimensionDelvers.id("be_smol"), // Will be localized using this translation key
+//            "key." + WanderersOfTheRift.id("be_smol"), // Will be localized using this translation key
 //            InputConstants.Type.KEYSYM, // Default mapping is on the keyboard
 //            GLFW.GLFW_KEY_L, // Default key is P
 //            "key.categories.misc" // Mapping will be in the misc category
@@ -72,8 +72,8 @@ public class ModClientEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         // Some client setup code
-        DimensionDelvers.LOGGER.info("HELLO FROM CLIENT SETUP");
-        DimensionDelvers.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        WanderersOfTheRift.LOGGER.info("HELLO FROM CLIENT SETUP");
+        WanderersOfTheRift.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
     }
 

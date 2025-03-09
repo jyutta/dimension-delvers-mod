@@ -1,17 +1,16 @@
-package com.dimensiondelvers.dimensiondelvers.init;
+package com.wanderersoftherift.wotr.init;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.abilities.Serializable.PlayerCooldownData;
-import com.dimensiondelvers.dimensiondelvers.abilities.Serializable.PlayerDurationData;
-import net.neoforged.fml.common.EventBusSubscriber;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
+import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.*;
 
-//@EventBusSubscriber(modid = DimensionDelvers.MODID, bus = EventBusSubscriber.Bus.MOD)
+//@EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModAbilities {
 
     //TODO constants or rarely updated values should be attributes. Such as: Max Mana, CDR, Crit Chance ETC, modifiers can be applied when learning new abilities to scale these factors.
-    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, DimensionDelvers.MODID);
+    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, WanderersOfTheRift.MODID);
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerCooldownData>> COOL_DOWNS = ATTACHMENT_TYPES.register(
             "cooldowns", () -> AttachmentType.serializable(PlayerCooldownData::new).build()
     );
@@ -29,7 +28,7 @@ public class ModAbilities {
 //        TOGGLE_ABILITIES = ABILITY_REGISTRY_DEF.getRegistry().get().stream().filter(AbstractAbility::IsToggle).collect(Collectors.toList());
 //        for(AbstractAbility abstractAbility: TOGGLE_ABILITIES)
 //        {
-//            DimensionDelvers.LOGGER.info("Adding Toggle for: " + abstractAbility.getName());
+//            WanderersOfTheRift.LOGGER.info("Adding Toggle for: " + abstractAbility.getName());
 //            AttachmentType<Boolean> attachmentType = AttachmentType.builder(() -> false).serialize(Codec.BOOL).build();
 //
 //            ResourceLocation abilityToggleLoc = ResourceLocation.fromNamespaceAndPath(abstractAbility.getName().getNamespace(), "toggles/" + abstractAbility.getName().getPath());
@@ -42,7 +41,7 @@ public class ModAbilities {
     {
 //        for(AbstractAbility abstractAbility: ABILITY_REGISTRY.stream().toList())
 //        {
-//            DimensionDelvers.LOGGER.info("Adding Unlock for: " + abstractAbility.getName());
+//            WanderersOfTheRift.LOGGER.info("Adding Unlock for: " + abstractAbility.getName());
 //            AttachmentType<Boolean> attachmentType = AttachmentType.builder(() -> false).serialize(Codec.BOOL).build();
 //
 //            ResourceLocation abilityUnlockLoc = ResourceLocation.fromNamespaceAndPath(abstractAbility.getName().getNamespace(), "unlocks/" + abstractAbility.getName().getPath());

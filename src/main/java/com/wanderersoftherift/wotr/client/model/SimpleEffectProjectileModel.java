@@ -1,6 +1,6 @@
-package com.dimensiondelvers.dimensiondelvers.client.model;
+package com.wanderersoftherift.wotr.client.model;
 
-import com.dimensiondelvers.dimensiondelvers.client.render.entity.state.SimpleEffectProjectileRenderState;
+import com.wanderersoftherift.wotr.client.render.entity.state.SimpleEffectProjectileRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;

@@ -1,0 +1,63 @@
+{
+  "type": "wotr:standard_ability",
+  "ability_name": "wotr:fireball_ability",
+  "cooldown": 1,
+  "effects": [
+    {
+      "type": "wotr:simple_projectile_effect",
+      "targeting": {
+        "type": "wotr:raycast_targeting",
+        "range": 200
+      },
+      "velocity": [
+        0,
+        1,
+        0
+      ],
+      "texture": "minecraft:items/fire_charge",
+      "effects": [
+        {
+          "type": "wotr:target_effect",
+          "targeting": {
+            "type": "wotr:area_targeting",
+            "range": 12
+          },
+          "effects": [
+            {
+              "type": "wotr:damage_effect",
+              "targeting": {
+                "type": "wotr:self_targeting"
+              },
+              "amount": 10,
+              "damage_type": "wotr:fire",
+              "effects": [
+              ],
+              "particles": {
+                "user": "minecraft:bubble",
+                "target": "minecraft:explosion"
+              }
+            }
+          ],
+          "particles": {
+            "user": "minecraft:bubble",
+            "target": "minecraft:explosion"
+          }
+        },
+        {
+          "type": "wotr:damage_effect",
+          "targeting": {
+            "type": "wotr:self_targeting"
+          },
+          "amount": 10,
+          "damage_type": "wotr:fire",
+          "effects": [
+          ],
+          "particles": {
+            "user": "minecraft:bubble",
+            "target": "minecraft:explosion"
+          }
+        }
+      ]
+    }
+  ]
+}

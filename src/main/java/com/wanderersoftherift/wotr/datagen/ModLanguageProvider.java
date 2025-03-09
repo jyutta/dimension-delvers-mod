@@ -47,6 +47,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("container." + WanderersOfTheRift.MODID + ".rune_anvil", "Rune Anvil");
         add("container." + WanderersOfTheRift.MODID + ".rift_chest", "Rift Chest");
 
+        add("ability." + WanderersOfTheRift.MODID + ".cannot_unlock", "You must unlock the following to get this boost: ");
+
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.title", "Dimension Delvers: Accessibility Settings");
         add("accessibility." + WanderersOfTheRift.MODID + ".menubutton", "DimDelvers Accessibility (tmp)");
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.trypophobia", "Trypophobia");

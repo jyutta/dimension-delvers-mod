@@ -1,25 +1,20 @@
-package com.dimensiondelvers.dimensiondelvers.init;
+package com.wanderersoftherift.wotr.init;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.Registries.UpgradeRegistry;
-import com.dimensiondelvers.dimensiondelvers.upgrades.AbstractUpgrade;
-import com.dimensiondelvers.dimensiondelvers.upgrades.ReduceBoostCoolDownUpgrade;
-import com.dimensiondelvers.dimensiondelvers.upgrades.UnlockAbilityUpgrade;
-import com.dimensiondelvers.dimensiondelvers.upgrades.UnlockAllAbilitiesUpgrade;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.Registries.UpgradeRegistry;
+import com.wanderersoftherift.wotr.upgrades.AbstractUpgrade;
 import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.attachment.AttachmentType;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.HashMap;
 
 
-@EventBusSubscriber(modid = DimensionDelvers.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModUpgrades {
 
 
@@ -71,7 +66,7 @@ public class ModUpgrades {
 
         event.register(NeoForgeRegistries.ATTACHMENT_TYPES.key(), registry -> {
 
-            DimensionDelvers.LOGGER.info("Registering Ability Stuff");
+            WanderersOfTheRift.LOGGER.info("Registering Ability Stuff");
             registerUpgradeUnlocks(registry);
 
         });
@@ -85,7 +80,7 @@ public class ModUpgrades {
     {
         for(AbstractUpgrade upgrade: UpgradeRegistry.UPGRADE_REGISTRY.stream().toList())
         {
-            DimensionDelvers.LOGGER.info("Adding Unlock for: " + upgrade.GetName());
+            WanderersOfTheRift.LOGGER.info("Adding Unlock for: " + upgrade.GetName());
             AttachmentType<Boolean> attachmentType = AttachmentType.builder(() -> false).serialize(Codec.BOOL).build();
 
             ResourceLocation abilityUnlockLoc = ResourceLocation.fromNamespaceAndPath(upgrade.GetName().getNamespace(), "unlocks/" + upgrade.GetName().getPath());

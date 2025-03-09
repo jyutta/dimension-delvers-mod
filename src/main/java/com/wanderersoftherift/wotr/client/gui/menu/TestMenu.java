@@ -1,6 +1,6 @@
-package com.dimensiondelvers.dimensiondelvers.client.gui.menu;
+package com.wanderersoftherift.wotr.client.gui.menu;
 
-import com.dimensiondelvers.dimensiondelvers.init.ModMenuTypes;
+import com.wanderersoftherift.wotr.init.ModMenuTypes;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;

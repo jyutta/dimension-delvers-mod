@@ -1,9 +1,9 @@
-package com.dimensiondelvers.dimensiondelvers.client.gui.screen;
+package com.wanderersoftherift.wotr.client.gui.screen;
 
-import com.dimensiondelvers.dimensiondelvers.Registries.UpgradeRegistry;
-import com.dimensiondelvers.dimensiondelvers.client.gui.menu.TestMenu;
-import com.dimensiondelvers.dimensiondelvers.networking.data.ClaimUpgrade;
-import com.dimensiondelvers.dimensiondelvers.upgrades.AbstractUpgrade;
+import com.wanderersoftherift.wotr.Registries.UpgradeRegistry;
+import com.wanderersoftherift.wotr.client.gui.menu.TestMenu;
+import com.wanderersoftherift.wotr.networking.data.ClaimUpgrade;
+import com.wanderersoftherift.wotr.upgrades.AbstractUpgrade;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
