@@ -20,9 +20,6 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Compute Short Commit Hash
-      id: vars
-      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
