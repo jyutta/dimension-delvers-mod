@@ -1,36 +1,35 @@
 {
   "type": "dimensiondelvers:standard_ability",
   "ability_name": "dimensiondelvers:summon_skeletons",
-  "cooldown": 100,
-  "effects":
-  [
+  "cooldown": 1,
+  "effects": [
     {
       "type": "dimensiondelvers:target_effect",
       "targeting": {
         "type": "dimensiondelvers:raycast_targeting",
         "range": 200
       },
-      "effects":
-      [
+      "effects": [
         {
           "type": "dimensiondelvers:summon_effect",
           "targeting": {
             "type": "dimensiondelvers:area_targeting",
             "range": 25
           },
-          "entity_type":"minecraft:skeleton",
+          "entity_type": "minecraft:skeleton",
           "amount": 3,
-          "effects":
-          [
+          "effects": [
             {
               "type": "dimensiondelvers:movement_effect",
               "targeting": {
                 "type": "dimensiondelvers:self_targeting"
               },
-              "velocity": [0,1,0],
-              "effects":
-              [
-
+              "velocity": [
+                0,
+                1,
+                0
+              ],
+              "effects": [
               ]
             }
           ],
@@ -41,6 +40,5 @@
         }
       ]
     }
-
   ]
 }

@@ -1,0 +1,63 @@
+{
+  "type": "dimensiondelvers:standard_ability",
+  "ability_name": "dimensiondelvers:fireball_ability",
+  "cooldown": 1,
+  "effects": [
+    {
+      "type": "dimensiondelvers:simple_projectile_effect",
+      "targeting": {
+        "type": "dimensiondelvers:raycast_targeting",
+        "range": 200
+      },
+      "velocity": [
+        0,
+        1,
+        0
+      ],
+      "texture": "minecraft:items/fire_charge",
+      "effects": [
+        {
+          "type": "dimensiondelvers:target_effect",
+          "targeting": {
+            "type": "dimensiondelvers:area_targeting",
+            "range": 12
+          },
+          "effects": [
+            {
+              "type": "dimensiondelvers:damage_effect",
+              "targeting": {
+                "type": "dimensiondelvers:self_targeting"
+              },
+              "amount": 10,
+              "damage_type": "dimensiondelvers:fire",
+              "effects": [
+              ],
+              "particles": {
+                "user": "minecraft:bubble",
+                "target": "minecraft:explosion"
+              }
+            }
+          ],
+          "particles": {
+            "user": "minecraft:bubble",
+            "target": "minecraft:explosion"
+          }
+        },
+        {
+          "type": "dimensiondelvers:damage_effect",
+          "targeting": {
+            "type": "dimensiondelvers:self_targeting"
+          },
+          "amount": 10,
+          "damage_type": "dimensiondelvers:fire",
+          "effects": [
+          ],
+          "particles": {
+            "user": "minecraft:bubble",
+            "target": "minecraft:explosion"
+          }
+        }
+      ]
+    }
+  ]
+}

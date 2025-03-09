@@ -9,7 +9,6 @@ import com.dimensiondelvers.dimensiondelvers.abilities.AbstractAbility;
 import com.dimensiondelvers.dimensiondelvers.abilities.Serializable.PlayerCooldownData;
 import com.dimensiondelvers.dimensiondelvers.networking.data.UseAbility;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,7 +20,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.Optional;
 
 import static com.dimensiondelvers.dimensiondelvers.client.ModClientEvents.*;
-import static com.dimensiondelvers.dimensiondelvers.init.ModAbilities.*;
+import static com.dimensiondelvers.dimensiondelvers.init.ModAbilities.COOL_DOWNS;
 import static net.minecraft.client.renderer.RenderType.GUI_TEXTURED_OVERLAY;
 
 @EventBusSubscriber(modid = DimensionDelvers.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
@@ -33,7 +32,7 @@ public class NeoforgeClientEvents {
         //TODO Better handling of this for better control scheme based on weapons etc.
         //Also look into not allowing hold down in the future
         while (ABILITY_1_KEY.consumeClick()) {
-            PacketDistributor.sendToServer(new UseAbility(DimensionDelvers.id("mega_boost").toString()));
+            PacketDistributor.sendToServer(new UseAbility(DimensionDelvers.id("fireball").toString()));
         }
 
         while (ABILITY_2_KEY.consumeClick()) {
