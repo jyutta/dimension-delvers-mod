@@ -2,7 +2,7 @@ package com.dimensiondelvers.dimensiondelvers.abilities.effects;
 
 import com.dimensiondelvers.dimensiondelvers.abilities.AbilityAttributeHelper;
 import com.dimensiondelvers.dimensiondelvers.abilities.AbilityAttributes;
-import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.AbstractTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -24,7 +24,7 @@ public class HealEffect extends AbstractEffect {
     //TODO setup healing amount as part of the codec
     public static final MapCodec<HealEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                    EffectTargeting.CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
+                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
                     Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
                     Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
                     Codec.FLOAT.fieldOf("amount").forGetter(HealEffect::getAmount)
@@ -40,7 +40,7 @@ public class HealEffect extends AbstractEffect {
         return CODEC;
     }
 
-    public HealEffect(EffectTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, float amount) {
+    public HealEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, float amount) {
         super(targeting, effects, particles);
         this.healAmount = amount;
     }

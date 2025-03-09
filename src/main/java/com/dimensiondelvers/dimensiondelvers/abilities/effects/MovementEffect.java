@@ -1,6 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.abilities.effects;
 
-import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.AbstractTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -19,14 +19,14 @@ import java.util.Optional;
 
 public class MovementEffect extends AbstractEffect {
     private Vec3 velocity;
-    public MovementEffect(EffectTargeting targeting, List<AbstractEffect> effects, Vec3 velocity, Optional<ParticleInfo> particles) {
+    public MovementEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Vec3 velocity, Optional<ParticleInfo> particles) {
         super(targeting, effects, particles);
         this.velocity = velocity;
     }
 
     public static final MapCodec<MovementEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                    EffectTargeting.CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
+                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
                     Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
                     Vec3.CODEC.fieldOf("velocity").forGetter(MovementEffect::getVelocity),
                     Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles)

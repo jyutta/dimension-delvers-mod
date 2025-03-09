@@ -1,6 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.abilities.effects;
 
-import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.AbstractTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -17,14 +17,14 @@ import java.util.Optional;
 public class ApplyStatusEffect extends AbstractEffect{
 
     MobEffectInstance statusEffect;
-    public ApplyStatusEffect(EffectTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, MobEffectInstance status) {
+    public ApplyStatusEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, MobEffectInstance status) {
         super(targeting, effects, particles);
         this.statusEffect = status;
     }
 
     public static final MapCodec<ApplyStatusEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                    EffectTargeting.CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
+                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
                     Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
                     Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
                     MobEffectInstance.CODEC.fieldOf("status_effect").forGetter(ApplyStatusEffect::getStatusEffect)

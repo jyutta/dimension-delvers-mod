@@ -1,7 +1,7 @@
 package com.dimensiondelvers.dimensiondelvers.abilities.effects;
 
 import com.dimensiondelvers.dimensiondelvers.abilities.AbilityAttributeHelper;
-import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.AbstractTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class DamageEffect extends AbstractEffect{
     private float damageAmount = 0;
     private Holder<DamageType> damageTypeKey;
-    public DamageEffect(EffectTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, float amount, Holder<DamageType> damageTypeKey) {
+    public DamageEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, float amount, Holder<DamageType> damageTypeKey) {
         super(targeting, effects, particles);
         this.damageAmount = amount;
         this.damageTypeKey = damageTypeKey;
@@ -31,7 +31,7 @@ public class DamageEffect extends AbstractEffect{
 
     public static final MapCodec<DamageEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                    EffectTargeting.CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
+                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
                     Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
                     Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
                     Codec.FLOAT.fieldOf("amount").forGetter(DamageEffect::getAmount),

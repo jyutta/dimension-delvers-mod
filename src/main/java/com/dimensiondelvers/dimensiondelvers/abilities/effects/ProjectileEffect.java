@@ -1,7 +1,6 @@
 package com.dimensiondelvers.dimensiondelvers.abilities.effects;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.AbstractTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -30,7 +29,7 @@ public class ProjectileEffect extends AbstractEffect{
 
     public static final MapCodec<ProjectileEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                    EffectTargeting.CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
+                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
                     Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
                     Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
                     ResourceLocation.CODEC.fieldOf("projectile_type").forGetter(ProjectileEffect::getEntityType),
@@ -51,7 +50,7 @@ public class ProjectileEffect extends AbstractEffect{
         return CODEC;
     }
 
-    public ProjectileEffect(EffectTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, ResourceLocation entityType, Vec3 velocity) {
+    public ProjectileEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, ResourceLocation entityType, Vec3 velocity) {
         super(targeting, effects, particles);
         this.entityType = entityType;
         this.velocity = velocity;

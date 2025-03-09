@@ -1,7 +1,7 @@
 package com.dimensiondelvers.dimensiondelvers.abilities.effects;
 
 import com.dimensiondelvers.dimensiondelvers.Registries.AbilityRegistry;
-import com.dimensiondelvers.dimensiondelvers.abilities.Targetting.EffectTargeting;
+import com.dimensiondelvers.dimensiondelvers.abilities.Targeting.AbstractTargeting;
 import com.dimensiondelvers.dimensiondelvers.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -28,10 +28,10 @@ public abstract class AbstractEffect {
     public abstract MapCodec<? extends AbstractEffect> getCodec();
 
     public static final Codec<AbstractEffect> DIRECT_CODEC = AbilityRegistry.EFFECTS_REGISTRY.byNameCodec().dispatch(AbstractEffect::getCodec, Function.identity());
-    private final EffectTargeting targeting;
+    private final AbstractTargeting targeting;
     private final List<AbstractEffect> effects;
     private final Optional<ParticleInfo> particles;
-    public AbstractEffect(EffectTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles)
+    public AbstractEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles)
     {
         this.targeting = targeting;
         this.effects = effects;
@@ -77,7 +77,7 @@ public abstract class AbstractEffect {
         }
     }
 
-    public EffectTargeting getTargeting() {
+    public AbstractTargeting getTargeting() {
         return targeting;
     }
 
