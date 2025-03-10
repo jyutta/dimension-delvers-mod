@@ -105,19 +105,24 @@ public class MapRoom {
         }
 
         // tunnels
-        for (MapCell cell : this.cells) {
-            if (cell.connections == 2) {
-                // draw tunnel
+        this.cells.stream().filter(this::shouldCheckTunnelPredicate).forEach((cell) -> {
+            if (cell.connections.contains(Direction.EAST)) {
+                // draw East tunnel
                 cell.renderEastConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
-
-            } else if (cell.connections == 1) {
-                // draw door
-                cell.renderNorthConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
-            } else if (cell.connections == 3) {
-                cell.renderEastConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
+            }
+            if (cell.connections.contains(Direction.NORTH)) {
+                // draw North tunnel
                 cell.renderNorthConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
             }
-        }
+            if (cell.connections.contains(Direction.UP)) {
+            }
+        });
+    }
+
+    private boolean shouldCheckTunnelPredicate(MapCell cell) {
+        return cell.pos1.x == this.x + this.sizeX - 1 || // East wall
+                cell.pos1.y == this.y + this.sizeY - 1 || // Top of the room
+                cell.pos1.z == this.z + this.sizeZ - 1;   // North wall
     }
 
 }

@@ -6,6 +6,9 @@ import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+
+import java.util.EnumSet;
+
 import static com.wanderersoftherift.wotr.client.map.Utils3D.calculateVertices;
 import static com.wanderersoftherift.wotr.client.map.Utils3D.projectPoint;
 
@@ -17,8 +20,12 @@ public class MapCell {
     public Vector3f pos1; // should only be used for rendering,
     private Vector3f pos2;
     // connection is 1wide tunnel between rooms
-    public int connections = 3; // 0 - no connection, 1 - connection North, 2 - connection East, 3 - connection both
-    public int openings = 0; // places where connection can happen, 1000 - North, 0100 - East, 0010 - South, 0001 - West
+    //public int connections = 3; // 100 - North, 010 - East, 001 - Top
+    //public int openings = 0; // places where connection can happen, 100000 - North, 010000 - East, 001000 - South, 000100 - West, 000010 - Up, 000001 - Down
+    public EnumSet<Direction> connections = EnumSet.noneOf(Direction.class); // used for rendering, only takes action on North, East, Top
+    public EnumSet<Direction> openings = EnumSet.noneOf(Direction.class); // used for cell connection solver
+    // for solver: on horizontals only one opening creates a connection regardless of the other room acceptance
+    // on verticals, both rooms need to "accept" the connection
     int x, y, z;
     private int type;
     // add rendering for connections inside here (probably), might be inside MapRoom as well
@@ -29,7 +36,7 @@ public class MapCell {
         this.type = type;
     }
 
-    public MapCell(Vector3f loc, float size, int type, int connections) {
+    public MapCell(Vector3f loc, float size, int type, EnumSet<Direction> connections) {
         this.pos1 = loc;
         this.pos2 = new Vector3f(loc.x + size, loc.y + size, loc.z + size);
         this.type = type;

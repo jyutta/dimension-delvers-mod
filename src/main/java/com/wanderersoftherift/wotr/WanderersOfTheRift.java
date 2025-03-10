@@ -1,5 +1,6 @@
 package com.wanderersoftherift.wotr;
 
+import com.wanderersoftherift.wotr.client.map.Direction;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.config.ClientConfig;
 import com.wanderersoftherift.wotr.gui.screen.RuneAnvilScreen;
@@ -41,6 +42,7 @@ import org.joml.Vector3f;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 @Mod(WanderersOfTheRift.MODID)
 public class WanderersOfTheRift {
@@ -149,7 +151,7 @@ public class WanderersOfTheRift {
             for (int x = -cnt/2; x <= cnt/2; x++) {
                 //for (int y = -cnt/2; y <= cnt/2; y++) {
                     for (int z = -cnt/2; z <= cnt/2; z++) {
-                        MapCell cell = new MapCell(new Vector3f(x, 0, z), 1f, 0);
+                        MapCell cell = new MapCell(new Vector3f(x, 0, z), 1f, 0, EnumSet.of(Direction.NORTH, Direction.EAST));
                         ArrayList<MapCell> cells = new ArrayList<>();
                         cells.add(cell);
                         MapData.addRoom(new MapRoom(x, 0, z, 1, 1, 1, cells));
@@ -160,7 +162,7 @@ public class WanderersOfTheRift {
             MapData.addCell( new MapCell(new Vector3f(2, 0,0), 1f, 0));
 
             MapCell cell = new MapCell(new Vector3f(5, 0, 5), 1f, 0);
-            MapCell cell2 = new MapCell(new Vector3f(5, 0, 4), 1f, 0, 2);
+            MapCell cell2 = new MapCell(new Vector3f(5, 0, 4), 1f, 0, EnumSet.of(Direction.NORTH, Direction.EAST));
             ArrayList<MapCell> cells = new ArrayList<>();
             cells.add(cell);
             cells.add(cell2);
