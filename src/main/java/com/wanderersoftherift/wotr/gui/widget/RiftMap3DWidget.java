@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
+import org.joml.Vector3d;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 
@@ -21,9 +22,8 @@ public class RiftMap3DWidget extends AbstractWidget {
     private static final float MIN_DISTANCE = 1.0f;
     private static final float MAX_DISTANCE = 50.0f;
 
-    private Vector2d targetMousePos = new Vector2d(0, 0);
-    private boolean setMouse = true;
     private boolean pressingButton = false;
+    private boolean justPressed = false;
 
     private MapRenderer3D mapRenderer;
 
@@ -51,25 +51,22 @@ public class RiftMap3DWidget extends AbstractWidget {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (ClientConfig.MOUSE_MODE.get()) {
-            if (!setMouse) {
-                int invertY = Minecraft.getInstance().options.invertYMouse().get() ? 1 : -1;
-
-                if (button == 0) {
-                    mapRenderer.camPitch += (float) dragY * invertY;
-                    mapRenderer.camPitch = Math.clamp(mapRenderer.camPitch, -90, 90);
-                    mapRenderer.camYaw -= (float) dragX;
-                } else if (button == 1) {
-                    float yawRad = (float) Math.toRadians(mapRenderer.camYaw);
-                    float speed = (float) Mth.map(mapRenderer.distance, MIN_DISTANCE, MAX_DISTANCE, MIN_SPEED, MAX_SPEED);
-
-                    mapRenderer.camPos.z += (float) (-dragY * invertY * speed * Math.cos(yawRad) + dragX * speed * Math.sin(yawRad)) / 20;
-                    mapRenderer.camPos.x += (float) (-dragY * invertY * speed * Math.sin(yawRad) + dragX * speed * Math.cos(yawRad)) / 20;
-                }
-                setMouse = true;
+            if (justPressed) {
+                justPressed = false;
+                return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
             }
-            else {
-                GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().getWindow(), targetMousePos.x, targetMousePos.y);
-                setMouse = false;
+            int invertY = Minecraft.getInstance().options.invertYMouse().get() ? -1 : 1;
+
+            if (button == 0) {
+                mapRenderer.camPitch += (float) dragY * invertY;
+                mapRenderer.camPitch = Math.clamp(mapRenderer.camPitch, -90, 90);
+                mapRenderer.camYaw += (float) dragX;
+            } else if (button == 1) {
+                float yawRad = (float) Math.toRadians(mapRenderer.camYaw);
+                float speed = (float) Mth.map(mapRenderer.distance, MIN_DISTANCE, MAX_DISTANCE, MIN_SPEED, MAX_SPEED);
+
+                mapRenderer.camPos.z += (float) (-dragY * speed * Math.cos(yawRad) - dragX * -1 * speed * Math.sin(yawRad)) / 20;
+                mapRenderer.camPos.x += (float) (-dragY * speed * Math.sin(yawRad) + dragX * -1 * speed * Math.cos(yawRad)) / 20;
             }
 
             return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
@@ -93,13 +90,8 @@ public class RiftMap3DWidget extends AbstractWidget {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (ClientConfig.MOUSE_MODE.get()) {
             if (!pressingButton) {
-                DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
-                DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
-
-                GLFW.glfwGetCursorPos(Minecraft.getInstance().getWindow().getWindow(), x, y);
-
-                targetMousePos = new Vector2d(x.get(), y.get());
-                GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+                GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
+                justPressed = true;
             }
 
             pressingButton = true;
