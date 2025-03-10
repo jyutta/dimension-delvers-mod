@@ -9,12 +9,8 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector2d;
 import org.joml.Vector3f;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
-
-import java.nio.DoubleBuffer;
 
 public class RiftMap3DWidget extends AbstractWidget {
     private static final double MIN_SPEED = 0.5;
@@ -139,8 +135,8 @@ public class RiftMap3DWidget extends AbstractWidget {
 
     @Override
     public boolean mouseScrolled(double a, double b, double c , double d) {
-        mapRenderer.distance -= (float) d;
-        mapRenderer.distance = Math.clamp(mapRenderer.distance, MIN_DISTANCE, MAX_DISTANCE);
+        targetDistance -= (float) d;
+        targetDistance = Math.clamp(targetDistance, MIN_DISTANCE, MAX_DISTANCE);
 
         return super.mouseScrolled(a, b, c, d);
     }

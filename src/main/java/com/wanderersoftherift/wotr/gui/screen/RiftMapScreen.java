@@ -17,10 +17,7 @@ public class RiftMapScreen extends Screen {
 
     public RiftMapScreen(Component title, float renderDistance) {
         super(title);
-        //RiftMap.camPitch = 35;
-        //RiftMap.camYaw = -25;
 
-        //RiftMap.camPos = new Vector3f(0.5f);
         this.renderDistance = renderDistance;
     }
 
