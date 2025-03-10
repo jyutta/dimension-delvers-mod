@@ -55,9 +55,28 @@ public class RiftMapScreen extends Screen {
                 .bounds(screenWidth-180, screenHeight-14, 110, 12)
                 .build();
 
+        Button lerpButton = Button.builder(Component.literal("Lerp Speed"),
+                (btn) -> {
+                    double lerpSpeed = Math.round(ClientConfig.LERP_SPEED.get() * 10.0) / 10.0;
+                    lerpSpeed += 0.1;
+                    if (lerpSpeed > 2.0) {
+                        lerpSpeed = 0.0;
+                    }
+                    ClientConfig.LERP_SPEED.set(lerpSpeed);
+                    btn.setMessage(Component.literal("Lerp Speed: " + String.valueOf(lerpSpeed).substring(0, 3)));
+                    if (lerpSpeed <= 0.0) {
+                        btn.setMessage(Component.literal("Lerp Speed: OFF"));
+                    }
+                }
+                )
+                .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
+                .bounds(screenWidth-50-130-130, screenHeight-14, 110, 12)
+                .build();
+
         this.addRenderableWidget(button);
         this.addRenderableWidget(resetButton);
         this.addRenderableWidget(mouseToggleButton);
+        this.addRenderableWidget(lerpButton);
 
         // register buttons first to be clickable and not occluded by RiftMap
         GuiEventListener e = this.addRenderableWidget(mapWidget);

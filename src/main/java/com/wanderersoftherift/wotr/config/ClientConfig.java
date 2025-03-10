@@ -17,6 +17,7 @@ public class ClientConfig {
 
     // Rift Map Settings
     public static final ModConfigSpec.BooleanValue MOUSE_MODE;
+    public static final ModConfigSpec.DoubleValue LERP_SPEED;
 
     static {
         BUILDER.comment(" == Wotr Client Configs ==");
@@ -34,7 +35,7 @@ public class ClientConfig {
 
         BUILDER.push(" == Rift Map == ");
             MOUSE_MODE = BUILDER.comment(" Whether to use the Whale mouse mode").define("mouseMode", false);
-
+            LERP_SPEED = BUILDER.comment(" What speed the map should lerp at. 0 = Off").defineInRange("lerpSpeed", 0.0, 0.0, 2.0);
 
 
         SPEC = BUILDER.build();
