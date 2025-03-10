@@ -46,6 +46,7 @@ public class RiftMapScreen extends Screen {
                         (btn) -> {
                             ClientConfig.MOUSE_MODE.set(!ClientConfig.MOUSE_MODE.get());
                             btn.setMessage(Component.literal(ClientConfig.MOUSE_MODE.get() ? "Toggle Mouse (True)" : "Toggle Mouse (False)"));
+                            ClientConfig.MOUSE_MODE.save();
                 }
                 )
                 .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
@@ -64,6 +65,7 @@ public class RiftMapScreen extends Screen {
                     if (lerpSpeed <= 0.0) {
                         btn.setMessage(Component.literal("Lerp Speed: OFF"));
                     }
+                    ClientConfig.LERP_SPEED.save();
                 }
                 )
                 .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
