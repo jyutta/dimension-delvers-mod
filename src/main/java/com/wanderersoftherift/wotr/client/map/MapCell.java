@@ -33,12 +33,14 @@ public class MapCell {
         this.type = type;
     }
 
-    public MapCell(Vector3f loc, float size, int type, EnumSet<Direction> connections) {
+    public MapCell(Vector3f loc, float size, int type, EnumSet<Direction> openings, EnumSet<Direction> connections) {
         this.pos1 = loc;
         this.pos2 = new Vector3f(loc.x + size, loc.y + size, loc.z + size);
         this.type = type;
+        this.openings = openings;
         this.connections = connections;
     }
+
     public MapCell(Vector3f pos1, Vector3f pos2, int type) {
         this.pos1 = pos1;
         this.pos2 = pos2;
