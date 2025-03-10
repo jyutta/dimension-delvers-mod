@@ -70,7 +70,7 @@ public class MapCell {
             Vector3f sProj = projectPoint(new Vector3f(start.x, start.y, start.z), camera, mapPosition, mapSize);
             Vector3f eProj = projectPoint(new Vector3f(end.x, end.y, end.z), camera, mapPosition, mapSize);
 
-            if (i==4) { // color one edge
+            if (i==69) { // color one edge
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
                         .setColor(1f, 0f, 0f, 1f);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)

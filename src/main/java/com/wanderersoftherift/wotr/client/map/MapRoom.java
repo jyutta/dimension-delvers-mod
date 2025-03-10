@@ -58,16 +58,16 @@ public class MapRoom {
             Vector3f sProj = projectPoint(vertices[edge[0]][0], vertices[edge[0]][1], vertices[edge[0]][2], camera, mapPosition, mapSize);
             Vector3f eProj = projectPoint(vertices[edge[1]][0], vertices[edge[1]][1], vertices[edge[1]][2], camera, mapPosition, mapSize);
 
-            if (i==4) { // color one edge
+            if (i==69) { // color one edge
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
                         .setColor(1f, 0f, 0f, 1f);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)
                         .setColor(1f, 0f, 0f, 1f);
             } else {
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
-                        .setColor(1f, 1f, 1f, 1f);
+                        .setColor(0f, 1f, 0f, .8f);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)
-                        .setColor(1f, 1f, 1f, 1f);
+                        .setColor(0f, 1f, 0f, .8f);
             }
             i++;
         }
@@ -108,11 +108,11 @@ public class MapRoom {
         this.cells.stream().filter(this::shouldCheckTunnelPredicate).forEach((cell) -> {
             if (cell.connections.contains(Direction.EAST)) {
                 // draw East tunnel
-                cell.renderEastConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
+                cell.renderEastConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .4f), mapPosition, mapSize);
             }
             if (cell.connections.contains(Direction.NORTH)) {
                 // draw North tunnel
-                cell.renderNorthConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .3f), mapPosition, mapSize);
+                cell.renderNorthConnection(this.TWEEN_TUNNEL_SIZE, buffer, camera, new Vector4f(0.2f, 0.2f, 0.2f, .4f), mapPosition, mapSize);
             }
             if (cell.connections.contains(Direction.UP)) {
             }
