@@ -38,10 +38,11 @@ public abstract class AbstractAbility {
     public float baseCooldown = 0;
     public Holder<Attribute> durationAttribute = null;
     private boolean isToggle = false;
-    public AbstractAbility(ResourceLocation abilityName, List<AbstractEffect> effects)
+    public AbstractAbility(ResourceLocation abilityName, ResourceLocation icon, List<AbstractEffect> effects)
     {
         this.name = abilityName;
         this.effects = effects;
+        this.icon = icon;
     }
     public void setIcon(ResourceLocation location)
     {
@@ -51,6 +52,7 @@ public abstract class AbstractAbility {
     public ResourceLocation getIcon() {
         return icon;
     }
+
     public List<AbstractEffect> getEffects() {
         return this.effects;
     }
