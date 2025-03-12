@@ -5,6 +5,7 @@ import com.wanderersoftherift.wotr.gui.widget.RiftMap3DWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public class RiftMapScreen extends Screen {
+    private RiftMap3DWidget mapWidget;
 
 
     public RiftMapScreen(Component title, float renderDistance) {
@@ -31,7 +33,7 @@ public class RiftMapScreen extends Screen {
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
-        RiftMap3DWidget mapWidget = new RiftMap3DWidget(15, 15, screenWidth-30, screenHeight-30, renderDistance);
+        this.mapWidget = new RiftMap3DWidget(15, 15, screenWidth-30, screenHeight-30, renderDistance);
 
         Button button = Button.builder(Component.literal("X"), (btn) -> onClose())
                 .createNarration((messageSupplier) -> Component.literal("Custom Narration: " + messageSupplier.get().getString()))
@@ -108,6 +110,11 @@ public class RiftMapScreen extends Screen {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         return this.getFocused() != null && this.isDragging() && (button == 0 || button == 1) && this.getFocused().mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+
+    @Override
+    public void tick() {
+        mapWidget.tick();
     }
 
 }

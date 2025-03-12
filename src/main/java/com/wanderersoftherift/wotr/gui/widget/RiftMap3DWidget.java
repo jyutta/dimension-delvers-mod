@@ -2,12 +2,14 @@ package com.wanderersoftherift.wotr.gui.widget;
 
 import com.wanderersoftherift.wotr.client.render.MapRenderer3D;
 import com.wanderersoftherift.wotr.config.ClientConfig;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
@@ -22,6 +24,7 @@ public class RiftMap3DWidget extends AbstractWidget {
     private float targetPitch;
     private float targetYaw;
     private Vector3f targetPos = new Vector3f(0.0f, 0.0f, 0.0f);
+    private long ticks = 0;
 
     private boolean pressingButton = false;
     private boolean justPressed = false;
@@ -30,46 +33,51 @@ public class RiftMap3DWidget extends AbstractWidget {
 
     public RiftMap3DWidget(int x, int y, int width, int height, float renderDistance) {
         super(x, y, width, height, Component.literal("mapRenderer"));
-        mapRenderer = new MapRenderer3D(x, y, width, height, renderDistance);
-        targetPitch = mapRenderer.camPitch;
-        targetYaw = mapRenderer.camYaw;
-        targetPos = mapRenderer.camPos;
-        targetDistance = mapRenderer.distance;
+        this.mapRenderer = new MapRenderer3D(x, y, width, height, renderDistance);
+        this.targetPitch = mapRenderer.camPitch;
+        this.targetYaw = mapRenderer.camYaw;
+        this.targetPos = mapRenderer.camPos;
+        this.targetDistance = mapRenderer.distance;
+        this.ticks = 0;
     }
 
     public void resetCam() {
-        mapRenderer.resetCam();
-        targetPitch = mapRenderer.camPitch;
-        targetYaw = mapRenderer.camYaw;
-        targetPos = mapRenderer.camPos;
-        targetDistance = mapRenderer.distance;
+        this.mapRenderer.resetCam();
+        this.targetPitch = mapRenderer.camPitch;
+        this.targetYaw = mapRenderer.camYaw;
+        this.targetPos = mapRenderer.camPos;
+        this.targetDistance = mapRenderer.distance;
     }
-
+    
     @Override
-    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int i, int i1, float v) {
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int x, int y, float partialTick) {
         guiGraphics.renderOutline(this.getX() - 1, this.getY(), this.getWidth() + 1, this.getHeight(), 0xFFFFFFFF);
         guiGraphics.drawString(Minecraft.getInstance().font, Minecraft.getInstance().fpsString, this.getX(), this.getY(), 0xFFFFFFFF);
 
         double lerpSpeed = ClientConfig.LERP_SPEED.get();
         if (lerpSpeed > 0) {
-            mapRenderer.camPitch = Mth.lerp((float)lerpSpeed * v, mapRenderer.camPitch, targetPitch);
-            mapRenderer.camYaw = Mth.lerp((float)lerpSpeed * v, mapRenderer.camYaw, targetYaw);
-            mapRenderer.camPos.x = Mth.lerp((float)lerpSpeed * v, mapRenderer.camPos.x, targetPos.x);
-            mapRenderer.camPos.z = Mth.lerp((float)lerpSpeed * v, mapRenderer.camPos.z, targetPos.z);
-            mapRenderer.distance = Mth.lerp((float)lerpSpeed * v, mapRenderer.distance, targetDistance);
+            this.mapRenderer.camPitch = Mth.lerp((float)lerpSpeed * partialTick, mapRenderer.camPitch, targetPitch);
+            this.mapRenderer.camYaw = Mth.lerp((float)lerpSpeed * partialTick, mapRenderer.camYaw, targetYaw);
+            this.mapRenderer.camPos.x = Mth.lerp((float)lerpSpeed * partialTick, mapRenderer.camPos.x, targetPos.x);
+            this.mapRenderer.camPos.z = Mth.lerp((float)lerpSpeed * partialTick, mapRenderer.camPos.z, targetPos.z);
+            this.mapRenderer.distance = Mth.lerp((float)lerpSpeed * partialTick, mapRenderer.distance, targetDistance);
         } else {
-            mapRenderer.camPitch = targetPitch;
-            mapRenderer.camYaw = targetYaw;
-            mapRenderer.camPos = targetPos;
-            mapRenderer.distance = targetDistance;
+            this.mapRenderer.camPitch = targetPitch;
+            this.mapRenderer.camYaw = targetYaw;
+            this.mapRenderer.camPos = targetPos;
+            this.mapRenderer.distance = targetDistance;
         }
         
-        mapRenderer.renderMap();
+        this.mapRenderer.renderMap(this.ticks, partialTick);
     }
 
     @Override
     protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 
+    }
+
+    public void tick() {
+        this.ticks += 1;
     }
 
     @Override

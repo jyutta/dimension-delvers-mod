@@ -3,11 +3,15 @@ package com.wanderersoftherift.wotr.client.render;
 import com.wanderersoftherift.wotr.client.ModShaders;
 import com.wanderersoftherift.wotr.client.map.MapCell;
 import com.wanderersoftherift.wotr.client.map.VirtualCamera;
+import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.resources.ResourceLocation;
+
+import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -48,7 +52,7 @@ public class MapRenderer3D {
         return pos.distance(camPos) < renderDistance;
     }
 
-    public void renderMap() {
+    public void renderMap(long tick, float partialTick) {
         // sets both position and rotation
         camera.orbitAroundOrigin(camPitch, camYaw, distance, camPos.x, camPos.y, camPos.z);
 
@@ -67,8 +71,18 @@ public class MapRenderer3D {
         RenderSystem.lineWidth(10.0f);
         BufferBuilder lineBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, VERTEX_FORMAT); // prep the buffer
 
+        float screenWidth = Minecraft.getInstance().getWindow().getWidth();
+        float screenHeight = Minecraft.getInstance().getWindow().getHeight();
 
-        RenderSystem.setShader(ModShaders.RIFT_MAPPER);
+        CompiledShaderProgram shader = RenderSystem.setShader(ModShaders.RIFT_MAPPER);
+        if (shader != null) {
+            Uniform screenSize = shader.getUniform("ScreenSize");
+            if (screenSize != null) {
+                screenSize.set(screenWidth, screenHeight);
+            }
+            shader.apply();
+        }
+        RenderSystem.setShaderGameTime(tick, partialTick);
         RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath("wotr", "textures/gui/rift_mapper/room.png"));
 
         // just some testing cubes to render
