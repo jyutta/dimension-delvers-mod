@@ -22,6 +22,8 @@ public class MapRoom {
     private final float TWEEN_TUNNEL_SIZE = 0.3f; // size of the tunnel between rooms - gets subtracted from room size when rendering
     public Vector3f pos1, pos2;
     public ArrayList<MapCell> cells = new ArrayList<>();
+    private float dotEffectStrength;
+    private float hightlightEffectStrength;
 
     // to solve the rendering the 1wide tunnels, on render, go through all the cells that have the possibility of having tunnel and check their variable
     // TODO: move rendering from MapCell to here, basically rewrite MapCell
@@ -35,6 +37,22 @@ public class MapRoom {
         this.sizeZ = sizeZ;
         this.pos1 = new Vector3f(x, y, z);
         this.pos2 = new Vector3f(x + sizeX, y + sizeY, z + sizeZ);
+        this.dotEffectStrength = 1.0f;
+        this.hightlightEffectStrength = 0.0f;
+        if (cells != null) this.cells.addAll(cells);
+    }
+
+    public MapRoom(int x, int y, int z, int sizeX, int sizeY, int sizeZ, ArrayList<MapCell> cells, float dotEffectStrength, float hightlightEffectStrength) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.sizeZ = sizeZ;
+        this.pos1 = new Vector3f(x, y, z);
+        this.pos2 = new Vector3f(x + sizeX, y + sizeY, z + sizeZ);
+        this.dotEffectStrength = dotEffectStrength;
+        this.hightlightEffectStrength = hightlightEffectStrength;
         if (cells != null) this.cells.addAll(cells);
     }
 
@@ -98,10 +116,10 @@ public class MapRoom {
             Vector3f p3 = projectPoint(vertices[face[2]][0], vertices[face[2]][1], vertices[face[2]][2], camera, mapPosition, mapSize);
             Vector3f p4 = projectPoint(vertices[face[3]][0], vertices[face[3]][1], vertices[face[3]][2], camera, mapPosition, mapSize);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f).setNormal(1.0f, 0.0f, 0.0f);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f).setNormal(1.0f, 0.0f, 0.0f);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f).setNormal(1.0f, 0.0f, 0.0f);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f).setNormal(1.0f, 0.0f, 0.0f);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f).setNormal(this.dotEffectStrength, this.hightlightEffectStrength, 0.0f);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f).setNormal(this.dotEffectStrength, this.hightlightEffectStrength, 0.0f);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f).setNormal(this.dotEffectStrength, this.hightlightEffectStrength, 0.0f);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f).setNormal(this.dotEffectStrength, this.hightlightEffectStrength, 0.0f);
         }
 
         // tunnels

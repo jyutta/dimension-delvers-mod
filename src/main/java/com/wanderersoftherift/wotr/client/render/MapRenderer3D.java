@@ -91,7 +91,7 @@ public class MapRenderer3D {
         //MapCell player = new MapCell(new Vector3f(0.25f, 0.25f, 0.25f), new Vector3f(0.75f, 0.75f, 0.75f), 0);
 
         float pos1 = (float) (0.35f - (0.35/2f));
-        MapCell player = new MapCell(new Vector3f(pos1, pos1, pos1), 0.35F, 0);
+        MapCell player = new MapCell(new Vector3f(pos1, pos1, pos1), 0.35F, 0).setEffects(1.0f, 1.0f);
 
         rooms.forEach((pos, room) -> {
             if (isInRenderDistance(room.pos1)) room.renderWireframe(lineBuffer, camera, mapPosition, mapSize);
