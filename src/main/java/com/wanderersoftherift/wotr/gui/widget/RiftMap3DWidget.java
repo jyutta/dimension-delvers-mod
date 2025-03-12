@@ -90,7 +90,7 @@ public class RiftMap3DWidget extends AbstractWidget {
             int invertY = Minecraft.getInstance().options.invertYMouse().get() ? -1 : 1;
 
             if (button == 0) {
-                targetPitch += (float) dragY * invertY; 
+                targetPitch += (float) dragY * invertY;
                 targetPitch = Math.clamp(targetPitch, -90, 90);
                 targetYaw += (float) dragX;
             } else if (button == 1) {
