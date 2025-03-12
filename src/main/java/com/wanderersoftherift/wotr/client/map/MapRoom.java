@@ -60,14 +60,14 @@ public class MapRoom {
 
             if (i==69) { // color one edge
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
-                        .setColor(1f, 0f, 0f, 1f).setUv(0.0f, 0.0f);
+                        .setColor(1f, 0f, 0f, 1f).setUv(0.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)
-                        .setColor(1f, 0f, 0f, 1f).setUv(1.0f, 0.0f);
+                        .setColor(1f, 0f, 0f, 1f).setUv(1.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
             } else {
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
-                        .setColor(0f, 1f, 0f, .8f).setUv(0.0f, 0.0f);
+                        .setColor(0f, 1f, 0f, .8f).setUv(0.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)
-                        .setColor(0f, 1f, 0f, .8f).setUv(1.0f, 0.0f);
+                        .setColor(0f, 1f, 0f, .8f).setUv(1.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
             }
             i++;
         }
@@ -98,10 +98,10 @@ public class MapRoom {
             Vector3f p3 = projectPoint(vertices[face[2]][0], vertices[face[2]][1], vertices[face[2]][2], camera, mapPosition, mapSize);
             Vector3f p4 = projectPoint(vertices[face[3]][0], vertices[face[3]][1], vertices[face[3]][2], camera, mapPosition, mapSize);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f).setNormal(1.0f, 0.0f, 0.0f);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f).setNormal(1.0f, 0.0f, 0.0f);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f).setNormal(1.0f, 0.0f, 0.0f);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f).setNormal(1.0f, 0.0f, 0.0f);
         }
 
         // tunnels

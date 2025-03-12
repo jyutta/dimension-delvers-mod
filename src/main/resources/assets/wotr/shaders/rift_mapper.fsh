@@ -10,13 +10,27 @@ uniform vec2 ScreenSize;
 
 in vec2 texCoord0;
 in vec4 vertexColor;
+in vec3 effects;
 
 out vec4 fragColor;
 
-float grid(vec2 pos, vec2 grid_size) {
-    float x = round(abs(sin(pos.x * grid_size.x)));
-    float y = round(abs(sin(pos.y * grid_size.y)));
-    return 1.0 - (x + y) / 2.0;
+vec4 grid(vec2 uv, vec2 grid_size, vec2 screenUV) {
+    float x = round(abs(sin(uv.x * grid_size.x)));
+    float y = round(abs(sin(uv.y * grid_size.y)));
+    float gridValue = floor(clamp(1.0 - (x + y) / 2.0, 0.0, 1.0) * 1.2)/1.2;
+    float gridAlpha = (sin(GameTime * 1000.0 + screenUV.x*100.0) + 1.0) / 2.0 * 0.6 + 0.1;
+    return vec4(vec3(gridValue), gridAlpha);
+}
+
+vec4 edgeHighlight(vec2 uv) {
+    float distanceToMid = distance(vec2(0.5, 0.5), uv);
+    distanceToMid += clamp(simplex3d(vec3(uv*10.0, GameTime*600.0)) + 0.5, 0.0, 1.0) * 0.1;
+    distanceToMid = clamp(1.0 - distanceToMid, 0.0, 1.0);
+    return vec4(1.0, 1.0, 1.0, distanceToMid);
+}
+
+float average(vec3 vector) {
+    return (vector.r + vector.g + vector.b) / 3.0;
 }
 
 void main() {
@@ -24,30 +38,27 @@ void main() {
     vec2 screenUVSquare = gl_FragCoord.xy/ScreenSize.y;
     vec2 uv = texCoord0;
 
-    float gridSize = ScreenSize.y/50.0;
 
-
-    vec4 color1 = texture(Sampler0, uv) * vertexColor;
-    if (color1.a < 0.1) {
+    if (vertexColor.a < 0.1) {
         discard;
     }
 
-
-    //float noiseValue = round(clamp(clamp(simplex3d(vec3(screenUVSquare*100.0, GameTime * 1000.0)), 0.0, 1.0) + 0.5, 0.0, 1.0) * 10.0) / 10.0;
-    //vec4 color2 = vec4(noiseValue, noiseValue, noiseValue, 1.0);
+    float darkenMiddle = distance(vec2(0.5), uv) * 2.0 + 0.2;
+    darkenMiddle -= clamp(simplex3d(vec3(uv*3.0, GameTime*600.0)) + 0.5, 0.0, 1.0) * 0.1;
+    darkenMiddle = round(darkenMiddle * 10.0) / 10.0;
 
     vec2 gridUV = vec2(uv.x, uv.y + GameTime * 70.0);
-    float gridValue = floor(clamp(grid(gridUV, vec2(gridSize, gridSize)), 0.0, 1.0) * 1.2)/1.2;
-    vec3 color3 = vec3(gridValue);
-    float gridAlpha = (sin(GameTime * 1000.0 + screenUV.x*100.0) + 1.0) / 2.0 * 0.6 + 0.1;
+    vec4 gridOutput = grid(gridUV, vec2(ScreenSize.y/50.0), screenUV);
 
-    float distanceToMid = distance(vec2(0.5, 0.5), uv) * 2.0 + 0.2;
-    distanceToMid -= clamp(simplex3d(vec3(uv*3.0, GameTime*600.0)) + 0.5, 0.0, 1.0) * 0.1;
+    vec4 edgeHighlightOutput = edgeHighlight(uv);
 
-    float distanceToMid2 = distance(vec2(0.5, 0.5), uv);
-    distanceToMid2 += clamp(simplex3d(vec3(uv*10.0, GameTime*600.0)) + 0.5, 0.0, 1.0) * 0.1;
-    distanceToMid2 = clamp(1.0 - distanceToMid2, 0.0, 1.0);
-    distanceToMid2 = clamp(mix(1.0, distanceToMid2, floor(color1.a)) * 1.2, 0.0, 1.0);
+    vec4 final = vertexColor;
+    // Adding the dark middle
+    final = mix(vec4(vec3(0.0), vertexColor.a/2.0 + 1.0 * floor(vertexColor.a)), final, darkenMiddle);
+    // Adding the spots
+    final = mix(final, vec4(final.rgb + gridOutput.rgb * gridOutput.a, final.a + average(gridOutput.rgb) * gridOutput.a), effects.x);
+    // Adding the edge hightlights
+    final = mix(final, mix(vec4(edgeHighlightOutput.rgb, 1.0), final, edgeHighlightOutput.a), effects.y);
 
-    fragColor = mix(vec4(1.0, 1.0, 1.0, 1.0), mix(vec4(0.0,0.0,0.0,color1.a/2.0 + 1.0 * floor(color1.a)),/*mix(color2, */vec4(color1.rgb + color3.rgb * gridAlpha, color1.a + gridValue * gridAlpha)/*, color2.x)*/, round(distanceToMid * 10.0) / 10.0), distanceToMid2);
+    fragColor = final;
 }

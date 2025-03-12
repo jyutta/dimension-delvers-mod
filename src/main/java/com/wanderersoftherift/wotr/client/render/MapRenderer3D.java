@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 import static com.wanderersoftherift.wotr.client.map.MapData.rooms;
 
 public class MapRenderer3D {
-    private static final VertexFormat VERTEX_FORMAT = DefaultVertexFormat.POSITION_TEX_COLOR;
+    private static final VertexFormat VERTEX_FORMAT = DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL;
 
     public Vector2i mapPosition = new Vector2i(0, 0);
     public Vector2i mapSize = new Vector2i(Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
@@ -83,7 +83,6 @@ public class MapRenderer3D {
             shader.apply();
         }
         RenderSystem.setShaderGameTime(tick, partialTick);
-        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath("wotr", "textures/gui/rift_mapper/room.png"));
 
         // just some testing cubes to render
         //Cube cube1 = new Cube(new Vector3d(0,0,0), new Vector3d(1, 1, 1));
