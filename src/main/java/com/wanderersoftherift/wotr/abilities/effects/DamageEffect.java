@@ -15,7 +15,6 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +52,7 @@ public class DamageEffect extends AbstractEffect{
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, Player caster) {
+    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
         List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
         DamageSource damageSource = new DamageSource(
                 caster.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(this.damageTypeKey.getKey()),

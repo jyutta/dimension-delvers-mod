@@ -12,7 +12,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +45,7 @@ public class HealEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, Player caster) {
+    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
         List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
         applyParticlesToUser(user);
 

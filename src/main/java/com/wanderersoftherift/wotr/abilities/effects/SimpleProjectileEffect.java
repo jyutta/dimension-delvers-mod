@@ -1,19 +1,19 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.wanderersoftherift.wotr.entity.projectile.SimpleEffectProjectile;
 import com.wanderersoftherift.wotr.init.ModEntities;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class SimpleProjectileEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, Player caster) {
+    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
         List<BlockPos> targets = getTargeting().getBlocks(user);
         applyParticlesToUser(user);
         if (!targets.isEmpty()) {
@@ -82,7 +82,7 @@ public class SimpleProjectileEffect extends AbstractEffect {
         }
     }
 
-    public void applyDelayed(Entity target, List<BlockPos> blocks, Player caster) {
+    public void applyDelayed(Entity target, List<BlockPos> blocks, LivingEntity caster) {
         applyParticlesToTarget(target);
         super.apply(target, blocks, caster);
     }

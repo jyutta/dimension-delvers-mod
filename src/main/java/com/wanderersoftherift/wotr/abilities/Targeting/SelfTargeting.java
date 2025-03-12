@@ -3,7 +3,7 @@ package com.wanderersoftherift.wotr.abilities.Targeting;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class SelfTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromEntity(Entity entity, Player caster) {
+    public List<Entity> getTargetsFromEntity(Entity entity, LivingEntity caster) {
         WanderersOfTheRift.LOGGER.debug("Targeting Self");
 
         List<Entity> targets = new ArrayList<>();

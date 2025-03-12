@@ -53,7 +53,7 @@ public class AreaTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromEntity(Entity entity, Player caster) {
+    public List<Entity> getTargetsFromEntity(Entity entity, LivingEntity caster) {
         WanderersOfTheRift.LOGGER.debug("Targeting from entity via AOE");
         float finalRange = getRange(caster);
 
@@ -71,7 +71,7 @@ public class AreaTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, Player caster) {
+    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, LivingEntity caster) {
         WanderersOfTheRift.LOGGER.debug("Targeting from blocks via AOE");
         float finalRange = getRange(caster);
 
@@ -99,7 +99,7 @@ public class AreaTargeting extends AbstractTargeting {
 
 
     @Override
-    public List<BlockPos> getBlocksInArea(Player caster, Entity entity, List<BlockPos> targetPos) {
+    public List<BlockPos> getBlocksInArea(LivingEntity caster, Entity entity, List<BlockPos> targetPos) {
         WanderersOfTheRift.LOGGER.info("Targeting blocks in area via AOE");
         float finalRange = getRange(caster);
 

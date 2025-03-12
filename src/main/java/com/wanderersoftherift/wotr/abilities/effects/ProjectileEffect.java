@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.Vec3;
 
@@ -57,7 +57,7 @@ public class ProjectileEffect extends AbstractEffect{
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, Player caster) {
+    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
         List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
         applyParticlesToUser(user);
         if(!targets.isEmpty()) {

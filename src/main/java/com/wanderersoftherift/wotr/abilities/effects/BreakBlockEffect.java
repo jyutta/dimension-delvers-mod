@@ -7,7 +7,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class BreakBlockEffect extends AbstractEffect{
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, Player caster) {
+    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
         List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
         applyParticlesToUser(user);
 

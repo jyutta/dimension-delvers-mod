@@ -1,11 +1,11 @@
 package com.wanderersoftherift.wotr.abilities.Targeting;
 
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public abstract class AbstractTargeting {
      * @param caster The original player starting the effect chain
      * @return The list of entities selected by the targeting method.
      */
-    public List<Entity> getTargets(Entity currentEntity, List<BlockPos> blocks, Player caster) {
+    public List<Entity> getTargets(Entity currentEntity, List<BlockPos> blocks, LivingEntity caster) {
         List<Entity> targets = new ArrayList<>();
         if(currentEntity != null) {
             targets.addAll(getTargetsFromEntity(currentEntity, caster));
@@ -33,11 +33,11 @@ public abstract class AbstractTargeting {
         return targets;
     }
 
-    public List<Entity> getTargetsFromEntity(Entity entity, Player caster) {
+    public List<Entity> getTargetsFromEntity(Entity entity, LivingEntity caster) {
         return new ArrayList<>();
     }
 
-    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, Player caster) {
+    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, LivingEntity caster) {
         return new ArrayList<>();
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractTargeting {
         return new ArrayList<>();
     }
 
-    public List<BlockPos> getBlocksInArea(Player caster, Entity entity, List<BlockPos> targetPos) {
+    public List<BlockPos> getBlocksInArea(LivingEntity caster, Entity entity, List<BlockPos> targetPos) {
         return new ArrayList<>();
     }
 }
