@@ -1,11 +1,13 @@
 package com.wanderersoftherift.wotr.client.render;
 
+import com.wanderersoftherift.wotr.client.ModShaders;
 import com.wanderersoftherift.wotr.client.map.MapCell;
 import com.wanderersoftherift.wotr.client.map.VirtualCamera;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.CoreShaders;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -14,6 +16,8 @@ import org.lwjgl.opengl.GL11;
 import static com.wanderersoftherift.wotr.client.map.MapData.rooms;
 
 public class MapRenderer3D {
+    private static final VertexFormat VERTEX_FORMAT = DefaultVertexFormat.POSITION_TEX_COLOR;
+
     public Vector2i mapPosition = new Vector2i(0, 0);
     public Vector2i mapSize = new Vector2i(Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
     private Vector2i scissorCoords = new Vector2i(0, 0);
@@ -61,10 +65,11 @@ public class MapRenderer3D {
 
 
         RenderSystem.lineWidth(10.0f);
-        BufferBuilder lineBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
+        BufferBuilder lineBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, VERTEX_FORMAT); // prep the buffer
 
 
-        RenderSystem.setShader(CoreShaders.POSITION_COLOR);
+        RenderSystem.setShader(ModShaders.RIFT_MAPPER);
+        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath("wotr", "textures/gui/rift_mapper/room.png"));
 
         // just some testing cubes to render
         //Cube cube1 = new Cube(new Vector3d(0,0,0), new Vector3d(1, 1, 1));
@@ -89,7 +94,7 @@ public class MapRenderer3D {
         }
 
         // render transparents
-        BufferBuilder quadBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
+        BufferBuilder quadBuffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, VERTEX_FORMAT); // prep the buffer
 
         RenderSystem.depthMask(false);
 
@@ -106,7 +111,7 @@ public class MapRenderer3D {
         }
 
         // render non-transparents with proper occlusion
-        BufferBuilder quadBuffer2 = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
+        BufferBuilder quadBuffer2 = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, VERTEX_FORMAT); // prep the buffer
 
         RenderSystem.depthMask(true);
 
@@ -120,7 +125,7 @@ public class MapRenderer3D {
 
         RenderSystem.depthMask(true);
 
-        BufferBuilder line2Buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR); // prep the buffer
+        BufferBuilder line2Buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, VERTEX_FORMAT); // prep the buffer
 
         player.renderWireframe(line2Buffer, camera, mapPosition, mapSize);
 

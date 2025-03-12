@@ -74,14 +74,14 @@ public class MapCell {
 
             if (i==69) { // color one edge
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
-                        .setColor(1f, 0f, 0f, 1f);
+                        .setColor(1f, 0f, 0f, 1f).setUv(0.0f, 0.0f);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)
-                        .setColor(1f, 0f, 0f, 1f);
+                        .setColor(1f, 0f, 0f, 1f).setUv(1.0f, 0.0f);
             } else {
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
-                        .setColor(1f, 1f, 1f, 1f);
+                        .setColor(1f, 1f, 1f, 1f).setUv(0.0f, 0.0f);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)
-                        .setColor(1f, 1f, 1f, 1f);
+                        .setColor(1f, 1f, 1f, 1f).setUv(1.0f, 0.0f);
             }
             i++;
         }
@@ -115,10 +115,10 @@ public class MapCell {
             Vector3f p3 = projectPoint(new Vector3f(v3.x, v3.y, v3.z), camera, mapPosition, mapSize);
             Vector3f p4 = projectPoint(new Vector3f(v4.x, v4.y, v4.z), camera, mapPosition, mapSize);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f);
         }
     }
 
@@ -151,10 +151,10 @@ public class MapCell {
             Vector3f p3 = projectPoint(new Vector3f(v3.x, v3.y, v3.z), camera, mapPosition, mapSize);
             Vector3f p4 = projectPoint(new Vector3f(v4.x, v4.y, v4.z), camera, mapPosition, mapSize);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f);
         }
     }
 
@@ -186,10 +186,10 @@ public class MapCell {
             Vector3f p3 = projectPoint(new Vector3f(v3.x, v3.y, v3.z), camera, mapPosition, mapSize);
             Vector3f p4 = projectPoint(new Vector3f(v4.x, v4.y, v4.z), camera, mapPosition, mapSize);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f);
         }
     }
 

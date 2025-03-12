@@ -82,15 +82,15 @@ public class RiftMap3DWidget extends AbstractWidget {
             int invertY = Minecraft.getInstance().options.invertYMouse().get() ? -1 : 1;
 
             if (button == 0) {
-                targetPitch += (float) dragY * invertY;
+                targetPitch += (float) dragY * invertY; 
                 targetPitch = Math.clamp(targetPitch, -90, 90);
                 targetYaw += (float) dragX;
             } else if (button == 1) {
                 float yawRad = (float) Math.toRadians(targetYaw);
                 float speed = (float) Mth.map(mapRenderer.distance, MIN_DISTANCE, MAX_DISTANCE, MIN_SPEED, MAX_SPEED);
 
-                targetPos.z += (float) (-dragY * speed * Math.cos(yawRad) - dragX * -1 * speed * Math.sin(yawRad)) / 20;
-                targetPos.x += (float) (-dragY * speed * Math.sin(yawRad) + dragX * -1 * speed * Math.cos(yawRad)) / 20;
+                targetPos.z += (float) (dragY * speed * Math.cos(yawRad) - dragX * -1 * speed * Math.sin(yawRad)) / 20;
+                targetPos.x += (float) (dragY * speed * Math.sin(yawRad) + dragX * -1 * speed * Math.cos(yawRad)) / 20;
             }
 
             return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
