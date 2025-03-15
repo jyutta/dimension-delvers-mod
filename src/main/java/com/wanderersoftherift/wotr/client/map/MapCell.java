@@ -2,6 +2,8 @@ package com.wanderersoftherift.wotr.client.map;
 
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.client.render.MapRenderer3D;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -26,15 +28,13 @@ public class MapCell {
     int x, y, z;
     private int type;
     // add rendering for connections inside here (probably), might be inside MapRoom as well
-    private float dotEffectStrength;
-    private float highlightEffectStrength;
+    private int effectFlags;
 
     public MapCell(Vector3f loc, float size, int type) {
         this.pos1 = loc;
         this.pos2 = new Vector3f(loc.x + size, loc.y + size, loc.z + size);
         this.type = type;
-        this.dotEffectStrength = 0.0f;
-        this.highlightEffectStrength = 0.0f;
+        this.effectFlags = 0;
     }
 
     public MapCell(Vector3f loc, float size, int type, EnumSet<Direction> openings, EnumSet<Direction> connections) {
@@ -54,9 +54,8 @@ public class MapCell {
         return type;
     }
 
-    public MapCell setEffects(float dotEffectStrength, float highlightEffectStrength) {
-        this.dotEffectStrength = dotEffectStrength;
-        this.highlightEffectStrength = highlightEffectStrength;
+    public MapCell setEffects(int effectFlags) {
+        this.effectFlags = effectFlags;
         return this;
     }
 
@@ -84,14 +83,18 @@ public class MapCell {
 
             if (i==69) { // color one edge
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
-                        .setColor(1f, 0f, 0f, 1f).setUv(0.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
+                        .setColor(1f, 0f, 0f, 1f).setUv(0.0f, 0.0f);
+                MapRenderer3D.putEffects(this.effectFlags, buffer);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)
-                        .setColor(1f, 0f, 0f, 1f).setUv(1.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
+                        .setColor(1f, 0f, 0f, 1f).setUv(1.0f, 0.0f);
+                MapRenderer3D.putEffects(this.effectFlags, buffer);
             } else {
                 buffer.addVertex(sProj.x, sProj.y, sProj.z)
-                        .setColor(1f, 1f, 1f, 1f).setUv(0.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
+                        .setColor(1f, 1f, 1f, 1f).setUv(0.0f, 0.0f);
+                MapRenderer3D.putEffects(this.effectFlags, buffer);
                 buffer.addVertex(eProj.x, eProj.y, eProj.z)
-                        .setColor(1f, 1f, 1f, 1f).setUv(1.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
+                        .setColor(1f, 1f, 1f, 1f).setUv(1.0f, 0.0f);
+                MapRenderer3D.putEffects(this.effectFlags, buffer);
             }
             i++;
         }
@@ -125,10 +128,14 @@ public class MapCell {
             Vector3f p3 = projectPoint(new Vector3f(v3.x, v3.y, v3.z), camera, mapPosition, mapSize);
             Vector3f p4 = projectPoint(new Vector3f(v4.x, v4.y, v4.z), camera, mapPosition, mapSize);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f).setNormal(this.dotEffectStrength, this.highlightEffectStrength, 0.0f);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f).setNormal(this.dotEffectStrength, this.highlightEffectStrength, 0.0f);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f).setNormal(this.dotEffectStrength, this.highlightEffectStrength, 0.0f);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f).setNormal(this.dotEffectStrength, this.highlightEffectStrength, 0.0f);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f);
+            MapRenderer3D.putEffects(this.effectFlags, buffer);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f);
+            MapRenderer3D.putEffects(this.effectFlags, buffer);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f);
+            MapRenderer3D.putEffects(this.effectFlags, buffer);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f);
+            MapRenderer3D.putEffects(this.effectFlags, buffer);
         }
     }
 
@@ -161,10 +168,14 @@ public class MapCell {
             Vector3f p3 = projectPoint(new Vector3f(v3.x, v3.y, v3.z), camera, mapPosition, mapSize);
             Vector3f p4 = projectPoint(new Vector3f(v4.x, v4.y, v4.z), camera, mapPosition, mapSize);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f).setNormal(0.0f, 0.0f, 0.0f);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f).setNormal(0.0f, 0.0f, 0.0f);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f);
+            MapRenderer3D.putEffects(0, buffer);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f);
+            MapRenderer3D.putEffects(0, buffer);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f);
+            MapRenderer3D.putEffects(0, buffer);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f);
+            MapRenderer3D.putEffects(0, buffer);
         }
     }
 
@@ -196,10 +207,14 @@ public class MapCell {
             Vector3f p3 = projectPoint(new Vector3f(v3.x, v3.y, v3.z), camera, mapPosition, mapSize);
             Vector3f p4 = projectPoint(new Vector3f(v4.x, v4.y, v4.z), camera, mapPosition, mapSize);
 
-            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
-            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f).setNormal(0.0f, 0.0f, 0.0f);
-            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f).setNormal(0.0f, 0.0f, 0.0f);
-            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f).setNormal(0.0f, 0.0f, 0.0f);
+            buffer.addVertex(p1.x, p1.y, p1.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 0.0f);
+            MapRenderer3D.putEffects(0, buffer);
+            buffer.addVertex(p2.x, p2.y, p2.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 0.0f);
+            MapRenderer3D.putEffects(0, buffer);
+            buffer.addVertex(p3.x, p3.y, p3.z).setColor(color.x, color.y, color.z, color.w).setUv(1.0f, 1.0f);
+            MapRenderer3D.putEffects(0, buffer);
+            buffer.addVertex(p4.x, p4.y, p4.z).setColor(color.x, color.y, color.z, color.w).setUv(0.0f, 1.0f);
+            MapRenderer3D.putEffects(0, buffer);
         }
     }
 

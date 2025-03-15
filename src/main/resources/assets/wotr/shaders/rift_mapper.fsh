@@ -10,7 +10,7 @@ uniform vec2 ScreenSize;
 
 in vec2 texCoord0;
 in vec4 vertexColor;
-in vec3 effects;
+in float effects;
 
 out vec4 fragColor;
 
@@ -38,7 +38,6 @@ void main() {
     vec2 screenUVSquare = gl_FragCoord.xy/ScreenSize.y;
     vec2 uv = texCoord0;
 
-
     if (vertexColor.a < 0.1) {
         discard;
     }
@@ -56,9 +55,9 @@ void main() {
     // Adding the dark middle
     final = mix(vec4(vec3(0.0), vertexColor.a/2.0 + 1.0 * floor(vertexColor.a)), final, darkenMiddle);
     // Adding the spots
-    final = mix(final, vec4(final.rgb + gridOutput.rgb * gridOutput.a, final.a + average(gridOutput.rgb) * gridOutput.a), effects.x);
+    final = mix(final, vec4(final.rgb + gridOutput.rgb * gridOutput.a, final.a + average(gridOutput.rgb) * gridOutput.a), 1.0 - effects);
     // Adding the edge hightlights
-    final = mix(final, mix(vec4(edgeHighlightOutput.rgb, 1.0), final, edgeHighlightOutput.a), effects.y);
+    final = mix(final, mix(vec4(edgeHighlightOutput.rgb, 1.0), final, edgeHighlightOutput.a), 1.0 - effects);
 
     fragColor = final;
 }

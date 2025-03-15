@@ -1,7 +1,9 @@
 package com.wanderersoftherift.wotr.client.render;
 
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.client.ModShaders;
 import com.wanderersoftherift.wotr.client.map.MapCell;
+import com.wanderersoftherift.wotr.client.map.MapRoomEffects;
 import com.wanderersoftherift.wotr.client.map.VirtualCamera;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -16,11 +18,22 @@ import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryUtil;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static com.wanderersoftherift.wotr.client.map.MapData.rooms;
 
 public class MapRenderer3D {
-    private static final VertexFormat VERTEX_FORMAT = DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL;
+    public static final VertexFormatElement EFFECTS = VertexFormatElement.register(6, 0, VertexFormatElement.Type.FLOAT, VertexFormatElement.Usage.GENERIC, 1);
+
+    private static final VertexFormat VERTEX_FORMAT = VertexFormat.builder()
+            .add("Position", VertexFormatElement.POSITION)
+            .add("UV0", VertexFormatElement.UV0)
+            .add("Color", VertexFormatElement.COLOR)
+            .add("Effects", EFFECTS)
+            .build();
 
     public Vector2i mapPosition = new Vector2i(0, 0);
     public Vector2i mapSize = new Vector2i(Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
@@ -45,6 +58,14 @@ public class MapRenderer3D {
         camPos = new Vector3f(0.35f);
         distance = 10;
     }
+
+    // I used reflection here before but I've learned from my sins and repented.
+    // Now I have commited another sin by doing an access transformer.
+    public static void putEffects(int effectFlags, BufferBuilder builder) {
+		long i = builder.beginElement(EFFECTS);;
+		MemoryUtil.memPutFloat(i, (float)effectFlags);
+    }
+
 
     private float renderDistance = 10;
 
@@ -91,7 +112,10 @@ public class MapRenderer3D {
         //MapCell player = new MapCell(new Vector3f(0.25f, 0.25f, 0.25f), new Vector3f(0.75f, 0.75f, 0.75f), 0);
 
         float pos1 = (float) (0.35f - (0.35/2f));
-        MapCell player = new MapCell(new Vector3f(pos1, pos1, pos1), 0.35F, 0).setEffects(1.0f, 1.0f);
+        MapCell player = new MapCell(new Vector3f(pos1, pos1, pos1), 0.35F, 0).setEffects(MapRoomEffects.getFlags(new MapRoomEffects.Flag[]{
+                MapRoomEffects.Flag.DOTS,
+                MapRoomEffects.Flag.EDGE_HIGHLIGHT,
+        }));
 
         rooms.forEach((pos, room) -> {
             if (isInRenderDistance(room.pos1)) room.renderWireframe(lineBuffer, camera, mapPosition, mapSize);
