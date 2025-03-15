@@ -42,6 +42,8 @@ void main() {
         discard;
     }
 
+    int effect = int(effects);
+
     float darkenMiddle = distance(vec2(0.5), uv) * 2.0 + 0.2;
     darkenMiddle -= clamp(simplex3d(vec3(uv*3.0, GameTime*600.0)) + 0.5, 0.0, 1.0) * 0.1;
     darkenMiddle = round(darkenMiddle * 10.0) / 10.0;
@@ -55,9 +57,9 @@ void main() {
     // Adding the dark middle
     final = mix(vec4(vec3(0.0), vertexColor.a/2.0 + 1.0 * floor(vertexColor.a)), final, darkenMiddle);
     // Adding the spots
-    final = mix(final, vec4(final.rgb + gridOutput.rgb * gridOutput.a, final.a + average(gridOutput.rgb) * gridOutput.a), 1.0 - effects);
+    final = mix(final, vec4(final.rgb + gridOutput.rgb * gridOutput.a, final.a + average(gridOutput.rgb) * gridOutput.a), effect & 1);
     // Adding the edge hightlights
-    final = mix(final, mix(vec4(edgeHighlightOutput.rgb, 1.0), final, edgeHighlightOutput.a), 1.0 - effects);
+    final = mix(final, mix(vec4(edgeHighlightOutput.rgb, 1.0), final, edgeHighlightOutput.a), (effect & 2) / 2.0);
 
     fragColor = final;
 }
