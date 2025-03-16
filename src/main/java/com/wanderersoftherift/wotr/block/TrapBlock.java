@@ -1,14 +1,11 @@
 package com.wanderersoftherift.wotr.block;
 
 
-import com.wanderersoftherift.wotr.block.blockentity.DittoBlock;
 import com.wanderersoftherift.wotr.init.ModBlocks;
-import com.wanderersoftherift.wotr.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -20,7 +17,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -140,5 +137,10 @@ public class TrapBlock extends DittoBlock {
     public boolean shouldRender(BlockState state) {
 		return !state.getValue(DEACTIVATED);
 	}
+
+    @Override
+    public DeferredBlock getBlock() {
+        return ModBlocks.TRAP_BLOCK;
+    }
 }
 

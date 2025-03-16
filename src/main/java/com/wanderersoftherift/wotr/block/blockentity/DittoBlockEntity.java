@@ -1,8 +1,9 @@
-package com.dimensiondelvers.dimensiondelvers.block.entity;
+package com.wanderersoftherift.wotr.block.blockentity;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.init.ModBlockEntityTypes;
-import com.dimensiondelvers.dimensiondelvers.init.ModItems;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.init.ModBlockEntities;
+import com.wanderersoftherift.wotr.init.ModBlocks;
+import com.wanderersoftherift.wotr.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
@@ -32,8 +33,8 @@ public class DittoBlockEntity extends BlockEntity implements RandomizableContain
 	protected long lootTableSeed;
 
 	public DittoBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlockEntityTypes.DITTO_BLOCK_ENTITY.get(), pos, state);
-		this.item = ModItems.DITTO_BLOCK_ITEM.toStack();
+		super(ModBlockEntities.DITTO_BLOCK_ENTITY.get(), pos, state);
+		this.item = new ItemStack(ModBlocks.DITTO_BLOCK);
 	}
 
 	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
@@ -64,8 +65,6 @@ public class DittoBlockEntity extends BlockEntity implements RandomizableContain
 	}
 
 	public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-
-		DimensionDelvers.LOGGER.debug(this.item.getItemName().getString());
 		return this.saveCustomOnly(provider);
 	}
 

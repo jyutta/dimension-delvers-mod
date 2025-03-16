@@ -1,7 +1,7 @@
-package com.dimensiondelvers.dimensiondelvers.item.tools;
+package com.wanderersoftherift.wotr.item.tools;
 
-import com.dimensiondelvers.dimensiondelvers.block.SpringBlock;
-import com.dimensiondelvers.dimensiondelvers.block.TrapBlock;
+import com.wanderersoftherift.wotr.block.SpringBlock;
+import com.wanderersoftherift.wotr.block.TrapBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -12,8 +12,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class DDTweaker extends Item {
-    public DDTweaker(Properties properties) {
+public class WotRTweaker extends Item {
+    public WotRTweaker(Properties properties) {
         super(properties);
     }
     @Override

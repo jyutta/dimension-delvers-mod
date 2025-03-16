@@ -1,10 +1,12 @@
-package com.dimensiondelvers.dimensiondelvers;
+package com.wanderersoftherift.wotr;
 
-import com.dimensiondelvers.dimensiondelvers.commands.InventorySnapshotCommands;
-import com.dimensiondelvers.dimensiondelvers.gui.screen.RuneAnvilScreen;
-import com.dimensiondelvers.dimensiondelvers.init.*;
-import com.dimensiondelvers.dimensiondelvers.server.inventorySnapshot.InventorySnapshotSystem;
 import com.mojang.logging.LogUtils;
+import com.wanderersoftherift.wotr.block.blockentity.DittoBlockEntityRenderer;
+import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
+import com.wanderersoftherift.wotr.config.ClientConfig;
+import com.wanderersoftherift.wotr.gui.screen.RuneAnvilScreen;
+import com.wanderersoftherift.wotr.init.*;
+import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -23,6 +25,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -32,17 +35,18 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
-@Mod(DimensionDelvers.MODID)
-public class DimensionDelvers {
-    public static final String MODID = "dimensiondelvers";
+@Mod(WanderersOfTheRift.MODID)
+public class WanderersOfTheRift {
+    public static final String MODID = "wotr";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public DimensionDelvers(IEventBus modEventBus, ModContainer modContainer) {
+    public WanderersOfTheRift(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
 
         // Register things
         ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
@@ -58,8 +62,30 @@ public class DimensionDelvers {
         modEventBus.addListener(this::addCreative); // Register the item to a creative tab
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
+        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
+
+    /**
+     * Helper method to get a {@code ResourceLocation} with our Mod Id and a passed in name
+     *
+     * @param name the name to create the {@code ResourceLocation} with
+     * @return A {@code ResourceLocation} with the given name
+     */
+    public static ResourceLocation id(String name) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, name);
+    }
+
+    /**
+     * Helper method to get a {@code TagKey} with our Mod Id and a passed in name
+     *
+     * @param name the name to create the {@code TagKey} with
+     * @return A {@code TagKey} with the given name
+     */
+    public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
+        return TagKey.create(registry, id(name));
+    }
+
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
@@ -93,7 +119,7 @@ public class DimensionDelvers {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(ModBlocks.EXAMPLE_BLOCK);
+        //if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(ModBlocks.EXAMPLE_BLOCK);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -116,26 +142,10 @@ public class DimensionDelvers {
         private static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.RUNE_ANVIL_MENU.get(), RuneAnvilScreen::new);
         }
-    }
 
-    /**
-     * Helper method to get a {@code ResourceLocation} with our Mod Id and a passed in name
-     *
-     * @param name the name to create the {@code ResourceLocation} with
-     * @return A {@code ResourceLocation} with the given name
-     */
-    public static ResourceLocation id(String name) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, name);
-    }
-
-
-    /**
-     * Helper method to get a {@code TagKey} with our Mod Id and a passed in name
-     *
-     * @param name the name to create the {@code TagKey} with
-     * @return A {@code TagKey} with the given name
-     */
-    public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
-        return TagKey.create(registry, id(name));
+        @SubscribeEvent
+        private static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(ModBlockEntities.DITTO_BLOCK_ENTITY.get(), DittoBlockEntityRenderer::new);
+        }
     }
 }

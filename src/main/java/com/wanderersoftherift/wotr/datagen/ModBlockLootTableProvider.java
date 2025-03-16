@@ -1,6 +1,6 @@
-package com.dimensiondelvers.dimensiondelvers.datagen;
+package com.wanderersoftherift.wotr.datagen;
 
-import com.dimensiondelvers.dimensiondelvers.init.ModBlocks;
+import com.wanderersoftherift.wotr.init.ModBlocks;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -17,9 +17,18 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        dropSelf(ModBlocks.EXAMPLE_BLOCK.get());
         dropSelf(ModBlocks.DEV_BLOCK.get());
         dropSelf(ModBlocks.RUNE_ANVIL_BLOCK.get());
+        ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> {
+            dropSelf(helper.getBlock().get());
+            helper.getVariants().forEach((variant, block) -> dropSelf(block.get()));
+        });
+        dropSelf(ModBlocks.RIFT_CHEST.get());
+        dropSelf(ModBlocks.DITTO_BLOCK.get());
+        dropSelf(ModBlocks.TRAP_BLOCK.get());
+        dropSelf(ModBlocks.PLAYER_TRAP_BLOCK.get());
+        dropSelf(ModBlocks.MOB_TRAP_BLOCK.get());
+        dropSelf(ModBlocks.SPRING_BLOCK.get());
     }
 
     @Override

@@ -17,7 +17,6 @@ public class ModCreativeTabs {
                             .title(Component.translatable("itemGroup." + WanderersOfTheRift.MODID))
                             .withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> ModItems.EXAMPLE_ITEM.get().getDefaultInstance())
                             .displayItems((parameters, output) -> {
-                                output.accept(ModItems.EXAMPLE_BLOCK_ITEM.get());
                                 output.accept(ModItems.EXAMPLE_ITEM);
                                 ModItems.BLOCK_ITEMS.forEach(item -> output.accept(item.get()));
 

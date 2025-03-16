@@ -1,16 +1,15 @@
 package com.wanderersoftherift.wotr.block;
 
 
-import com.wanderersoftherift.wotr.block.blockentity.DittoBlock;
+import com.wanderersoftherift.wotr.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class SpringBlock extends DittoBlock {
@@ -53,5 +52,10 @@ public class SpringBlock extends DittoBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(STRENGTH);
+    }
+
+    @Override
+    public DeferredBlock getBlock() {
+        return ModBlocks.SPRING_BLOCK;
     }
 }

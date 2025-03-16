@@ -1,9 +1,8 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
-import com.wanderersoftherift.wotr.block.RiftChestEntityBlock;
-import com.wanderersoftherift.wotr.block.RuneAnvilBlock;
+import com.wanderersoftherift.wotr.block.*;
+import com.wanderersoftherift.wotr.block.DittoBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -43,6 +42,56 @@ public class ModBlocks {
                     .setId(blockId("rift_chest"))
                     .strength(1.5F)
                     .sound(SoundType.WOOD)
+            )
+    );
+
+    public static final DeferredBlock<DittoBlock> DITTO_BLOCK = registerBlock(
+            "ditto_block",
+            () -> new DittoBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("ditto_block"))
+                    .strength(1.5F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<TrapBlock> TRAP_BLOCK = registerBlock(
+            "trap_block",
+            () -> new TrapBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("trap_block"))
+                    .strength(1.5F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<PlayerTrapBlock> PLAYER_TRAP_BLOCK = registerBlock(
+            "player_trap_block",
+            () -> new PlayerTrapBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("player_trap_block"))
+                    .strength(1.5F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<MobTrapBlock> MOB_TRAP_BLOCK = registerBlock(
+            "mob_trap_block",
+            () -> new MobTrapBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("mob_trap_block"))
+                    .strength(1.5F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
+            )
+    );
+
+    public static final DeferredBlock<SpringBlock> SPRING_BLOCK = registerBlock(
+            "spring_block",
+            () -> new SpringBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("spring_block"))
+                    .strength(1.5F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
             )
     );
 

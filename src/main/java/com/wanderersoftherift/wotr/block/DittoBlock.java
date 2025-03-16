@@ -1,8 +1,8 @@
-package com.wanderersoftherift.wotr.block.blockentity;
+package com.wanderersoftherift.wotr.block;
 
 import com.mojang.serialization.MapCodec;
+import com.wanderersoftherift.wotr.block.blockentity.DittoBlockEntity;
 import com.wanderersoftherift.wotr.init.ModBlocks;
-import com.wanderersoftherift.wotr.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredItem;
 
 import javax.annotation.Nullable;
 
@@ -164,7 +163,7 @@ public class DittoBlock extends BaseEntityBlock {
 		return true;
 	}
 
-	public DeferredBlock<DittoBlock> getBlock() {
+	public DeferredBlock getBlock() {
 		return ModBlocks.DITTO_BLOCK;
 	}
 }

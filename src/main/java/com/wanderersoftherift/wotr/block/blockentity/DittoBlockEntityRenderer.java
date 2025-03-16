@@ -1,6 +1,7 @@
-package com.dimensiondelvers.dimensiondelvers.block.entity;
+package com.wanderersoftherift.wotr.block.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.wanderersoftherift.wotr.block.DittoBlock;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
@@ -34,7 +35,7 @@ public class DittoBlockEntityRenderer implements BlockEntityRenderer<DittoBlockE
 		if (!dittoBlock.shouldRender(blockEntity.getBlockState())) {
 			return;
 		}
-		if ((blockEntity.getTheItem().getItem() instanceof BlockItem) && blockEntity.getTheItem().getItem() != dittoBlock.getBlockItem().asItem()) {
+		if ((blockEntity.getTheItem().getItem() instanceof BlockItem) && blockEntity.getTheItem().getItem() != dittoBlock.getBlock().asItem()) {
 			BlockState blockstate = ((BlockItem)blockEntity.getTheItem().getItem()).getBlock().defaultBlockState();
 			if (blockEntity.getLevel() == null) return;
 			int i;
