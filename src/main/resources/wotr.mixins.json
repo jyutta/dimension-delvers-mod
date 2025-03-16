@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.wanderersoftherift.wotr.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "wotr.refmap.json",
+  "mixins": [
+    "MixinEnchantingTableBlock"
+  ],
+  "client": [
+    "MixinAccessibilityOptionsScreen",
+    "MixinMinecraft"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
