@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.mixin;
+package com.wanderersoftherift.wotr.mixin;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
