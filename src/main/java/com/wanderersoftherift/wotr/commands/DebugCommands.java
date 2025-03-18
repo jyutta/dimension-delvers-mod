@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.commands;
+package com.wanderersoftherift.wotr.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;

@@ -1,8 +1,8 @@
-package com.dimensiondelvers.dimensiondelvers.commands;
+package com.wanderersoftherift.wotr.commands;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -39,7 +39,7 @@ public abstract class BaseCommand {
                 .requires(sender -> sender.hasPermission(permissionLevel));
 
         this.buildCommand(argumentBuilder, context); // Build subcommands
-        dispatcher.register(Commands.literal(DimensionDelvers.MODID).then(argumentBuilder)); // Register under the mod's namespace
+        dispatcher.register(Commands.literal(WanderersOfTheRift.MODID).then(argumentBuilder)); // Register under the mod's namespace
     }
 
     /**
