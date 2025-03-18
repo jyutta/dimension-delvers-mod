@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.gui.layer.objective;
+package com.wanderersoftherift.wotr.gui.layer.objective;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;

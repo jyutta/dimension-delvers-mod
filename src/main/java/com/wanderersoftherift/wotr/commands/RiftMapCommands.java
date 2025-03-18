@@ -12,7 +12,7 @@ import net.minecraft.network.chat.Component;
 public class RiftMapCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
         dispatcher.register(
-                Commands.literal("dimensiondelvers:riftmap")
+                Commands.literal("WanderersOfTheRift:riftmap")
                         .then(Commands.argument("rd", IntegerArgumentType.integer())
                         .executes(
                         (ctx) -> {

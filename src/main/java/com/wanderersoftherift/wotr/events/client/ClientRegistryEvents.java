@@ -3,7 +3,7 @@ package com.wanderersoftherift.wotr.events.client;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.client.render.item.properties.select.SelectRuneGemShape;
 import com.wanderersoftherift.wotr.client.tooltip.ImageTooltipRenderer;
-import com.dimensiondelvers.dimensiondelvers.gui.layer.objective.ObjectiveLayer;
+import com.wanderersoftherift.wotr.gui.layer.objective.ObjectiveLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,6 +27,6 @@ public class ClientRegistryEvents {
 
     @SubscribeEvent
     public static void registerGuiLayers(RegisterGuiLayersEvent event) {
-        event.registerAboveAll(DimensionDelvers.id("objective"), new ObjectiveLayer());
+        event.registerAboveAll(WanderersOfTheRift.id("objective"), new ObjectiveLayer());
     }
 }

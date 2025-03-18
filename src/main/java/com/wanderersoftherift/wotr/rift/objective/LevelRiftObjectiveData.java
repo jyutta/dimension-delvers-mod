@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.rift.objective;
+package com.wanderersoftherift.wotr.rift.objective;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,7 +8,8 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import static com.dimensiondelvers.dimensiondelvers.DimensionDelvers.LOGGER;
+import static com.mojang.text2speech.Narrator.LOGGER;
+
 
 public class LevelRiftObjectiveData extends SavedData {
 

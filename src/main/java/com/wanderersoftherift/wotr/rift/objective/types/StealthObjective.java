@@ -1,7 +1,7 @@
-package com.dimensiondelvers.dimensiondelvers.rift.objective.types;
+package com.wanderersoftherift.wotr.rift.objective.types;
 
-import com.dimensiondelvers.dimensiondelvers.rift.objective.AbstractObjective;
-import com.dimensiondelvers.dimensiondelvers.rift.objective.LevelRiftObjectiveData;
+import com.wanderersoftherift.wotr.rift.objective.AbstractObjective;
+import com.wanderersoftherift.wotr.rift.objective.LevelRiftObjectiveData;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

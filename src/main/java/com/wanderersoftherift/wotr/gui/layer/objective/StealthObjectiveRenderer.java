@@ -1,10 +1,8 @@
-package com.dimensiondelvers.dimensiondelvers.gui.layer.objective;
+package com.wanderersoftherift.wotr.gui.layer.objective;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.rift.objective.AbstractObjective;
-import com.dimensiondelvers.dimensiondelvers.rift.objective.types.StealthObjective;
-import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.rift.objective.AbstractObjective;
+import com.wanderersoftherift.wotr.rift.objective.types.StealthObjective;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,10 +11,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class StealthObjectiveRenderer extends ObjectiveRenderer {
-    private static final ResourceLocation ALARM_SPRITE = DimensionDelvers.id("objective/stealth/alarm");
-    private static final ResourceLocation ALERT_SPRITE = DimensionDelvers.id("objective/stealth/alert");
-    private static final ResourceLocation BAR_BACKGROUND_SPRITE = DimensionDelvers.id("objective/stealth/bar_background");
-    private static final ResourceLocation BAR_PROGRESS_SPRITE = DimensionDelvers.id("objective/stealth/bar_progress");
+    private static final ResourceLocation ALARM_SPRITE = WanderersOfTheRift.id("objective/stealth/alarm");
+    private static final ResourceLocation ALERT_SPRITE = WanderersOfTheRift.id("objective/stealth/alert");
+    private static final ResourceLocation BAR_BACKGROUND_SPRITE = WanderersOfTheRift.id("objective/stealth/bar_background");
+    private static final ResourceLocation BAR_PROGRESS_SPRITE = WanderersOfTheRift.id("objective/stealth/bar_progress");
 
     private final StealthObjective stealthObjective;
 

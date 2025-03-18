@@ -1,7 +1,7 @@
-package com.dimensiondelvers.dimensiondelvers.rift.objective;
+package com.wanderersoftherift.wotr.rift.objective;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.network.S2CRiftObjectiveStatusPacket;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.network.S2CRiftObjectiveStatusPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -10,7 +10,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Optional;
 
-@EventBusSubscriber(modid = DimensionDelvers.MODID)
+@EventBusSubscriber(modid = WanderersOfTheRift.MODID)
 public class ObjectiveEventWrapper {
 
     @SubscribeEvent

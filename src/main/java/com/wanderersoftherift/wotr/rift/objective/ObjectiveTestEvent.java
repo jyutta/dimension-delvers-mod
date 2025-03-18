@@ -1,14 +1,11 @@
-package com.dimensiondelvers.dimensiondelvers.rift.objective;
+package com.wanderersoftherift.wotr.rift.objective;
 
-import com.dimensiondelvers.dimensiondelvers.rift.objective.types.StealthObjective;
-import net.minecraft.server.level.ServerLevel;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
-import static com.dimensiondelvers.dimensiondelvers.DimensionDelvers.LOGGER;
 
-@EventBusSubscriber(modid = "dimensiondelvers")
+@EventBusSubscriber(modid = "WanderersOfTheRift")
 public class ObjectiveTestEvent {
 
     @SubscribeEvent

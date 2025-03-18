@@ -1,8 +1,8 @@
-package com.dimensiondelvers.dimensiondelvers.network;
+package com.wanderersoftherift.wotr.network;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.gui.layer.objective.ObjectiveRenderers;
-import com.dimensiondelvers.dimensiondelvers.rift.objective.AbstractObjective;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.gui.layer.objective.ObjectiveRenderers;
+import com.wanderersoftherift.wotr.rift.objective.AbstractObjective;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public record S2CRiftObjectiveStatusPacket(Optional<AbstractObjective> objective) implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<S2CRiftObjectiveStatusPacket> TYPE = new CustomPacketPayload.Type<>((DimensionDelvers.id("s2c_rift_objective_status")));
+    public static final CustomPacketPayload.Type<S2CRiftObjectiveStatusPacket> TYPE = new CustomPacketPayload.Type<>((WanderersOfTheRift.id("s2c_rift_objective_status")));
 
     public static final StreamCodec<ByteBuf, S2CRiftObjectiveStatusPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.optional(ByteBufCodecs.fromCodec(AbstractObjective.DIRECT_CODEC)),

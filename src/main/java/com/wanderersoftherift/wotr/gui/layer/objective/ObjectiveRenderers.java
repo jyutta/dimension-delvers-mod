@@ -1,22 +1,21 @@
-package com.dimensiondelvers.dimensiondelvers.gui.layer.objective;
+package com.wanderersoftherift.wotr.gui.layer.objective;
 
-import com.dimensiondelvers.dimensiondelvers.DimensionDelvers;
-import com.dimensiondelvers.dimensiondelvers.network.S2CRiftObjectiveStatusPacket;
-import com.dimensiondelvers.dimensiondelvers.rift.objective.AbstractObjective;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.network.S2CRiftObjectiveStatusPacket;
+import com.wanderersoftherift.wotr.rift.objective.AbstractObjective;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
-import static com.dimensiondelvers.dimensiondelvers.init.ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPE_REGISTRY;
+import static com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPE_REGISTRY;
 
 public class ObjectiveRenderers {
 
     public static Map<ResourceLocation, Function<AbstractObjective, ObjectiveRenderer>> RENDERERS = new HashMap<>();
 
-    public static final Function<AbstractObjective, ObjectiveRenderer> STEALTH = register(DimensionDelvers.id("stealth"), StealthObjectiveRenderer::create);
+    public static final Function<AbstractObjective, ObjectiveRenderer> STEALTH = register(WanderersOfTheRift.id("stealth"), StealthObjectiveRenderer::create);
 
     public static Function<AbstractObjective, ObjectiveRenderer> register(ResourceLocation id, Function<AbstractObjective, ObjectiveRenderer> renderer) {
         RENDERERS.put(id, renderer);

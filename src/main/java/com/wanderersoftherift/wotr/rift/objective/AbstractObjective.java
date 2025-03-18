@@ -1,4 +1,4 @@
-package com.dimensiondelvers.dimensiondelvers.rift.objective;
+package com.wanderersoftherift.wotr.rift.objective;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -7,7 +7,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
 import java.util.function.Function;
 
-import static com.dimensiondelvers.dimensiondelvers.init.ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPE_REGISTRY;
+import static com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPE_REGISTRY;
 
 public abstract class AbstractObjective {
     public abstract MapCodec<? extends AbstractObjective> getCodec();
