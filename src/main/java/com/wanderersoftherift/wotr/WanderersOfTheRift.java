@@ -2,9 +2,9 @@ package com.wanderersoftherift.wotr;
 
 import com.wanderersoftherift.wotr.client.ModShaders;
 import com.wanderersoftherift.wotr.client.map.Direction;
+import com.mojang.logging.LogUtils;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.config.ClientConfig;
-import com.wanderersoftherift.wotr.gui.screen.RuneAnvilScreen;
 import com.wanderersoftherift.wotr.init.*;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import com.wanderersoftherift.wotr.client.map.MapCell;
@@ -20,14 +20,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.util.thread.EffectiveSide;
@@ -65,6 +62,7 @@ public class WanderersOfTheRift {
         ModLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         ModModifierEffects.MODIFIER_EFFECT_TYPES.register(modEventBus);
         ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPES.register(modEventBus);
+        ModEntityTypes.ENTITIES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Wotr) to respond directly to events.
@@ -142,45 +140,4 @@ public class WanderersOfTheRift {
         LOGGER.info("HELLO from server starting"); // Do something when the server starts
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-            int cnt = 5;
-            for (int x = -cnt/2; x <= cnt/2; x++) {
-                //for (int y = -cnt/2; y <= cnt/2; y++) {
-                    for (int z = -cnt/2; z <= cnt/2; z++) {
-                        MapCell cell = new MapCell(new Vector3f(x, 0, z), 1f, 0, EnumSet.noneOf(Direction.class), EnumSet.of(Direction.NORTH, Direction.EAST));
-                        ArrayList<MapCell> cells = new ArrayList<>();
-                        cells.add(cell);
-                        MapData.addRoom(new MapRoom(x, 0, z, 1, 1, 1, cells));
-                    }
-                //}
-            }
-            MapData.addCell( new MapCell(new Vector3f(0, 0,0), 1f, 0));
-            MapData.addCell( new MapCell(new Vector3f(2, 0,0), 1f, 0));
-
-            MapCell cell = new MapCell(new Vector3f(5, 0, 4), 1f, 0);
-            MapCell cell2 = new MapCell(new Vector3f(5, 0, 5), 1f, 0, EnumSet.noneOf(Direction.class), EnumSet.of(Direction.NORTH, Direction.EAST));
-            ArrayList<MapCell> cells = new ArrayList<>();
-            cells.add(cell);
-            cells.add(cell2);
-            MapData.addRoom(new MapRoom(4, 0, 4, 2, 1, 2, cells));
-
-        }
-
-        @SubscribeEvent
-        private static void registerScreens(RegisterMenuScreensEvent event) {
-            event.register(ModMenuTypes.RUNE_ANVIL_MENU.get(), RuneAnvilScreen::new);
-        }
-
-        @SubscribeEvent
-        public static void registerShaderPrograms(RegisterShadersEvent event) {
-            event.registerShader(ModShaders.RIFT_MAPPER);
-        }
-    }
 }
