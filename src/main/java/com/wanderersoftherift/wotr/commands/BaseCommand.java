@@ -12,6 +12,7 @@ import net.neoforged.fml.loading.FMLEnvironment;
 /**
  * Abstract base class for all commands in the mod.
  * Provides common functionality for command registration and permission handling.
+ * @see Commands Possible Permission Levels
  */
 public abstract class BaseCommand {
     private final String name;
@@ -58,24 +59,4 @@ public abstract class BaseCommand {
      * @param builder The command builder to which subcommands should be added.
      */
     protected abstract void buildCommand(LiteralArgumentBuilder<CommandSourceStack> builder, CommandBuildContext context);
-
-
-    /**
-     * Possible permission levels to use with the creation of commands<br><br>
-     *
-     * Permission Levels:<br>
-     * - `0` → All players<br>
-     * - `1` → Moderator<br>
-     * - `2` → Game Master (Recommended for most mod-related commands)<br>
-     * - `3` → Admin<br>
-     * - `4` → Server Owner<br>
-     * @see <a href="https://minecraft.wiki/w/Permission_level#Java_Edition">Java Edition: Permission Levels</a>
-     */
-    public static class PermissionLevels {
-        public static final int ALL = 0; // All Players
-        public static final int MODERATOR = 1; // Moderatorss
-        public static final int GAME_MASTER = 2;
-        public static final int ADMIN = 3;
-        public static final int OWNER = 4;
-    }
 }

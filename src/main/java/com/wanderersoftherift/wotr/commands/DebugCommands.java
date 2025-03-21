@@ -19,7 +19,7 @@ import java.util.Objects;
 public class DebugCommands extends BaseCommand {
 
     public DebugCommands() {
-        super("debug", PermissionLevels.GAME_MASTER);
+        super("debug", Commands.LEVEL_GAMEMASTERS);
     }
 
     @Override
