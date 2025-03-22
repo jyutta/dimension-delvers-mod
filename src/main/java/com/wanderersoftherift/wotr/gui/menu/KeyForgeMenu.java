@@ -175,7 +175,6 @@ public class KeyForgeMenu extends AbstractContainerMenu {
             DataComponentPatch patch = buildKeyComponentPatch(tier, type);
             ItemStack output = ModItems.RIFT_KEY.toStack();
             output.applyComponents(patch);
-            output.applyComponents(DataComponentPatch.builder().set(ModDataComponentType.RIFT_TIER.get(), tier).build());
 
             resultContainer.setItem(0, output);
         } else if (tier > 0 && !resultContainer.isEmpty()) {
