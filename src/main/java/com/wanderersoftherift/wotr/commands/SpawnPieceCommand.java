@@ -175,7 +175,7 @@ public class SpawnPieceCommand {
 
     private static void generateStructurePiece(ServerLevel world, BlockPos pos, Player player, ResourceLocation nbt, StructureProcessorList processorList, Rotation rotation, Mirror mirror, int seed, CommandContext<CommandSourceStack> cs) throws CommandSyntaxException {
         if (player != null) {
-            player.displayClientMessage(Component.literal("Generating " + nbt.toString()), true);
+            player.displayClientMessage(Component.translatable("command.spawn_piece.generating", nbt.toString()), true);
         }
 
         if (processorList.list().isEmpty()) {

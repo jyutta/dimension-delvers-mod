@@ -13,7 +13,7 @@ public class DefaultOutputBlockState extends OutputBlockState {
             ).apply(instance, DefaultOutputBlockState::new)
     );
 
-    public Block block;
+    private final Block block;
 
     public DefaultOutputBlockState(Block block) {
         this.block = block;

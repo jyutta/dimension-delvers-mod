@@ -24,7 +24,6 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.BUILDER_GLASSES);
 
                                 output.accept(ModItems.RUNEGEM);
-                                ModItems.BLOCK_ITEMS.forEach(item -> output.accept(item.get()));
                             }).build());
 
 }

@@ -7,7 +7,7 @@ public class StateInputBlockState extends InputBlockState {
 
     public static final MapCodec<StateInputBlockState> CODEC = MapCodec.assumeMapUnsafe(BlockState.CODEC).xmap(StateInputBlockState::new, StateInputBlockState::getState);
 
-    public BlockState state;
+    private final BlockState state;
 
     public StateInputBlockState(BlockState state) {
         this.state = state;

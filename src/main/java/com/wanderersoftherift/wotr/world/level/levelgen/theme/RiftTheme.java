@@ -27,7 +27,7 @@ public record RiftTheme(Map<ThemePieceType, Holder<StructureProcessorList>> proc
     public static final Codec<Holder<RiftTheme>> CODEC = RegistryFixedCodec.create(ModRiftThemes.RIFT_THEME_KEY);
 
     public RiftTheme() {
-        this(new HashMap<>());
+        this(Map.of());
     }
 
     public List<StructureProcessor> getProcessors(ThemePieceType pieceType){
@@ -39,7 +39,7 @@ public record RiftTheme(Map<ThemePieceType, Holder<StructureProcessorList>> proc
     }
 
     private static Map<ThemePieceType, Holder<StructureProcessorList>> fromPairList(List<Pair<ThemePieceType, Holder<StructureProcessorList>>> pairList){
-        return pairList.stream().collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+        return pairList.stream().collect(Collectors.toUnmodifiableMap(Pair::getFirst, Pair::getSecond));
     }
 
     private static List<Pair<ThemePieceType, Holder<StructureProcessorList>>> fromMap(Map<ThemePieceType, Holder<StructureProcessorList>> map){

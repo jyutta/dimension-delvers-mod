@@ -84,6 +84,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.high_contrast", "Enhances UI and HUD elements with higher contrast for better visibility");
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.hard_of_hearing", "Enhances audio cues for better accessibility");
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.reduced_motion", "Disables or slows down UI animations, camera shake, or screen effects");
+
+        add("command." + WanderersOfTheRift.MODID + ".spawn_piece.generating", "Generating %s");
     }
 
     private static @NotNull String getTranslationString(Block block) {

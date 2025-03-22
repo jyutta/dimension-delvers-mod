@@ -145,6 +145,7 @@
   "block.wotr.rift_chest": "Rift Chest",
   "block.wotr.rift_spawner": "Rift Spawner",
   "block.wotr.rune_anvil": "Rune Anvil",
+  "command.wotr.spawn_piece.generating": "Generating %s",
   "container.wotr.rift_chest": "Rift Chest",
   "container.wotr.rune_anvil": "Rune Anvil",
   "entity.wotr.rift_entrance": "Rift Entrance",
