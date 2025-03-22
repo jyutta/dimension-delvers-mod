@@ -1,28 +1,26 @@
 {
   "values": {
     "#c:cobblestones": {
-      "type": "wotr:earth",
-      "value": 1
+      "wotr:earth": 1
     },
     "#c:crops": {
-      "type": "wotr:life",
-      "value": 1
+      "wotr:life": 1
     },
     "#c:foods/cooked_meat": {
-      "type": "wotr:meat",
-      "value": 2
+      "wotr:meat": 2
     },
     "#c:foods/raw_meat": {
-      "type": "wotr:meat",
-      "value": 1
+      "wotr:meat": 1
     },
     "#c:stones": {
-      "type": "wotr:earth",
-      "value": 2
+      "wotr:earth": 2
     },
     "#c:stripped_logs": {
-      "type": "wotr:life",
-      "value": 8
+      "wotr:life": 8
+    },
+    "minecraft:potato": {
+      "wotr:earth": 1,
+      "wotr:life": 2
     }
   }
 }

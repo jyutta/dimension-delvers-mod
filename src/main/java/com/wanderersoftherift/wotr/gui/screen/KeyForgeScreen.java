@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class KeyForgeScreen extends AbstractContainerScreen<KeyForgeMenu> {
     private static final String ESSENCE_TOOLTIP = "tooltip." + WanderersOfTheRift.MODID + ".essence_value";
+    private static final String ESSENCE_HEADER = "tooltip." + WanderersOfTheRift.MODID + ".essence_header";
     private static final ResourceLocation BACKGROUND = WanderersOfTheRift.id("textures/gui/container/key_forge/background.png");
     private static final int BACKGROUND_WIDTH = 256;
     private static final int BACKGROUND_HEIGHT = 256;
@@ -57,8 +58,17 @@ public class KeyForgeScreen extends AbstractContainerScreen<KeyForgeMenu> {
                 List<Component> tooltips = this.getTooltipFromContainerItem(itemStack);
                 EssenceValue essenceValue = itemStack.getItemHolder().getData(ModDataMaps.ESSENCE_VALUE_DATA);
                 if (essenceValue != null) {
-                    Component essenceType = Component.translatable(EssenceValue.ESSENCE_TYPE_PREFIX + "." + essenceValue.type().getNamespace() + "." + essenceValue.type().getPath());
-                    tooltips.add(Component.translatable(ESSENCE_TOOLTIP, essenceValue.value(), essenceType).withColor(Color.GRAY.getRGB()));
+                    if (essenceValue.values().size() > 1) {
+                        tooltips.add(Component.translatable(ESSENCE_HEADER).withColor(Color.GRAY.getRGB()));
+                        essenceValue.values().forEach((key, value) -> {
+                            tooltips.add(Component.literal(value + " ").withColor(Color.GRAY.getRGB()).append(Component.translatable(EssenceValue.ESSENCE_TYPE_PREFIX + "." + key.getNamespace() + "." + key.getPath())).withColor(Color.GRAY.getRGB()));
+                        });
+                    } else {
+                        essenceValue.values().forEach((key, value) -> {
+                            Component essenceType = Component.translatable(EssenceValue.ESSENCE_TYPE_PREFIX + "." + key.getNamespace() + "." + key.getPath());
+                            tooltips.add(Component.translatable(ESSENCE_TOOLTIP, value, essenceType).withColor(Color.GRAY.getRGB()));
+                        });
+                    }
                 }
                 guiGraphics.renderTooltip(
                         this.font,

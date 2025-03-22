@@ -1,11 +1,13 @@
 package com.wanderersoftherift.wotr.datagen;
 
+import com.google.common.collect.ImmutableMap;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.init.ModDataMaps;
 import com.wanderersoftherift.wotr.item.essence.EssenceValue;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,7 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Tags.Items.STONES, new EssenceValue(earth, 2), false)
                 .add(Tags.Items.STRIPPED_LOGS, new EssenceValue(life, 8), false)
                 .add(Tags.Items.CROPS, new EssenceValue(life, 1), false)
+                .add(Items.POTATO.builtInRegistryHolder(), new EssenceValue(ImmutableMap.<ResourceLocation, Integer>builder().put(life, 2).put(earth, 1).build()), false)
                 .build();
 
 

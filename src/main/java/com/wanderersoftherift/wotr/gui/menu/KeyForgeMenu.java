@@ -138,10 +138,13 @@ public class KeyForgeMenu extends AbstractContainerMenu {
         Object2IntMap<ResourceLocation> essenceMap = new Object2IntArrayMap<>();
         for (int i = 0; i < inputContainer.getContainerSize(); i++) {
             ItemStack input = inputContainer.getItem(i);
-            EssenceValue value = input.getItemHolder().getData(ModDataMaps.ESSENCE_VALUE_DATA);
-            if (value != null) {
-                essenceMap.mergeInt(value.type(), value.value(), Integer::sum);
-                totalEssence += value.value() * input.getCount();
+            EssenceValue valueMap = input.getItemHolder().getData(ModDataMaps.ESSENCE_VALUE_DATA);
+            if (valueMap == null) {
+                continue;
+            }
+            for (Object2IntMap.Entry<ResourceLocation> entry : valueMap.values().object2IntEntrySet()) {
+                essenceMap.mergeInt(entry.getKey(), entry.getIntValue() * input.getCount(), Integer::sum);
+                totalEssence += entry.getIntValue() * input.getCount();
             }
         }
 

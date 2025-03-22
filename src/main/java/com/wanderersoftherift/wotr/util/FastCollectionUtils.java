@@ -9,6 +9,9 @@ import javax.annotation.Nullable;
  */
 public final class FastCollectionUtils {
 
+    private FastCollectionUtils() {
+    }
+
     /**
      * @param map
      * @return The key with the highest value in the map, or null if the map is empty
@@ -25,8 +28,5 @@ public final class FastCollectionUtils {
         }
 
         return result;
-    }
-
-    private FastCollectionUtils() {
     }
 }
