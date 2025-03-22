@@ -7,6 +7,8 @@ import com.wanderersoftherift.wotr.util.OpenSimplex2F;
 import com.wanderersoftherift.wotr.world.level.levelgen.processor.input.InputBlockState;
 import com.wanderersoftherift.wotr.world.level.levelgen.processor.output.OutputBlockState;
 import com.wanderersoftherift.wotr.world.level.levelgen.processor.util.ProcessorUtil;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.WorldGenLevel;
@@ -51,10 +53,8 @@ public class GradientReplaceProcessor extends StructureProcessor {
         BlockState blockstate = blockInfo.state();
         BlockPos blockPos = blockInfo.pos();
         for (Map.Entry<InputBlockState, List<OutputStep>> entry : replaceMap.entrySet()) {
-            InputBlockState inputBlockState = entry.getKey();
-            List<OutputStep> outputSteps = entry.getValue();
-            if (inputBlockState.matchesBlockstate(blockstate)) {
-                return getOutputBlockInfo(outputSteps, world, structurePos, blockInfo, blockPos, blockstate);
+            if (entry.getKey().matchesBlockstate(blockstate)) {
+                return getOutputBlockInfo(entry.getValue(), world, structurePos, blockInfo, blockPos, blockstate);
             }
         }
         return blockInfo;
@@ -113,7 +113,7 @@ public class GradientReplaceProcessor extends StructureProcessor {
                 ).apply(builder, InputToOutputs::new));
 
         public static Map<InputBlockState, List<OutputStep>> toMap(List<InputToOutputs> inputToOutputs) {
-            Map<InputBlockState, List<OutputStep>> map = new HashMap<>();
+            Map<InputBlockState, List<OutputStep>> map = new Object2ObjectOpenHashMap<>(inputToOutputs.size());
             for (InputToOutputs inputToOutput : inputToOutputs) {
                 map.put(inputToOutput.inputBlockState(), inputToOutput.outputSteps());
             }
