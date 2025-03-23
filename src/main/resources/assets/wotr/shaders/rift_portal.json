@@ -38,19 +38,27 @@
       ]
     },
     {
-      "name": "InnerScale",
-      "type": "float",
-      "count": 1,
-      "values": [
-        1.5
-      ]
-    },
-    {
       "name": "GameTime",
       "type": "float",
       "count": 1,
       "values": [
         0
+      ]
+    },
+    {
+      "name": "View",
+      "type": "float",
+      "count": 2,
+      "values": [
+        0, 0
+      ]
+    },
+    {
+      "name": "ScreenSize",
+      "type": "float",
+      "count": 2,
+      "values": [
+        0, 0
       ]
     },
     {
