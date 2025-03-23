@@ -30,6 +30,30 @@
 
         "element_type": "minecraft:single_pool_element"
       }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/7/beermug-1-wout",
+
+        "processors": "wotr:11_to_glass",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ,
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/7/pris_fountain-2-k",
+        "processors": "wotr:11_to_glass",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
     }
   ]
 }

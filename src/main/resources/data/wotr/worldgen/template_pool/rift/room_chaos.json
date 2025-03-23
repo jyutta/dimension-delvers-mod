@@ -7,7 +7,7 @@
       "weight": 150,
       "element": {
 
-        "location": "wotr:rift/room/chaos/333/winding_pat-1-team",
+        "location": "wotr:rift/room/chaos/333/winding_path-1-mal",
 
         "processors": "wotr:rift_room_default",
 
