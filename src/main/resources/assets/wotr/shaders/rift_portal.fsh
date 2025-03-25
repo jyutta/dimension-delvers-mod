@@ -3,13 +3,11 @@
 uniform sampler2D Sampler0;
 uniform sampler2D Sampler1;
 uniform float GameTime;
-uniform float InnerScale;
 uniform vec2 View;
 uniform vec2 ScreenSize;
+uniform float RotationSpeed;
 
 in vec2 texCoord0;
-in vec4 texProj0;
-in vec4 texProj1;
 in float dist;
 
 out vec4 fragColor;
@@ -17,6 +15,7 @@ out vec4 fragColor;
 const float PIXELATE = 64.0;
 const float OPEN_DISTANCE = 3;
 const float CLOSE_DISTANCE = 16;
+const float PI = 3.14159265359;
 
 // #########################################################
 //     INNER CODE TAKEN FROM MY (WH4I3'S) SKYBOX SHADER
@@ -67,8 +66,6 @@ vec2 getInnerUVOffset(vec3 dir1) {
     return vec2(3.0, 1.0);
 }
 
-const float PI = 3.14159265359;
-
 mat2 rotate2d(float theta) {
     float s = sin(theta), c = cos(theta);
     return mat2(c, -s, s, c);
@@ -83,12 +80,13 @@ mat3 camera(vec3 cameraPos, vec3 lookAtPoint) {
 }
 
 vec4 getInner() {
+    float iTime = GameTime * 1000.0;
     vec2 uv = (gl_FragCoord.xy - 0.5 * ScreenSize.xy) / ScreenSize.yy;
 
     vec3 lp = vec3(0);
     vec3 ro = vec3(0, 0, 10);
     ro.yz *= rotate2d(mix(-PI/2., PI/2., 0.5 - View.x / 180.1));
-    ro.xz *= rotate2d(mix(-PI, PI, View.y / 360.0));
+    ro.xz *= rotate2d(mix(-PI, PI, (View.y + RotationSpeed * iTime) / 360.0));
 
     vec3 rd = camera(ro, lp) * normalize(vec3(uv, -0.5));
 
