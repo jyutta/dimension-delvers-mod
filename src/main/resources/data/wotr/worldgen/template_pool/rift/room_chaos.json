@@ -46,7 +46,7 @@
     },
     {
 
-      "weight": 30,
+      "weight": 10,
       "element": {
 
         "location": "wotr:rift/room/chaos/111/filler_1_pat",
@@ -60,7 +60,7 @@
     },
     {
 
-      "weight": 30,
+      "weight": 10,
       "element": {
 
         "location": "wotr:rift/room/chaos/111/tavern-1-warren",
@@ -74,7 +74,7 @@
     },
     {
 
-      "weight": 50,
+      "weight": 20,
       "element": {
 
         "location": "wotr:rift/room/chaos/131/spiraling_snake-1-warren",
