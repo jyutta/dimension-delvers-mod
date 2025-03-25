@@ -1,7 +1,10 @@
 {
   "ability.wotr.cannot_unlock": "You must unlock the following to get this boost: ",
+  "ability.wotr.dash": "Dash",
   "ability.wotr.fireball_ability": "Fireball",
+  "ability.wotr.knockback": "Knockback",
   "ability.wotr.mega_boost": "Mega Boost",
+  "ability.wotr.pull": "Pull",
   "ability.wotr.summon_skeletons": "Summon Skeletons",
   "ability.wotr.test_ability": "Test Ability",
   "accessibility.wotr.menubutton": "DimDelvers Accessibility (tmp)",

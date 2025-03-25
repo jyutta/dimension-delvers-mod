@@ -55,8 +55,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ability." + WanderersOfTheRift.MODID + ".cannot_unlock", "You must unlock the following to get this boost: ");
         add("ability." + WanderersOfTheRift.MODID + ".fireball_ability", "Fireball");
         add("ability." + WanderersOfTheRift.MODID + ".mega_boost", "Mega Boost");
+        add("ability." + WanderersOfTheRift.MODID + ".dash", "Dash");
         add("ability." + WanderersOfTheRift.MODID + ".summon_skeletons", "Summon Skeletons");
         add("ability." + WanderersOfTheRift.MODID + ".test_ability", "Test Ability");
+        add("ability." + WanderersOfTheRift.MODID + ".knockback", "Knockback");
+        add("ability." + WanderersOfTheRift.MODID + ".pull", "Pull");
 
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.title", "Dimension Delvers: Accessibility Settings");
         add("accessibility." + WanderersOfTheRift.MODID + ".menubutton", "DimDelvers Accessibility (tmp)");
