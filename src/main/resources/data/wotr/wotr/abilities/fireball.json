@@ -9,12 +9,11 @@
         "type": "wotr:raycast_targeting",
         "range": 200
       },
-      "velocity": [
-        0,
-        1,
-        0
-      ],
-      "texture": "minecraft:items/fire_charge",
+      "config": {
+        "velocity": 1.6,
+        "texture": "minecraft:items/fire_charge",
+        "gravity_affected": false
+      },
       "effects": [
         {
           "type": "wotr:target_effect",

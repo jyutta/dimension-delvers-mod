@@ -47,12 +47,10 @@ public class SimpleEffectProjectile extends Projectile {
     private static final double ARROW_BASE_DAMAGE = 2.0;
     private static final int SHAKE_TIME = 7;
     private static final float WATER_INERTIA = 0.6F;
-    private static final float INERTIA = 0.99F;
+    private static final float INERTIA = 0.999F;
     private static final EntityDataAccessor<Byte> ID_FLAGS = SynchedEntityData.defineId(SimpleEffectProjectile.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> PIERCE_LEVEL = SynchedEntityData.defineId(SimpleEffectProjectile.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> IN_GROUND = SynchedEntityData.defineId(SimpleEffectProjectile.class, EntityDataSerializers.BOOLEAN);
-    private static final int FLAG_CRIT = 1;
-    private static final int FLAG_NOPHYSICS = 2;
     @Nullable
     private BlockState lastState;
     protected int inGroundTime;
@@ -82,45 +80,6 @@ public class SimpleEffectProjectile extends Projectile {
     public void setEffect(SimpleProjectileEffect effect) {
         this.effect = effect;
     }
-
-
-    /*public SimpleEffectProjectile(
-            EntityType<? extends SimpleEffectProjectile> entityType,
-            double x,
-            double y,
-            double z,
-            Level level,
-            ItemStack pickupItemStack,
-            @Nullable ItemStack firedFromWeapon
-    ) {
-        this(entityType, level);
-        this.pickupItemStack = pickupItemStack.copy();
-        this.setCustomName(pickupItemStack.get(DataComponents.CUSTOM_NAME));
-        Unit unit = pickupItemStack.remove(DataComponents.INTANGIBLE_PROJECTILE);
-        if (unit != null) {
-            this.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-        }
-
-        this.setPos(x, y, z);
-        if (firedFromWeapon != null && level instanceof ServerLevel serverlevel) {
-            if (firedFromWeapon.isEmpty()) {
-                throw new IllegalArgumentException("Invalid weapon firing an arrow");
-            }
-
-            this.firedFromWeapon = firedFromWeapon.copy();
-            int i = EnchantmentHelper.getPiercingCount(serverlevel, firedFromWeapon, this.pickupItemStack);
-            if (i > 0) {
-                this.setPierceLevel((byte)i);
-            }
-        }
-    }
-
-    public SimpleEffectProjectile(
-            EntityType<? extends SimpleEffectProjectile> entityType, LivingEntity owner, Level level, ItemStack pickupItemStack, @Nullable ItemStack firedFromWeapon
-    ) {
-        this(entityType, owner.getX(), owner.getEyeY() - 0.1F, owner.getZ(), level, pickupItemStack, firedFromWeapon);
-        this.setOwner(owner);
-    }*/
 
     public void setSoundEvent(SoundEvent soundEvent) {
         this.soundEvent = soundEvent;
@@ -178,7 +137,7 @@ public class SimpleEffectProjectile extends Projectile {
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_381707_) {
         super.onSyncedDataUpdated(p_381707_);
         if (!this.firstTick && this.shakeTime <= 0 && p_381707_.equals(IN_GROUND) && this.isInGround()) {
-            this.shakeTime = 7;
+            this.shakeTime = SHAKE_TIME;
         }
     }
 
@@ -231,21 +190,6 @@ public class SimpleEffectProjectile extends Projectile {
                 this.addBubbleParticles(vec32);
             }
 
-            if (this.isCritArrow()) {
-                for (int i = 0; i < 4; i++) {
-                    this.level()
-                            .addParticle(
-                                    ParticleTypes.CRIT,
-                                    vec32.x + vec3.x * (double) i / 4.0,
-                                    vec32.y + vec3.y * (double) i / 4.0,
-                                    vec32.z + vec3.z * (double) i / 4.0,
-                                    -vec3.x,
-                                    -vec3.y + 0.2,
-                                    -vec3.z
-                            );
-                }
-            }
-
             float f;
             if (!flag) {
                 f = (float) (Mth.atan2(-vec3.x, -vec3.z) * 180.0F / (float) Math.PI);
@@ -266,7 +210,7 @@ public class SimpleEffectProjectile extends Projectile {
             }
 
             if (!this.isInWater()) {
-                this.applyInertia(0.99F);
+                this.applyInertia(INERTIA);
             }
 
             if (flag && !this.isInGround()) {
@@ -433,9 +377,6 @@ public class SimpleEffectProjectile extends Projectile {
             livingentity1.setLastHurtMob(entity);
         }
 
-        boolean endermanTarget = entity.getType() == EntityType.ENDERMAN;
-        int i = entity.getRemainingFireTicks();
-
         if (this.level() instanceof ServerLevel serverlevel && effect != null) {
             effect.applyDelayed(entity, new ArrayList<>(), (Player) entity1);
         }
@@ -490,24 +431,9 @@ public class SimpleEffectProjectile extends Projectile {
         this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         this.setInGround(true);
         this.shakeTime = 7;
-        this.setCritArrow(false);
         this.setPierceLevel((byte) 0);
         this.setSoundEvent(SoundEvents.ARROW_HIT);
         this.resetPiercedEntities();
-    }
-
-    protected void hitBlockEnchantmentEffects(ServerLevel level, BlockHitResult hitResult, ItemStack stack) {
-        Vec3 vec3 = hitResult.getBlockPos().clampLocationWithin(hitResult.getLocation());
-        EnchantmentHelper.onHitBlock(
-                level,
-                stack,
-                this.getOwner() instanceof LivingEntity livingentity ? livingentity : null,
-                this,
-                null,
-                vec3,
-                level.getBlockState(hitResult.getBlockPos()),
-                p_348569_ -> this.firedFromWeapon = null
-        );
     }
 
     @Override
@@ -555,7 +481,6 @@ public class SimpleEffectProjectile extends Projectile {
         compound.putBoolean("inGround", this.isInGround());
         compound.putByte("pickup", (byte) this.pickup.ordinal());
         compound.putDouble("damage", this.baseDamage);
-        compound.putBoolean("crit", this.isCritArrow());
         compound.putByte("PierceLevel", this.getPierceLevel());
         compound.putString("SoundEvent", BuiltInRegistries.SOUND_EVENT.getKey(this.soundEvent).toString());
         if (!this.pickupItemStack.isEmpty()) {
@@ -584,7 +509,6 @@ public class SimpleEffectProjectile extends Projectile {
         }
 
         this.pickup = AbstractArrow.Pickup.byOrdinal(compound.getByte("pickup"));
-        this.setCritArrow(compound.getBoolean("crit"));
         this.setPierceLevel(compound.getByte("PierceLevel"));
         if (compound.contains("SoundEvent", 8)) {
             this.soundEvent = BuiltInRegistries.SOUND_EVENT
@@ -667,13 +591,6 @@ public class SimpleEffectProjectile extends Projectile {
         return this.getType().is(EntityTypeTags.REDIRECTABLE_PROJECTILE);
     }
 
-    /**
-     * Whether the arrow has a stream of critical hit particles flying behind it.
-     */
-    public void setCritArrow(boolean critArrow) {
-        this.setFlag(1, critArrow);
-    }
-
     private void setPierceLevel(byte pierceLevel) {
         this.entityData.set(PIERCE_LEVEL, pierceLevel);
     }
@@ -695,11 +612,6 @@ public class SimpleEffectProjectile extends Projectile {
         }
     }
 
-    public boolean isCritArrow() {
-        byte b0 = this.entityData.get(ID_FLAGS);
-        return (b0 & 1) != 0;
-    }
-
     public byte getPierceLevel() {
         return this.entityData.get(PIERCE_LEVEL);
     }
@@ -710,14 +622,6 @@ public class SimpleEffectProjectile extends Projectile {
 
     protected float getWaterInertia() {
         return 0.6F;
-    }
-
-    /**
-     * Sets if this arrow can noClip
-     */
-    public void setNoPhysics(boolean noPhysics) {
-        this.noPhysics = noPhysics;
-        this.setFlag(2, noPhysics);
     }
 
     public boolean isNoPhysics() {
@@ -739,6 +643,10 @@ public class SimpleEffectProjectile extends Projectile {
         return true;
     }
 
+    public void configure(SimpleProjectileConfig config) {
+        setNoGravity(!config.gravityAffected());
+    }
+
     public static enum Pickup {
         DISALLOWED,
         ALLOWED,
@@ -757,6 +665,6 @@ public class SimpleEffectProjectile extends Projectile {
         if (effect == null) {
             return ResourceLocation.withDefaultNamespace("projectiles/arrow.png");
         }
-        return effect.getTexture();
+        return effect.getConfig().texture();
     }
 }

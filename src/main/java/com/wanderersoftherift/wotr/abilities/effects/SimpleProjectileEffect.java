@@ -5,51 +5,39 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.wanderersoftherift.wotr.entity.projectile.SimpleEffectProjectile;
+import com.wanderersoftherift.wotr.entity.projectile.SimpleProjectileConfig;
 import com.wanderersoftherift.wotr.init.ModEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.Optional;
 
 public class SimpleProjectileEffect extends AbstractEffect {
-    ResourceLocation texture;
-    Vec3 velocity;
-
-    /*
-     * For now just handle any projectile given, but we will look into handling a dynamic projectile that can handle effects attached to it
-     */
+    private SimpleProjectileConfig config;
 
     public static final MapCodec<SimpleProjectileEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            AbstractEffect.commonFields(instance).and(instance.group(
-                    ResourceLocation.CODEC.fieldOf("texture").forGetter(SimpleProjectileEffect::getTexture),
-                    Vec3.CODEC.fieldOf("velocity").forGetter(SimpleProjectileEffect::getVelocity)
-            )).apply(instance, SimpleProjectileEffect::new)
+            AbstractEffect.commonFields(instance).and(
+                    SimpleProjectileConfig.CODEC.fieldOf("config").forGetter(SimpleProjectileEffect::getConfig)
+            ).apply(instance, SimpleProjectileEffect::new)
     );
-
-    public Vec3 getVelocity() {
-        return this.velocity;
-    }
-
-    public ResourceLocation getTexture() {
-        return this.texture;
-    }
 
     @Override
     public MapCodec<? extends AbstractEffect> getCodec() {
         return CODEC;
     }
 
-    public SimpleProjectileEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, ResourceLocation texture, Vec3 velocity) {
+    public SimpleProjectileConfig getConfig() {
+        return config;
+    }
+
+    public SimpleProjectileEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, SimpleProjectileConfig config) {
         super(targeting, effects, particles);
-        this.texture = texture;
-        this.velocity = velocity;
+        this.config = config;
     }
 
     @Override
@@ -59,21 +47,20 @@ public class SimpleProjectileEffect extends AbstractEffect {
         if (!targets.isEmpty()) {
             BlockPos random = targets.get(caster.getRandom().nextIntBetweenInclusive(0, targets.size() - 1));
             EntityType<?> type = ModEntities.SIMPLE_EFFECT_PROJECTILE.get();
-            Entity summon = type.create((ServerLevel) caster.level(), null, user.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
-            if (summon != null) {
+            Entity simpleProjectile = type.create((ServerLevel) caster.level(), null, user.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
+            if (simpleProjectile != null) {
 
-                summon.setPos(user.getEyePosition());
-                if (summon instanceof SimpleEffectProjectile projectileEntity) {
+                simpleProjectile.setPos(user.getEyePosition());
+                if (simpleProjectile instanceof SimpleEffectProjectile projectileEntity) {
                     projectileEntity.setOwner(caster);
                     projectileEntity.setEffect(this);
+                    projectileEntity.configure(config);
 
-                    projectileEntity.shootFromRotation(user, (float) (user.getXRot() + velocity.y), (float) (user.getYRot() + velocity.x), 0, 1, 0);
+                    projectileEntity.shootFromRotation(user, user.getXRot(), user.getYRot(), 0, config.velocity(), 0);
 
                 }
 
-                caster.level().addFreshEntity(summon);
-                applyParticlesToTarget(summon);
-                super.apply(summon, getTargeting().getBlocks(user), caster);
+                caster.level().addFreshEntity(simpleProjectile);
             }
         }
     }
