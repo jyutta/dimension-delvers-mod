@@ -1,10 +1,9 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
-import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerChunkCache;
@@ -20,17 +19,14 @@ import java.util.Optional;
 
 public class MovementEffect extends AbstractEffect {
     private Vec3 velocity;
-    public MovementEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Vec3 velocity, Optional<ParticleInfo> particles) {
+    public MovementEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, Vec3 velocity) {
         super(targeting, effects, particles);
         this.velocity = velocity;
     }
 
     public static final MapCodec<MovementEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
-                    Vec3.CODEC.fieldOf("velocity").forGetter(MovementEffect::getVelocity),
-                    Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles)
+            AbstractEffect.commonFields(instance).and(
+                    Vec3.CODEC.fieldOf("velocity").forGetter(MovementEffect::getVelocity)
             ).apply(instance, MovementEffect::new)
     );
 

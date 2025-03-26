@@ -22,10 +22,7 @@ public class HealEffect extends AbstractEffect {
 
     //TODO setup healing amount as part of the codec
     public static final MapCodec<HealEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
-                    Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
+            AbstractEffect.commonFields(instance).and(
                     Codec.FLOAT.fieldOf("amount").forGetter(HealEffect::getAmount)
             ).apply(instance, HealEffect::new)
     );

@@ -1,10 +1,9 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
-import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -28,13 +27,10 @@ public class ProjectileEffect extends AbstractEffect{
      */
 
     public static final MapCodec<ProjectileEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
-                    Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
+            AbstractEffect.commonFields(instance).and(instance.group(
                     ResourceLocation.CODEC.fieldOf("projectile_type").forGetter(ProjectileEffect::getEntityType),
                     Vec3.CODEC.fieldOf("velocity").forGetter(ProjectileEffect::getVelocity)
-            ).apply(instance, ProjectileEffect::new)
+            )).apply(instance, ProjectileEffect::new)
     );
 
     public Vec3 getVelocity() {

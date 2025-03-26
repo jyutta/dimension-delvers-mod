@@ -19,9 +19,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.util.List;
 import java.util.Optional;
 
-public class DamageEffect extends AbstractEffect{
+public class DamageEffect extends AbstractEffect {
     private float damageAmount = 0;
     private Holder<DamageType> damageTypeKey;
+
     public DamageEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, float amount, Holder<DamageType> damageTypeKey) {
         super(targeting, effects, particles);
         this.damageAmount = amount;
@@ -29,13 +30,10 @@ public class DamageEffect extends AbstractEffect{
     }
 
     public static final MapCodec<DamageEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
-                    Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
+            AbstractEffect.commonFields(instance).and(instance.group(
                     Codec.FLOAT.fieldOf("amount").forGetter(DamageEffect::getAmount),
                     DamageType.CODEC.fieldOf("damage_type").forGetter(DamageEffect::getDamageTypeKey)
-            ).apply(instance, DamageEffect::new)
+            )).apply(instance, DamageEffect::new)
     );
 
     private Holder<DamageType> getDamageTypeKey() {
@@ -66,18 +64,16 @@ public class DamageEffect extends AbstractEffect{
         // for now its ATTACK_DAMAGE but needs to be considered how multiple types are going to be implemented ie AP or AD
         float finalDamage = AbilityAttributeHelper.getAbilityAttribute(Attributes.ATTACK_DAMAGE, damageAmount, caster);
 
-        for(Entity target: targets) {
+        for (Entity target : targets) {
             applyParticlesToTarget(target);
-            if(target instanceof LivingEntity livingTarget)
-            {
+            if (target instanceof LivingEntity livingTarget) {
                 livingTarget.hurtServer((ServerLevel) user.level(), damageSource, finalDamage);
             }
             //Then apply children affects to targets
             super.apply(target, getTargeting().getBlocks(user), caster);
         }
 
-        if(targets.isEmpty())
-        {
+        if (targets.isEmpty()) {
             super.apply(null, getTargeting().getBlocks(user), caster);
         }
     }

@@ -1,5 +1,7 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
+import com.mojang.datafixers.Products;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
@@ -24,6 +26,13 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractEffect {
 
+    protected static <T extends AbstractEffect> Products.P3<RecordCodecBuilder.Mu<T>, AbstractTargeting, List<AbstractEffect>, Optional<ParticleInfo>> commonFields(RecordCodecBuilder.Instance<T> instance) {
+        return instance.group(
+                AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
+                Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
+                Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles)
+        );
+    }
 
     public abstract MapCodec<? extends AbstractEffect> getCodec();
 

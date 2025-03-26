@@ -26,13 +26,10 @@ public class SummonEffect extends AbstractEffect{
     //TODO also look into teleporting "towards" a location to find the nearest safe spot that isnt the exact location
 
     public static final MapCodec<SummonEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
-                    Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
+            AbstractEffect.commonFields(instance).and(instance.group(
                     ResourceLocation.CODEC.fieldOf("entity_type").forGetter(SummonEffect::getEntityType),
                     Codec.INT.fieldOf("amount").forGetter(SummonEffect::getAmount)
-            ).apply(instance, SummonEffect::new)
+            )).apply(instance, SummonEffect::new)
     );
 
     private Integer getAmount() {

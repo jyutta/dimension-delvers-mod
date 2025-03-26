@@ -1,6 +1,5 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
@@ -28,13 +27,10 @@ public class SimpleProjectileEffect extends AbstractEffect {
      */
 
     public static final MapCodec<SimpleProjectileEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
-                    Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles),
+            AbstractEffect.commonFields(instance).and(instance.group(
                     ResourceLocation.CODEC.fieldOf("texture").forGetter(SimpleProjectileEffect::getTexture),
                     Vec3.CODEC.fieldOf("velocity").forGetter(SimpleProjectileEffect::getVelocity)
-            ).apply(instance, SimpleProjectileEffect::new)
+            )).apply(instance, SimpleProjectileEffect::new)
     );
 
     public Vec3 getVelocity() {

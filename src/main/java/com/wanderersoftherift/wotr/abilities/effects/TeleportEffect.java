@@ -1,12 +1,11 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.wanderersoftherift.wotr.abilities.effects.util.TeleportInfo;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,11 +20,8 @@ public class TeleportEffect extends AbstractEffect{
     //TODO also look into teleporting "towards" a location to find the nearest safe spot that isnt the exact location
 
     public static final MapCodec<TeleportEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
-                    TeleportInfo.CODEC.fieldOf("tele_info").forGetter(TeleportEffect::getTeleportInfo),
-                    Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles)
+            AbstractEffect.commonFields(instance).and(
+                    TeleportInfo.CODEC.fieldOf("tele_info").forGetter(TeleportEffect::getTeleportInfo)
             ).apply(instance, TeleportEffect::new)
     );
 
@@ -34,7 +30,7 @@ public class TeleportEffect extends AbstractEffect{
         return CODEC;
     }
 
-    public TeleportEffect(AbstractTargeting targeting, List<AbstractEffect> effects, TeleportInfo teleInfo, Optional<ParticleInfo> particles) {
+    public TeleportEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, TeleportInfo teleInfo) {
         super(targeting, effects, particles);
         this.teleInfo = teleInfo;
     }

@@ -1,10 +1,9 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
-import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,11 +18,7 @@ public class BreakBlockEffect extends AbstractEffect{
     }
 
     public static final MapCodec<BreakBlockEffect> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
-                    Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles)
-            ).apply(instance, BreakBlockEffect::new)
+            AbstractEffect.commonFields(instance).apply(instance, BreakBlockEffect::new)
     );
 
     @Override
