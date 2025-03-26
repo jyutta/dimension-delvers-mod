@@ -9,9 +9,9 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 public class ClientPayloadHandler {
     public static void handleCooldownOnClient(final CooldownActivated cooldownActivated, final IPayloadContext context)
     {
-        PlayerCooldownData cooldowns = context.player().getData(ModAttachments.COOL_DOWNS);
-        cooldowns.setCooldown(cooldownActivated.slot(), cooldownActivated.cooldownLength());
-        context.player().setData(ModAttachments.COOL_DOWNS, cooldowns);
+        PlayerCooldownData cooldowns = context.player().getData(ModAttachments.ABILITY_COOLDOWNS);
+        cooldowns.setCooldown(cooldownActivated.slot(), cooldownActivated.cooldownLength(), cooldownActivated.cooldownRemaining());
+        context.player().setData(ModAttachments.ABILITY_COOLDOWNS, cooldowns);
     }
 
     public static void handleToggleOnClient(final ToggleState toggle, final IPayloadContext context)

@@ -19,7 +19,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import static com.wanderersoftherift.wotr.init.ModAttachments.COOL_DOWNS;
+import static com.wanderersoftherift.wotr.init.ModAttachments.ABILITY_COOLDOWNS;
 
 public final class AbilityBar {
 
@@ -35,14 +35,13 @@ public final class AbilityBar {
     private static final int SKILL_OFFSET_X = 4;
     private static final int SKILL_START_OFFSET_Y = 4;
     private static final int SKILL_OFFSET_Y = 2;
-    private static final float KEYBIND_SCALE = 0.5f;
 
     public static void render(GuiGraphics graphics, LocalPlayer player, ClientLevel level, DeltaTracker partialTick) {
         AbilitySlots abilitySlots = player.getData(ModAttachments.ABILITY_SLOTS);
         if (abilitySlots.getSlots() == 0) {
             return;
         }
-        PlayerCooldownData cooldowns = player.getData(COOL_DOWNS);
+        PlayerCooldownData cooldowns = player.getData(ABILITY_COOLDOWNS);
 
         renderBackground(graphics, abilitySlots);
         renderAbilities(graphics, abilitySlots, cooldowns);
@@ -70,16 +69,18 @@ public final class AbilityBar {
         Font font = Minecraft.getInstance().font;
         int yOffset = BAR_OFFSET_Y + SKILL_START_OFFSET_Y;
         graphics.pose().pushPose();
-        graphics.pose().scale(KEYBIND_SCALE, KEYBIND_SCALE, KEYBIND_SCALE);
-        float inverseScale = 1.0f / KEYBIND_SCALE;
+        float inverseScale = 1.0f;
         for (int slot = 0; slot < ModClientEvents.ABILITY_SLOT_KEYS.size(); slot++) {
+            if (ModClientEvents.ABILITY_SLOT_KEYS.get(slot).isUnbound()) {
+                continue;
+            }
             Component keyText = getShortKeyDescription(ModClientEvents.ABILITY_SLOT_KEYS.get(slot));
             int keyTextWidth = font.width(keyText);
             if (keyTextWidth > 31) {
                 keyText = Component.literal("...");
                 keyTextWidth = font.width(keyText);
             }
-            graphics.drawString(font, keyText, (int) (inverseScale * (BAR_OFFSET_X + SKILL_OFFSET_X + 16)) - keyTextWidth - 1, (int) (inverseScale * (yOffset + (slot + 1) * 18 - 2)) - font.lineHeight, ChatFormatting.WHITE.getColor());
+            graphics.drawString(font, keyText, (int) (inverseScale * (BAR_OFFSET_X + SKILL_OFFSET_X + 16)) - keyTextWidth, (int) (inverseScale * (yOffset + (slot + 1) * 18 - 1)) - font.lineHeight, ChatFormatting.WHITE.getColor());
         }
         graphics.pose().popPose();
     }

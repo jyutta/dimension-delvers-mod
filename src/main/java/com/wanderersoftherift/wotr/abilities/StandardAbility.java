@@ -4,12 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
-import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +41,6 @@ public class StandardAbility extends AbstractAbility{
                 this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), player));
                 this.setCooldown(player, slot);
             }
-
-            //TODO clean this up, since we should just send this data on when the player joins the server. But for now, the player can just press the button to sync back up
-            else {
-                PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot,this.getActiveCooldown(player, slot)));
-            }
-
         }
 
         //this is an example of handing a case where the player cannot use an ability

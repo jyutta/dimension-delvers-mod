@@ -30,6 +30,10 @@ public class PlayerCooldownData {
     }
 
     public void setCooldown(int slot, int amount) {
+        setCooldown(slot, amount, amount);
+    }
+
+    public void setCooldown(int slot, int amount, int remaining) {
         if (slot < 0) {
             return;
         }
@@ -39,8 +43,8 @@ public class PlayerCooldownData {
         while (slot >= lastCooldowns.size()) {
             lastCooldowns.add(0);
         }
-        currentCooldowns.set(slot, amount);
         lastCooldowns.set(slot, amount);
+        currentCooldowns.set(slot, remaining);
     }
 
     public int getCooldownRemaining(int slot)
@@ -68,4 +72,7 @@ public class PlayerCooldownData {
         currentCooldowns.replaceAll(x -> x > 0 ? x - 1 : 0);
     }
 
+    public int slots() {
+        return Math.min(currentCooldowns.size(), lastCooldowns.size());
+    }
 }

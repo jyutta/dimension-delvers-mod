@@ -3,6 +3,7 @@ package com.wanderersoftherift.wotr.init;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.network.AbilitySlotsContentPayload;
+import com.wanderersoftherift.wotr.network.AbilitySlotsCooldownsPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsUpdatePayload;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
 import com.wanderersoftherift.wotr.network.SelectSkillUpgradePayload;
@@ -25,6 +26,7 @@ public class ModPayloadHandlers {
         registrar.playToServer(SelectAbilitySlotPayload.ID, SelectAbilitySlotPayload.STREAM_CODEC, SelectAbilitySlotPayload::handleOnServer);
         registrar.playToClient(AbilitySlotsContentPayload.ID, AbilitySlotsContentPayload.STREAM_CODEC, AbilitySlotsContentPayload::handleOnClient);
         registrar.playToClient(AbilitySlotsUpdatePayload.ID, AbilitySlotsUpdatePayload.STREAM_CODEC, AbilitySlotsUpdatePayload::handleOnClient);
+        registrar.playToClient(AbilitySlotsCooldownsPayload.ID, AbilitySlotsCooldownsPayload.STREAM_CODEC, AbilitySlotsCooldownsPayload::handleOnClient);
     }
 
     @SubscribeEvent
@@ -35,6 +37,7 @@ public class ModPayloadHandlers {
 
         AbilitySlots abilitySlots = loggedInEvent.getEntity().getData(ModAttachments.ABILITY_SLOTS);
         PacketDistributor.sendToPlayer(serverPlayer, new AbilitySlotsContentPayload(abilitySlots.getAbilities(), abilitySlots.getSelectedSlot()));
+        PacketDistributor.sendToPlayer(serverPlayer, new AbilitySlotsCooldownsPayload(loggedInEvent.getEntity().getData(ModAttachments.ABILITY_COOLDOWNS)));
     }
 
 

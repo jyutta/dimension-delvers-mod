@@ -25,9 +25,9 @@ public class GameEvents {
     public static void playerTick(PlayerTickEvent.Post event) {
         Player p = event.getEntity();
 
-        PlayerCooldownData cooldowns = p.getData(ModAttachments.COOL_DOWNS);
+        PlayerCooldownData cooldowns = p.getData(ModAttachments.ABILITY_COOLDOWNS);
         cooldowns.reduceCooldowns();
-        p.setData(ModAttachments.COOL_DOWNS, cooldowns);
+        p.setData(ModAttachments.ABILITY_COOLDOWNS, cooldowns);
 
         //TODO replace this with similar situation to above
         PlayerDurationData durations = p.getData(ModAttachments.DURATIONS);

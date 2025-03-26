@@ -82,7 +82,7 @@ public abstract class AbstractAbility {
 
     public boolean IsOnCooldown(Player player, int slot) {
         //If we registered this ability as one that has a cooldown and the player has a cooldown active for this ability.
-        return player.getData(ModAttachments.COOL_DOWNS).isOnCooldown(slot);
+        return player.getData(ModAttachments.ABILITY_COOLDOWNS).isOnCooldown(slot);
 //        return ModAbilities.COOL_DOWN_ATTACHMENTS.containsKey(this.getName()) && p.getData(ModAbilities.COOL_DOWN_ATTACHMENTS.get(this.getName())) > 0;
     }
 
@@ -93,17 +93,17 @@ public abstract class AbstractAbility {
         if(this.hasCooldown())
         {
             WanderersOfTheRift.LOGGER.info("Setting cooldown for: " + this.getName() + " length: " + cooldown);
-            PlayerCooldownData cooldowns = player.getData(ModAttachments.COOL_DOWNS);
+            PlayerCooldownData cooldowns = player.getData(ModAttachments.ABILITY_COOLDOWNS);
             cooldowns.setCooldown(slot, (int) cooldown);
-            player.setData(ModAttachments.COOL_DOWNS, cooldowns);
+            player.setData(ModAttachments.ABILITY_COOLDOWNS, cooldowns);
         }
          //TODO maybe make helper to calculate time based on ticks for find a different method (maybe include in the attribute???)
-        PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot,(int) cooldown ));
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot,(int) cooldown, (int) cooldown));
     }
     public boolean hasCooldown() { return getBaseCooldown() > 0; }
 
     public int getActiveCooldown(Player player, int slot) {
-        return player.getData(ModAttachments.COOL_DOWNS).getCooldownRemaining(slot);
+        return player.getData(ModAttachments.ABILITY_COOLDOWNS).getCooldownRemaining(slot);
     }
 
     public float getBaseCooldown() {
