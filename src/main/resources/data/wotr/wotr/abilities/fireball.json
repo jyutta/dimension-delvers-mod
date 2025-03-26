@@ -31,16 +31,13 @@
               "amount": 10,
               "damage_type": "wotr:fire",
               "effects": [
-              ],
-              "particles": {
-                "user": "minecraft:bubble",
-                "target": "minecraft:explosion"
-              }
+              ]
             }
           ],
           "particles": {
-            "user": "minecraft:bubble",
-            "target": "minecraft:explosion"
+            "target": {
+              "type": "minecraft:explosion"
+            }
           }
         },
         {
@@ -53,8 +50,9 @@
           "effects": [
           ],
           "particles": {
-            "user": "minecraft:bubble",
-            "target": "minecraft:explosion"
+            "target": {
+              "type": "minecraft:explosion"
+            }
           }
         }
       ]
