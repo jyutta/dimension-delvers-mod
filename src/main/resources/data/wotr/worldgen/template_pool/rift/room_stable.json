@@ -4,12 +4,12 @@
   "elements": [
     {
 
-      "weight": 1,
+      "weight": 100,
       "element": {
 
-        "location": "wotr:rift/room/stable/333/dev_test",
+        "location": "wotr:rift/room/stable/333/cave_pillar-1-wout",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
@@ -21,9 +21,9 @@
       "weight": 100,
       "element": {
 
-        "location": "wotr:rift/room/stable/333/cave_pillar-1-wout",
+        "location": "wotr:rift/room/stable/333/caves-1-grimm",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
