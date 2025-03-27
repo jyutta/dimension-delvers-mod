@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/poi/free/3/guillotine-1-wout",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 
@@ -23,7 +23,7 @@
 
         "location": "wotr:rift/poi/free/3/pris_fountain-4-k",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 

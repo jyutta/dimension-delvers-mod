@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/poi/ceiling/5/overhang-1-wout",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 

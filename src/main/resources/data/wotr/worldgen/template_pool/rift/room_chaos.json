@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/room/chaos/333/winding_path-1-mal",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
@@ -23,7 +23,7 @@
 
         "location": "wotr:rift/room/chaos/221/twist-1-wout",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
@@ -37,7 +37,7 @@
 
         "location": "wotr:rift/room/chaos/212/fountain-1-pat",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
@@ -51,7 +51,7 @@
 
         "location": "wotr:rift/room/chaos/111/filler_1_pat",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
@@ -65,7 +65,7 @@
 
         "location": "wotr:rift/room/chaos/111/tavern-1-warren",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
@@ -79,7 +79,7 @@
 
         "location": "wotr:rift/room/chaos/131/spiraling_snake-1-warren",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 

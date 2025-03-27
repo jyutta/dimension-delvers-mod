@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/room/stable/333/cave_pillar-1-wout",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
@@ -23,7 +23,7 @@
 
         "location": "wotr:rift/room/stable/333/caves-1-grimm",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 

@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/poi/free/9/pale-stump-1-jj",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 
@@ -23,7 +23,7 @@
 
         "location": "wotr:rift/poi/free/9/pris_fountain-1-k",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 

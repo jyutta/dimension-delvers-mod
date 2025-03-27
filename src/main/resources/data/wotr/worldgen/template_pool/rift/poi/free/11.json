@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/poi/free/11/ocean_temple-1-jj",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 
@@ -23,7 +23,7 @@
 
         "location": "wotr:rift/poi/free/11/pale_tree-1-jj",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 
@@ -37,7 +37,7 @@
 
         "location": "wotr:rift/poi/free/11/sculk-1-jj",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 

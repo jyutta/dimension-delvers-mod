@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/poi/wall/7/wall-1-muki",
 
-        "processors": "wotr:rift_poi_default",
+        "processors": "wotr:poi_theme_default",
 
         "projection": "rigid",
 

@@ -24,7 +24,7 @@
 
         "location": "wotr:rift/room/unstable/333/oldwool",
 
-        "processors": "wotr:rift_room_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
