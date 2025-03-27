@@ -8,6 +8,20 @@
       "weight": 100,
       "element": {
 
+        "location": "wotr:rift/room/unstable/323/ruins-1-wout",
+
+        "processors": "wotr:room_multiple_ruins",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 50,
+      "element": {
+
         "location": "wotr:rift/room/unstable/333/oldwool",
 
         "processors": "wotr:rift_room_default",

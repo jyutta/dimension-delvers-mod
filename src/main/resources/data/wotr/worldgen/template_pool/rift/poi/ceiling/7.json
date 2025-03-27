@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/poi/ceiling/7/lantern-1-wout",
 
-        "processors": "wotr:11_to_glass",
+        "processors": "wotr:poi_11_to_glass",
 
         "projection": "rigid",
 
