@@ -39,7 +39,6 @@ import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -377,8 +376,8 @@ public class SimpleEffectProjectile extends Projectile {
             livingentity1.setLastHurtMob(entity);
         }
 
-        if (this.level() instanceof ServerLevel serverlevel && effect != null) {
-            effect.applyDelayed(entity, new ArrayList<>(), (Player) entity1);
+        if (this.level() instanceof ServerLevel serverLevel && effect != null) {
+            effect.applyDelayed(serverLevel, entity, List.of(entity.blockPosition()), (Player) entity1);
         }
 
         if (this.getPierceLevel() <= 0) {
@@ -417,9 +416,9 @@ public class SimpleEffectProjectile extends Projectile {
         this.lastState = this.level().getBlockState(result.getBlockPos());
         super.onHitBlock(result);
         ItemStack itemstack = this.getWeaponItem();
-        if (this.level() instanceof ServerLevel serverlevel) {
+        if (this.level() instanceof ServerLevel serverLevel) {
             if (effect != null) {
-                effect.applyDelayed(null, List.of(result.getBlockPos()), (Player) this.getOwner());
+                effect.applyDelayed(serverLevel, null, List.of(result.getBlockPos()), (Player) this.getOwner());
             }
         }
 

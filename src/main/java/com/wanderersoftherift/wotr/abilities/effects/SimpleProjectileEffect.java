@@ -13,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,8 +66,9 @@ public class SimpleProjectileEffect extends AbstractEffect {
         }
     }
 
-    public void applyDelayed(Entity target, List<BlockPos> blocks, LivingEntity caster) {
+    public void applyDelayed(Level level, Entity target, List<BlockPos> blocks, LivingEntity caster) {
         applyParticlesToTarget(target);
+        applyParticlesToTargetBlocks(level, blocks);
         super.apply(target, blocks, caster);
     }
 

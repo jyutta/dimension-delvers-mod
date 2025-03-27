@@ -14,11 +14,17 @@
         "texture": "minecraft:items/fire_charge",
         "gravity_affected": false
       },
+      "particles": {
+        "target_block": {
+          "type": "minecraft:explosion"
+        }
+      },
       "effects": [
         {
           "type": "wotr:target_effect",
           "targeting": {
             "type": "wotr:area_targeting",
+            "include_self": true,
             "range": 12
           },
           "effects": [
@@ -32,27 +38,7 @@
               "effects": [
               ]
             }
-          ],
-          "particles": {
-            "target": {
-              "type": "minecraft:explosion"
-            }
-          }
-        },
-        {
-          "type": "wotr:damage_effect",
-          "targeting": {
-            "type": "wotr:self_targeting"
-          },
-          "amount": 10,
-          "damage_type": "wotr:fire",
-          "effects": [
-          ],
-          "particles": {
-            "target": {
-              "type": "minecraft:explosion"
-            }
-          }
+          ]
         }
       ]
     }

@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -46,15 +47,10 @@ public abstract class AbstractEffect {
     }
 
     public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-
         for (AbstractEffect effect : getEffects()) {
             effect.apply(user, blocks, caster);
         }
-
-
     }
-
-    ;
 
     //TODO consolidate this code below
     public void applyParticlesToUser(Entity user) {
@@ -71,6 +67,17 @@ public abstract class AbstractEffect {
             if (!target.level().isClientSide()) {
                 ServerLevel level = (ServerLevel) target.level();
                 applyParticlesToPos(level, target.position(), particles.get().targetParticle().get());
+            }
+        }
+    }
+
+    protected void applyParticlesToTargetBlocks(Level level, List<BlockPos> blocks) {
+        if (blocks != null && !blocks.isEmpty() && particles.isPresent() && particles.get().targetBlockParticle().isPresent()) {
+            if (!level.isClientSide()) {
+                ServerLevel serverLevel = (ServerLevel) level;
+                for (BlockPos pos : blocks) {
+                    applyParticlesToPos(serverLevel, new Vec3(pos.getX(), pos.getY(), pos.getZ()), particles.get().targetBlockParticle().get());
+                }
             }
         }
     }
@@ -94,7 +101,5 @@ public abstract class AbstractEffect {
     public Set<Holder<Attribute>> getApplicableAttributes() {
         return getEffects().stream().map(AbstractEffect::getApplicableAttributes).flatMap(Set::stream).collect(Collectors.toSet());
     }
-
-    ;
 
 }
