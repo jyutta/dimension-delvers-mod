@@ -8,7 +8,7 @@
                     "output_steps": [
                         {
                             "output_state": "minecraft:oak_planks",
-                            "step_size": 0.5
+                            "step_size": 0.48
                         },
                         {
                             "output_state": "minecraft:jungle_planks",
@@ -28,7 +28,7 @@
                         },
                         {
                             "output_state": "minecraft:air",
-                            "step_size": 0.08
+                            "step_size": 0.1
                         }
                     ]
                 },
@@ -96,11 +96,24 @@
                     ]
                 },
                 {
+                    "input_state": "wotr:processor_block_13_trapdoor",
+                    "output_steps": [
+                        {
+                            "output_state": "minecraft:spruce_trapdoor",
+                            "step_size": 0.7
+                        },
+                        {
+                            "output_state": "minecraft:air",
+                            "step_size": 0.3
+                        }
+                    ]
+                },
+                {
                     "input_state": "wotr:processor_block_14",
                     "output_steps": [
                         {
                             "output_state": "minecraft:stone_bricks",
-                            "step_size": 0.5
+                            "step_size": 0.47
                         },
                         {
                             "output_state": "minecraft:mossy_stone_bricks",
@@ -120,7 +133,7 @@
                         },
                         {
                             "output_state": "minecraft:air",
-                            "step_size": 0.05
+                            "step_size": 0.08
                         }
                     ]
                 },

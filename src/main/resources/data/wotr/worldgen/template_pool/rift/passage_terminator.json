@@ -9,7 +9,7 @@
 
         "location": "wotr:rift/terminator/passage/flat",
 
-        "processors": "wotr:poi_theme_default",
+        "processors": "wotr:room_theme_default",
 
         "projection": "rigid",
 
