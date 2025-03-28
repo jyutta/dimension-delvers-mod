@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,7 +29,7 @@ public abstract class AbstractEffect {
     protected static <T extends AbstractEffect> Products.P3<RecordCodecBuilder.Mu<T>, AbstractTargeting, List<AbstractEffect>, Optional<ParticleInfo>> commonFields(RecordCodecBuilder.Instance<T> instance) {
         return instance.group(
                 AbstractTargeting.DIRECT_CODEC.fieldOf("targeting").forGetter(AbstractEffect::getTargeting),
-                Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractEffect::getEffects),
+                Codec.list(AbstractEffect.DIRECT_CODEC).optionalFieldOf("effects", Collections.emptyList()).forGetter(AbstractEffect::getEffects),
                 Codec.optionalField("particles", ParticleInfo.CODEC.codec(), true).forGetter(AbstractEffect::getParticles)
         );
     }

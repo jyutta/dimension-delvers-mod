@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StandardAbility extends AbstractAbility{
@@ -24,7 +25,7 @@ public class StandardAbility extends AbstractAbility{
                     ResourceLocation.CODEC.fieldOf("ability_name").forGetter(StandardAbility::getName),
                     ResourceLocation.CODEC.fieldOf("icon").forGetter(StandardAbility::getIcon),
                     Codec.INT.fieldOf("cooldown").forGetter(ability -> (int) ability.getBaseCooldown()),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).fieldOf("effects").forGetter(AbstractAbility::getEffects)
+                    Codec.list(AbstractEffect.DIRECT_CODEC).optionalFieldOf("effects", Collections.emptyList()).forGetter(AbstractAbility::getEffects)
             ).apply(instance, StandardAbility::new)
     );
 
