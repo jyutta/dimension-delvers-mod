@@ -8,6 +8,7 @@ import com.wanderersoftherift.wotr.network.AbilitySlotsUpdatePayload;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
 import com.wanderersoftherift.wotr.network.SelectSkillUpgradePayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -30,15 +31,28 @@ public class ModPayloadHandlers {
     }
 
     @SubscribeEvent
-    public static void onPlayerJoinedEvent(PlayerEvent.PlayerLoggedInEvent loggedInEvent) {
-        if (!(loggedInEvent.getEntity() instanceof ServerPlayer serverPlayer)) {
+    public static void onPlayerJoinedEvent(PlayerEvent.PlayerLoggedInEvent event) {
+        replicateAbilities(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public static void onPlayerSpawnEvent(PlayerEvent.PlayerRespawnEvent event) {
+        replicateAbilities(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public static void onPlayerSpawnEvent(PlayerEvent.PlayerChangedDimensionEvent event) {
+        replicateAbilities(event.getEntity());
+    }
+
+    private static void replicateAbilities(Player player) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
             return;
         }
 
-        AbilitySlots abilitySlots = loggedInEvent.getEntity().getData(ModAttachments.ABILITY_SLOTS);
+        AbilitySlots abilitySlots = serverPlayer.getData(ModAttachments.ABILITY_SLOTS);
         PacketDistributor.sendToPlayer(serverPlayer, new AbilitySlotsContentPayload(abilitySlots.getAbilities(), abilitySlots.getSelectedSlot()));
-        PacketDistributor.sendToPlayer(serverPlayer, new AbilitySlotsCooldownsPayload(loggedInEvent.getEntity().getData(ModAttachments.ABILITY_COOLDOWNS)));
+        PacketDistributor.sendToPlayer(serverPlayer, new AbilitySlotsCooldownsPayload(player.getData(ModAttachments.ABILITY_COOLDOWNS)));
     }
-
 
 }

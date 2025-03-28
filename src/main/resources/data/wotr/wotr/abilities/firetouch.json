@@ -2,7 +2,7 @@
   "type": "wotr:standard_ability",
   "ability_name": "wotr:firetouch",
   "icon": "minecraft:textures/mob_effect/fire_resistance.png",
-  "cooldown": 200,
+  "cooldown": 2000,
   "effects": [
     {
       "type": "wotr:attach_effect",

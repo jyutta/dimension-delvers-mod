@@ -24,7 +24,7 @@ public class PlayerCooldownData {
         currentCooldowns = new IntArrayList(new int[AbilitySlots.ABILITY_BAR_SIZE]);
     }
 
-    public PlayerCooldownData(IntList lastCooldowns, IntList currentCooldowns) {
+    public PlayerCooldownData(IntList currentCooldowns, IntList lastCooldowns) {
         this.currentCooldowns = new IntArrayList(currentCooldowns);
         this.lastCooldowns = new IntArrayList(lastCooldowns);
     }

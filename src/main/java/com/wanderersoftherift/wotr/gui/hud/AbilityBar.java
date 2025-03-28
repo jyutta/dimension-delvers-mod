@@ -56,7 +56,7 @@ public final class AbilityBar {
                 graphics.blit(RenderType::guiTextured, ability.getIcon(), BAR_OFFSET_X + SKILL_OFFSET_X, yOffset + slot * 18, 0, 0, 16, 16, 16, 16);
             }
 
-            if (cooldowns.isOnCooldown(slot)) {
+            if (cooldowns.isOnCooldown(slot) && cooldowns.getLastCooldownValue(slot) > 0) {
                 int overlayHeight = Math.clamp((16L * cooldowns.getCooldownRemaining(slot) / cooldowns.getLastCooldownValue(slot)), 0, 16);
                 graphics.blit(RenderType::guiTextured, COOLDOWN_OVERLAY, BAR_OFFSET_X + SKILL_OFFSET_X, yOffset + slot * 18 + 16 - overlayHeight, 0, 0, 16, overlayHeight, 16, 16);
             }
