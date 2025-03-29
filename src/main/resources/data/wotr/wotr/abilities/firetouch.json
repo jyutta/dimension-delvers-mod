@@ -2,7 +2,7 @@
   "type": "wotr:standard_ability",
   "ability_name": "wotr:firetouch",
   "icon": "minecraft:textures/mob_effect/fire_resistance.png",
-  "cooldown": 2000,
+  "cooldown": 200,
   "effects": [
     {
       "type": "wotr:attach_effect",
@@ -10,6 +10,7 @@
         "type": "wotr:self_targeting"
       },
       "ticks" : 100,
+      "display" : "wotr:fireshield",
       "effects": [
         {
           "type": "wotr:movement_effect",

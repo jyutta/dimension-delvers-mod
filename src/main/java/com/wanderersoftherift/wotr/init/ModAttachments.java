@@ -4,6 +4,7 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AttachedEffectData;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
+import com.wanderersoftherift.wotr.abilities.effects.marker.EffectDisplayData;
 import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshot;
 import net.minecraft.server.level.ServerLevel;
@@ -35,6 +36,7 @@ public class ModAttachments {
     public static final Supplier<AttachmentType<AbilitySlots>> ABILITY_SLOTS = ATTACHMENT_TYPES.register("ability_slots", () -> AttachmentType.builder(AbilitySlots::new).serialize(AbilitySlots.CODEC).copyOnDeath().build());
 
     public static final Supplier<AttachmentType<AttachedEffectData>> ATTACHED_EFFECTS = ATTACHMENT_TYPES.register("attached_effects", () -> AttachmentType.builder(AttachedEffectData::new).serialize(AttachedEffectData.CODEC).build());
+    public static final Supplier<AttachmentType<EffectDisplayData>> EFFECT_DISPLAY = ATTACHMENT_TYPES.register("effect_display", () -> AttachmentType.builder(() -> new EffectDisplayData()).build());
 
     @SubscribeEvent
     public static void serverTick(ServerTickEvent.Pre event) {
@@ -42,4 +44,5 @@ public class ModAttachments {
             AttachedEffectData.tick(level);
         }
     }
+
 }

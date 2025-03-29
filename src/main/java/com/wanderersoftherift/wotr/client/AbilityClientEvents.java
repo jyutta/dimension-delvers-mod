@@ -2,6 +2,7 @@ package com.wanderersoftherift.wotr.client;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.gui.hud.AbilityBar;
+import com.wanderersoftherift.wotr.gui.hud.EffectBar;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
@@ -14,7 +15,10 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import static com.wanderersoftherift.wotr.client.ModClientEvents.*;
+import static com.wanderersoftherift.wotr.client.ModClientEvents.ABILITY_SLOT_KEYS;
+import static com.wanderersoftherift.wotr.client.ModClientEvents.NEXT_ABILITY_KEY;
+import static com.wanderersoftherift.wotr.client.ModClientEvents.PREV_ABILITY_KEY;
+import static com.wanderersoftherift.wotr.client.ModClientEvents.USE_ABILITY_KEY;
 
 @EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public final class AbilityClientEvents {
@@ -55,5 +59,6 @@ public final class AbilityClientEvents {
     @SubscribeEvent
     public static void hudRender(RenderGuiEvent.Post event) {
         AbilityBar.render(event.getGuiGraphics(), Minecraft.getInstance().player, Minecraft.getInstance().level, event.getPartialTick());
+        EffectBar.render(event.getGuiGraphics(), Minecraft.getInstance().player, Minecraft.getInstance().level, event.getPartialTick());
     }
 }
