@@ -3,8 +3,8 @@ package com.wanderersoftherift.wotr.init;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
 import com.wanderersoftherift.wotr.block.RiftChestEntityBlock;
+import com.wanderersoftherift.wotr.block.RuneAnvilEntityBlock;
 import com.wanderersoftherift.wotr.block.RiftSpawnerBlock;
-import com.wanderersoftherift.wotr.block.RuneAnvilBlock;
 import com.wanderersoftherift.wotr.item.RiftChestType;
 import com.wanderersoftherift.wotr.block.*;
 import net.minecraft.core.registries.Registries;
@@ -38,11 +38,14 @@ public class ModBlocks {
             .lightLevel(state -> 7)
     ));
 
-    public static final DeferredBlock<RuneAnvilBlock> RUNE_ANVIL_BLOCK = registerBlock("rune_anvil", () -> new RuneAnvilBlock(BlockBehaviour.Properties.of()
-            .setId(blockId("rune_anvil"))
-            .strength(2.5F)
-            .sound(SoundType.METAL)
-    ));
+    public static final DeferredBlock<RuneAnvilEntityBlock> RUNE_ANVIL_ENTITY_BLOCK = registerBlock(
+            "rune_anvil",
+            () -> new RuneAnvilEntityBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("rune_anvil"))
+                    .strength(2.5F)
+                    .sound(SoundType.METAL)
+            )
+    );
 
     public static final DeferredBlock<RiftChestEntityBlock> RIFT_CHEST = registerChestBlock(
             "rift_chest",

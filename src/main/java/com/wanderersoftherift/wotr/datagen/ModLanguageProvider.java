@@ -30,7 +30,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Adds a block translation.
         addBlock(ModBlocks.DEV_BLOCK, "Dev Block");
-        addBlock(ModBlocks.RUNE_ANVIL_BLOCK, "Rune Anvil");
+        addBlock(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK, "Rune Anvil");
         addBlock(ModBlocks.RIFT_CHEST, "Rift Chest");
         addBlock(ModBlocks.RIFT_SPAWNER, "Rift Spawner");
         addBlock(ModBlocks.KEY_FORGE, "Key Forge");
@@ -40,6 +40,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.BUILDER_GLASSES, "Builder Glasses");
         addItem(ModItems.RUNEGEM, "Runegem");
         addItem(ModItems.RIFT_KEY, "Rift Key");
+        addItem(ModItems.RUNEGEM_GEODE, "Runegem Geode");
 
         addEntityType(ModEntityTypes.RIFT_ENTRANCE, "Rift Entrance");
 
@@ -70,11 +71,12 @@ public class ModLanguageProvider extends LanguageProvider {
 
 
         // Adds a generic translation
-        add("itemGroup." + WanderersOfTheRift.MODID, "Dimension Delvers");
+        add("itemGroup." + WanderersOfTheRift.MODID, "Wanderers of the Rift");
 
         add("item." + WanderersOfTheRift.MODID + ".rift_key.themed", "Rift Key of %s");
 
         add("container." + WanderersOfTheRift.MODID + ".rune_anvil", "Rune Anvil");
+        add("container." + WanderersOfTheRift.MODID + ".rune_anvil.apply", "Apply");
         add("container." + WanderersOfTheRift.MODID + ".rift_chest", "Rift Chest");
         add("container." + WanderersOfTheRift.MODID + ".key_forge", "Key Forge");
 
@@ -105,6 +107,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_tier", "Rift Tier: %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_value", "Essence: %s %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_header", "Essence:");
+        add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
+
     }
 
     private void addEssenceType(String id, String value) {
