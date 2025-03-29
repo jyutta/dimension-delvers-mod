@@ -90,7 +90,8 @@ public class AttachedEffectData {
         Iterator<AttachedEffect> iterator = effects.iterator();
         while (iterator.hasNext()) {
             AttachedEffect effect = iterator.next();
-            if (level.getEntity(effect.caster) instanceof LivingEntity caster) {
+            LivingEntity caster = effect.getCaster(level);
+            if (caster != null) {
                 effect.childEffects.forEach(child -> child.apply(attachedTo, Collections.emptyList(), caster));
                 effect.ticksRemaining--;
             } else {
@@ -136,6 +137,7 @@ public class AttachedEffectData {
 
         private final List<AbstractEffect> childEffects;
         private final UUID caster;
+        private LivingEntity cachedCaster;
         private final Holder<EffectMarker> display;
         private int ticksRemaining;
 
@@ -146,5 +148,14 @@ public class AttachedEffectData {
             this.display = display;
         }
 
+        public LivingEntity getCaster(ServerLevel level) {
+            if (cachedCaster != null) {
+                return cachedCaster.isRemoved() ? null : cachedCaster;
+            }
+            if (level.getEntity(caster) instanceof LivingEntity casterEntity) {
+                cachedCaster = casterEntity;
+            }
+            return cachedCaster;
+        }
     }
 }
