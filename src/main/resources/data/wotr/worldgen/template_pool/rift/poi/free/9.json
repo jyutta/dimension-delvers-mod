@@ -29,6 +29,104 @@
 
         "element_type": "minecraft:single_pool_element"
       }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/9/tent-3-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/9/endcrystal-3-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/9/jungpyrm-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/9/sculpfountain-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/9/swing-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/9/tentbase-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/9/vertfarm-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
     }
   ]
 }
