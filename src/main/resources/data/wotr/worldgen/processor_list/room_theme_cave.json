@@ -789,10 +789,36 @@
     },
     {
       "processor_type": "wotr:attachment",
+      "requires_sides": 0,
+      "requires_up": true,
+      "rarity": 0.01,
+      "blockstate": {
+        "Name": "minecraft:lantern",
+        "Properties" : {
+          "hanging": "true"
+        }
+      }
+    },
+    {
+      "processor_type": "wotr:attachment",
       "requires_sides": 1,
       "requires_up": true,
       "rarity": 0.05,
-      "blockstate": "minecraft:cobweb"
+      "blockstate": {
+        "Name": "minecraft:cobweb"
+      }
+    },
+    {
+      "processor_type": "wotr:attachment",
+      "requires_sides": 0,
+      "requires_up": true,
+      "rarity": 0.05,
+      "blockstate": {
+        "Name": "minecraft:pointed_dripstone",
+        "Properties" : {
+          "vertical_direction": "down"
+        }
+      }
     }
   ]
 }
