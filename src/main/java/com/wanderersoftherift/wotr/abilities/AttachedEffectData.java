@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
 import com.wanderersoftherift.wotr.abilities.effects.AttachEffect;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
+import com.wanderersoftherift.wotr.abilities.effects.predicate.ContinueEffectPredicate;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TriggerPredicate;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.RegistryEvents;
@@ -84,7 +85,7 @@ public class AttachedEffectData {
     }
 
     private int getRemainingDuration(Holder<EffectMarker> display) {
-        return effects.stream().filter(x -> display.equals(x.display.orElse(null))).mapToInt(x -> x.duration).max().orElse(0);
+        return effects.stream().filter(x -> display.equals(x.display.orElse(null))).mapToInt(AttachedEffect::getRemainingDuration).max().orElse(0);
     }
 
     private @NotNull List<AttachedEffect> tickEffects(LivingEntity attachedTo, ServerLevel level) {
@@ -101,14 +102,16 @@ public class AttachedEffectData {
     }
 
     public void attach(LivingEntity attachedTo, LivingEntity caster, AttachEffect attachEffect) {
+        AttachedEffect newEffect = new AttachedEffect(attachEffect.getEffects(), attachEffect.getTriggerPredicate(), attachEffect.getContinuePredicate(), attachEffect.getDisplay(), caster);
         if (attachedTo instanceof ServerPlayer player
                 && attachEffect.getDisplay() != null) {
-            int existing = getRemainingDuration(attachEffect.getDisplay());
-            if (existing < attachEffect.getDuration() || attachEffect.getDuration() == 0) {
-                PacketDistributor.sendToPlayer(player, new SetEffectMarkerPayload(attachEffect.getDisplay(), attachEffect.getDuration()));
+            int existingDuration = getRemainingDuration(attachEffect.getDisplay());
+            int newDuration = newEffect.getRemainingDuration();
+            if (existingDuration < newDuration) {
+                PacketDistributor.sendToPlayer(player, new SetEffectMarkerPayload(attachEffect.getDisplay(), newDuration));
             }
         }
-        effects.add(new AttachedEffect(attachEffect.getEffects(), attachEffect.getTriggerPredicate(), attachEffect.getMaxTriggerTimes(), attachEffect.getDuration(), attachEffect.getDisplay(), caster));
+        effects.add(newEffect);
     }
 
     public Map<Holder<EffectMarker>, Integer> getDisplayData() {
@@ -127,8 +130,7 @@ public class AttachedEffectData {
         private static final Codec<AttachedEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                         AbstractEffect.DIRECT_CODEC.listOf().fieldOf("childEffects").forGetter(x -> x.childEffects),
                         TriggerPredicate.CODEC.fieldOf("triggerPredicate").forGetter(x -> x.triggerPredicate),
-                        Codec.INT.fieldOf("maxTriggerTimes").forGetter(x -> x.maxTriggerTimes),
-                        Codec.INT.fieldOf("duration").forGetter(x -> x.duration),
+                        ContinueEffectPredicate.CODEC.fieldOf("continuePredicate").forGetter(x -> x.continuePredicate),
                         RegistryFixedCodec.create(RegistryEvents.EFFECT_MARKER_REGISTRY).optionalFieldOf("display").forGetter(x -> x.display),
                         UUIDUtil.CODEC.fieldOf("caster").forGetter(x -> x.caster),
                         Codec.INT.fieldOf("triggeredTimes").forGetter(x -> x.triggeredTimes),
@@ -138,8 +140,7 @@ public class AttachedEffectData {
 
         private final List<AbstractEffect> childEffects;
         private final TriggerPredicate triggerPredicate;
-        private final int maxTriggerTimes;
-        private final int duration;
+        private final ContinueEffectPredicate continuePredicate;
         private final Optional<Holder<EffectMarker>> display;
 
         private final UUID caster;
@@ -148,19 +149,18 @@ public class AttachedEffectData {
 
         private LivingEntity cachedCaster;
 
-        public AttachedEffect(List<AbstractEffect> childEffects, TriggerPredicate triggerPredicate, int maxTriggerTimes, int duration, Optional<Holder<EffectMarker>> display, UUID caster, int triggeredTimes, int ticks) {
+        public AttachedEffect(List<AbstractEffect> childEffects, TriggerPredicate triggerPredicate, ContinueEffectPredicate continuePredicate, Optional<Holder<EffectMarker>> display, UUID caster, int triggeredTimes, int ticks) {
             this.childEffects = childEffects;
             this.caster = caster;
             this.triggerPredicate = triggerPredicate;
-            this.maxTriggerTimes = maxTriggerTimes;
-            this.duration = duration;
+            this.continuePredicate = continuePredicate;
             this.display = display;
             this.triggeredTimes = triggeredTimes;
             this.ticks = ticks;
         }
 
-        public AttachedEffect(List<AbstractEffect> childEffects, TriggerPredicate triggerPredicate, int maxTriggerTimes, int duration, Holder<EffectMarker> display, LivingEntity caster) {
-            this(childEffects, triggerPredicate, maxTriggerTimes, duration, Optional.ofNullable(display), caster.getUUID(), 0, 0);
+        public AttachedEffect(List<AbstractEffect> childEffects, TriggerPredicate triggerPredicate, ContinueEffectPredicate continuePredicate, Holder<EffectMarker> display, LivingEntity caster) {
+            this(childEffects, triggerPredicate, continuePredicate, Optional.ofNullable(display), caster.getUUID(), 0, 0);
             this.cachedCaster = caster;
         }
 
@@ -175,12 +175,12 @@ public class AttachedEffectData {
             if (caster == null) {
                 return true;
             }
-            if (triggerPredicate.apply(attachedTo, ticks, caster)) {
+            if (triggerPredicate.matches(attachedTo, ticks, caster)) {
                 childEffects.forEach(child -> child.apply(attachedTo, Collections.emptyList(), caster));
                 triggeredTimes++;
             }
             ticks++;
-            return (duration > 0 && ticks >= duration) || (maxTriggerTimes > 0 && triggeredTimes >= maxTriggerTimes);
+            return !continuePredicate.matches(attachedTo, ticks, triggeredTimes, caster);
         }
 
         public LivingEntity getCaster(ServerLevel level) {
@@ -194,10 +194,10 @@ public class AttachedEffectData {
         }
 
         public int getRemainingDuration() {
-            if (duration == 0) {
+            if (continuePredicate.duration() == 0) {
                 return Integer.MAX_VALUE;
             }
-            return duration - ticks;
+            return continuePredicate.duration() - ticks;
         }
 
     }

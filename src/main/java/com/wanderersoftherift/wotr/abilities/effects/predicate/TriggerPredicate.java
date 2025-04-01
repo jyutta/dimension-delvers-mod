@@ -28,8 +28,7 @@ public record TriggerPredicate(
         this(Optional.empty(), Optional.empty(), 1,0);
     }
 
-
-    public boolean apply(Entity target, int tick, Entity caster) {
+    public boolean matches(Entity target, int tick, Entity caster) {
         if (tick < initialDelay) {
             return false;
         }

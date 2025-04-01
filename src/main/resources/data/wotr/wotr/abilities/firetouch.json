@@ -9,7 +9,9 @@
       "targeting": {
         "type": "wotr:self_targeting"
       },
-      "duration" : 200,
+      "continuePredicate": {
+        "duration" : 200
+      },
       "display" : "wotr:fireshield",
       "triggerPredicate" : {
         "frequency": 40
@@ -32,7 +34,9 @@
       "targeting": {
         "type": "wotr:self_targeting"
       },
-      "duration" : 200,
+      "continuePredicate": {
+        "duration" : 200
+      },
       "triggerPredicate" : {
         "frequency": 40,
         "initial_delay": 20
