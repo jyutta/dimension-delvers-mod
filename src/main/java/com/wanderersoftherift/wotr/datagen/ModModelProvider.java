@@ -9,10 +9,7 @@ import com.wanderersoftherift.wotr.item.runegem.RunegemShape;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.client.data.models.blockstates.PropertyDispatch;
-import net.minecraft.client.data.models.blockstates.Variant;
-import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
@@ -20,6 +17,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,6 +68,7 @@ public class ModModelProvider extends ModelProvider {
 
     private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         blockModels.family(helper.getBlock().get()).generateFor(helper.getFamily());
+        //todo add mod family generators
     }
 
     public void generateRunegemItem(Item item, ItemModelGenerators itemModels) {
@@ -95,5 +94,43 @@ public class ModModelProvider extends ModelProvider {
                 .select(Direction.SOUTH, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180))
                 .select(Direction.WEST, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270));
     }
+/*
+
+    public void createGlassPane(BlockModelGenerators blockModels, Block glassBlock, Block paneBlock) {
+        TextureMapping texturemapping = TextureMapping.pane(glassBlock, paneBlock);
+        ResourceLocation resourcelocation = ModelTemplates.STAINED_GLASS_PANE_POST.create(paneBlock, texturemapping, this.modelOutput);
+        ResourceLocation resourcelocation1 = ModelTemplates.STAINED_GLASS_PANE_SIDE.create(paneBlock, texturemapping, this.modelOutput);
+        ResourceLocation resourcelocation2 = ModelTemplates.STAINED_GLASS_PANE_SIDE_ALT.create(paneBlock, texturemapping, this.modelOutput);
+        ResourceLocation resourcelocation3 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE.create(paneBlock, texturemapping, this.modelOutput);
+        ResourceLocation resourcelocation4 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE_ALT.create(paneBlock, texturemapping, this.modelOutput);
+        Item item = paneBlock.asItem();
+        blockModels.registerSimpleItemModel(item, this.createFlatItemModelWithBlockTexture(item, glassBlock));
+        this.blockStateOutput
+                .accept(
+                        MultiPartGenerator.multiPart(paneBlock)
+                                .with(Variant.variant().with(VariantProperties.MODEL, resourcelocation))
+                                .with(Condition.condition().term(BlockStateProperties.NORTH, true), Variant.variant().with(VariantProperties.MODEL, resourcelocation1))
+                                .with(
+                                        Condition.condition().term(BlockStateProperties.EAST, true),
+                                        Variant.variant().with(VariantProperties.MODEL, resourcelocation1).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                )
+                                .with(Condition.condition().term(BlockStateProperties.SOUTH, true), Variant.variant().with(VariantProperties.MODEL, resourcelocation2))
+                                .with(
+                                        Condition.condition().term(BlockStateProperties.WEST, true),
+                                        Variant.variant().with(VariantProperties.MODEL, resourcelocation2).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                )
+                                .with(Condition.condition().term(BlockStateProperties.NORTH, false), Variant.variant().with(VariantProperties.MODEL, resourcelocation3))
+                                .with(Condition.condition().term(BlockStateProperties.EAST, false), Variant.variant().with(VariantProperties.MODEL, resourcelocation4))
+                                .with(
+                                        Condition.condition().term(BlockStateProperties.SOUTH, false),
+                                        Variant.variant().with(VariantProperties.MODEL, resourcelocation4).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                )
+                                .with(
+                                        Condition.condition().term(BlockStateProperties.WEST, false),
+                                        Variant.variant().with(VariantProperties.MODEL, resourcelocation3).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
+                                )
+                );
+    }
+*/
 
 }

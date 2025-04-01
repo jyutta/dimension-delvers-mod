@@ -102,6 +102,9 @@ public class ModBlocks {
                 .withFence(registerBlock(id + FENCE_SUFFIX, () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_SUFFIX)))))
                 .withFenceGate(registerBlock(id + FENCE_GATE_SUFFIX, () -> new FenceGateBlock(OAK, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_GATE_SUFFIX)))))
                 .withTrapdoor(registerBlock(id + TRAPDOOR_SUFFIX, () -> new TrapDoorBlock(BlockSetType.STONE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + TRAPDOOR_SUFFIX)))))
+                //todo change to correct register calls
+                .withPane(registerBlock(id + TRAPDOOR_SUFFIX, () -> new TrapDoorBlock(BlockSetType.STONE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + TRAPDOOR_SUFFIX)))))
+                .withDirectionalPillar(registerBlock(id + TRAPDOOR_SUFFIX, () -> new TrapDoorBlock(BlockSetType.STONE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + TRAPDOOR_SUFFIX)))))
                 .createBuildBlockHelper();
         BLOCK_FAMILY_HELPERS.add(buildingBlockHelper);
         return buildingBlockHelper;
