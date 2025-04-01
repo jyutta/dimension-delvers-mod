@@ -1,7 +1,7 @@
 {
   "type": "wotr:standard_ability",
   "ability_name": "wotr:fireball_ability",
-  "icon" : "minecraft:textures/item/fire_charge.png",
+  "icon": "minecraft:textures/item/fire_charge.png",
   "cooldown": 20,
   "effects": [
     {
@@ -13,7 +13,12 @@
       "config": {
         "velocity": 1.6,
         "texture": "minecraft:items/fire_charge",
-        "gravity_affected": false
+        "gravity_affected": false,
+        "render": {
+          "model": "wotr:geo/ability/fireball.geo.json",
+          "texture": "wotr:textures/ability/fireball.png",
+          "animations": "wotr:animations/ability/fireball.animations.json"
+        }
       },
       "particles": {
         "target_block": {

@@ -21,6 +21,13 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroup("software.bernie.geckolib")
+        }
+    }
 }
 
 base {
@@ -113,6 +120,7 @@ dependencies {
     runtimeOnly "curse.maven:spark-361579:${spark_version}"
     runtimeOnly "curse.maven:jade-324717:${jade_version}"
     runtimeOnly "curse.maven:roughly-enough-items-310111:${rei_version}"
+    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

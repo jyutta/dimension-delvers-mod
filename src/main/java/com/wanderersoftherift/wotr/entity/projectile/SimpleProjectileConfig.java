@@ -3,15 +3,40 @@ package com.wanderersoftherift.wotr.entity.projectile;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-public record SimpleProjectileConfig(ResourceLocation texture, float velocity, boolean gravityAffected, float gravity) {
+public record SimpleProjectileConfig(SimpleProjectileConfigRenderConfig renderConfig, float velocity, boolean gravityAffected, float gravity) {
     public static final MapCodec<SimpleProjectileConfig> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
-                    ResourceLocation.CODEC.fieldOf("texture").forGetter(SimpleProjectileConfig::texture),
+                    SimpleProjectileConfigRenderConfig.CODEC.fieldOf("render").forGetter(SimpleProjectileConfig::renderConfig),
                     Codec.FLOAT.fieldOf("velocity").forGetter(SimpleProjectileConfig::velocity),
                     Codec.BOOL.optionalFieldOf("gravity_affected", true).forGetter(SimpleProjectileConfig::gravityAffected),
                     Codec.FLOAT.optionalFieldOf("gravity", 0.05F).forGetter(SimpleProjectileConfig::gravity)
+
             ).apply(instance, SimpleProjectileConfig::new)
     );
+
+    public record SimpleProjectileConfigRenderConfig(ResourceLocation modelResource, ResourceLocation textureResource, ResourceLocation animationResource){
+        public static final MapCodec<SimpleProjectileConfigRenderConfig> CODEC = RecordCodecBuilder.mapCodec(instance ->
+                instance.group(
+                        ResourceLocation.CODEC.fieldOf("model").forGetter(SimpleProjectileConfigRenderConfig::modelResource),
+                        ResourceLocation.CODEC.fieldOf("texture").forGetter(SimpleProjectileConfigRenderConfig::textureResource),
+                        ResourceLocation.CODEC.fieldOf("animations").forGetter(SimpleProjectileConfigRenderConfig::animationResource)
+                        ).apply(instance, SimpleProjectileConfigRenderConfig::new)
+        );
+        public static StreamCodec<RegistryFriendlyByteBuf, SimpleProjectileConfigRenderConfig> STREAM_CODEC = StreamCodec.composite(
+                ResourceLocation.STREAM_CODEC, SimpleProjectileConfigRenderConfig::modelResource,
+                ResourceLocation.STREAM_CODEC, SimpleProjectileConfigRenderConfig::textureResource,
+                ResourceLocation.STREAM_CODEC, SimpleProjectileConfigRenderConfig::animationResource,
+                SimpleProjectileConfigRenderConfig::new
+        );
+        public static SimpleProjectileConfigRenderConfig DEFAULT = new SimpleProjectileConfigRenderConfig(
+                WanderersOfTheRift.id("geo/ability/fireball.geo.json"),
+                WanderersOfTheRift.id("textures/ability/fireball.png"),
+                WanderersOfTheRift.id("animations/ability/fireball.animations.json")
+        );
+    }
 }

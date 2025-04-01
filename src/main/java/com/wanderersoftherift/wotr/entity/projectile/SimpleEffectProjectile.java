@@ -1,8 +1,9 @@
 package com.wanderersoftherift.wotr.entity.projectile;
 
+import com.google.common.collect.Lists;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.effects.SimpleProjectileEffect;
-import com.google.common.collect.Lists;
+import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -37,12 +38,18 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public class SimpleEffectProjectile extends Projectile {
+public class SimpleEffectProjectile extends Projectile implements GeoEntity {
     private static final double ARROW_BASE_DAMAGE = 2.0;
     private static final int SHAKE_TIME = 7;
     private static final float WATER_INERTIA = 0.6F;
@@ -50,6 +57,7 @@ public class SimpleEffectProjectile extends Projectile {
     private static final EntityDataAccessor<Byte> ID_FLAGS = SynchedEntityData.defineId(SimpleEffectProjectile.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> PIERCE_LEVEL = SynchedEntityData.defineId(SimpleEffectProjectile.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> IN_GROUND = SynchedEntityData.defineId(SimpleEffectProjectile.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<SimpleProjectileConfig.SimpleProjectileConfigRenderConfig> RENDER_CONFIG = SynchedEntityData.defineId(SimpleEffectProjectile.class, ModEntityDataSerializers.SIMPLE_PROJECTILE_RENDER_CONFIG.get());
     @Nullable
     private BlockState lastState;
     protected int inGroundTime;
@@ -67,6 +75,7 @@ public class SimpleEffectProjectile extends Projectile {
     private ItemStack firedFromWeapon = null;
     private AbstractAbility ability;
     private SimpleProjectileEffect effect;
+    private SimpleProjectileConfig config;
 
     public SimpleEffectProjectile(EntityType<SimpleEffectProjectile> p_331098_, Level p_331626_) {
         super(p_331098_, p_331626_);
@@ -82,6 +91,10 @@ public class SimpleEffectProjectile extends Projectile {
 
     public void setSoundEvent(SoundEvent soundEvent) {
         this.soundEvent = soundEvent;
+    }
+
+    public SimpleProjectileConfig getConfig() {
+        return config;
     }
 
     /**
@@ -103,6 +116,7 @@ public class SimpleEffectProjectile extends Projectile {
         p_325945_.define(ID_FLAGS, (byte) 0);
         p_325945_.define(PIERCE_LEVEL, (byte) 0);
         p_325945_.define(IN_GROUND, false);
+        p_325945_.define(RENDER_CONFIG, SimpleProjectileConfig.SimpleProjectileConfigRenderConfig.DEFAULT);
     }
 
     /**
@@ -594,6 +608,10 @@ public class SimpleEffectProjectile extends Projectile {
         this.entityData.set(PIERCE_LEVEL, pierceLevel);
     }
 
+    public void setRenderConfig(SimpleProjectileConfig.SimpleProjectileConfigRenderConfig renderConfig) {
+        this.entityData.set(RENDER_CONFIG, renderConfig);
+    }
+
     private void setFlag(int id, boolean value) {
         byte b0 = this.entityData.get(ID_FLAGS);
         if (value) {
@@ -613,6 +631,10 @@ public class SimpleEffectProjectile extends Projectile {
 
     public byte getPierceLevel() {
         return this.entityData.get(PIERCE_LEVEL);
+    }
+
+    public SimpleProjectileConfig.SimpleProjectileConfigRenderConfig getRenderConfig() {
+        return this.entityData.get(RENDER_CONFIG);
     }
 
     public void setBaseDamageFromMob(float velocity) {
@@ -643,6 +665,8 @@ public class SimpleEffectProjectile extends Projectile {
     }
 
     public void configure(SimpleProjectileConfig config) {
+        this.config = config;
+        this.setRenderConfig(config.renderConfig());
         setNoGravity(!config.gravityAffected());
     }
 
@@ -660,10 +684,15 @@ public class SimpleEffectProjectile extends Projectile {
         }
     }
 
-    public ResourceLocation getTexture() {
-        if (effect == null) {
-            return ResourceLocation.withDefaultNamespace("projectiles/arrow.png");
-        }
-        return effect.getConfig().texture();
+    private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+
+    @Override
+    public void registerControllers(final AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "loop", 5, state -> state.setAndContinue(RawAnimation.begin().thenLoop("loop"))));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.geoCache;
     }
 }
