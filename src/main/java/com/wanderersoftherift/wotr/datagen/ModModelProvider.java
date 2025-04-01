@@ -68,6 +68,7 @@ public class ModModelProvider extends ModelProvider {
         ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels, itemModels));
     }
 
+    //todo add models here for pane and pillar
     private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         blockModels.family(helper.getBlock().get()).generateFor(helper.getFamily());
     }
