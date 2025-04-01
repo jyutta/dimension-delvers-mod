@@ -1,7 +1,6 @@
 package com.wanderersoftherift.wotr.entity.projectile;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -9,7 +8,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 public record SimpleProjectileConfig(SimpleProjectileConfigRenderConfig renderConfig, float velocity, boolean gravityAffected, float gravity) {
-    public static final MapCodec<SimpleProjectileConfig> CODEC = RecordCodecBuilder.mapCodec(instance ->
+    public static final SimpleProjectileConfig DEFAULT = new SimpleProjectileConfig(
+            SimpleProjectileConfigRenderConfig.DEFAULT,
+            1.0F,
+            true,
+            0.05F
+    );
+    public static final Codec<SimpleProjectileConfig> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     SimpleProjectileConfigRenderConfig.CODEC.fieldOf("render").forGetter(SimpleProjectileConfig::renderConfig),
                     Codec.FLOAT.fieldOf("velocity").forGetter(SimpleProjectileConfig::velocity),
@@ -20,7 +25,8 @@ public record SimpleProjectileConfig(SimpleProjectileConfigRenderConfig renderCo
     );
 
     public record SimpleProjectileConfigRenderConfig(ResourceLocation modelResource, ResourceLocation textureResource, ResourceLocation animationResource){
-        public static final MapCodec<SimpleProjectileConfigRenderConfig> CODEC = RecordCodecBuilder.mapCodec(instance ->
+
+        public static final Codec<SimpleProjectileConfigRenderConfig> CODEC = RecordCodecBuilder.create(instance ->
                 instance.group(
                         ResourceLocation.CODEC.fieldOf("model").forGetter(SimpleProjectileConfigRenderConfig::modelResource),
                         ResourceLocation.CODEC.fieldOf("texture").forGetter(SimpleProjectileConfigRenderConfig::textureResource),

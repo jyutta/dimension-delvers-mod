@@ -1,6 +1,7 @@
 package com.wanderersoftherift.wotr.entity.projectile;
 
 import com.google.common.collect.Lists;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.effects.SimpleProjectileEffect;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
@@ -10,6 +11,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -443,7 +445,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         this.setDeltaMovement(Vec3.ZERO);
         this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
         this.setInGround(true);
-        this.shakeTime = 7;
+        this.shakeTime = SHAKE_TIME;
         this.setPierceLevel((byte) 0);
         this.setSoundEvent(SoundEvents.ARROW_HIT);
         this.resetPiercedEntities();
@@ -502,6 +504,9 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         if (this.firedFromWeapon != null) {
             compound.put("weapon", this.firedFromWeapon.save(this.registryAccess(), new CompoundTag()));
         }
+        if (this.config != null) {
+            compound.put("config", SimpleProjectileConfig.CODEC.encodeStart(NbtOps.INSTANCE, this.config).getOrThrow());
+        }
     }
 
     /**
@@ -539,6 +544,13 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
             this.firedFromWeapon = ItemStack.parse(this.registryAccess(), compound.getCompound("weapon")).orElse(null);
         } else {
             this.firedFromWeapon = null;
+        }
+
+        if (compound.contains("config", 10)) {
+            this.config = SimpleProjectileConfig.CODEC
+                    .parse(NbtOps.INSTANCE, compound.get("config"))
+                    .resultOrPartial(p_186388_ -> WanderersOfTheRift.LOGGER.warn("Invalid projectile config: {}", p_186388_))
+                    .orElse(SimpleProjectileConfig.DEFAULT);
         }
     }
 
