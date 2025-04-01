@@ -1,6 +1,7 @@
 package com.wanderersoftherift.wotr;
 
 import com.mojang.logging.LogUtils;
+import com.wanderersoftherift.wotr.commands.DebugCommands;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.commands.RiftMapCommands;
 import com.wanderersoftherift.wotr.commands.SpawnPieceCommand;
@@ -13,6 +14,7 @@ import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModEntityTypes;
 import com.wanderersoftherift.wotr.init.ModInputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.ModLootItemFunctionTypes;
 import com.wanderersoftherift.wotr.init.ModLootModifiers;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
 import com.wanderersoftherift.wotr.init.ModModifierEffects;
@@ -65,6 +67,7 @@ public class WanderersOfTheRift {
         ModModifierEffects.MODIFIER_EFFECT_TYPES.register(modEventBus);
         ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPES.register(modEventBus);
         ModEntityTypes.ENTITIES.register(modEventBus);
+        ModLootItemFunctionTypes.LOOT_ITEM_FUNCTION_TYPES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Wotr) to respond directly to events.
@@ -116,6 +119,7 @@ public class WanderersOfTheRift {
         if (FMLEnvironment.dist.isClient()) {
             RiftMapCommands.register(event.getDispatcher(), event.getBuildContext());
         }
+        new DebugCommands().registerCommand(event.getDispatcher(), event.getBuildContext());
     }
 
     @SubscribeEvent
