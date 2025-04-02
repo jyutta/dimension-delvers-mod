@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_glass_pane_side",
+  "textures": {
+    "edge": "wotr:block/processor_block_2_glass_pane_top",
+    "pane": "wotr:block/processor_block_2_glass"
+  }
+}

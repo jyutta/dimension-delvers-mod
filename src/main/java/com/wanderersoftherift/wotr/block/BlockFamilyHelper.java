@@ -22,7 +22,7 @@ public class BlockFamilyHelper {
     public static final String FENCE_SUFFIX = "_fence";
     public static final String FENCE_GATE_SUFFIX = "_fence_gate";
     public static final String TRAPDOOR_SUFFIX = "_trapdoor";
-    public static final String GLASS_BLOCK_SUFFIX = "_glass_block";
+    public static final String GLASS_BLOCK_SUFFIX = "_glass";
     public static final String PANE_SUFFIX = "_glass_pane";
     public static final String DIRECTIONAL_PILLAR_SUFFIX = "_directional_pillar";
 
