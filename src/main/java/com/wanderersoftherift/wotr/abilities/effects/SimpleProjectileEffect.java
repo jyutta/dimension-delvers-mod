@@ -46,23 +46,41 @@ public class SimpleProjectileEffect extends AbstractEffect {
         List<BlockPos> targets = getTargeting().getBlocks(user);
         applyParticlesToUser(user);
         if (!targets.isEmpty()) {
-            BlockPos random = targets.get(caster.getRandom().nextIntBetweenInclusive(0, targets.size() - 1));
             EntityType<?> type = ModEntities.SIMPLE_EFFECT_PROJECTILE.get();
-            Entity simpleProjectile = type.create((ServerLevel) caster.level(), null, user.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
-            if (simpleProjectile != null) {
+            int numberOfProjectiles = getNumberOfProjectiles();
 
-                simpleProjectile.setPos(user.getEyePosition());
-                if (simpleProjectile instanceof SimpleEffectProjectile projectileEntity) {
-                    projectileEntity.setOwner(caster);
-                    projectileEntity.setEffect(this);
-                    projectileEntity.configure(config);
-
-                    projectileEntity.shootFromRotation(user, user.getXRot(), user.getYRot(), 0, config.velocity(), 0);
-
-                }
-
-                caster.level().addFreshEntity(simpleProjectile);
+            float spread = getSpread();
+            float f1 = numberOfProjectiles == 1 ? 0.0F : 2.0F * spread / (float) (numberOfProjectiles - 1);
+            float f2 = (float) ((numberOfProjectiles - 1) % 2) * f1 / 2.0F;
+            float f3 = 1.0F;
+            for (int i = 0; i < numberOfProjectiles; i++) {
+                float angle = f2 + f3 * (float)((i + 1) / 2) * f1;
+                f3 = -f3;
+                spawnProjectile(user, caster, type, angle);
             }
+        }
+    }
+
+    private static float getSpread() {
+        return 15.0F;
+    }
+
+    private int getNumberOfProjectiles() {
+        return config.projectiles();
+    }
+
+    private void spawnProjectile(Entity user, LivingEntity caster, EntityType<?> type, float angle) {
+        Entity simpleProjectile = type.create((ServerLevel) caster.level(), null, user.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
+        if (simpleProjectile instanceof SimpleEffectProjectile projectileEntity) {
+            projectileEntity.setPos(user.getEyePosition());
+            projectileEntity.setOwner(caster);
+            projectileEntity.setEffect(this);
+            projectileEntity.configure(config);
+
+            projectileEntity.shootFromRotation(user, user.getXRot(), user.getYRot() + angle, 0, config.velocity(), 0);
+
+
+            caster.level().addFreshEntity(simpleProjectile);
         }
     }
 
