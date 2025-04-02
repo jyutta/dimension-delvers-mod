@@ -17,6 +17,7 @@ import com.wanderersoftherift.wotr.init.ModCreativeTabs;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModEffects;
 import com.wanderersoftherift.wotr.init.ModEntities;
+import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import com.wanderersoftherift.wotr.init.ModItems;
 import com.wanderersoftherift.wotr.init.ModLootModifiers;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
