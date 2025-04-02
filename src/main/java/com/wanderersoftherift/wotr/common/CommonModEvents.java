@@ -74,6 +74,14 @@ public class CommonModEvents {
         if (!event.has(EntityType.PLAYER, AbilityAttributes.AOE_SIZE)) {
             event.add(EntityType.PLAYER, AbilityAttributes.AOE_SIZE);
         }
+
+        if (!event.has(EntityType.PLAYER, AbilityAttributes.PROJECTILE_SPREAD)) {
+            event.add(EntityType.PLAYER, AbilityAttributes.PROJECTILE_SPREAD);
+        }
+
+        if (!event.has(EntityType.PLAYER, AbilityAttributes.PROJECTILE_COUNT)) {
+            event.add(EntityType.PLAYER, AbilityAttributes.PROJECTILE_COUNT);
+        }
     }
 
 

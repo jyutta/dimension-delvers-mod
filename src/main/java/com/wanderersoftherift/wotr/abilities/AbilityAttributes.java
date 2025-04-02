@@ -28,6 +28,8 @@ public class AbilityAttributes {
     public static final DeferredHolder<Attribute, RangedAttribute> HEAL_POWER = REGISTRY.register("heal_power", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".heal_amount", 3, 0, Integer.MAX_VALUE));
     public static final DeferredHolder<Attribute, RangedAttribute> COOLDOWN = REGISTRY.register("cooldown", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".cooldown", 1, 0, Integer.MAX_VALUE));
     public static final DeferredHolder<Attribute, RangedAttribute> AOE_SIZE = REGISTRY.register("aoe_size", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".aoe_size", 1, 0, Integer.MAX_VALUE));
+    public static final DeferredHolder<Attribute, RangedAttribute> PROJECTILE_SPREAD = REGISTRY.register("projectile_spread", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".projectile_spread", 15, 0, Integer.MAX_VALUE));
+    public static final DeferredHolder<Attribute, RangedAttribute> PROJECTILE_COUNT = REGISTRY.register("projectile_count", () -> new RangedAttribute("attribute." + WanderersOfTheRift.MODID + ".projectile_count", 1, 1, Integer.MAX_VALUE));
 
     //TODO these can be stages from the level up system to apply different rates or multipliers to the different skills
 //    public static final AttributeModifier HEAL_MODIFIER = new AttributeModifier(WanderersOfTheRift.id("increase_max_heal"), 2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);

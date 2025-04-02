@@ -2,6 +2,7 @@ package com.wanderersoftherift.wotr.abilities.effects;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.AbilityAttributeHelper;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.wanderersoftherift.wotr.entity.projectile.SimpleEffectProjectile;
@@ -17,6 +18,9 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.wanderersoftherift.wotr.abilities.AbilityAttributes.PROJECTILE_COUNT;
+import static com.wanderersoftherift.wotr.abilities.AbilityAttributes.PROJECTILE_SPREAD;
 
 public class SimpleProjectileEffect extends AbstractEffect {
     private SimpleProjectileConfig config;
@@ -47,9 +51,9 @@ public class SimpleProjectileEffect extends AbstractEffect {
         applyParticlesToUser(user);
         if (!targets.isEmpty()) {
             EntityType<?> type = ModEntities.SIMPLE_EFFECT_PROJECTILE.get();
-            int numberOfProjectiles = getNumberOfProjectiles();
+            int numberOfProjectiles = getNumberOfProjectiles(caster);
 
-            float spread = getSpread();
+            float spread = getSpread(caster);
             float f1 = numberOfProjectiles == 1 ? 0.0F : 2.0F * spread / (float) (numberOfProjectiles - 1);
             float f2 = (float) ((numberOfProjectiles - 1) % 2) * f1 / 2.0F;
             float f3 = 1.0F;
@@ -61,12 +65,12 @@ public class SimpleProjectileEffect extends AbstractEffect {
         }
     }
 
-    private static float getSpread() {
-        return 15.0F;
+    private float getSpread(LivingEntity caster) {
+        return AbilityAttributeHelper.getAbilityAttribute(PROJECTILE_SPREAD, 15, caster);
     }
 
-    private int getNumberOfProjectiles() {
-        return config.projectiles();
+    private int getNumberOfProjectiles(LivingEntity caster) {
+        return (int) AbilityAttributeHelper.getAbilityAttribute(PROJECTILE_COUNT, config.projectiles(), caster);
     }
 
     private void spawnProjectile(Entity user, LivingEntity caster, EntityType<?> type, float angle) {
