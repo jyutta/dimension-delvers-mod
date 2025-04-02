@@ -25,8 +25,8 @@ public class AttachEffect extends AbstractEffect {
 
     public static final MapCodec<AttachEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> AbstractEffect
             .commonFields(instance)
-            .and(TriggerPredicate.CODEC.optionalFieldOf("triggerPredicate", new TriggerPredicate()).forGetter(AttachEffect::getTriggerPredicate))
-            .and(ContinueEffectPredicate.CODEC.optionalFieldOf("continuePredicate", new ContinueEffectPredicate()).forGetter(AttachEffect::getContinuePredicate))
+            .and(TriggerPredicate.CODEC.optionalFieldOf("trigger", new TriggerPredicate()).forGetter(AttachEffect::getTriggerPredicate))
+            .and(ContinueEffectPredicate.CODEC.optionalFieldOf("continue", new ContinueEffectPredicate()).forGetter(AttachEffect::getContinuePredicate))
             .and(RegistryFixedCodec.create(RegistryEvents.EFFECT_MARKER_REGISTRY).optionalFieldOf("display").forGetter(x -> Optional.ofNullable(x.getDisplay())))
             .apply(instance, AttachEffect::new));
 

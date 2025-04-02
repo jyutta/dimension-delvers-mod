@@ -1,9 +1,10 @@
 package com.wanderersoftherift.wotr.abilities.Targeting;
 
-import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,18 +17,20 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class RaycastTargeting extends AbstractTargeting {
-    private double range = 0;
+    private final TargetPredicate targetPredicate;
+    private final double range;
 
     public static final MapCodec<RaycastTargeting> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
+                    TargetPredicate.CODEC.optionalFieldOf("target", new TargetPredicate()).forGetter(RaycastTargeting::getTargetPredicate),
                     Codec.DOUBLE.fieldOf("range").forGetter(RaycastTargeting::getRange)
             ).apply(instance, RaycastTargeting::new)
     );
 
-    public RaycastTargeting(double range) {
+    public RaycastTargeting(TargetPredicate targetPredicate, double range) {
+        this.targetPredicate = targetPredicate;
         this.range = range;
     }
 
@@ -55,7 +58,7 @@ public class RaycastTargeting extends AbstractTargeting {
                             entity.position().y + (range / 2),
                             entity.position().z + (range / 2)
                     ),
-                    (Predicate<LivingEntity>) livingEntity -> !livingEntity.is(entity) && livingEntity.isLookingAtMe((LivingEntity) entity, 0.025, true, false, livingEntity.getEyeY()));
+                livingEntity -> !livingEntity.is(entity) && targetPredicate.matches(livingEntity, caster) && livingEntity.isLookingAtMe((LivingEntity) entity, 0.025, true, false, livingEntity.getEyeY()));
 
         return new ArrayList<>(lookedAtEntities);
     }
@@ -91,5 +94,9 @@ public class RaycastTargeting extends AbstractTargeting {
         Vec3 eyePosition = entity.getEyePosition();
         Vec3 rayVector = eyePosition.add(entity.calculateViewVector(entity.getXRot(), entity.getYRot()).scale(range));
         return level.clip(new ClipContext(eyePosition, rayVector, net.minecraft.world.level.ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, entity));
+    }
+
+    public TargetPredicate getTargetPredicate() {
+        return targetPredicate;
     }
 }

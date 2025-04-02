@@ -9,16 +9,26 @@ import com.wanderersoftherift.wotr.commands.SkillGemCommands;
 import com.wanderersoftherift.wotr.config.ClientConfig;
 import com.wanderersoftherift.wotr.gui.screen.RuneAnvilScreen;
 import com.wanderersoftherift.wotr.gui.screen.SkillBenchScreen;
-import com.wanderersoftherift.wotr.init.*;
+import com.wanderersoftherift.wotr.init.ModAttachments;
+import com.wanderersoftherift.wotr.init.ModBlockEntities;
+import com.wanderersoftherift.wotr.init.ModBlocks;
+import com.wanderersoftherift.wotr.init.ModCommands;
+import com.wanderersoftherift.wotr.init.ModCreativeTabs;
+import com.wanderersoftherift.wotr.init.ModDataComponentType;
+import com.wanderersoftherift.wotr.init.ModEffects;
+import com.wanderersoftherift.wotr.init.ModEntities;
+import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.ModLootModifiers;
+import com.wanderersoftherift.wotr.init.ModMenuTypes;
+import com.wanderersoftherift.wotr.init.ModModifierEffects;
+import com.wanderersoftherift.wotr.init.ModPayloadHandlers;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,7 +37,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -43,8 +52,6 @@ public class WanderersOfTheRift {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public WanderersOfTheRift(IEventBus modEventBus, ModContainer modContainer) {
-        modEventBus.addListener(this::commonSetup);
-
         // Register things
         ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -109,17 +116,6 @@ public class WanderersOfTheRift {
      */
     public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
         return TagKey.create(registry, id(name));
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-
-        if (Config.logDirtBlock) LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
-
-        LOGGER.info("{} {}", Config.magicNumberIntroduction, Config.magicNumber);
-
-        // Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     @SubscribeEvent

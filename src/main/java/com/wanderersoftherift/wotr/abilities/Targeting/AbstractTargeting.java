@@ -33,11 +33,11 @@ public abstract class AbstractTargeting {
         return targets;
     }
 
-    public List<Entity> getTargetsFromEntity(Entity entity, LivingEntity caster) {
+    protected List<Entity> getTargetsFromEntity(Entity entity, LivingEntity caster) {
         return new ArrayList<>();
     }
 
-    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, LivingEntity caster) {
+    protected List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, LivingEntity caster) {
         return new ArrayList<>();
     }
 

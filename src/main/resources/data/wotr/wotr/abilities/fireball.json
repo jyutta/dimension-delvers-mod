@@ -37,7 +37,10 @@
             {
               "type": "wotr:damage_effect",
               "targeting": {
-                "type": "wotr:self_targeting"
+                "type": "wotr:self_targeting",
+                "target": {
+                  "attitude": "foe"
+                }
               },
               "amount": 10,
               "damage_type": "wotr:fire",

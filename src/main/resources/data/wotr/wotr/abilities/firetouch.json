@@ -9,11 +9,11 @@
       "targeting": {
         "type": "wotr:self_targeting"
       },
-      "continuePredicate": {
+      "continue": {
         "duration" : 200
       },
       "display" : "wotr:fireshield",
-      "triggerPredicate" : {
+      "trigger" : {
         "frequency": 40
       },
       "effects": [
@@ -22,7 +22,10 @@
           "targeting": {
             "type": "wotr:area_targeting",
             "range": 10,
-            "include_self": false
+            "include_self": false,
+            "target": {
+              "attitude": "not_foe"
+            }
           },
           "velocity": [0, 0, 1],
           "relativeFrame": "source_from_target"
@@ -34,10 +37,10 @@
       "targeting": {
         "type": "wotr:self_targeting"
       },
-      "continuePredicate": {
+      "continue": {
         "duration" : 200
       },
-      "triggerPredicate" : {
+      "trigger" : {
         "frequency": 40,
         "initial_delay": 20
       },
@@ -47,7 +50,10 @@
           "targeting": {
             "type": "wotr:area_targeting",
             "range": 3,
-            "include_self": false
+            "include_self": false,
+            "target": {
+              "attitude": "foe"
+            }
           },
           "velocity": [0, 0, -1],
           "relativeFrame": "source_from_target"

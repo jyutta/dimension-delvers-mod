@@ -1,16 +1,15 @@
 package com.wanderersoftherift.wotr.abilities.Targeting;
 
-import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbilityAttributeHelper;
 import com.wanderersoftherift.wotr.abilities.AbilityAttributes;
-import net.minecraft.advancements.critereon.EntityPredicate;
+import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
@@ -19,20 +18,20 @@ import java.util.List;
 public class AreaTargeting extends AbstractTargeting {
     private float range = 0;
     private boolean includeSelf = true;
-    private EntityPredicate entityPredicate = EntityPredicate.Builder.entity().build();
+    private TargetPredicate targetPredicate;
 
     public static final MapCodec<AreaTargeting> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
+                    TargetPredicate.CODEC.optionalFieldOf("target", new TargetPredicate()).forGetter(AreaTargeting::getTargetPredicate),
                     Codec.FLOAT.fieldOf("range").forGetter(AreaTargeting::getRange),
-                    Codec.BOOL.optionalFieldOf("include_self", true).forGetter(AreaTargeting::getIncludeSelf),
-                    EntityPredicate.CODEC.optionalFieldOf("entity_predicate", EntityPredicate.Builder.entity().build()).forGetter(AreaTargeting::getEntityPredicate)
+                    Codec.BOOL.optionalFieldOf("include_self", true).forGetter(AreaTargeting::getIncludeSelf)
             ).apply(instance, AreaTargeting::new)
     );
 
-    public AreaTargeting(float range, boolean includeSelf, EntityPredicate entityPredicate) {
+    public AreaTargeting(TargetPredicate predicate, float range, boolean includeSelf) {
+        this.targetPredicate = predicate;
         this.range = range;
         this.includeSelf = includeSelf;
-        this.entityPredicate = entityPredicate;
     }
 
     public float getRange() {
@@ -45,7 +44,9 @@ public class AreaTargeting extends AbstractTargeting {
 
     public boolean getIncludeSelf() { return includeSelf; }
 
-    public EntityPredicate getEntityPredicate() { return entityPredicate; }
+    public TargetPredicate getTargetPredicate() {
+        return targetPredicate;
+    }
 
     @Override
     public MapCodec<? extends AbstractTargeting> getCodec() {
@@ -67,7 +68,7 @@ public class AreaTargeting extends AbstractTargeting {
                         entity.position().y + (finalRange/2),
                         entity.position().z + (finalRange/2)
                 ),
-                (predicateEntity -> !(predicateEntity instanceof Player) && !predicateEntity.is(entity)));
+                (target) -> getTargetPredicate().matches(target, caster) && (includeSelf || !target.is(entity)) );
     }
 
     @Override
@@ -87,7 +88,7 @@ public class AreaTargeting extends AbstractTargeting {
                         blocks.get(0).getY() + (finalRange / 2),
                         blocks.get(0).getZ() + (finalRange / 2)
                 ),
-                (entity -> !(entity instanceof Player) && !entity.is(caster)));
+                (target) -> getTargetPredicate().matches(target, caster));
     }
 
 //    @Override

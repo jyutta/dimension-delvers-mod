@@ -9,7 +9,10 @@
       "targeting": {
         "type": "wotr:area_targeting",
         "range": 10,
-        "include_self": false
+        "include_self": false,
+        "target": {
+          "attitude": "foe"
+        }
       },
       "velocity": [0, 0, -5],
       "relativeFrame": "source_from_target"
