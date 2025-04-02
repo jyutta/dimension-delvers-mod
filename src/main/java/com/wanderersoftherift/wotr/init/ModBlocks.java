@@ -10,9 +10,11 @@ import com.wanderersoftherift.wotr.block.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -102,10 +104,12 @@ public class ModBlocks {
                 .withFence(registerBlock(id + FENCE_SUFFIX, () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_SUFFIX)))))
                 .withFenceGate(registerBlock(id + FENCE_GATE_SUFFIX, () -> new FenceGateBlock(OAK, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_GATE_SUFFIX)))))
                 .withTrapdoor(registerBlock(id + TRAPDOOR_SUFFIX, () -> new TrapDoorBlock(BlockSetType.STONE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + TRAPDOOR_SUFFIX)))))
-                //create new methods for glass pane && textue
-                //create new method for directional_pillar_block && texture
+                .withPane(
+                        registerBlock(id + GLASS_BLOCK_SUFFIX, () -> new StainedGlassBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + GLASS_BLOCK_SUFFIX)))),
+                        registerBlock(id + PANE_SUFFIX, () -> new StainedGlassPaneBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + PANE_SUFFIX)))))
+                .withDirectionalPillar(registerBlock(id + DIRECTIONAL_PILLAR_SUFFIX, () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + DIRECTIONAL_PILLAR_SUFFIX))) {
+                }))
                 .createBuildBlockHelper();
-
         BLOCK_FAMILY_HELPERS.add(buildingBlockHelper);
         return buildingBlockHelper;
     }
