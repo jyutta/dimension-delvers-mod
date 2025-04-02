@@ -67,8 +67,15 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-        blockModels.family(helper.getBlock().get()).generateFor(helper.getFamily());
-        //todo add mod family generators
+       if(helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE) != null){
+           createGlassPane(blockModels, helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.GLASS_BLOCK).get(), helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE).get() );
+       }
+        if(helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.DIRECTIONAL_PILLAR) != null){
+
+        }
+                blockModels.family(helper.getBlock().get()).generateFor(helper.getFamily());
+
+
     }
 
     public void generateRunegemItem(Item item, ItemModelGenerators itemModels) {
@@ -94,18 +101,18 @@ public class ModModelProvider extends ModelProvider {
                 .select(Direction.SOUTH, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180))
                 .select(Direction.WEST, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270));
     }
-/*
 
-    public void createGlassPane(BlockModelGenerators blockModels, Block glassBlock, Block paneBlock) {
+
+    private void createGlassPane(BlockModelGenerators blockModels, Block glassBlock, Block paneBlock) {
         TextureMapping texturemapping = TextureMapping.pane(glassBlock, paneBlock);
-        ResourceLocation resourcelocation = ModelTemplates.STAINED_GLASS_PANE_POST.create(paneBlock, texturemapping, this.modelOutput);
-        ResourceLocation resourcelocation1 = ModelTemplates.STAINED_GLASS_PANE_SIDE.create(paneBlock, texturemapping, this.modelOutput);
-        ResourceLocation resourcelocation2 = ModelTemplates.STAINED_GLASS_PANE_SIDE_ALT.create(paneBlock, texturemapping, this.modelOutput);
-        ResourceLocation resourcelocation3 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE.create(paneBlock, texturemapping, this.modelOutput);
-        ResourceLocation resourcelocation4 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE_ALT.create(paneBlock, texturemapping, this.modelOutput);
+        ResourceLocation resourcelocation = ModelTemplates.STAINED_GLASS_PANE_POST.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourcelocation1 = ModelTemplates.STAINED_GLASS_PANE_SIDE.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourcelocation2 = ModelTemplates.STAINED_GLASS_PANE_SIDE_ALT.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourcelocation3 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourcelocation4 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE_ALT.create(paneBlock, texturemapping, blockModels.modelOutput);
         Item item = paneBlock.asItem();
-        blockModels.registerSimpleItemModel(item, this.createFlatItemModelWithBlockTexture(item, glassBlock));
-        this.blockStateOutput
+        blockModels.registerSimpleItemModel(item, blockModels.createFlatItemModelWithBlockTexture(item, glassBlock));
+        blockModels.blockStateOutput
                 .accept(
                         MultiPartGenerator.multiPart(paneBlock)
                                 .with(Variant.variant().with(VariantProperties.MODEL, resourcelocation))
@@ -131,6 +138,9 @@ public class ModModelProvider extends ModelProvider {
                                 )
                 );
     }
-*/
 
+
+    private void createDirectionalPillar(BlockModelGenerators blockModels, Block directionalPillarBlock){
+
+    }
 }

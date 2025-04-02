@@ -22,6 +22,7 @@ public class BlockFamilyHelper {
     public static final String FENCE_SUFFIX = "_fence";
     public static final String FENCE_GATE_SUFFIX = "_fence_gate";
     public static final String TRAPDOOR_SUFFIX = "_trapdoor";
+    public static final String GLASS_BLOCK_SUFFIX = "_glass_block";
     public static final String PANE_SUFFIX = "_pane";
     public static final String DIRECTIONAL_PILLAR_SUFFIX = "_directional_pillar";
 
@@ -34,6 +35,7 @@ public class BlockFamilyHelper {
 
     //additional variants that Mojang does not support yet
     public static enum ModBlockFamilyVariant {
+        GLASS_BLOCK("glass_block"),
         PANE("pane"),
         DIRECTIONAL_PILLAR("directional_pillar");
 
@@ -94,8 +96,6 @@ public class BlockFamilyHelper {
     public  Supplier<Block> getVariant(BlockFamily.Variant variant) {
         return getVariants().get(variant);
     }
-/*
-todo probably not needed, not any tags that are applicable
 
     public Map<ModBlockFamilyVariant, Supplier<Block>> getModVariants() {
         return new HashMap<>(modVariants);
@@ -104,7 +104,6 @@ todo probably not needed, not any tags that are applicable
     public  Supplier<Block> getModVariants(ModBlockFamilyVariant variant) {
         return getModVariants().get(variant);
     }
-*/
 
     public static class Builder {
 
@@ -163,7 +162,8 @@ todo probably not needed, not any tags that are applicable
             return this;
         }
 
-        public Builder withPane(Supplier<Block> pane) {
+        public Builder withPane(Supplier<Block> glassBlock, Supplier<Block> pane) {
+            this.modVariants.put(ModBlockFamilyVariant.GLASS_BLOCK, glassBlock);
             this.modVariants.put(ModBlockFamilyVariant.PANE, pane);
             return this;
         }
