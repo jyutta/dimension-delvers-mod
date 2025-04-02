@@ -71,7 +71,7 @@ public class ModModelProvider extends ModelProvider {
            createGlassPane(blockModels, helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.GLASS_BLOCK).get(), helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE).get() );
        }
         if(helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.DIRECTIONAL_PILLAR) != null){
-
+            createDirectionalPillar(blockModels, helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.DIRECTIONAL_PILLAR).get());
         }
                 blockModels.family(helper.getBlock().get()).generateFor(helper.getFamily());
 
@@ -104,6 +104,7 @@ public class ModModelProvider extends ModelProvider {
 
 
     private void createGlassPane(BlockModelGenerators blockModels, Block glassBlock, Block paneBlock) {
+        blockModels.createTrivialCube(glassBlock);
         TextureMapping texturemapping = TextureMapping.pane(glassBlock, paneBlock);
         ResourceLocation resourcelocation = ModelTemplates.STAINED_GLASS_PANE_POST.create(paneBlock, texturemapping, blockModels.modelOutput);
         ResourceLocation resourcelocation1 = ModelTemplates.STAINED_GLASS_PANE_SIDE.create(paneBlock, texturemapping, blockModels.modelOutput);
@@ -141,6 +142,11 @@ public class ModModelProvider extends ModelProvider {
 
 
     private void createDirectionalPillar(BlockModelGenerators blockModels, Block directionalPillarBlock){
+
+
+        blockModels.createRotatedPillarWithHorizontalVariant(directionalPillarBlock,
+                TexturedModel.COLUMN_ALT,
+                TexturedModel.COLUMN_HORIZONTAL_ALT);
 
     }
 }

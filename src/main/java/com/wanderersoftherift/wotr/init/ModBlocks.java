@@ -104,7 +104,6 @@ public class ModBlocks {
                 .withFence(registerBlock(id + FENCE_SUFFIX, () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_SUFFIX)))))
                 .withFenceGate(registerBlock(id + FENCE_GATE_SUFFIX, () -> new FenceGateBlock(OAK, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_GATE_SUFFIX)))))
                 .withTrapdoor(registerBlock(id + TRAPDOOR_SUFFIX, () -> new TrapDoorBlock(BlockSetType.STONE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + TRAPDOOR_SUFFIX)))))
-                //todo change to correct register calls
                 .withPane(
                         registerBlock(id + GLASS_BLOCK_SUFFIX, () -> new StainedGlassBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + GLASS_BLOCK_SUFFIX)))),
                         registerBlock(id + PANE_SUFFIX, () -> new StainedGlassPaneBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + PANE_SUFFIX)))))
