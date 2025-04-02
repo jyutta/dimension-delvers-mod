@@ -321,7 +321,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
 
     protected void tickDespawn() {
         this.life++;
-        if (this.life >= 1200) {
+        if (this.life >= config.groundPersistTicks()) {
             this.discard();
         }
     }
