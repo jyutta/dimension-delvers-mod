@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 public record SimpleProjectileConfig(SimpleProjectileConfigRenderConfig renderConfig, int projectiles, float velocity, boolean gravityAffected, float gravity) {
     public static final SimpleProjectileConfig DEFAULT = new SimpleProjectileConfig(
             SimpleProjectileConfigRenderConfig.DEFAULT,
-            3,
+            1,
             1.0F,
             true,
             0.05F
