@@ -1,9 +1,9 @@
 package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.client.ModClientEvents;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.client.ModKeybinds;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
@@ -78,19 +78,19 @@ public class ModLanguageProvider extends LanguageProvider {
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.hard_of_hearing", "Enhances audio cues for better accessibility");
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.reduced_motion", "Disables or slows down UI animations, camera shake, or screen effects");
 
-        add(ModClientEvents.ABILITY_CATEGORY, "Abilities");
-        add(ModClientEvents.ABILITY_1_KEY.getName(), "Use Ability 1");
-        add(ModClientEvents.ABILITY_2_KEY.getName(), "Use Ability 2");
-        add(ModClientEvents.ABILITY_3_KEY.getName(), "Use Ability 3");
-        add(ModClientEvents.ABILITY_4_KEY.getName(), "Use Ability 4");
-        add(ModClientEvents.ABILITY_5_KEY.getName(), "Use Ability 5");
-        add(ModClientEvents.ABILITY_6_KEY.getName(), "Use Ability 6");
-        add(ModClientEvents.ABILITY_7_KEY.getName(), "Use Ability 7");
-        add(ModClientEvents.ABILITY_8_KEY.getName(), "Use Ability 8");
-        add(ModClientEvents.ABILITY_9_KEY.getName(), "Use Ability 9");
-        add(ModClientEvents.PREV_ABILITY_KEY.getName(), "Select Previous Ability");
-        add(ModClientEvents.NEXT_ABILITY_KEY.getName(), "Select Next Ability");
-        add(ModClientEvents.USE_ABILITY_KEY.getName(), "Use Selected Ability");
+        add(ModKeybinds.ABILITY_CATEGORY, "Abilities");
+        add(ModKeybinds.ABILITY_1_KEY.getName(), "Use Ability 1");
+        add(ModKeybinds.ABILITY_2_KEY.getName(), "Use Ability 2");
+        add(ModKeybinds.ABILITY_3_KEY.getName(), "Use Ability 3");
+        add(ModKeybinds.ABILITY_4_KEY.getName(), "Use Ability 4");
+        add(ModKeybinds.ABILITY_5_KEY.getName(), "Use Ability 5");
+        add(ModKeybinds.ABILITY_6_KEY.getName(), "Use Ability 6");
+        add(ModKeybinds.ABILITY_7_KEY.getName(), "Use Ability 7");
+        add(ModKeybinds.ABILITY_8_KEY.getName(), "Use Ability 8");
+        add(ModKeybinds.ABILITY_9_KEY.getName(), "Use Ability 9");
+        add(ModKeybinds.PREV_ABILITY_KEY.getName(), "Select Previous Ability");
+        add(ModKeybinds.NEXT_ABILITY_KEY.getName(), "Select Next Ability");
+        add(ModKeybinds.USE_ABILITY_KEY.getName(), "Use Selected Ability");
 
         add(WanderersOfTheRift.translationId("keybinds", "l_alt"), "LAlt");
         add(WanderersOfTheRift.translationId("keybinds", "r_alt"), "RAlt");

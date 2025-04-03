@@ -6,29 +6,36 @@ import com.wanderersoftherift.wotr.init.ModAttachments;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Displays effect markers attached to the player
  */
-public final class EffectBar {
+public final class EffectBar implements LayeredDraw.Layer {
 
     private static final int BAR_OFFSET_X = 20;
     private static final int ICON_SIZE = 16;
     public static final float FAST_PULSE_THRESHOLD = 40.0f;
     public static final float SLOW_PULSE_THRESHOLD = 100.0f;
 
-    public static void render(GuiGraphics graphics, LocalPlayer player, ClientLevel level, DeltaTracker partialTick) {
+    @Override
+    public void render(@NotNull GuiGraphics graphics, @NotNull DeltaTracker deltaTracker) {
+        if (Minecraft.getInstance().options.hideGui) {
+            return;
+        }
+        LocalPlayer player = Minecraft.getInstance().player;
         EffectDisplayData data = player.getData(ModAttachments.EFFECT_DISPLAY);
 
         renderEffects(graphics, data);
     }
 
-    private static void renderEffects(GuiGraphics graphics, EffectDisplayData data) {
+    private void renderEffects(GuiGraphics graphics, EffectDisplayData data) {
         int effectCount = 0;
         ObjectIterator<Object2FloatMap.Entry<Holder<EffectMarker>>> iterator = data.iterate();
         while (iterator.hasNext()) {
@@ -36,7 +43,7 @@ public final class EffectBar {
             EffectMarker marker = entry.getKey().value();
             boolean show = true;
             if (entry.getFloatValue() < FAST_PULSE_THRESHOLD) {
-                show = ((int)entry.getFloatValue() % 4) != 0;
+                show = ((int) entry.getFloatValue() % 4) != 0;
             } else if (entry.getFloatValue() < SLOW_PULSE_THRESHOLD) {
                 show = ((int) entry.getFloatValue()) % 16 != 0;
             }
@@ -47,5 +54,4 @@ public final class EffectBar {
         }
     }
 
-    private EffectBar() {}
 }

@@ -4,8 +4,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
-import com.wanderersoftherift.wotr.client.ModClientEvents;
 import com.wanderersoftherift.wotr.init.ModAttachments;
+import com.wanderersoftherift.wotr.init.client.ModKeybinds;
 import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
@@ -13,15 +13,16 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import static com.wanderersoftherift.wotr.init.ModAttachments.ABILITY_COOLDOWNS;
 
-public final class AbilityBar {
+public final class AbilityBar implements LayeredDraw.Layer {
 
     private static final ResourceLocation BACKGROUND = WanderersOfTheRift.id("textures/gui/hud/ability_bar/background.png");
     private static final ResourceLocation COOLDOWN_OVERLAY = WanderersOfTheRift.id("textures/gui/hud/ability_bar/cooldown_overlay.png");
@@ -36,7 +37,12 @@ public final class AbilityBar {
     private static final int SKILL_START_OFFSET_Y = 4;
     private static final int SKILL_OFFSET_Y = 2;
 
-    public static void render(GuiGraphics graphics, LocalPlayer player, ClientLevel level, DeltaTracker partialTick) {
+    @Override
+    public void render(@NotNull GuiGraphics graphics, @NotNull DeltaTracker deltaTracker) {
+        if (Minecraft.getInstance().options.hideGui) {
+            return;
+        }
+        LocalPlayer player = Minecraft.getInstance().player;
         AbilitySlots abilitySlots = player.getData(ModAttachments.ABILITY_SLOTS);
         if (abilitySlots.getSlots() == 0) {
             return;
@@ -48,7 +54,7 @@ public final class AbilityBar {
         renderAbilityKeyBinds(graphics);
     }
 
-    private static void renderAbilities(GuiGraphics graphics, AbilitySlots abilitySlots, PlayerCooldownData cooldowns) {
+    private void renderAbilities(GuiGraphics graphics, AbilitySlots abilitySlots, PlayerCooldownData cooldowns) {
         int yOffset = BAR_OFFSET_Y + SKILL_START_OFFSET_Y;
         for (int slot = 0; slot < abilitySlots.getSlots(); slot++) {
             AbstractAbility ability = abilitySlots.getAbilityInSlot(slot);
@@ -65,16 +71,16 @@ public final class AbilityBar {
         graphics.blit(RenderType::guiTextured, SELECTED_OVERLAY, BAR_OFFSET_X + SKILL_OFFSET_X - 6, yOffset + selected * 18 - 3, 0, 0, 28, 22, 28, 22);
     }
 
-    private static void renderAbilityKeyBinds(GuiGraphics graphics) {
+    private void renderAbilityKeyBinds(GuiGraphics graphics) {
         Font font = Minecraft.getInstance().font;
         int yOffset = BAR_OFFSET_Y + SKILL_START_OFFSET_Y;
         graphics.pose().pushPose();
         float inverseScale = 1.0f;
-        for (int slot = 0; slot < ModClientEvents.ABILITY_SLOT_KEYS.size(); slot++) {
-            if (ModClientEvents.ABILITY_SLOT_KEYS.get(slot).isUnbound()) {
+        for (int slot = 0; slot < ModKeybinds.ABILITY_SLOT_KEYS.size(); slot++) {
+            if (ModKeybinds.ABILITY_SLOT_KEYS.get(slot).isUnbound()) {
                 continue;
             }
-            Component keyText = getShortKeyDescription(ModClientEvents.ABILITY_SLOT_KEYS.get(slot));
+            Component keyText = getShortKeyDescription(ModKeybinds.ABILITY_SLOT_KEYS.get(slot));
             int keyTextWidth = font.width(keyText);
             if (keyTextWidth > 31) {
                 keyText = Component.literal("...");
@@ -85,7 +91,7 @@ public final class AbilityBar {
         graphics.pose().popPose();
     }
 
-    private static Component getShortKeyDescription(KeyMapping keyMapping) {
+    private Component getShortKeyDescription(KeyMapping keyMapping) {
         return switch (keyMapping.getKeyModifier()) {
             case ALT -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "mod_alt")).append(getUnmodifiedKeyDescription(keyMapping));
             case SHIFT -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "mod_shift")).append(getUnmodifiedKeyDescription(keyMapping));
@@ -94,7 +100,7 @@ public final class AbilityBar {
         };
     }
 
-    private static Component getUnmodifiedKeyDescription(KeyMapping keyMapping) {
+    private Component getUnmodifiedKeyDescription(KeyMapping keyMapping) {
         if (keyMapping.getKey().getType() == InputConstants.Type.MOUSE) {
             return Component.literal("M" + keyMapping.getKey().getValue());
         }
@@ -110,7 +116,7 @@ public final class AbilityBar {
         return keyMapping.getKey().getDisplayName();
     }
 
-    private static void renderBackground(GuiGraphics graphics, AbilitySlots abilitySlots) {
+    private void renderBackground(GuiGraphics graphics, AbilitySlots abilitySlots) {
         int yOffset = BAR_OFFSET_Y;
         for (int i = 0; i < abilitySlots.getSlots(); i++) {
             if (i == 0) {
@@ -124,5 +130,4 @@ public final class AbilityBar {
         graphics.blit(RenderType::guiTextured, BACKGROUND, BAR_OFFSET_X, yOffset, 0, 56, 24, 4, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
     }
 
-    private AbilityBar() {}
 }

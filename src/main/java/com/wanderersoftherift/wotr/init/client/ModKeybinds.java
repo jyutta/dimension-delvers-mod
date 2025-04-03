@@ -1,26 +1,18 @@
-package com.wanderersoftherift.wotr.client;
+package com.wanderersoftherift.wotr.init.client;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.client.gui.screen.AbilityScreen;
-import com.wanderersoftherift.wotr.client.render.item.ability.AbilitySpecialRenderer;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import org.lwjgl.glfw.GLFW;
 
-import static com.wanderersoftherift.wotr.init.ModMenuTypes.TEST_MENU;
-
 @EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ModClientEvents {
+public class ModKeybinds {
 
     public static final String ABILITY_CATEGORY = WanderersOfTheRift.translationId("key", "categories.ability");
 
@@ -116,14 +108,6 @@ public class ModClientEvents {
     );
 
     @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        // Some client setup code
-        WanderersOfTheRift.LOGGER.info("HELLO FROM CLIENT SETUP");
-        WanderersOfTheRift.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-
-    }
-
-    @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         for (KeyMapping key : ABILITY_SLOT_KEYS) {
             event.register(key);
@@ -131,21 +115,6 @@ public class ModClientEvents {
         event.register(PREV_ABILITY_KEY);
         event.register(NEXT_ABILITY_KEY);
         event.register(USE_ABILITY_KEY);
-    }
-
-    @SubscribeEvent
-    private static void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(TEST_MENU.get(), AbilityScreen::new);
-    }
-
-    @SubscribeEvent
-    public static void registerSpecialRenderers(RegisterSpecialModelRendererEvent event) {
-        event.register(
-                // The name to reference as the type
-                WanderersOfTheRift.id("ability_item"),
-                // The map codec
-                AbilitySpecialRenderer.Unbaked.MAP_CODEC
-        );
     }
 
 }
