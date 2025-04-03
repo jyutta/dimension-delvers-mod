@@ -91,6 +91,7 @@ public class ModBlocks {
     public static final BlockFamilyHelper PROCESSOR_BLOCK_12 = registerBuildingBlock("processor_block_12", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_12"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_13 = registerBuildingBlock("processor_block_13", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_13"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_14 = registerBuildingBlock("processor_block_14", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_14"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_15 = registerBuildingBlock("processor_block_15", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_15"))));
 
     private static BlockFamilyHelper registerBuildingBlock(String id, Supplier<Block> sup) {
         DeferredBlock<Block> block = registerBlock(id, sup);

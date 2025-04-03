@@ -113,6 +113,7 @@ public class ModModelProvider extends ModelProvider {
         ResourceLocation resourcelocation3 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE.create(paneBlock, texturemapping, blockModels.modelOutput);
         ResourceLocation resourcelocation4 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE_ALT.create(paneBlock, texturemapping, blockModels.modelOutput);
         Item item = paneBlock.asItem();
+
         blockModels.registerSimpleItemModel(item, blockModels.createFlatItemModelWithBlockTexture(item, glassBlock));
         blockModels.blockStateOutput
                 .accept(
@@ -139,6 +140,7 @@ public class ModModelProvider extends ModelProvider {
                                         Variant.variant().with(VariantProperties.MODEL, resourcelocation3).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
                                 )
                 );
+
     }
 
 
