@@ -18,6 +18,7 @@ import com.wanderersoftherift.wotr.abilities.effects.HealEffect;
 import com.wanderersoftherift.wotr.abilities.effects.MovementEffect;
 import com.wanderersoftherift.wotr.abilities.effects.ProjectileEffect;
 import com.wanderersoftherift.wotr.abilities.effects.SimpleProjectileEffect;
+import com.wanderersoftherift.wotr.abilities.effects.SoundEffect;
 import com.wanderersoftherift.wotr.abilities.effects.SummonEffect;
 import com.wanderersoftherift.wotr.abilities.effects.TargetEffect;
 import com.wanderersoftherift.wotr.abilities.effects.TeleportEffect;
@@ -97,6 +98,9 @@ public class AbilityRegistry {
 
     public static final Supplier<MapCodec<? extends BlankEffect>> BLANK_EFFECT = EFFECTS.register(
             "blank_effect", () -> BlankEffect.CODEC);
+
+    public static final Supplier<MapCodec<? extends SoundEffect>> SOUND_EFFECT = EFFECTS.register(
+            "sound_effect", () -> SoundEffect.CODEC);
 
     public static final Supplier<MapCodec<? extends AttachEffect>> ATTACH_EFFECT = EFFECTS.register("attach_effect", () -> AttachEffect.CODEC);
 

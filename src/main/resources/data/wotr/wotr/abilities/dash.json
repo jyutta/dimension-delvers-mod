@@ -15,7 +15,13 @@
       [
 
       ]
+    },
+    {
+      "type": "wotr:sound_effect",
+      "targeting": {
+        "type": "wotr:self_targeting"
+      },
+      "sound": "minecraft:entity.breeze.charge"
     }
-
   ]
 }
