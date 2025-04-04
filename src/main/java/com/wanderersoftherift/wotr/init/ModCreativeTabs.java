@@ -18,10 +18,13 @@ public class ModCreativeTabs {
                             .withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> ModItems.EXAMPLE_ITEM.get().getDefaultInstance())
                             .displayItems((parameters, output) -> {
                                 output.accept(ModItems.EXAMPLE_ITEM);
+                                output.accept(ModItems.RIFT_KEY);
                                 output.accept(ModItems.SKILL_GEM);
                                 ModItems.BLOCK_ITEMS.forEach(item -> output.accept(item.get()));
 
-                                output.accept(ModItems.RUNEGEM);
+                                output.accept(ModItems.BUILDER_GLASSES);
+
+                                output.accept(ModItems.RUNEGEM_GEODE);
                             }).build());
 
 }

@@ -4,8 +4,11 @@ import com.mojang.logging.LogUtils;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.Registries.UpgradeRegistry;
 import com.wanderersoftherift.wotr.abilities.AbilityAttributes;
+import com.wanderersoftherift.wotr.commands.DebugCommands;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
+import com.wanderersoftherift.wotr.commands.RiftMapCommands;
 import com.wanderersoftherift.wotr.commands.SkillGemCommands;
+import com.wanderersoftherift.wotr.commands.SpawnPieceCommand;
 import com.wanderersoftherift.wotr.config.ClientConfig;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModBlockEntities;
@@ -16,11 +19,17 @@ import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModEffects;
 import com.wanderersoftherift.wotr.init.ModEntities;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
+import com.wanderersoftherift.wotr.init.ModEntityTypes;
+import com.wanderersoftherift.wotr.init.ModInputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.ModLootItemFunctionTypes;
 import com.wanderersoftherift.wotr.init.ModLootModifiers;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
 import com.wanderersoftherift.wotr.init.ModModifierEffects;
+import com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes;
+import com.wanderersoftherift.wotr.init.ModOutputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModPayloadHandlers;
+import com.wanderersoftherift.wotr.init.ModProcessors;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -32,6 +41,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -54,9 +64,15 @@ public class WanderersOfTheRift {
         ModEntities.ENTITIES.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        ModProcessors.PROCESSORS.register(modEventBus);
+        ModInputBlockStateTypes.INPUT_BLOCKSTATE_TYPES.register(modEventBus);
+        ModOutputBlockStateTypes.OUTPUT_BLOCKSTATE_TYPES.register(modEventBus);
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
         ModLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         ModModifierEffects.MODIFIER_EFFECT_TYPES.register(modEventBus);
+        ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPES.register(modEventBus);
+        ModEntityTypes.ENTITIES.register(modEventBus);
+        ModLootItemFunctionTypes.LOOT_ITEM_FUNCTION_TYPES.register(modEventBus);
         ModEffects.EFFECTS.register(modEventBus);
         ModCommands.COMMAND_ARGUMENT_TYPES.register(modEventBus);
         ModEntityDataSerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
@@ -115,6 +131,11 @@ public class WanderersOfTheRift {
     @SubscribeEvent
     private void registerCommands(RegisterCommandsEvent event) {
         InventorySnapshotCommands.register(event.getDispatcher(), event.getBuildContext());
+        SpawnPieceCommand.register(event.getDispatcher(), event.getBuildContext());
+        if (FMLEnvironment.dist.isClient()) {
+            RiftMapCommands.register(event.getDispatcher(), event.getBuildContext());
+        }
+        new DebugCommands().registerCommand(event.getDispatcher(), event.getBuildContext());
         SkillGemCommands.register(event.getDispatcher(), event.getBuildContext());
     }
 
@@ -142,4 +163,5 @@ public class WanderersOfTheRift {
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("HELLO from server starting"); // Do something when the server starts
     }
+
 }
