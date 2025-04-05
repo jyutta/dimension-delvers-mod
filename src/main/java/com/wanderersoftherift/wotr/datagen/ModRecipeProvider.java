@@ -80,6 +80,19 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('I', Items.FLINT_AND_STEEL)
                 .unlockedBy("has_glass_pane", this.has(Blocks.GLASS_PANE.asItem()))
                 .save(this.output, "skill_gem_fireball");
+
+        ItemStack healSkillGem = ModItems.SKILL_GEM.toStack();
+        healSkillGem.applyComponents(DataComponentPatch.builder()
+                .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY, WanderersOfTheRift.id("heal")))
+                .build());
+        ShapedRecipeBuilder.shaped(getter, RecipeCategory.MISC, healSkillGem)
+                .pattern("ggg")
+                .pattern("gIg")
+                .pattern("ggg")
+                .define('g', Blocks.GLASS_PANE.asItem())
+                .define('I', Items.APPLE)
+                .unlockedBy("has_glass_pane", this.has(Blocks.GLASS_PANE.asItem()))
+                .save(this.output, "skill_gem_heal");
     }
 
     // The runner to add to the data generator

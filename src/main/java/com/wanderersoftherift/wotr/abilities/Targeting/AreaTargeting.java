@@ -59,7 +59,7 @@ public class AreaTargeting extends AbstractTargeting {
         float finalRange = getRange(caster);
 
         return entity.level().getEntities(
-                entity,
+                (Entity) null,
                 new AABB(
                         entity.position().x - (finalRange/2),
                         entity.position().y - (finalRange/2),
