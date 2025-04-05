@@ -55,6 +55,16 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_anvil", this.has(ItemTags.ANVIL))
                 .save(this.output);
 
+        ShapedRecipeBuilder.shaped(getter, RecipeCategory.MISC, ModBlocks.SKILL_BENCH.asItem())
+                .pattern("ggg")
+                .pattern("w w")
+                .pattern("w w")
+                .define('g', Items.GLASS)
+                .define('w', ItemTags.PLANKS)
+                .unlockedBy("has_glass", this.has(Items.GLASS))
+                .unlockedBy("has_plank", this.has(ItemTags.PLANKS))
+                .save(this.output);
+
         ItemStack dodgeSkillGem = ModItems.SKILL_GEM.toStack();
         dodgeSkillGem.applyComponents(DataComponentPatch.builder()
                 .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY, WanderersOfTheRift.id("dash")))
