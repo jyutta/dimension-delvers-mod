@@ -19,6 +19,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplate;
+import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -105,42 +107,92 @@ public class ModModelProvider extends ModelProvider {
 
 
     private void createGlassPane(BlockModelGenerators blockModels, Block glassBlock, Block paneBlock) {
-        blockModels.createTrivialCube(glassBlock);
+        blockModels.createTrivialBlock(
+                glassBlock,
+                TexturedModel.createDefault(
+                        block -> new TextureMapping().put(TextureSlot.ALL, TextureMapping.getBlockTexture(glassBlock)),
+                        ExtendedModelTemplateBuilder.builder()
+                                .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/cube_all"))
+                                .requiredTextureSlot(TextureSlot.ALL)
+                                .renderType("translucent")
+                                .build()
+                )
+        );
+
+        ExtendedModelTemplate panePostTemplate = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/template_glass_pane_post"))
+                .suffix("_post")
+                .requiredTextureSlot(TextureSlot.EDGE)
+                .requiredTextureSlot(TextureSlot.PANE)
+                .renderType("translucent")
+                .build();
+
+        ExtendedModelTemplate paneSideTemplate = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/template_glass_pane_side"))
+                .suffix("_side")
+                .requiredTextureSlot(TextureSlot.EDGE)
+                .requiredTextureSlot(TextureSlot.PANE)
+                .renderType("translucent")
+                .build();
+
+        ExtendedModelTemplate paneSideAltTemplate = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/template_glass_pane_side_alt"))
+                .suffix("_side_alt")
+                .requiredTextureSlot(TextureSlot.EDGE)
+                .requiredTextureSlot(TextureSlot.PANE)
+                .renderType("translucent")
+                .build();
+
+        ExtendedModelTemplate paneNoSideTemplate = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/template_glass_pane_noside"))
+                .suffix("_noside")
+                .requiredTextureSlot(TextureSlot.EDGE)
+                .requiredTextureSlot(TextureSlot.PANE)
+                .renderType("translucent")
+                .build();
+
+        ExtendedModelTemplate paneNoSideAltTemplate = ExtendedModelTemplateBuilder.builder()
+                .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/template_glass_pane_noside_alt"))
+                .suffix("_noside_alt")
+                .requiredTextureSlot(TextureSlot.EDGE)
+                .requiredTextureSlot(TextureSlot.PANE)
+                .renderType("translucent")
+                .build();
+
         TextureMapping texturemapping = TextureMapping.pane(glassBlock, paneBlock);
-        ResourceLocation resourcelocation = ModelTemplates.STAINED_GLASS_PANE_POST.create(paneBlock, texturemapping, blockModels.modelOutput);
-        ResourceLocation resourcelocation1 = ModelTemplates.STAINED_GLASS_PANE_SIDE.create(paneBlock, texturemapping, blockModels.modelOutput);
-        ResourceLocation resourcelocation2 = ModelTemplates.STAINED_GLASS_PANE_SIDE_ALT.create(paneBlock, texturemapping, blockModels.modelOutput);
-        ResourceLocation resourcelocation3 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE.create(paneBlock, texturemapping, blockModels.modelOutput);
-        ResourceLocation resourcelocation4 = ModelTemplates.STAINED_GLASS_PANE_NOSIDE_ALT.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourceLocationPanePost = panePostTemplate.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourceLocationPaneSide = paneSideTemplate.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourceLocationPaneSideAlt = paneSideAltTemplate.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourceLocationNoSide = paneNoSideTemplate.create(paneBlock, texturemapping, blockModels.modelOutput);
+        ResourceLocation resourceLocationNoSideAlt = paneNoSideAltTemplate.create(paneBlock, texturemapping, blockModels.modelOutput);
         Item item = paneBlock.asItem();
 
         blockModels.registerSimpleItemModel(item, blockModels.createFlatItemModelWithBlockTexture(item, glassBlock));
         blockModels.blockStateOutput
                 .accept(
                         MultiPartGenerator.multiPart(paneBlock)
-                                .with(Variant.variant().with(VariantProperties.MODEL, resourcelocation))
-                                .with(Condition.condition().term(BlockStateProperties.NORTH, true), Variant.variant().with(VariantProperties.MODEL, resourcelocation1))
+                                .with(Variant.variant().with(VariantProperties.MODEL, resourceLocationPanePost))
+                                .with(Condition.condition().term(BlockStateProperties.NORTH, true), Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSide))
                                 .with(
                                         Condition.condition().term(BlockStateProperties.EAST, true),
-                                        Variant.variant().with(VariantProperties.MODEL, resourcelocation1).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSide).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
                                 )
-                                .with(Condition.condition().term(BlockStateProperties.SOUTH, true), Variant.variant().with(VariantProperties.MODEL, resourcelocation2))
+                                .with(Condition.condition().term(BlockStateProperties.SOUTH, true), Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSideAlt))
                                 .with(
                                         Condition.condition().term(BlockStateProperties.WEST, true),
-                                        Variant.variant().with(VariantProperties.MODEL, resourcelocation2).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSideAlt).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
                                 )
-                                .with(Condition.condition().term(BlockStateProperties.NORTH, false), Variant.variant().with(VariantProperties.MODEL, resourcelocation3))
-                                .with(Condition.condition().term(BlockStateProperties.EAST, false), Variant.variant().with(VariantProperties.MODEL, resourcelocation4))
+                                .with(Condition.condition().term(BlockStateProperties.NORTH, false), Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSide))
+                                .with(Condition.condition().term(BlockStateProperties.EAST, false), Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSideAlt))
                                 .with(
                                         Condition.condition().term(BlockStateProperties.SOUTH, false),
-                                        Variant.variant().with(VariantProperties.MODEL, resourcelocation4).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSideAlt).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
                                 )
                                 .with(
                                         Condition.condition().term(BlockStateProperties.WEST, false),
-                                        Variant.variant().with(VariantProperties.MODEL, resourcelocation3).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSide).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
                                 )
                 );
-
     }
 
 

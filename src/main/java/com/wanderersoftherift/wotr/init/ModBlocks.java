@@ -106,8 +106,8 @@ public class ModBlocks {
                 .withFenceGate(registerBlock(id + FENCE_GATE_SUFFIX, () -> new FenceGateBlock(OAK, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_GATE_SUFFIX)))))
                 .withTrapdoor(registerBlock(id + TRAPDOOR_SUFFIX, () -> new TrapDoorBlock(BlockSetType.STONE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + TRAPDOOR_SUFFIX)))))
                 .withPane(
-                        registerBlock(id + GLASS_BLOCK_SUFFIX, () -> new StainedGlassBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + GLASS_BLOCK_SUFFIX)))),
-                        registerBlock(id + PANE_SUFFIX, () -> new StainedGlassPaneBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + PANE_SUFFIX)))))
+                        registerBlock(id + GLASS_BLOCK_SUFFIX, () -> new StainedGlassBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).noOcclusion().lightLevel((state) -> 0).sound(SoundType.GLASS).setId(blockId(id + GLASS_BLOCK_SUFFIX)))),
+                        registerBlock(id + PANE_SUFFIX, () -> new StainedGlassPaneBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).noOcclusion().lightLevel((state) -> 0).sound(SoundType.GLASS).setId(blockId(id + PANE_SUFFIX)))))
                 .withDirectionalPillar(registerBlock(id + DIRECTIONAL_PILLAR_SUFFIX, () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + DIRECTIONAL_PILLAR_SUFFIX))) {
                 }))
                 .createBuildBlockHelper();
