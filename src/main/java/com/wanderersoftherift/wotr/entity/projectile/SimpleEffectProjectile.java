@@ -3,6 +3,7 @@ package com.wanderersoftherift.wotr.entity.projectile;
 import com.google.common.collect.Lists;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
 import com.wanderersoftherift.wotr.abilities.effects.SimpleProjectileEffect;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
@@ -24,7 +25,12 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.OminousItemSpawner;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -38,7 +44,11 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -364,8 +374,8 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         Entity entity = result.getEntity();
         float f = (float) this.getDeltaMovement().length();
         double d0 = this.baseDamage;
-        Entity entity1 = this.getOwner();
-        DamageSource damagesource = this.damageSources().source(DamageTypes.GENERIC, this, (Entity) (entity1 != null ? entity1 : this));
+        Entity owner = this.getOwner();
+        DamageSource damagesource = this.damageSources().source(DamageTypes.GENERIC, this, (Entity) (owner != null ? owner : this));
         if (this.getWeaponItem() != null && this.level() instanceof ServerLevel serverlevel) {
             d0 = (double) EnchantmentHelper.modifyDamage(serverlevel, this.getWeaponItem(), entity, damagesource, (float) d0);
         }
@@ -388,12 +398,17 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
             this.piercingIgnoreEntityIds.add(entity.getId());
         }
 
-        if (entity1 instanceof LivingEntity livingentity1) {
+        if (owner instanceof LivingEntity livingentity1) {
             livingentity1.setLastHurtMob(entity);
         }
 
         if (this.level() instanceof ServerLevel serverLevel && effect != null) {
-            effect.applyDelayed(serverLevel, entity, List.of(entity.blockPosition()), (Player) entity1);
+            LivingEntity caster = null;
+            if (owner instanceof LivingEntity livingOwner) {
+                caster = livingOwner;
+            }
+            // TODO: capture and carry across ability item
+            effect.applyDelayed(serverLevel, entity, List.of(entity.blockPosition()), new EffectContext(caster, ItemStack.EMPTY));
         }
 
         if (this.getPierceLevel() <= 0) {
@@ -434,7 +449,8 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         ItemStack itemstack = this.getWeaponItem();
         if (this.level() instanceof ServerLevel serverLevel) {
             if (effect != null) {
-                effect.applyDelayed(serverLevel, null, List.of(result.getBlockPos()), (Player) this.getOwner());
+                // TODO: capture and carry across ability item
+                effect.applyDelayed(serverLevel, null, List.of(result.getBlockPos()), new EffectContext((LivingEntity) this.getOwner(), ItemStack.EMPTY));
             }
         }
 

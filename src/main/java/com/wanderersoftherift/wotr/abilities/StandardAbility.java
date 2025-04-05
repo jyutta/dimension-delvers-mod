@@ -4,10 +4,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
+import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,11 +37,11 @@ public class StandardAbility extends AbstractAbility{
     }
 
     @Override
-    public void OnActivate(Player player, int slot) {
+    public void OnActivate(Player player, int slot, ItemStack abilityItem) {
         if(this.CanPlayerUse(player)) {
             if(!this.IsOnCooldown(player, slot))
             {
-                this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), player));
+                this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), new EffectContext(player, abilityItem)));
                 this.setCooldown(player, slot);
             }
         }

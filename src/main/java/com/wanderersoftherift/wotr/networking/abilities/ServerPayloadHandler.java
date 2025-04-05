@@ -31,7 +31,7 @@ public class ServerPayloadHandler {
         if (ability.IsToggle()) // Should check last toggle, because pressing a button can send multiple packets
         {
             if (!ability.IsToggled(context.player())) {
-                ability.OnActivate(context.player(), useAbilityPacket.slot());
+                ability.OnActivate(context.player(), useAbilityPacket.slot(), abilityItem);
             } else {
                 ability.onDeactivate(context.player(), useAbilityPacket.slot());
             }
@@ -40,7 +40,7 @@ public class ServerPayloadHandler {
                 ability.Toggle(context.player());
             }
         } else {
-            ability.OnActivate(context.player(), useAbilityPacket.slot());
+            ability.OnActivate(context.player(), useAbilityPacket.slot(), abilityItem);
         }
     }
 

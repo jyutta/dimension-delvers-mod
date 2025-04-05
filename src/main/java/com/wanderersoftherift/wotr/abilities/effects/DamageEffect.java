@@ -1,11 +1,10 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
-import com.wanderersoftherift.wotr.abilities.AbilityAttributeHelper;
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
-import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -21,7 +20,7 @@ import java.util.Optional;
 
 public class DamageEffect extends AbstractEffect {
     private float damageAmount = 0;
-    private Holder<DamageType> damageTypeKey;
+    private final Holder<DamageType> damageTypeKey;
 
     public DamageEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, float amount, Holder<DamageType> damageTypeKey) {
         super(targeting, effects, particles);
@@ -50,19 +49,19 @@ public class DamageEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
         DamageSource damageSource = new DamageSource(
-                caster.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(this.damageTypeKey.getKey()),
+                context.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(this.damageTypeKey.getKey()),
                 null,
-                caster,
+                context.caster(),
                 null
         );
 
         applyParticlesToUser(user);
 
         // for now its ATTACK_DAMAGE but needs to be considered how multiple types are going to be implemented ie AP or AD
-        float finalDamage = AbilityAttributeHelper.getAbilityAttribute(Attributes.ATTACK_DAMAGE, damageAmount, caster);
+        float finalDamage = context.getAbilityAttribute(Attributes.ATTACK_DAMAGE, damageAmount);
 
         for (Entity target : targets) {
             applyParticlesToTarget(target);
@@ -70,11 +69,11 @@ public class DamageEffect extends AbstractEffect {
                 livingTarget.hurtServer((ServerLevel) user.level(), damageSource, finalDamage);
             }
             //Then apply children affects to targets
-            super.apply(target, getTargeting().getBlocks(user), caster);
+            super.apply(target, getTargeting().getBlocks(user), context);
         }
 
         if (targets.isEmpty()) {
-            super.apply(null, getTargeting().getBlocks(user), caster);
+            super.apply(null, getTargeting().getBlocks(user), context);
         }
     }
 }

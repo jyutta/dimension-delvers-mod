@@ -6,7 +6,6 @@ import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,20 +27,20 @@ public class BlankEffect extends AbstractEffect{
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
         applyParticlesToUser(user);
 
         for(Entity target: targets) {
             applyParticlesToTarget(target);
             //Then apply children affects to targets
-            super.apply(target, getTargeting().getBlocks(user), caster);
+            super.apply(target, getTargeting().getBlocks(user), context);
         }
 
 
         if(targets.isEmpty())
         {
-            super.apply(null, getTargeting().getBlocks(user), caster);
+            super.apply(null, getTargeting().getBlocks(user), context);
         }
     }
 }

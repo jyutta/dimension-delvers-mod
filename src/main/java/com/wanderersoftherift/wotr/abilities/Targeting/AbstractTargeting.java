@@ -3,9 +3,9 @@ package com.wanderersoftherift.wotr.abilities.Targeting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
+import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,26 +18,26 @@ public abstract class AbstractTargeting {
     /**
      * @param currentEntity This is the entity which is using the effect, this can be any entity down a chain based on the effect list, this determines the location around where the effect is targeting
      * @param blocks A list of blocks which can be a point of reference for targeting enemies around them. This is mainly used for raycasting based effects
-     * @param caster The original player starting the effect chain
+     * @param context Context of the effect
      * @return The list of entities selected by the targeting method.
      */
-    public List<Entity> getTargets(Entity currentEntity, List<BlockPos> blocks, LivingEntity caster) {
+    public List<Entity> getTargets(Entity currentEntity, List<BlockPos> blocks, EffectContext context) {
         List<Entity> targets = new ArrayList<>();
         if(currentEntity != null) {
-            targets.addAll(getTargetsFromEntity(currentEntity, caster));
+            targets.addAll(getTargetsFromEntity(currentEntity, context));
         }
         else {
-            targets.addAll(getTargetsFromBlocks(blocks, caster));
+            targets.addAll(getTargetsFromBlocks(blocks, context));
         }
 
         return targets;
     }
 
-    protected List<Entity> getTargetsFromEntity(Entity entity, LivingEntity caster) {
+    protected List<Entity> getTargetsFromEntity(Entity entity, EffectContext context) {
         return new ArrayList<>();
     }
 
-    protected List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, LivingEntity caster) {
+    protected List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, EffectContext context) {
         return new ArrayList<>();
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractTargeting {
         return new ArrayList<>();
     }
 
-    public List<BlockPos> getBlocksInArea(LivingEntity caster, Entity entity, List<BlockPos> targetPos) {
+    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, EffectContext context) {
         return new ArrayList<>();
     }
 }

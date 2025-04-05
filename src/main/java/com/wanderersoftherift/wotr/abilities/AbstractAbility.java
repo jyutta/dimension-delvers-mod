@@ -9,6 +9,8 @@ import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
 import com.wanderersoftherift.wotr.codec.DeferrableRegistryCodec;
 import com.wanderersoftherift.wotr.init.ModAttachments;
+import com.wanderersoftherift.wotr.init.ModAttributes;
+import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -18,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
@@ -58,7 +61,7 @@ public abstract class AbstractAbility {
         return this.effects;
     }
 
-    public abstract void OnActivate(Player player, int slot);
+    public abstract void OnActivate(Player player, int slot, ItemStack abilityItem);
 
     public abstract void onDeactivate(Player player, int slot);
 
@@ -87,16 +90,19 @@ public abstract class AbstractAbility {
 
     //TODO refactor this because I dont think we need to pass in this attribute anymore?
     public void setCooldown(Player player, int slot) {
-        float cooldown = AbilityAttributeHelper.getAbilityAttribute(AbilityAttributes.COOLDOWN, this.getBaseCooldown(), player);
-        //We only need to set a cooldown for ones that have cooldowns
         if (this.hasCooldown()) {
+            AbilitySlots abilitySlots = player.getData(ModAttachments.ABILITY_SLOTS);
+            ItemStack abilityItem = abilitySlots.getStackInSlot(slot);
+
+            float cooldown = AbilityAttributeHelper.getAbilityAttribute(ModAttributes.COOLDOWN, this.getBaseCooldown(), player, abilityItem);
+
             WanderersOfTheRift.LOGGER.info("Setting cooldown for: " + this.getName() + " length: " + cooldown);
             PlayerCooldownData cooldowns = player.getData(ModAttachments.ABILITY_COOLDOWNS);
             cooldowns.setCooldown(slot, (int) cooldown);
             player.setData(ModAttachments.ABILITY_COOLDOWNS, cooldowns);
+
+            PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot, (int) cooldown, (int) cooldown));
         }
-        //TODO maybe make helper to calculate time based on ticks for find a different method (maybe include in the attribute???)
-        PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot, (int) cooldown, (int) cooldown));
     }
 
     public boolean hasCooldown() {

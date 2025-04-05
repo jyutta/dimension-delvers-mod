@@ -1,6 +1,5 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
@@ -10,7 +9,6 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.phys.Vec3;
@@ -40,8 +38,8 @@ public class MovementEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
 
         applyParticlesToUser(user);
 
@@ -64,12 +62,12 @@ public class MovementEffect extends AbstractEffect {
             }
 
             //Then apply children affects to targets
-            super.apply(target, getTargeting().getBlocks(user), caster);
+            super.apply(target, getTargeting().getBlocks(user), context);
         }
 
 
         if (targets.isEmpty()) {
-            super.apply(null, getTargeting().getBlocks(user), caster);
+            super.apply(null, getTargeting().getBlocks(user), context);
         }
 
     }

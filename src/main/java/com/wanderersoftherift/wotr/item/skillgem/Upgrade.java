@@ -3,18 +3,20 @@ package com.wanderersoftherift.wotr.item.skillgem;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
-public record Upgrade(Component name, Component description, ResourceLocation icon, int maxCount) {
+import java.util.Collections;
+import java.util.List;
+
+public record Upgrade(Component name, Component description, ResourceLocation icon, int maxCount,
+                      List<AbstractModifierEffect> modifierEffects) {
 
     public static final ResourceKey<Registry<Upgrade>> UPGRADE_REGISTRY_KEY = ResourceKey.createRegistryKey(WanderersOfTheRift.id("upgrade"));
 
@@ -24,9 +26,8 @@ public record Upgrade(Component name, Component description, ResourceLocation ic
             ComponentSerialization.CODEC.fieldOf("name").forGetter(Upgrade::name),
             ComponentSerialization.CODEC.fieldOf("description").forGetter(Upgrade::description),
             ResourceLocation.CODEC.fieldOf("icon").forGetter(Upgrade::icon),
-            Codec.INT.fieldOf("maxCount").forGetter(Upgrade::maxCount)
+            Codec.INT.fieldOf("maxCount").forGetter(Upgrade::maxCount),
+            AbstractModifierEffect.DIRECT_CODEC.listOf().optionalFieldOf("effects", Collections.emptyList()).forGetter(Upgrade::modifierEffects)
     ).apply(instance, Upgrade::new));
-
-    public static final StreamCodec<RegistryFriendlyByteBuf, Upgrade> STREAM_CODEC = StreamCodec.composite(ComponentSerialization.STREAM_CODEC, Upgrade::name, ComponentSerialization.STREAM_CODEC, Upgrade::description, ResourceLocation.STREAM_CODEC, Upgrade::icon, ByteBufCodecs.INT, Upgrade::maxCount, Upgrade::new);
 
 }

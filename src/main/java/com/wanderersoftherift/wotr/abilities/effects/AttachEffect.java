@@ -27,7 +27,7 @@ public class AttachEffect extends AbstractEffect {
             .commonFields(instance)
             .and(TriggerPredicate.CODEC.optionalFieldOf("trigger", new TriggerPredicate()).forGetter(AttachEffect::getTriggerPredicate))
             .and(ContinueEffectPredicate.CODEC.optionalFieldOf("continue", new ContinueEffectPredicate()).forGetter(AttachEffect::getContinuePredicate))
-            .and(RegistryFixedCodec.create(RegistryEvents.EFFECT_MARKER_REGISTRY).optionalFieldOf("display").forGetter(x -> Optional.ofNullable(x.getDisplay())))
+            .and(RegistryFixedCodec.create(RegistryEvents.EFFECT_MARKER_REGISTRY).optionalFieldOf("display").forGetter(AttachEffect::getDisplay))
             .apply(instance, AttachEffect::new));
 
     private final TriggerPredicate triggerPredicate;
@@ -46,8 +46,8 @@ public class AttachEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
 
         applyParticlesToUser(user);
 
@@ -56,7 +56,7 @@ public class AttachEffect extends AbstractEffect {
 
             // I hope this changes
             if (target instanceof LivingEntity livingTarget) {
-                target.getData(ModAttachments.ATTACHED_EFFECTS).attach(livingTarget, caster, this);
+                target.getData(ModAttachments.ATTACHED_EFFECTS).attach(livingTarget, context, this);
             }
         }
     }
@@ -74,8 +74,8 @@ public class AttachEffect extends AbstractEffect {
         return continuePredicate;
     }
 
-    public Holder<EffectMarker> getDisplay() {
-        return display;
+    public Optional<Holder<EffectMarker>> getDisplay() {
+        return Optional.ofNullable(display);
     }
 
 }

@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -44,7 +45,7 @@ public class RaycastTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromEntity(Entity entity, LivingEntity caster) {
+    public List<Entity> getTargetsFromEntity(Entity entity, EffectContext context) {
         WanderersOfTheRift.LOGGER.debug("Targeting Raycast");
 
         //TODO optimize AABB to not look behind player
@@ -58,7 +59,7 @@ public class RaycastTargeting extends AbstractTargeting {
                             entity.position().y + (range / 2),
                             entity.position().z + (range / 2)
                     ),
-                livingEntity -> !livingEntity.is(entity) && targetPredicate.matches(livingEntity, caster) && livingEntity.isLookingAtMe((LivingEntity) entity, 0.025, true, false, livingEntity.getEyeY()));
+                livingEntity -> !livingEntity.is(entity) && targetPredicate.matches(livingEntity, context.caster()) && livingEntity.isLookingAtMe((LivingEntity) entity, 0.025, true, false, livingEntity.getEyeY()));
 
         return new ArrayList<>(lookedAtEntities);
     }
@@ -77,7 +78,7 @@ public class RaycastTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<BlockPos> getBlocksInArea(LivingEntity caster, Entity entity, List<BlockPos> targetPos) {
+    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, EffectContext context) {
         WanderersOfTheRift.LOGGER.debug("Raycasting blocks in area");
 
         List<BlockPos> blocks = new ArrayList<>();

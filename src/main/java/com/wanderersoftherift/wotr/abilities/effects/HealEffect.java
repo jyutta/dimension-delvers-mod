@@ -1,12 +1,11 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
-import com.wanderersoftherift.wotr.abilities.AbilityAttributeHelper;
-import com.wanderersoftherift.wotr.abilities.AbilityAttributes;
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
-import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
+import com.wanderersoftherift.wotr.init.ModAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
@@ -42,11 +41,11 @@ public class HealEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
         applyParticlesToUser(user);
 
-        float finalHealAmount = AbilityAttributeHelper.getAbilityAttribute(AbilityAttributes.HEAL_POWER, healAmount, caster);
+        float finalHealAmount = context.getAbilityAttribute(ModAttributes.HEAL_POWER, healAmount);
         for(Entity target: targets) {
             applyParticlesToTarget(target);
             if(target instanceof LivingEntity living)
@@ -54,13 +53,13 @@ public class HealEffect extends AbstractEffect {
                 living.heal(finalHealAmount);
             }
             //Then apply children affects to targets
-            super.apply(target, getTargeting().getBlocks(user), caster);
+            super.apply(target, getTargeting().getBlocks(user), context);
         }
 
 
         if(targets.isEmpty())
         {
-            super.apply(null, getTargeting().getBlocks(user), caster);
+            super.apply(null, getTargeting().getBlocks(user), context);
         }
     }
 

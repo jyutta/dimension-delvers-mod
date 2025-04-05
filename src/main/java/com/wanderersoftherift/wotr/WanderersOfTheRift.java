@@ -3,7 +3,6 @@ package com.wanderersoftherift.wotr;
 import com.mojang.logging.LogUtils;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.Registries.UpgradeRegistry;
-import com.wanderersoftherift.wotr.abilities.AbilityAttributes;
 import com.wanderersoftherift.wotr.commands.DebugCommands;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.commands.RiftMapCommands;
@@ -11,6 +10,7 @@ import com.wanderersoftherift.wotr.commands.SkillGemCommands;
 import com.wanderersoftherift.wotr.commands.SpawnPieceCommand;
 import com.wanderersoftherift.wotr.config.ClientConfig;
 import com.wanderersoftherift.wotr.init.ModAttachments;
+import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.init.ModBlockEntities;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModCommands;
@@ -76,6 +76,7 @@ public class WanderersOfTheRift {
         ModEffects.EFFECTS.register(modEventBus);
         ModCommands.COMMAND_ARGUMENT_TYPES.register(modEventBus);
         ModEntityDataSerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
+        ModAttributes.ATTRIBUTES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Wotr) to respond directly to events.
@@ -94,8 +95,6 @@ public class WanderersOfTheRift {
         AbilityRegistry.EFFECT_TARGETING.register(modEventBus);
 
         UpgradeRegistry.UPGRADE_REGISTRY_DEF.register(modEventBus);
-
-        AbilityAttributes.REGISTRY.register(modEventBus);
     }
 
     /**

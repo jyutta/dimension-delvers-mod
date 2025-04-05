@@ -7,14 +7,24 @@ import com.wanderersoftherift.wotr.util.FastUtils;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.ints.IntLists;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMaps;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiConsumer;
 
 public class UpgradePool {
     public static final int UNSELECTED = -1;
@@ -89,6 +99,13 @@ public class UpgradePool {
             getSelectionForChoice(i).ifPresent(upgrade -> result.merge(upgrade, 1, Integer::sum));
         }
         return result;
+    }
+
+    public void forEachSelected(BiConsumer<Upgrade, Integer> consumer) {
+        for (int i = 0; i < getChoiceCount(); i++) {
+            final int choice = i;
+            getSelectionForChoice(i).ifPresent(x -> consumer.accept(x, choice));
+        }
     }
 
     public UpgradePool.Mutable getMutable() {

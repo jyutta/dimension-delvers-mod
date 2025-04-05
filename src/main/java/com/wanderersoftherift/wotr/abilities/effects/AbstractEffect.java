@@ -12,7 +12,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -47,9 +46,9 @@ public abstract class AbstractEffect {
         this.particles = particles;
     }
 
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
         for (AbstractEffect effect : getEffects()) {
-            effect.apply(user, blocks, caster);
+            effect.apply(user, blocks, context);
         }
     }
 

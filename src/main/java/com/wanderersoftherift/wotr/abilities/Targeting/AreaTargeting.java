@@ -4,12 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.AbilityAttributeHelper;
-import com.wanderersoftherift.wotr.abilities.AbilityAttributes;
+import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
+import com.wanderersoftherift.wotr.init.ModAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.List;
 public class AreaTargeting extends AbstractTargeting {
     private float range = 0;
     private boolean includeSelf = true;
-    private TargetPredicate targetPredicate;
+    private final TargetPredicate targetPredicate;
 
     public static final MapCodec<AreaTargeting> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
@@ -38,8 +37,8 @@ public class AreaTargeting extends AbstractTargeting {
         return range;
     }
 
-    private float getRange(LivingEntity user) {
-        return AbilityAttributeHelper.getAbilityAttribute(AbilityAttributes.AOE_SIZE, range, user);
+    private float getRange(EffectContext context) {
+        return context.getAbilityAttribute(ModAttributes.ABILITY_AOE, range);
     }
 
     public boolean getIncludeSelf() { return includeSelf; }
@@ -54,9 +53,8 @@ public class AreaTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromEntity(Entity entity, LivingEntity caster) {
-        WanderersOfTheRift.LOGGER.debug("Targeting from entity via AOE");
-        float finalRange = getRange(caster);
+    public List<Entity> getTargetsFromEntity(Entity entity, EffectContext context) {
+        float finalRange = getRange(context);
 
         return entity.level().getEntities(
                 (Entity) null,
@@ -68,18 +66,18 @@ public class AreaTargeting extends AbstractTargeting {
                         entity.position().y + (finalRange/2),
                         entity.position().z + (finalRange/2)
                 ),
-                (target) -> getTargetPredicate().matches(target, caster) && (includeSelf || !target.is(entity)) );
+                (target) -> getTargetPredicate().matches(target, context.caster()) && (includeSelf || !target.is(entity)) );
     }
 
     @Override
-    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, LivingEntity caster) {
+    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, EffectContext context) {
         WanderersOfTheRift.LOGGER.debug("Targeting from blocks via AOE");
-        float finalRange = getRange(caster);
+        float finalRange = getRange(context);
 
         //Gets first block and makes an area around it where the block is in the center
         //TODO look into config for selecting conditions in area since we may want to select other players for large scale heals etc
-        return caster.level().getEntities(
-                caster,
+        return context.level().getEntities(
+                context.caster(),
                 new AABB(
                         blocks.get(0).getX() - (finalRange / 2),
                         blocks.get(0).getY() - (finalRange / 2),
@@ -88,7 +86,7 @@ public class AreaTargeting extends AbstractTargeting {
                         blocks.get(0).getY() + (finalRange / 2),
                         blocks.get(0).getZ() + (finalRange / 2)
                 ),
-                (target) -> getTargetPredicate().matches(target, caster));
+                (target) -> getTargetPredicate().matches(target, context.caster()));
     }
 
 //    @Override
@@ -100,9 +98,9 @@ public class AreaTargeting extends AbstractTargeting {
 
 
     @Override
-    public List<BlockPos> getBlocksInArea(LivingEntity caster, Entity entity, List<BlockPos> targetPos) {
+    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, EffectContext context) {
         WanderersOfTheRift.LOGGER.info("Targeting blocks in area via AOE");
-        float finalRange = getRange(caster);
+        float finalRange = getRange(context);
 
         int startX, startY, startZ;
         int endX, endY, endZ;
@@ -134,7 +132,7 @@ public class AreaTargeting extends AbstractTargeting {
         for(int x = startX ; x < endX; x++) {
             for (int y = startY; y < endY; y++) {
                 for (int z = startZ; z < endZ; z++) {
-                    if (!caster.level().getBlockState(new BlockPos(x, y, z)).isAir()) {
+                    if (!context.level().getBlockState(new BlockPos(x, y, z)).isAir()) {
                         blockPos.add(new BlockPos(x, y, z));
                     }
                 }

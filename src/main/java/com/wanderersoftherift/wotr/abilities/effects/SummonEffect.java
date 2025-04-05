@@ -1,11 +1,11 @@
 package com.wanderersoftherift.wotr.abilities.effects;
 
-import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
-import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,31 +51,31 @@ public class SummonEffect extends AbstractEffect{
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
         applyParticlesToUser(user);
 
         //No entity was selected as the summon position
         if(targets.isEmpty())
         {
-            List<BlockPos> blockInArea = getTargeting().getBlocksInArea(caster, user, blocks);
+            List<BlockPos> blockInArea = getTargeting().getBlocksInArea(user, blocks, context);
             //TODO look into more systematically placing summons
             for(int i = 0; i < summonAmount; i++) {
                 if(blockInArea.isEmpty())
                 {
                     WanderersOfTheRift.LOGGER.info("No Suitable Spawn Location!");
-                    super.apply(null, getTargeting().getBlocks(user), caster);
+                    super.apply(null, getTargeting().getBlocks(user), context);
                 }
-                BlockPos random = blockInArea.get(caster.getRandom().nextIntBetweenInclusive(0, blockInArea.size() - 1));
+                BlockPos random = blockInArea.get(context.caster().getRandom().nextIntBetweenInclusive(0, blockInArea.size() - 1));
                 if (BuiltInRegistries.ENTITY_TYPE.get(this.entityType).isPresent())
                 {
                     EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(this.entityType).get().value();
-                    Entity summon = type.create((ServerLevel) caster.level(), null, random, EntitySpawnReason.MOB_SUMMONED, true, true);
+                    Entity summon = type.create((ServerLevel) context.level(), null, random, EntitySpawnReason.MOB_SUMMONED, true, true);
                     if (summon != null)
                     {
-                        caster.level().addFreshEntity(summon);
+                        context.level().addFreshEntity(summon);
                         applyParticlesToTarget(summon);
-                        super.apply(summon, getTargeting().getBlocks(user), caster);
+                        super.apply(summon, getTargeting().getBlocks(user), context);
                     }
                 }
             }
@@ -85,16 +84,16 @@ public class SummonEffect extends AbstractEffect{
         {
             for(int i = 0; i < summonAmount; i++)
             {
-                Entity random = targets.get(caster.getRandom().nextIntBetweenInclusive(0, targets.size() - 1));
+                Entity random = targets.get(context.caster().getRandom().nextIntBetweenInclusive(0, targets.size() - 1));
                 if (BuiltInRegistries.ENTITY_TYPE.get(this.entityType).isPresent())
                 {
                     EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(this.entityType).get().value();
-                    Entity summon = type.create((ServerLevel) caster.level(), null, random.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
+                    Entity summon = type.create((ServerLevel) context.level(), null, random.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
                     if (summon != null)
                     {
-                        caster.level().addFreshEntity(summon);
+                        context.level().addFreshEntity(summon);
                         applyParticlesToTarget(summon);
-                        super.apply(summon, getTargeting().getBlocks(user), caster);
+                        super.apply(summon, getTargeting().getBlocks(user), context);
                     }
                 }
             }

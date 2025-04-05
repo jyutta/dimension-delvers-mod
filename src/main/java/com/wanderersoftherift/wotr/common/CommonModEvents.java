@@ -1,11 +1,11 @@
 package com.wanderersoftherift.wotr.common;
 
 
-import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.Registries.UpgradeRegistry;
-import com.wanderersoftherift.wotr.abilities.AbilityAttributes;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.networking.ModPayloads;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -59,28 +59,28 @@ public class CommonModEvents {
     static void addAttributesToPlayer(EntityAttributeModificationEvent event)
     {
         //TODO look into automating this so it can be less tedious
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.MAX_MANA)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.MAX_MANA);
+        if(!event.has(EntityType.PLAYER, ModAttributes.MAX_MANA)) {
+            event.add(EntityType.PLAYER, ModAttributes.MAX_MANA);
         }
 
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.HEAL_POWER)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.HEAL_POWER);
+        if(!event.has(EntityType.PLAYER, ModAttributes.HEAL_POWER)) {
+            event.add(EntityType.PLAYER, ModAttributes.HEAL_POWER);
         }
 
-        if(!event.has(EntityType.PLAYER, AbilityAttributes.COOLDOWN)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.COOLDOWN);
+        if(!event.has(EntityType.PLAYER, ModAttributes.COOLDOWN)) {
+            event.add(EntityType.PLAYER, ModAttributes.COOLDOWN);
         }
 
-        if (!event.has(EntityType.PLAYER, AbilityAttributes.AOE_SIZE)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.AOE_SIZE);
+        if (!event.has(EntityType.PLAYER, ModAttributes.ABILITY_AOE)) {
+            event.add(EntityType.PLAYER, ModAttributes.ABILITY_AOE);
         }
 
-        if (!event.has(EntityType.PLAYER, AbilityAttributes.PROJECTILE_SPREAD)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.PROJECTILE_SPREAD);
+        if (!event.has(EntityType.PLAYER, ModAttributes.PROJECTILE_SPREAD)) {
+            event.add(EntityType.PLAYER, ModAttributes.PROJECTILE_SPREAD);
         }
 
-        if (!event.has(EntityType.PLAYER, AbilityAttributes.PROJECTILE_COUNT)) {
-            event.add(EntityType.PLAYER, AbilityAttributes.PROJECTILE_COUNT);
+        if (!event.has(EntityType.PLAYER, ModAttributes.PROJECTILE_COUNT)) {
+            event.add(EntityType.PLAYER, ModAttributes.PROJECTILE_COUNT);
         }
     }
 

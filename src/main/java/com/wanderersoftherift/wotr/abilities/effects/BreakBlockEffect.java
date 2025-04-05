@@ -6,7 +6,6 @@ import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,23 +26,23 @@ public class BreakBlockEffect extends AbstractEffect{
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
         applyParticlesToUser(user);
 
-        List<BlockPos> areaBlocks = getTargeting().getBlocksInArea(caster, user, blocks);
+        List<BlockPos> areaBlocks = getTargeting().getBlocksInArea(user, blocks, context);
 
         for(BlockPos pos: areaBlocks)
         {
             //TODO: Make fortune work maybe? (Apply tool enchants etc)
-           if(caster.level().getBlockState(pos).canEntityDestroy(caster.level(), pos, caster) && caster.level().getBlockState(pos).getBlock().defaultDestroyTime() > -1) {
-               caster.level().destroyBlock(pos, true, caster);
+           if(context.level().getBlockState(pos).canEntityDestroy(context.level(), pos, context.caster()) && context.level().getBlockState(pos).getBlock().defaultDestroyTime() > -1) {
+               context.level().destroyBlock(pos, true, context.caster());
            }
         }
 
         if(targets.isEmpty())
         {
-            super.apply(null, getTargeting().getBlocks(user), caster);
+            super.apply(null, getTargeting().getBlocks(user), context);
         }
     }
 }

@@ -11,7 +11,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.Vec3;
 
@@ -53,15 +52,15 @@ public class ProjectileEffect extends AbstractEffect{
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
         applyParticlesToUser(user);
         if(!targets.isEmpty()) {
-            Entity random = targets.get(caster.getRandom().nextIntBetweenInclusive(0, targets.size() - 1));
+            Entity random = targets.get(context.caster().getRandom().nextIntBetweenInclusive(0, targets.size() - 1));
             if (BuiltInRegistries.ENTITY_TYPE.get(this.entityType).isPresent())
             {
                 EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(this.entityType).get().value();
-                Entity summon = type.create((ServerLevel) caster.level(), null, random.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
+                Entity summon = type.create((ServerLevel) context.level(), null, random.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
                 if (summon != null)
                 {
 
@@ -76,9 +75,9 @@ public class ProjectileEffect extends AbstractEffect{
 
                     }
 
-                    caster.level().addFreshEntity(summon);
+                    context.level().addFreshEntity(summon);
                     applyParticlesToTarget(summon);
-                    super.apply(summon, getTargeting().getBlocks(user), caster);
+                    super.apply(summon, getTargeting().getBlocks(user), context);
                 }
             }
         }
@@ -87,7 +86,7 @@ public class ProjectileEffect extends AbstractEffect{
         //No entity was selected as the target position
         if(targets.isEmpty())
         {
-            super.apply(null, getTargeting().getBlocks(user), caster);
+            super.apply(null, getTargeting().getBlocks(user), context);
         }
 
 

@@ -9,7 +9,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class SoundEffect extends AbstractEffect {
             ).apply(instance, SoundEffect::new)
     );
 
-    private Holder<SoundEvent> sound;
+    private final Holder<SoundEvent> sound;
 
     public SoundEffect(AbstractTargeting targeting, List<AbstractEffect> effects, Optional<ParticleInfo> particles, Holder<SoundEvent> sound) {
         super(targeting, effects, particles);
@@ -31,15 +30,15 @@ public class SoundEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, LivingEntity caster) {
-        List<Entity> targets = getTargeting().getTargets(user, blocks, caster);
+    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+        List<Entity> targets = getTargeting().getTargets(user, blocks, context);
         applyParticlesToUser(user);
 
         for(Entity target: targets) {
             applyParticlesToTarget(target);
 
             SoundSource source;
-            if (caster instanceof Player) {
+            if (context.caster() instanceof Player) {
                 source = SoundSource.PLAYERS;
             } else {
                 source = SoundSource.HOSTILE;
@@ -47,16 +46,16 @@ public class SoundEffect extends AbstractEffect {
             target.level().playSound(null, target, sound.value(), source, 1.0f, 1.0f);
 
             //Then apply children affects to targets
-            super.apply(target, getTargeting().getBlocks(user), caster);
+            super.apply(target, getTargeting().getBlocks(user), context);
         }
 
         for (BlockPos pos : blocks) {
-            caster.level().playSound(null, pos, sound.value(), SoundSource.BLOCKS);
+            context.level().playSound(null, pos, sound.value(), SoundSource.BLOCKS);
         }
 
         if(targets.isEmpty())
         {
-            super.apply(null, getTargeting().getBlocks(user), caster);
+            super.apply(null, getTargeting().getBlocks(user), context);
         }
     }
 
