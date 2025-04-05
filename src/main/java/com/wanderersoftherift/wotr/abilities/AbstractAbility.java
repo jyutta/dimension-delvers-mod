@@ -7,13 +7,13 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
+import com.wanderersoftherift.wotr.codec.DeferrableRegistryCodec;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -27,25 +27,26 @@ import static com.wanderersoftherift.wotr.Registries.AbilityRegistry.DATA_PACK_A
 
 public abstract class AbstractAbility {
 
-    private List<AbstractEffect> effects;
+    private final List<AbstractEffect> effects;
 
     public abstract MapCodec<? extends AbstractAbility> getCodec();
+
     public static final Codec<AbstractAbility> DIRECT_CODEC = AbilityRegistry.ABILITY_TYPES_REGISTRY.byNameCodec().dispatch(AbstractAbility::getCodec, Function.identity());
-    public static final Codec<Holder<AbstractAbility>> CODEC = RegistryFixedCodec.create(DATA_PACK_ABILITY_REG_KEY);
+    public static final Codec<Holder<AbstractAbility>> CODEC = DeferrableRegistryCodec.create(DATA_PACK_ABILITY_REG_KEY);
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<AbstractAbility>> STREAM_CODEC = ByteBufCodecs.holderRegistry(DATA_PACK_ABILITY_REG_KEY);
-    private ResourceLocation name;
+    private final ResourceLocation name;
     private ResourceLocation icon = ResourceLocation.withDefaultNamespace("textures/misc/forcefield.png");
     public float baseCooldown = 0;
     public Holder<Attribute> durationAttribute = null;
     private boolean isToggle = false;
-    public AbstractAbility(ResourceLocation abilityName, ResourceLocation icon, List<AbstractEffect> effects)
-    {
+
+    public AbstractAbility(ResourceLocation abilityName, ResourceLocation icon, List<AbstractEffect> effects) {
         this.name = abilityName;
         this.effects = effects;
         this.icon = icon;
     }
-    public void setIcon(ResourceLocation location)
-    {
+
+    public void setIcon(ResourceLocation location) {
         icon = location;
     }
 
@@ -58,21 +59,19 @@ public abstract class AbstractAbility {
     }
 
     public abstract void OnActivate(Player player, int slot);
+
     public abstract void onDeactivate(Player player, int slot);
 
-    public boolean CanPlayerUse(Player player)
-    {
+    public boolean CanPlayerUse(Player player) {
 //        return p.getData(ModAbilities.ABILITY_UNLOCKED_ATTACHMENTS.get(this.getName()));
         return true;
     }
 
-    public ResourceLocation getName()
-    {
+    public ResourceLocation getName() {
         return name;
     }
 
-    public String GetTranslationString()
-    {
+    public String GetTranslationString() {
         return "ability." + getName().getNamespace() + "." + getName().getPath();
     }
 
@@ -90,17 +89,19 @@ public abstract class AbstractAbility {
     public void setCooldown(Player player, int slot) {
         float cooldown = AbilityAttributeHelper.getAbilityAttribute(AbilityAttributes.COOLDOWN, this.getBaseCooldown(), player);
         //We only need to set a cooldown for ones that have cooldowns
-        if(this.hasCooldown())
-        {
+        if (this.hasCooldown()) {
             WanderersOfTheRift.LOGGER.info("Setting cooldown for: " + this.getName() + " length: " + cooldown);
             PlayerCooldownData cooldowns = player.getData(ModAttachments.ABILITY_COOLDOWNS);
             cooldowns.setCooldown(slot, (int) cooldown);
             player.setData(ModAttachments.ABILITY_COOLDOWNS, cooldowns);
         }
-         //TODO maybe make helper to calculate time based on ticks for find a different method (maybe include in the attribute???)
-        PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot,(int) cooldown, (int) cooldown));
+        //TODO maybe make helper to calculate time based on ticks for find a different method (maybe include in the attribute???)
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot, (int) cooldown, (int) cooldown));
     }
-    public boolean hasCooldown() { return getBaseCooldown() > 0; }
+
+    public boolean hasCooldown() {
+        return getBaseCooldown() > 0;
+    }
 
     public int getActiveCooldown(Player player, int slot) {
         return player.getData(ModAttachments.ABILITY_COOLDOWNS).getCooldownRemaining(slot);
@@ -113,18 +114,20 @@ public abstract class AbstractAbility {
     /*
         DURATION RELATED STUFF BELOW
         */
-    public boolean hasDuration() {return durationAttribute != null;}
+    public boolean hasDuration() {
+        return durationAttribute != null;
+    }
+
     public boolean isActive(Player player) {
         return player.getData(ModAttachments.DURATIONS).isDurationRunning(this.getName());
     }
 
     public void setDuration(Player player, Holder<Attribute> attribute) {
         //TODO look into combining this and the cooldown
-        if(this.hasDuration())
-        {
+        if (this.hasDuration()) {
             WanderersOfTheRift.LOGGER.info("Setting duration for: " + this.getName());
             PlayerDurationData durations = player.getData(ModAttachments.DURATIONS);
-            durations.beginDuration(this.getName(), (int)player.getAttributeValue(attribute) * 20);
+            durations.beginDuration(this.getName(), (int) player.getAttributeValue(attribute) * 20);
             player.setData(ModAttachments.DURATIONS, durations);
         }
     }
@@ -138,18 +141,20 @@ public abstract class AbstractAbility {
     /*
     TOGGLE STUFF BELOW
      */
-    public boolean IsToggle() {return this.isToggle;}
-    public void setIsToggle(boolean shouldToggle)
-    {
+    public boolean IsToggle() {
+        return this.isToggle;
+    }
+
+    public void setIsToggle(boolean shouldToggle) {
         this.isToggle = shouldToggle;
     }
+
     public boolean IsToggled(Player player) {
 //        return ModAbilities.TOGGLE_ATTACHMENTS.containsKey(this.getName()) && p.getData(ModAbilities.TOGGLE_ATTACHMENTS.get(this.getName()));
         return false;
     }
 
-    public void Toggle(Player player)
-    {
+    public void Toggle(Player player) {
         //Change the toggle to opposite and then tell the player
 //        if(TOGGLE_ATTACHMENTS.containsKey(this.getName())) p.setData(TOGGLE_ATTACHMENTS.get(this.getName()), !IsToggled(p));
 //        PacketDistributor.sendToPlayer((ServerPlayer) p, new ToggleState(this.getName().toString(), IsToggled(p)));
