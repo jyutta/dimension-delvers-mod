@@ -2,5 +2,15 @@
   "name" : "Decrease Cooldown",
   "description" : "Decreases Cooldown by 10%",
   "icon" : "wotr:textures/item/runegem/shape/triangle.png",
-  "maxCount" : 5
+  "maxCount" : 5,
+  "effects": [
+    {
+      "type": "wotr:attribute",
+      "id": "wotr:ability_upgrade_cooldown",
+      "attribute": "wotr:ability_cooldown",
+      "min_roll": -0.1,
+      "max_roll": -0.1,
+      "operation": "add_multiplied_base"
+    }
+  ]
 }

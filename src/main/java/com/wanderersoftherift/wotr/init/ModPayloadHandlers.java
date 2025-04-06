@@ -11,6 +11,11 @@ import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
 import com.wanderersoftherift.wotr.network.SelectSkillUpgradePayload;
 import com.wanderersoftherift.wotr.network.SetEffectMarkerPayload;
 import com.wanderersoftherift.wotr.network.UpdateEffectMarkersPayload;
+import com.wanderersoftherift.wotr.networking.abilities.ClientPayloadHandler;
+import com.wanderersoftherift.wotr.networking.abilities.ServerPayloadHandler;
+import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
+import com.wanderersoftherift.wotr.networking.data.ToggleState;
+import com.wanderersoftherift.wotr.networking.data.UseAbility;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -39,6 +44,10 @@ public class ModPayloadHandlers {
 
         registrar.playToClient(SetEffectMarkerPayload.ID, SetEffectMarkerPayload.STREAM_CODEC, SetEffectMarkerPayload::handleOnClient);
         registrar.playToClient(UpdateEffectMarkersPayload.ID, UpdateEffectMarkersPayload.STREAM_CODEC, UpdateEffectMarkersPayload::handleOnClient);
+
+        registrar.playToServer(UseAbility.TYPE, UseAbility.STREAM_CODEC, ServerPayloadHandler::handleAbilityOnServer);
+        registrar.playToClient(CooldownActivated.TYPE, CooldownActivated.STREAM_CODEC, ClientPayloadHandler::handleCooldownOnClient);
+        registrar.playToClient(ToggleState.TYPE, ToggleState.STREAM_CODEC, ClientPayloadHandler::handleToggleOnClient);
     }
 
     @SubscribeEvent

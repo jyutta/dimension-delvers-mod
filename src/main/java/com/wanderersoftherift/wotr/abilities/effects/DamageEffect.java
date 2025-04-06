@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
+import com.wanderersoftherift.wotr.init.ModAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -13,7 +14,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,8 +60,8 @@ public class DamageEffect extends AbstractEffect {
 
         applyParticlesToUser(user);
 
-        // for now its ATTACK_DAMAGE but needs to be considered how multiple types are going to be implemented ie AP or AD
-        float finalDamage = context.getAbilityAttribute(Attributes.ATTACK_DAMAGE, damageAmount);
+        // for now its ABILITY_DAMAGE but needs to be considered how multiple types are going to be implemented ie AP or AD
+        float finalDamage = context.getAbilityAttribute(ModAttributes.ABILITY_DAMAGE, damageAmount);
 
         for (Entity target : targets) {
             applyParticlesToTarget(target);

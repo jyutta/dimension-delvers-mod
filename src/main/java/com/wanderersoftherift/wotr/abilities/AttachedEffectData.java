@@ -159,7 +159,13 @@ public class AttachedEffectData {
                 return true;
             }
             if (attachEffect.getTriggerPredicate().matches(attachedTo, ticks, caster)) {
-                attachEffect.getEffects().forEach(child -> child.apply(attachedTo, Collections.emptyList(), context.toContext(getCaster(level))));
+                EffectContext triggerContext = context.toContext(getCaster(level));
+                triggerContext.enableModifiers();
+                try {
+                    attachEffect.getEffects().forEach(child -> child.apply(attachedTo, Collections.emptyList(), triggerContext));
+                } finally {
+                    triggerContext.disableModifiers();
+                }
                 triggeredTimes++;
             }
             ticks++;

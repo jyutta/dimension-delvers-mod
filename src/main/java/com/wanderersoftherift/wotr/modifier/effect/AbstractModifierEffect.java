@@ -19,9 +19,9 @@ import static com.wanderersoftherift.wotr.init.ModModifierEffects.MODIFIER_TYPE_
 public abstract class AbstractModifierEffect {
     public abstract MapCodec<? extends AbstractModifierEffect> getCodec();
 
-    public abstract void enableModifier(float roll, Entity entity,  ModifierSource source);
+    public abstract void enableModifier(double roll, Entity entity,  ModifierSource source);
 
-    public abstract void disableModifier(float roll, Entity entity, ModifierSource source);
+    public abstract void disableModifier(double roll, Entity entity, ModifierSource source);
 
     public abstract void applyModifier();
 

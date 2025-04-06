@@ -9,8 +9,6 @@ import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
 import com.wanderersoftherift.wotr.codec.DeferrableRegistryCodec;
 import com.wanderersoftherift.wotr.init.ModAttachments;
-import com.wanderersoftherift.wotr.init.ModAttributes;
-import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -61,11 +59,11 @@ public abstract class AbstractAbility {
         return this.effects;
     }
 
-    public abstract void OnActivate(Player player, int slot, ItemStack abilityItem);
+    public abstract void onActivate(Player player, int slot, ItemStack abilityItem);
 
     public abstract void onDeactivate(Player player, int slot);
 
-    public boolean CanPlayerUse(Player player) {
+    public boolean canPlayerUse(Player player) {
 //        return p.getData(ModAbilities.ABILITY_UNLOCKED_ATTACHMENTS.get(this.getName()));
         return true;
     }
@@ -74,7 +72,7 @@ public abstract class AbstractAbility {
         return name;
     }
 
-    public String GetTranslationString() {
+    public String getTranslationString() {
         return "ability." + getName().getNamespace() + "." + getName().getPath();
     }
 
@@ -82,26 +80,21 @@ public abstract class AbstractAbility {
     COOL DOWN RELATED STUFF HERE
     */
 
-    public boolean IsOnCooldown(Player player, int slot) {
+    public boolean isOnCooldown(Player player, int slot) {
         //If we registered this ability as one that has a cooldown and the player has a cooldown active for this ability.
         return player.getData(ModAttachments.ABILITY_COOLDOWNS).isOnCooldown(slot);
 //        return ModAbilities.COOL_DOWN_ATTACHMENTS.containsKey(this.getName()) && p.getData(ModAbilities.COOL_DOWN_ATTACHMENTS.get(this.getName())) > 0;
     }
 
     //TODO refactor this because I dont think we need to pass in this attribute anymore?
-    public void setCooldown(Player player, int slot) {
+    public void setCooldown(Player player, int slot, float amount) {
         if (this.hasCooldown()) {
-            AbilitySlots abilitySlots = player.getData(ModAttachments.ABILITY_SLOTS);
-            ItemStack abilityItem = abilitySlots.getStackInSlot(slot);
-
-            float cooldown = AbilityAttributeHelper.getAbilityAttribute(ModAttributes.COOLDOWN, this.getBaseCooldown(), player, abilityItem);
-
-            WanderersOfTheRift.LOGGER.info("Setting cooldown for: " + this.getName() + " length: " + cooldown);
+            WanderersOfTheRift.LOGGER.info("Setting cooldown for: " + this.getName() + " length: " + amount);
             PlayerCooldownData cooldowns = player.getData(ModAttachments.ABILITY_COOLDOWNS);
-            cooldowns.setCooldown(slot, (int) cooldown);
+            cooldowns.setCooldown(slot, (int) amount);
             player.setData(ModAttachments.ABILITY_COOLDOWNS, cooldowns);
 
-            PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot, (int) cooldown, (int) cooldown));
+            PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot, (int) amount, (int) amount));
         }
     }
 

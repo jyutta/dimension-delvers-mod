@@ -48,7 +48,6 @@ public class GameEvents {
     }
 
 
-    //TODO look into where to better handle this, we want to register unlocks for abilities
     @SubscribeEvent
     public static void serverLoaded(ServerStartingEvent event) {
         WanderersOfTheRift.LOGGER.info("Server loaded pack exists: " + event.getServer().registryAccess().lookup(DATA_PACK_ABILITY_REG_KEY).isPresent());

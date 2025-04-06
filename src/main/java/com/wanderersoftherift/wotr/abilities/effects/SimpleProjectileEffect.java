@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -43,9 +42,9 @@ public class SimpleProjectileEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
-        List<BlockPos> targets = getTargeting().getBlocks(user);
-        applyParticlesToUser(user);
+    public void apply(Entity source, List<BlockPos> blocks, EffectContext context) {
+        List<BlockPos> targets = getTargeting().getBlocks(source);
+        applyParticlesToUser(source);
         if (!targets.isEmpty()) {
             EntityType<?> type = ModEntities.SIMPLE_EFFECT_PROJECTILE.get();
             int numberOfProjectiles = getNumberOfProjectiles(context);
@@ -57,7 +56,7 @@ public class SimpleProjectileEffect extends AbstractEffect {
             for (int i = 0; i < numberOfProjectiles; i++) {
                 float angle = f2 + f3 * (float)((i + 1) / 2) * f1;
                 f3 = -f3;
-                spawnProjectile(user, context.caster(), type, angle);
+                spawnProjectile(source, type, angle, context);
             }
         }
     }
@@ -70,25 +69,29 @@ public class SimpleProjectileEffect extends AbstractEffect {
         return (int) context.getAbilityAttribute(ModAttributes.PROJECTILE_COUNT, config.projectiles());
     }
 
-    private void spawnProjectile(Entity user, LivingEntity caster, EntityType<?> type, float angle) {
-        Entity simpleProjectile = type.create((ServerLevel) caster.level(), null, user.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
+    private void spawnProjectile(Entity user, EntityType<?> type, float angle, EffectContext context) {
+        Entity simpleProjectile = type.create((ServerLevel) context.level(), null, user.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
         if (simpleProjectile instanceof SimpleEffectProjectile projectileEntity) {
             projectileEntity.setPos(user.getEyePosition());
-            projectileEntity.setOwner(caster);
+            projectileEntity.setOwner(context.caster());
             projectileEntity.setEffect(this);
             projectileEntity.configure(config);
 
-            projectileEntity.shootFromRotation(user, user.getXRot(), user.getYRot() + angle, 0, config.velocity(), 0);
+            projectileEntity.shootFromRotation(user, user.getXRot(), user.getYRot() + angle, 0, context.getAbilityAttribute(ModAttributes.PROJECTILE_SPEED, config.velocity()), 0);
 
-
-            caster.level().addFreshEntity(simpleProjectile);
+            context.level().addFreshEntity(simpleProjectile);
         }
     }
 
     public void applyDelayed(Level level, Entity target, List<BlockPos> blocks, EffectContext context) {
-        applyParticlesToTarget(target);
-        applyParticlesToTargetBlocks(level, blocks);
-        super.apply(target, blocks, context);
+        context.enableModifiers();
+        try {
+            applyParticlesToTarget(target);
+            applyParticlesToTargetBlocks(level, blocks);
+            super.apply(target, blocks, context);
+        } finally {
+            context.disableModifiers();
+        }
     }
 
 }

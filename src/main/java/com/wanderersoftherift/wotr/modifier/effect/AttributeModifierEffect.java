@@ -18,8 +18,8 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
     public static final MapCodec<AttributeModifierEffect> MODIFIER_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                     ResourceLocation.CODEC.fieldOf("id").forGetter(AttributeModifierEffect::getId),
                     Attribute.CODEC.fieldOf("attribute").forGetter(AttributeModifierEffect::getAttribute),
-                    Codec.INT.fieldOf("min_roll").forGetter(AttributeModifierEffect::getMinimumRoll),
-                    Codec.INT.fieldOf("max_roll").forGetter(AttributeModifierEffect::getMaximumRoll),
+                    Codec.DOUBLE.fieldOf("min_roll").forGetter(AttributeModifierEffect::getMinimumRoll),
+                    Codec.DOUBLE.fieldOf("max_roll").forGetter(AttributeModifierEffect::getMaximumRoll),
                     AttributeModifier.Operation.CODEC.fieldOf("operation").forGetter(AttributeModifierEffect::getOperation)
             ).apply(instance, AttributeModifierEffect::new)
     );
@@ -31,11 +31,11 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
 
     private final ResourceLocation id;
     private final Holder<Attribute> attribute;
-    private final int minRoll;
-    private final int maxRoll;
+    private final double minRoll;
+    private final double maxRoll;
     private final AttributeModifier.Operation operation;
 
-    public AttributeModifierEffect(ResourceLocation id, Holder<Attribute> attribute, int minRoll, int maxRoll, AttributeModifier.Operation operation) {
+    public AttributeModifierEffect(ResourceLocation id, Holder<Attribute> attribute, double minRoll, double maxRoll, AttributeModifier.Operation operation) {
         this.id = id;
         this.attribute = attribute;
         this.minRoll = minRoll;
@@ -51,11 +51,11 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
         return attribute;
     }
 
-    public int getMinimumRoll(){
+    public double getMinimumRoll(){
         return minRoll;
     }
 
-    public int getMaximumRoll(){
+    public double getMaximumRoll(){
         return maxRoll;
     }
 
@@ -67,23 +67,23 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
         return this.id.withSuffix("/" + source.getSerializedName());
     }
 
-    public AttributeModifier getModifier(float roll, StringRepresentable source) {
+    public AttributeModifier getModifier(double roll, StringRepresentable source) {
         return new AttributeModifier(this.idForSlot(source), calculateModifier(roll) , this.getOperation());
     }
 
-    public double calculateModifier(float roll) {
+    public double calculateModifier(double roll) {
         return (roll * (maxRoll - minRoll)) + minRoll;
     }
 
     @Override
-    public void enableModifier(float roll, Entity entity, ModifierSource source) {
+    public void enableModifier(double roll, Entity entity, ModifierSource source) {
         if (entity instanceof LivingEntity livingentity) {
             livingentity.getAttributes().addTransientAttributeModifiers(this.makeAttributeMap(roll, source));
         }
     }
 
     @Override
-    public void disableModifier(float roll, Entity entity, ModifierSource source) {
+    public void disableModifier(double roll, Entity entity, ModifierSource source) {
         if (entity instanceof LivingEntity livingentity) {
             livingentity.getAttributes().removeAttributeModifiers(this.makeAttributeMap(roll, source));
         }
@@ -94,7 +94,7 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
         // NOOP
     }
 
-    private Multimap<Holder<Attribute>, AttributeModifier> makeAttributeMap(float roll, ModifierSource source) {
+    private Multimap<Holder<Attribute>, AttributeModifier> makeAttributeMap(double roll, ModifierSource source) {
         return ImmutableMultimap.of(this.attribute, this.getModifier(roll, source));
 
     }

@@ -16,7 +16,7 @@ public class SkillGem extends Item {
     public Component getName(ItemStack stack) {
         Holder<AbstractAbility> abilityHolder = stack.get(ModDataComponentType.ABILITY);
         if (abilityHolder != null) {
-            return Component.translatable(abilityHolder.value().GetTranslationString());
+            return Component.translatable(abilityHolder.value().getTranslationString());
         }
         return super.getName(stack);
     }

@@ -2,5 +2,15 @@
   "name" : "Mana Cost Decrease",
   "description" : "Decreases mana cost by 10%",
   "icon" : "wotr:textures/item/runegem/shape/pentagon.png",
-  "maxCount" : 5
+  "maxCount" : 5,
+  "effects": [
+    {
+      "type": "wotr:attribute",
+      "id": "wotr:ability_upgrade_mana_cost",
+      "attribute": "wotr:mana_cost",
+      "min_roll": -0.1,
+      "max_roll": -0.1,
+      "operation": "add_multiplied_base"
+    }
+  ]
 }

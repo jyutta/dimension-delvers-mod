@@ -2,7 +2,6 @@ package com.wanderersoftherift.wotr;
 
 import com.mojang.logging.LogUtils;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
-import com.wanderersoftherift.wotr.Registries.UpgradeRegistry;
 import com.wanderersoftherift.wotr.commands.DebugCommands;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.commands.RiftMapCommands;
@@ -93,8 +92,6 @@ public class WanderersOfTheRift {
         AbilityRegistry.ABILITY_TYPES.register(modEventBus);
         AbilityRegistry.EFFECTS.register(modEventBus);
         AbilityRegistry.EFFECT_TARGETING.register(modEventBus);
-
-        UpgradeRegistry.UPGRADE_REGISTRY_DEF.register(modEventBus);
     }
 
     /**
