@@ -1,11 +1,11 @@
 package com.wanderersoftherift.wotr.gui.screen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.upgrade.Upgrade;
+import com.wanderersoftherift.wotr.abilities.upgrade.UpgradePool;
 import com.wanderersoftherift.wotr.gui.menu.SkillBenchMenu;
 import com.wanderersoftherift.wotr.gui.widget.ScrollContainerEntry;
 import com.wanderersoftherift.wotr.gui.widget.ScrollContainerWidget;
-import com.wanderersoftherift.wotr.item.skillgem.Upgrade;
-import com.wanderersoftherift.wotr.item.skillgem.UpgradePool;
 import com.wanderersoftherift.wotr.network.SelectSkillUpgradePayload;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;

@@ -1,9 +1,8 @@
-package com.wanderersoftherift.wotr.abilities.effects;
+package com.wanderersoftherift.wotr.abilities;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.abilities.upgrade.UpgradePool;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
-import com.wanderersoftherift.wotr.item.skillgem.UpgradePool;
 import com.wanderersoftherift.wotr.modifier.ModifierHelper;
 import com.wanderersoftherift.wotr.modifier.source.AbilityUpgradeModifierSource;
 import com.wanderersoftherift.wotr.modifier.source.ModifierSource;

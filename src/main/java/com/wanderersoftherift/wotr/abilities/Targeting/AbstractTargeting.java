@@ -3,7 +3,8 @@ package com.wanderersoftherift.wotr.abilities.Targeting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
-import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
+import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 
@@ -47,5 +48,9 @@ public abstract class AbstractTargeting {
 
     public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, EffectContext context) {
         return new ArrayList<>();
+    }
+
+    public boolean isRelevant(AbstractModifierEffect modifierEffect) {
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package com.wanderersoftherift.wotr.abilities.effects;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import net.minecraft.core.BlockPos;

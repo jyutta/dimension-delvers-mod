@@ -3,9 +3,12 @@ package com.wanderersoftherift.wotr.abilities.effects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.wanderersoftherift.wotr.init.ModAttributes;
+import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
+import com.wanderersoftherift.wotr.modifier.effect.AttributeModifierEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
@@ -66,5 +69,10 @@ public class HealEffect extends AbstractEffect {
     @Override
     public Set<Holder<Attribute>> getApplicableAttributes() {
         return super.getApplicableAttributes();
+    }
+
+    @Override
+    protected boolean isRelevantToThis(AbstractModifierEffect modifierEffect) {
+        return modifierEffect instanceof AttributeModifierEffect attributeModifierEffect && ModAttributes.HEAL_POWER.equals(attributeModifierEffect.getAttribute());
     }
 }

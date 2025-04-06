@@ -1,10 +1,10 @@
 package com.wanderersoftherift.wotr.block;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.AbilitySlots;
 import com.wanderersoftherift.wotr.gui.menu.SkillBenchMenu;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.item.handler.ChangeAwareItemHandler;
-import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.network.AbilitySlotsUpdatePayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

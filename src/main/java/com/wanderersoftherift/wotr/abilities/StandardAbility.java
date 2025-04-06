@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
-import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

@@ -2,10 +2,10 @@ package com.wanderersoftherift.wotr.init;
 
 import com.mojang.serialization.Codec;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.item.LootBox;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.abilities.upgrade.UpgradePool;
+import com.wanderersoftherift.wotr.item.LootBox;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
-import com.wanderersoftherift.wotr.item.skillgem.UpgradePool;
 import com.wanderersoftherift.wotr.item.socket.GearSockets;
 import net.minecraft.core.Holder;
 import net.minecraft.core.UUIDUtil;

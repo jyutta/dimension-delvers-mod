@@ -2,7 +2,7 @@ package com.wanderersoftherift.wotr.abilities.Targeting;
 
 import com.mojang.serialization.MapCodec;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
 import net.minecraft.world.entity.Entity;
 
 import java.util.ArrayList;

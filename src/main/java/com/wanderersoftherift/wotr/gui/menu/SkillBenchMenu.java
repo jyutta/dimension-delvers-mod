@@ -1,14 +1,14 @@
 package com.wanderersoftherift.wotr.gui.menu;
 
+import com.wanderersoftherift.wotr.abilities.AbilitySlots;
+import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.abilities.upgrade.Upgrade;
+import com.wanderersoftherift.wotr.abilities.upgrade.UpgradePool;
 import com.wanderersoftherift.wotr.gui.menu.slot.AbilitySlot;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
-import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
-import com.wanderersoftherift.wotr.item.skillgem.Upgrade;
-import com.wanderersoftherift.wotr.item.skillgem.UpgradePool;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.Container;
@@ -56,11 +56,13 @@ public class SkillBenchMenu extends AbstractContainerMenu {
     private void onAbilitySlotChanged(Container container) {
         access.execute((level, blockPos) -> {
             ItemStack item = container.getItem(0);
+
             if (!item.isEmpty() && !item.has(ModDataComponentType.UPGRADE_POOL)) {
+                Holder<AbstractAbility> ability = item.get(ModDataComponentType.ABILITY);
                 RegistryAccess registryAccess = level.registryAccess();
-                Registry<Upgrade> upgrades = registryAccess.lookupOrThrow(Upgrade.UPGRADE_REGISTRY_KEY);
-                UpgradePool.Mutable upgradePool = new UpgradePool.Mutable(upgrades.stream().map(upgrades::wrapAsHolder).toList());
-                upgradePool.generateChoices(5, level.random, 3);
+
+                UpgradePool.Mutable upgradePool = new UpgradePool.Mutable();
+                upgradePool.generateChoices(registryAccess, ability.value(), 5, level.random, 3);
                 DataComponentPatch patch = DataComponentPatch.builder().set(ModDataComponentType.UPGRADE_POOL.get(), upgradePool.toImmutable()).build();
                 item.applyComponents(patch);
             }

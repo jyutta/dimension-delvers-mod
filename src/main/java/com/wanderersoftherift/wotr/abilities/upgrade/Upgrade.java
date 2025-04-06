@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.item.skillgem;
+package com.wanderersoftherift.wotr.abilities.upgrade;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;

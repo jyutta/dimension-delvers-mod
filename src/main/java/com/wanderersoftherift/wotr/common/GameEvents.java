@@ -1,11 +1,11 @@
 package com.wanderersoftherift.wotr.common;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.AbilitySlots;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
-import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

@@ -1,8 +1,7 @@
-package com.wanderersoftherift.wotr.item.skillgem;
+package com.wanderersoftherift.wotr.abilities;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;

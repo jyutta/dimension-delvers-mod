@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;

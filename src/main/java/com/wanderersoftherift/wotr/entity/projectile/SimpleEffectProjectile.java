@@ -3,7 +3,7 @@ package com.wanderersoftherift.wotr.entity.projectile;
 import com.google.common.collect.Lists;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
-import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
 import com.wanderersoftherift.wotr.abilities.effects.SimpleProjectileEffect;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;

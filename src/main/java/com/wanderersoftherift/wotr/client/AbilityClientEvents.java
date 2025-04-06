@@ -1,9 +1,9 @@
 package com.wanderersoftherift.wotr.client;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.AbilitySlots;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
-import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
 import com.wanderersoftherift.wotr.networking.data.UseAbility;
 import net.minecraft.client.Minecraft;

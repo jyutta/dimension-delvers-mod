@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.abilities.effects;
+package com.wanderersoftherift.wotr.abilities;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

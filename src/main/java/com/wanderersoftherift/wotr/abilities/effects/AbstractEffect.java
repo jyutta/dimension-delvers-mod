@@ -5,8 +5,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
+import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -102,4 +104,32 @@ public abstract class AbstractEffect {
         return getEffects().stream().map(AbstractEffect::getApplicableAttributes).flatMap(Set::stream).collect(Collectors.toSet());
     }
 
+    /**
+     * @param modifierEffect
+     * @return Whether the modifier applies to this effect or its children
+     */
+    public final boolean isRelevant(AbstractModifierEffect modifierEffect) {
+        if (isRelevantToThis(modifierEffect)) {
+            return true;
+        }
+        if (getTargeting().isRelevant(modifierEffect)) {
+            return true;
+        }
+        for (AbstractEffect child : effects) {
+            if (child.isRelevant(modifierEffect)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determines whether a given modifier effect is relevant to this effect. Used to determine what upgrades can apply
+     * to abilities that include this effect.
+     * @param modifierEffect
+     * @return Whether the modifier is relevant to this effect
+     */
+    protected boolean isRelevantToThis(AbstractModifierEffect modifierEffect) {
+        return false;
+    };
 }

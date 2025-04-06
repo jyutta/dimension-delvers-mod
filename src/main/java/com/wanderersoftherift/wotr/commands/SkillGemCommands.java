@@ -6,9 +6,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.abilities.upgrade.UpgradePool;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
-import com.wanderersoftherift.wotr.item.skillgem.Upgrade;
-import com.wanderersoftherift.wotr.item.skillgem.UpgradePool;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -40,10 +39,9 @@ public class SkillGemCommands {
             ServerPlayer player = source.getPlayerOrException();
             ItemStack item = player.getInventory().getSelected();
             if (!item.isEmpty()) {
-                Registry<Upgrade> registryReference = source.getLevel().registryAccess().lookup(Upgrade.UPGRADE_REGISTRY_KEY).get();
 
-                UpgradePool.Mutable upgradePool = new UpgradePool.Mutable(registryReference.stream().map(registryReference::wrapAsHolder).toList());
-                upgradePool.generateChoices(choices, source.getLevel().random, 3);
+                UpgradePool.Mutable upgradePool = new UpgradePool.Mutable();
+                upgradePool.generateChoices(source.getLevel().registryAccess(), ability, choices, source.getLevel().random, 3);
 
                 Registry<AbstractAbility> abilities = source.getLevel().registryAccess().lookupOrThrow(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY);
 

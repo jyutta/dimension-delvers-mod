@@ -143,6 +143,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add(WanderersOfTheRift.translationId("upgrade", "projectile_speed.description"), "Increases Projectile speed by 10%");
         add(WanderersOfTheRift.translationId("upgrade", "projectile_spread.name"), "Projectile Spread Reduction");
         add(WanderersOfTheRift.translationId("upgrade", "projectile_spread.description"), "Decreases Projectile Spread by 10%");
+        add(WanderersOfTheRift.translationId("upgrade", "healing_power.name"), "Healing Up");
+        add(WanderersOfTheRift.translationId("upgrade", "healing_power.description"), "Heals an additional heart");
 
         add(ModKeybinds.ABILITY_CATEGORY, "Abilities");
         add(ModKeybinds.ABILITY_1_KEY.getName(), "Use Ability 1");

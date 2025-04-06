@@ -213,6 +213,8 @@
   "upgrade.wotr.damage.name": "Damage Up",
   "upgrade.wotr.drain_life.description": "Drains 1 life per target hit",
   "upgrade.wotr.drain_life.name": "Drain Life",
+  "upgrade.wotr.healing_power.description": "Heals an additional heart",
+  "upgrade.wotr.healing_power.name": "Healing Up",
   "upgrade.wotr.mana_cost.description": "Decreases mana cost by 10%",
   "upgrade.wotr.mana_cost.name": "Mana Cost Decrease",
   "upgrade.wotr.projectile_count.description": "Adds an additional projectile",

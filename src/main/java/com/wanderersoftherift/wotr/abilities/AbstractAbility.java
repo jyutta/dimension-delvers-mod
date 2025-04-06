@@ -9,6 +9,9 @@ import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
 import com.wanderersoftherift.wotr.codec.DeferrableRegistryCodec;
 import com.wanderersoftherift.wotr.init.ModAttachments;
+import com.wanderersoftherift.wotr.init.ModAttributes;
+import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
+import com.wanderersoftherift.wotr.modifier.effect.AttributeModifierEffect;
 import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -159,4 +162,18 @@ public abstract class AbstractAbility {
 //        PacketDistributor.sendToPlayer((ServerPlayer) p, new ToggleState(this.getName().toString(), IsToggled(p)));
     }
 
+    public boolean isRelevantModifier(AbstractModifierEffect modifierEffect) {
+        if (modifierEffect instanceof AttributeModifierEffect attributeModifierEffect) {
+            Holder<Attribute> attribute = attributeModifierEffect.getAttribute();
+            if (ModAttributes.COOLDOWN.equals(attribute) && baseCooldown > 0) {
+                return true;
+            }
+        }
+        for (AbstractEffect effect : effects) {
+            if (effect.isRelevant(modifierEffect)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

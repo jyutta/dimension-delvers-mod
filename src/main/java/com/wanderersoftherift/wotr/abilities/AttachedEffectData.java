@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.effects.AttachEffect;
-import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
-import com.wanderersoftherift.wotr.abilities.effects.StoredEffectContext;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.network.SetEffectMarkerPayload;

@@ -4,9 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.effects.EffectContext;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
 import com.wanderersoftherift.wotr.init.ModAttributes;
+import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
+import com.wanderersoftherift.wotr.modifier.effect.AttributeModifierEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
@@ -140,5 +142,10 @@ public class AreaTargeting extends AbstractTargeting {
         }
 
         return blockPos;
+    }
+
+    @Override
+    public boolean isRelevant(AbstractModifierEffect modifierEffect) {
+        return modifierEffect instanceof AttributeModifierEffect attributeModifierEffect && ModAttributes.ABILITY_AOE.equals(attributeModifierEffect.getAttribute());
     }
 }

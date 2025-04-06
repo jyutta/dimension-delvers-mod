@@ -1,9 +1,9 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.AbilitySlots;
 import com.wanderersoftherift.wotr.abilities.AttachedEffectData;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
-import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.network.AbilitySlotsContentPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsCooldownsPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsUpdatePayload;

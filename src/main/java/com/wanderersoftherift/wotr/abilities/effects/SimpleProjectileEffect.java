@@ -2,17 +2,22 @@ package com.wanderersoftherift.wotr.abilities.effects;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.EffectContext;
 import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.wanderersoftherift.wotr.entity.projectile.SimpleEffectProjectile;
 import com.wanderersoftherift.wotr.entity.projectile.SimpleProjectileConfig;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.init.ModEntities;
+import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
+import com.wanderersoftherift.wotr.modifier.effect.AttributeModifierEffect;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -94,4 +99,12 @@ public class SimpleProjectileEffect extends AbstractEffect {
         }
     }
 
+    @Override
+    protected boolean isRelevantToThis(AbstractModifierEffect modifierEffect) {
+        if (modifierEffect instanceof AttributeModifierEffect attributeModifier) {
+            Holder<Attribute> attribute = attributeModifier.getAttribute();
+            return ModAttributes.PROJECTILE_SPREAD.equals(attribute) || ModAttributes.PROJECTILE_COUNT.equals(attribute) || ModAttributes.PROJECTILE_SPEED.equals(attribute);
+        }
+        return false;
+    }
 }

@@ -2,11 +2,11 @@ package com.wanderersoftherift.wotr.gui.layer;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.AbilitySlots;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
-import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;

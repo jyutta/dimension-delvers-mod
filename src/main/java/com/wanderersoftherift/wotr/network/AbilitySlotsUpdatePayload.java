@@ -1,8 +1,8 @@
 package com.wanderersoftherift.wotr.network;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.AbilitySlots;
 import com.wanderersoftherift.wotr.init.ModAttachments;
-import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
