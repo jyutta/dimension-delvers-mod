@@ -1,6 +1,7 @@
 package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.BlockFamily;

@@ -22,24 +22,43 @@ public class BlockFamilyHelper {
     public static final String FENCE_SUFFIX = "_fence";
     public static final String FENCE_GATE_SUFFIX = "_fence_gate";
     public static final String TRAPDOOR_SUFFIX = "_trapdoor";
+    public static final String GLASS_BLOCK_SUFFIX = "_glass";
+    public static final String PANE_SUFFIX = "_glass_pane";
+    public static final String DIRECTIONAL_PILLAR_SUFFIX = "_directional_pillar";
+
 
     private final String blockId;
     private final Supplier<Block> baseBlock;
     private final Map<BlockFamily.Variant, Supplier<Block>> variants = Maps.newHashMap();
+    private final Map<ModBlockFamilyVariant, Supplier<Block>> modVariants = Maps.newHashMap();
     private BlockFamily blockFamily;
 
-    public BlockFamilyHelper(String blockId, Supplier<Block> baseBlock, Map<BlockFamily.Variant, Supplier<Block>> variants){
+    //additional variants that Mojang does not support yet
+    public static enum ModBlockFamilyVariant {
+        GLASS_BLOCK("glass_block"),
+        PANE("pane"),
+        DIRECTIONAL_PILLAR("directional_pillar");
+
+        private final String variantName;
+        ModBlockFamilyVariant(String variantName){
+            this.variantName = variantName;
+        }
+
+        public String getVariantName(){
+            return variantName;
+        }
+    }
+
+    public BlockFamilyHelper(String blockId,
+                             Supplier<Block> baseBlock,
+                             Map<BlockFamily.Variant, Supplier<Block>> variants,
+                             Map<ModBlockFamilyVariant, Supplier<Block>> modVariants
+
+    ){
         this.blockId = blockId;
         this.baseBlock = baseBlock;
         this.variants.putAll(variants);
-    }
-
-    public String getBlockId() {
-        return blockId;
-    }
-
-    public String getId() {
-        return blockId;
+        this.modVariants.putAll(modVariants);
     }
 
     public Supplier<Block> getBlock() {
@@ -78,11 +97,20 @@ public class BlockFamilyHelper {
         return getVariants().get(variant);
     }
 
+    public Map<ModBlockFamilyVariant, Supplier<Block>> getModVariants() {
+        return new HashMap<>(modVariants);
+    }
+
+    public  Supplier<Block> getModVariants(ModBlockFamilyVariant variant) {
+        return getModVariants().get(variant);
+    }
+
     public static class Builder {
 
         private String blockId;
         private Supplier<Block> baseBlock;
         private final Map<BlockFamily.Variant, Supplier<Block>> variants = Maps.newHashMap();
+        private final Map<ModBlockFamilyVariant, Supplier<Block>> modVariants = Maps.newHashMap();
 
         public Builder withBlockId(String blockId) {
             this.blockId = blockId;
@@ -134,8 +162,19 @@ public class BlockFamilyHelper {
             return this;
         }
 
+        public Builder withPane(Supplier<Block> glassBlock, Supplier<Block> pane) {
+            this.modVariants.put(ModBlockFamilyVariant.GLASS_BLOCK, glassBlock);
+            this.modVariants.put(ModBlockFamilyVariant.PANE, pane);
+            return this;
+        }
+
+        public Builder withDirectionalPillar(Supplier<Block> directionalPillar) {
+            this.modVariants.put(ModBlockFamilyVariant.DIRECTIONAL_PILLAR, directionalPillar);
+            return this;
+        }
+
         public BlockFamilyHelper createBuildBlockHelper() {
-            return new BlockFamilyHelper(blockId, baseBlock, variants);
+            return new BlockFamilyHelper(blockId, baseBlock, variants, modVariants);
         }
     }
 
