@@ -1,6 +1,5 @@
 {
-  "name" : "Projectile Spread Reduction",
-  "description" : "Decreases Projectile Spread by 10%",
+  "id" : "wotr:projectile_spread",
   "icon" : "wotr:textures/item/runegem/shape/square.png",
   "maxCount" : 5,
   "effects": [

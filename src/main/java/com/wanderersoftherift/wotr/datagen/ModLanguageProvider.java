@@ -4,8 +4,8 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModEntityTypes;
 import com.wanderersoftherift.wotr.init.ModItems;
-import com.wanderersoftherift.wotr.item.essence.EssenceValue;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
+import com.wanderersoftherift.wotr.item.essence.EssenceValue;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
@@ -100,6 +100,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ability." + WanderersOfTheRift.MODID + ".test_ability", "Test Ability");
         add("ability." + WanderersOfTheRift.MODID + ".knockback", "Knockback");
         add("ability." + WanderersOfTheRift.MODID + ".pull", "Pull");
+        add("ability." + WanderersOfTheRift.MODID + ".heal", "Heal");
+        add("ability." + WanderersOfTheRift.MODID + ".firetouch", "Nonsense Experimental Ability");
 
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.title", "Dimension Delvers: Accessibility Settings");
         add("accessibility." + WanderersOfTheRift.MODID + ".menubutton", "DimDelvers Accessibility (tmp)");
@@ -124,6 +126,23 @@ public class ModLanguageProvider extends LanguageProvider {
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_value", "Essence: %s %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_header", "Essence:");
         add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
+
+        add(WanderersOfTheRift.translationId("upgrade", "aoe.name"), "Area of Effect");
+        add(WanderersOfTheRift.translationId("upgrade", "aoe.description"), "Increases Area of Effect by 1 block");
+        add(WanderersOfTheRift.translationId("upgrade", "cooldown.name"), "Decrease Cooldown");
+        add(WanderersOfTheRift.translationId("upgrade", "cooldown.description"), "Decreases Cooldown by 10%");
+        add(WanderersOfTheRift.translationId("upgrade", "damage.name"), "Damage Up");
+        add(WanderersOfTheRift.translationId("upgrade", "damage.description"), "Increases Damage by 10%");
+        add(WanderersOfTheRift.translationId("upgrade", "drain_life.name"), "Drain Life");
+        add(WanderersOfTheRift.translationId("upgrade", "drain_life.description"), "Drains 1 life per target hit");
+        add(WanderersOfTheRift.translationId("upgrade", "mana_cost.name"), "Mana Cost Decrease");
+        add(WanderersOfTheRift.translationId("upgrade", "mana_cost.description"), "Decreases mana cost by 10%");
+        add(WanderersOfTheRift.translationId("upgrade", "projectile_count.name"), "More Projectiles");
+        add(WanderersOfTheRift.translationId("upgrade", "projectile_count.description"), "Adds an additional projectile");
+        add(WanderersOfTheRift.translationId("upgrade", "projectile_speed.name"), "Projectile Speed");
+        add(WanderersOfTheRift.translationId("upgrade", "projectile_speed.description"), "Increases Projectile speed by 10%");
+        add(WanderersOfTheRift.translationId("upgrade", "projectile_spread.name"), "Projectile Spread Reduction");
+        add(WanderersOfTheRift.translationId("upgrade", "projectile_spread.description"), "Decreases Projectile Spread by 10%");
 
         add(ModKeybinds.ABILITY_CATEGORY, "Abilities");
         add(ModKeybinds.ABILITY_1_KEY.getName(), "Use Ability 1");

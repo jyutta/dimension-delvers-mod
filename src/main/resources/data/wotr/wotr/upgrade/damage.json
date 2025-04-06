@@ -1,6 +1,5 @@
 {
-  "name" : "Damage Up",
-  "description" : "Increases Damage by 10%",
+  "id" : "wotr:damage",
   "icon" : "wotr:textures/item/runegem/shape/diamond.png",
   "maxCount" : 5,
   "effects": [

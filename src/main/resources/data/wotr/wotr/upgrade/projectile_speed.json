@@ -1,6 +1,5 @@
 {
-  "name" : "Projectile Speed",
-  "description" : "Increases Projectile speed by 10%",
+  "id" : "wotr:projectile_speed",
   "icon" : "wotr:textures/item/runegem/shape/square.png",
   "maxCount" : 10,
   "effects": [

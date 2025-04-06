@@ -1,6 +1,5 @@
 {
-  "name" : "Decrease Cooldown",
-  "description" : "Decreases Cooldown by 10%",
+  "id" : "wotr:cooldown",
   "icon" : "wotr:textures/item/runegem/shape/triangle.png",
   "maxCount" : 5,
   "effects": [

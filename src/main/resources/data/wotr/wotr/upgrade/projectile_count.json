@@ -1,6 +1,5 @@
 {
-  "name" : "More Projectiles",
-  "description" : "Adds an additional projectile",
+  "id" : "wotr:projectile_count",
   "icon" : "wotr:textures/item/runegem/shape/square.png",
   "maxCount" : 4,
   "effects": [
