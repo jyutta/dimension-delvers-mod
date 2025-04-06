@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.gui.hud;
+package com.wanderersoftherift.wotr.gui.layer;
 
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectDisplayData;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;

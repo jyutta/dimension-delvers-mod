@@ -1,8 +1,8 @@
 package com.wanderersoftherift.wotr.init.client;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.gui.hud.AbilityBar;
-import com.wanderersoftherift.wotr.gui.hud.EffectBar;
+import com.wanderersoftherift.wotr.gui.layer.AbilityBar;
+import com.wanderersoftherift.wotr.gui.layer.EffectBar;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

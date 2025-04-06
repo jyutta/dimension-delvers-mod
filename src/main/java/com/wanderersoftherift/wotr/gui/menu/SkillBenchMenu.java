@@ -1,5 +1,6 @@
 package com.wanderersoftherift.wotr.gui.menu;
 
+import com.wanderersoftherift.wotr.gui.menu.slot.AbilitySlot;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
@@ -7,6 +8,8 @@ import com.wanderersoftherift.wotr.item.skillgem.AbilitySlots;
 import com.wanderersoftherift.wotr.item.skillgem.Upgrade;
 import com.wanderersoftherift.wotr.item.skillgem.UpgradePool;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -33,7 +36,7 @@ public class SkillBenchMenu extends AbstractContainerMenu {
     private final static int PLAYER_SLOTS = PLAYER_INVENTORY_SLOTS + 9;
 
     private final ContainerLevelAccess access;
-    private final Container inputContainer;
+    private final SimpleContainer inputContainer;
 
     public SkillBenchMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL, new ItemStackHandler(AbilitySlots.ABILITY_BAR_SIZE));
@@ -43,11 +46,25 @@ public class SkillBenchMenu extends AbstractContainerMenu {
         super(ModMenuTypes.SKILL_BENCH_MENU.get(), containerId);
         this.access = access;
         this.inputContainer = new SimpleContainer(1);
-        addSlot(new SkillSlot(inputContainer, 0, 32, 17));
+        inputContainer.addListener(this::onAbilitySlotChanged);
+        addSlot(new AbilitySlot(inputContainer, 0, 32, 17));
 
         addStandardInventorySlots(playerInventory, 32, 154);
         addPlayerSkillSlots(abilities, 4, 46);
+    }
 
+    private void onAbilitySlotChanged(Container container) {
+        access.execute((level, blockPos) -> {
+            ItemStack item = container.getItem(0);
+            if (!item.isEmpty() && !item.has(ModDataComponentType.UPGRADE_POOL)) {
+                RegistryAccess registryAccess = level.registryAccess();
+                Registry<Upgrade> upgrades = registryAccess.lookupOrThrow(Upgrade.UPGRADE_REGISTRY_KEY);
+                UpgradePool.Mutable upgradePool = new UpgradePool.Mutable(upgrades.stream().map(upgrades::wrapAsHolder).toList());
+                upgradePool.generateChoices(5, level.random, 3);
+                DataComponentPatch patch = DataComponentPatch.builder().set(ModDataComponentType.UPGRADE_POOL.get(), upgradePool.toImmutable()).build();
+                item.applyComponents(patch);
+            }
+        });
     }
 
     protected void addPlayerSkillSlots(IItemHandler abilitySlots, int x, int y) {
@@ -58,7 +75,7 @@ public class SkillBenchMenu extends AbstractContainerMenu {
 
     public boolean isSkillItemPresent() {
         ItemStack item = inputContainer.getItem(0);
-        return !item.isEmpty() && item.has(ModDataComponentType.UPGRADE_POOL);
+        return !item.isEmpty() && item.has(ModDataComponentType.ABILITY);
     }
 
     public ItemStack getSkillItem() {
@@ -85,7 +102,7 @@ public class SkillBenchMenu extends AbstractContainerMenu {
         if (slot.hasItem()) {
             ItemStack slotStack = slot.getItem();
             ItemStack originalStack = slotStack.copy();
-            if (slot instanceof SkillSlot) {
+            if (slot instanceof AbilitySlot) {
                 if (!this.moveItemStackTo(slotStack, INPUT_SLOTS, INPUT_SLOTS + PLAYER_SLOTS, true)) {
                     return ItemStack.EMPTY;
                 }

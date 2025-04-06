@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.gui.hud;
+package com.wanderersoftherift.wotr.gui.layer;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
