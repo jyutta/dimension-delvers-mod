@@ -4,6 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
+import com.wanderersoftherift.wotr.abilities.mana.ManaData;
+import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,33 +30,41 @@ public class StandardAbility extends AbstractAbility {
                     ResourceLocation.CODEC.fieldOf("ability_name").forGetter(StandardAbility::getName),
                     ResourceLocation.CODEC.fieldOf("icon").forGetter(StandardAbility::getIcon),
                     Codec.INT.fieldOf("cooldown").forGetter(ability -> (int) ability.getBaseCooldown()),
-                    Codec.list(AbstractEffect.DIRECT_CODEC).optionalFieldOf("effects", Collections.emptyList()).forGetter(AbstractAbility::getEffects)
+                    Codec.INT.optionalFieldOf("mana_cost", 0).forGetter(StandardAbility::getManaCost),
+                    Codec.list(AbstractEffect.DIRECT_CODEC).optionalFieldOf("effects", Collections.emptyList()).forGetter(StandardAbility::getEffects)
             ).apply(instance, StandardAbility::new)
     );
 
-    public StandardAbility(ResourceLocation resourceLocation, ResourceLocation icon, int baseCooldown, List<AbstractEffect> effects) {
+    public StandardAbility(ResourceLocation resourceLocation, ResourceLocation icon, int baseCooldown, int manaCost, List<AbstractEffect> effects) {
         super(resourceLocation, icon, effects);
         this.baseCooldown = baseCooldown;
+        setManaCost(manaCost);
     }
 
     @Override
     public void onActivate(Player player, int slot, ItemStack abilityItem) {
-        if (this.canPlayerUse(player)) {
-            if (!this.isOnCooldown(player, slot)) {
-                EffectContext effectContext = new EffectContext(player, abilityItem);
-                effectContext.enableModifiers();
-                try {
-                    this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), effectContext));
-                    this.setCooldown(player, slot, effectContext.getAbilityAttribute(ModAttributes.COOLDOWN, baseCooldown));
-                } finally {
-                    effectContext.disableModifiers();
-                }
-            }
-        }
-
-        //this is an example of handing a case where the player cannot use an ability
         if (!this.canPlayerUse(player)) {
             ((ServerPlayer) player).sendSystemMessage(Component.literal("You cannot use this"));
+            return;
+        }
+        if (this.isOnCooldown(player, slot)) {
+            return;
+        }
+        if (this.getManaCost() > 0) {
+            ManaData manaData = player.getData(ModAttachments.MANA);
+            if (manaData.getAmount() < getManaCost()) {
+                return;
+            }
+            manaData.useAmount(player, getManaCost());
+        }
+
+        EffectContext effectContext = new EffectContext(player, abilityItem);
+        effectContext.enableModifiers();
+        try {
+            this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), effectContext));
+            this.setCooldown(player, slot, effectContext.getAbilityAttribute(ModAttributes.COOLDOWN, baseCooldown));
+        } finally {
+            effectContext.disableModifiers();
         }
     }
 

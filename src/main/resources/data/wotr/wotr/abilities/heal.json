@@ -3,6 +3,7 @@
   "ability_name": "wotr:heal",
   "icon" : "minecraft:textures/mob_effect/regeneration.png",
   "cooldown": 200,
+  "mana_cost": 10,
   "effects":
   [
     {

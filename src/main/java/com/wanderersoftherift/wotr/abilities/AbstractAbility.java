@@ -40,7 +40,9 @@ public abstract class AbstractAbility {
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<AbstractAbility>> STREAM_CODEC = ByteBufCodecs.holderRegistry(DATA_PACK_ABILITY_REG_KEY);
     private final ResourceLocation name;
     private ResourceLocation icon = ResourceLocation.withDefaultNamespace("textures/misc/forcefield.png");
-    public float baseCooldown = 0;
+    protected float baseCooldown = 0;
+    private int manaCost;
+
     public Holder<Attribute> durationAttribute = null;
     private boolean isToggle = false;
 
@@ -60,6 +62,14 @@ public abstract class AbstractAbility {
 
     public List<AbstractEffect> getEffects() {
         return this.effects;
+    }
+
+    public int getManaCost() {
+        return manaCost;
+    }
+
+    public void setManaCost(int manaCost) {
+        this.manaCost = manaCost;
     }
 
     public abstract void onActivate(Player player, int slot, ItemStack abilityItem);
@@ -166,6 +176,9 @@ public abstract class AbstractAbility {
         if (modifierEffect instanceof AttributeModifierEffect attributeModifierEffect) {
             Holder<Attribute> attribute = attributeModifierEffect.getAttribute();
             if (ModAttributes.COOLDOWN.equals(attribute) && baseCooldown > 0) {
+                return true;
+            }
+            if (ModAttributes.MANA_COST.equals(attribute) && manaCost > 0) {
                 return true;
             }
         }

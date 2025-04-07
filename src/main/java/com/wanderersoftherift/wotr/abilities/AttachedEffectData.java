@@ -5,7 +5,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.effects.AttachEffect;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
-import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.network.SetEffectMarkerPayload;
 import com.wanderersoftherift.wotr.network.UpdateEffectMarkersPayload;
 import net.minecraft.core.Holder;
@@ -13,7 +12,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.entity.EntityTypeTest;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,21 +35,6 @@ public class AttachedEffectData {
 
     private AttachedEffectData(List<AttachedEffect> effects) {
         this.effects = new ArrayList<>(effects);
-    }
-
-    /**
-     * Ticks all attached effects within a level
-     *
-     * @param level
-     */
-    public static void tick(ServerLevel level) {
-        level.getEntities(EntityTypeTest.forClass(LivingEntity.class), entity -> entity.hasData(ModAttachments.ATTACHED_EFFECTS)).forEach(entity -> {
-            AttachedEffectData data = entity.getData(ModAttachments.ATTACHED_EFFECTS);
-            data.tick(entity, level);
-            if (data.effects.isEmpty()) {
-                entity.removeData(ModAttachments.ATTACHED_EFFECTS);
-            }
-        });
     }
 
     public void tick(LivingEntity attachedTo, ServerLevel level) {
@@ -115,6 +98,10 @@ public class AttachedEffectData {
             });
         }
         return result;
+    }
+
+    public boolean isEmpty() {
+        return effects.isEmpty();
     }
 
     private static class AttachedEffect {

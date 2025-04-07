@@ -33,7 +33,9 @@ public class ModAttributes {
     public static final DeferredHolder<Attribute, RangedAttribute> PROJECTILE_SPEED = registerPlayerAttribute("projectile_speed", () -> new RangedAttribute(WanderersOfTheRift.translationId("attribute", "projectile_speed"), 0, 0, Integer.MAX_VALUE));
 
     /* Mana */
-    public static final DeferredHolder<Attribute, RangedAttribute> MAX_MANA = registerPlayerAttribute("max_mana", () -> new RangedAttribute(WanderersOfTheRift.translationId("attribute","max_mana"), 100, 0, Integer.MAX_VALUE));
+    public static final DeferredHolder<Attribute, RangedAttribute> MAX_MANA = registerPlayerAttribute("max_mana", () -> new RangedAttribute(WanderersOfTheRift.translationId("attribute","max_mana"), 50, 0, Integer.MAX_VALUE));
+    public static final DeferredHolder<Attribute, RangedAttribute> MANA_REGEN_RATE = registerPlayerAttribute("mana_regen_rate", () -> new RangedAttribute(WanderersOfTheRift.translationId("attribute","mana_regen_rate"), 0.05, 0, Integer.MAX_VALUE));
+    public static final DeferredHolder<Attribute, RangedAttribute> MANA_DEGEN_RATE = registerPlayerAttribute("mana_degen_rate", () -> new RangedAttribute(WanderersOfTheRift.translationId("attribute","mana_degen_rate"), 0, 0, Integer.MAX_VALUE));
 
     public static List<DeferredHolder<Attribute, RangedAttribute>> getPlayerAttributes() {
         return Collections.unmodifiableList(PLAYER_ATTRIBUTES);

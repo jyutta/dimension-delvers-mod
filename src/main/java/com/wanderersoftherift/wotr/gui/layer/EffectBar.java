@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class EffectBar implements LayeredDraw.Layer {
 
-    private static final int BAR_OFFSET_X = 20;
+    private static final int BAR_OFFSET_X = 27;
     private static final int ICON_SIZE = 16;
     public static final float FAST_PULSE_THRESHOLD = 40.0f;
     public static final float SLOW_PULSE_THRESHOLD = 100.0f;

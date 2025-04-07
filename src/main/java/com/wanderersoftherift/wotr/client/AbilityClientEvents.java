@@ -2,11 +2,13 @@ package com.wanderersoftherift.wotr.client;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbilitySlots;
+import com.wanderersoftherift.wotr.abilities.mana.ManaData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
 import com.wanderersoftherift.wotr.networking.data.UseAbility;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -22,7 +24,7 @@ import static com.wanderersoftherift.wotr.init.client.ModKeybinds.USE_ABILITY_KE
 public final class AbilityClientEvents {
 
     @SubscribeEvent
-    public static void clientTick(ClientTickEvent.Post event) {
+    public static void processAbilityKeys(ClientTickEvent.Post event) {
         if (Minecraft.getInstance().player == null) {
             return;
         }
@@ -51,6 +53,17 @@ public final class AbilityClientEvents {
         if (selectionUpdated) {
             PacketDistributor.sendToServer(new SelectAbilitySlotPayload(abilitySlots.getSelectedSlot()));
         }
+    }
+
+    @SubscribeEvent
+    public static void tickMana(ClientTickEvent.Pre event) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) {
+            return;
+        }
+
+        ManaData manaData = player.getData(ModAttachments.MANA);
+        manaData.tick(player);
     }
 
 }

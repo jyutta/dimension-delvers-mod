@@ -7,6 +7,7 @@ import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
 import com.wanderersoftherift.wotr.network.AbilitySlotsContentPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsCooldownsPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsUpdatePayload;
+import com.wanderersoftherift.wotr.network.ManaChangePayload;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
 import com.wanderersoftherift.wotr.network.SelectSkillUpgradePayload;
 import com.wanderersoftherift.wotr.network.SetEffectMarkerPayload;
@@ -48,12 +49,14 @@ public class ModPayloadHandlers {
         registrar.playToServer(UseAbility.TYPE, UseAbility.STREAM_CODEC, ServerPayloadHandler::handleAbilityOnServer);
         registrar.playToClient(CooldownActivated.TYPE, CooldownActivated.STREAM_CODEC, ClientPayloadHandler::handleCooldownOnClient);
         registrar.playToClient(ToggleState.TYPE, ToggleState.STREAM_CODEC, ClientPayloadHandler::handleToggleOnClient);
+        registrar.playToClient(ManaChangePayload.TYPE, ManaChangePayload.STREAM_CODEC, ManaChangePayload::handleOnClient);
     }
 
     @SubscribeEvent
     public static void onPlayerJoinedEvent(PlayerEvent.PlayerLoggedInEvent event) {
         replicateAbilities(event.getEntity());
         replicateEffectMarkers(event.getEntity());
+        replicateMana(event.getEntity());
     }
 
     @SubscribeEvent
@@ -66,6 +69,14 @@ public class ModPayloadHandlers {
     public static void onPlayerChangeDimensionEvent(PlayerEvent.PlayerChangedDimensionEvent event) {
         replicateAbilities(event.getEntity());
         replicateEffectMarkers(event.getEntity());
+        replicateMana(event.getEntity());
+    }
+
+    private static void replicateMana(Player player) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+        PacketDistributor.sendToPlayer(serverPlayer, new ManaChangePayload(serverPlayer.getData(ModAttachments.MANA).getAmount()));
     }
 
     private static void replicateAbilities(Player player) {

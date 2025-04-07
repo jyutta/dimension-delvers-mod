@@ -3,6 +3,7 @@
   "ability_name": "wotr:fireball_ability",
   "icon": "minecraft:textures/item/fire_charge.png",
   "cooldown": 20,
+  "mana_cost": 10,
   "effects": [
     {
       "type": "wotr:simple_projectile_effect",
