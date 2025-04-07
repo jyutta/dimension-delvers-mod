@@ -30,7 +30,7 @@ public class StandardAbility extends AbstractAbility {
                     ResourceLocation.CODEC.fieldOf("ability_name").forGetter(StandardAbility::getName),
                     ResourceLocation.CODEC.fieldOf("icon").forGetter(StandardAbility::getIcon),
                     Codec.INT.fieldOf("cooldown").forGetter(ability -> (int) ability.getBaseCooldown()),
-                    Codec.INT.optionalFieldOf("mana_cost", 0).forGetter(StandardAbility::getManaCost),
+                    Codec.INT.optionalFieldOf("mana_cost", 0).forGetter(StandardAbility::getBaseManaCost),
                     Codec.list(AbstractEffect.DIRECT_CODEC).optionalFieldOf("effects", Collections.emptyList()).forGetter(StandardAbility::getEffects)
             ).apply(instance, StandardAbility::new)
     );
@@ -38,7 +38,7 @@ public class StandardAbility extends AbstractAbility {
     public StandardAbility(ResourceLocation resourceLocation, ResourceLocation icon, int baseCooldown, int manaCost, List<AbstractEffect> effects) {
         super(resourceLocation, icon, effects);
         this.baseCooldown = baseCooldown;
-        setManaCost(manaCost);
+        setBaseManaCost(manaCost);
     }
 
     @Override
@@ -50,17 +50,18 @@ public class StandardAbility extends AbstractAbility {
         if (this.isOnCooldown(player, slot)) {
             return;
         }
-        if (this.getManaCost() > 0) {
-            ManaData manaData = player.getData(ModAttachments.MANA);
-            if (manaData.getAmount() < getManaCost()) {
-                return;
-            }
-            manaData.useAmount(player, getManaCost());
-        }
-
         EffectContext effectContext = new EffectContext(player, abilityItem);
         effectContext.enableModifiers();
         try {
+            int manaCost = (int) effectContext.getAbilityAttribute(ModAttributes.MANA_COST, getBaseManaCost());
+            if (manaCost > 0) {
+                ManaData manaData = player.getData(ModAttachments.MANA);
+                if (manaData.getAmount() < manaCost) {
+                    return;
+                }
+                manaData.useAmount(player, manaCost);
+            }
+
             this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), effectContext));
             this.setCooldown(player, slot, effectContext.getAbilityAttribute(ModAttributes.COOLDOWN, baseCooldown));
         } finally {

@@ -41,7 +41,7 @@ public abstract class AbstractAbility {
     private final ResourceLocation name;
     private ResourceLocation icon = ResourceLocation.withDefaultNamespace("textures/misc/forcefield.png");
     protected float baseCooldown = 0;
-    private int manaCost;
+    private int baseManaCost;
 
     public Holder<Attribute> durationAttribute = null;
     private boolean isToggle = false;
@@ -64,12 +64,12 @@ public abstract class AbstractAbility {
         return this.effects;
     }
 
-    public int getManaCost() {
-        return manaCost;
+    public int getBaseManaCost() {
+        return baseManaCost;
     }
 
-    public void setManaCost(int manaCost) {
-        this.manaCost = manaCost;
+    public void setBaseManaCost(int baseManaCost) {
+        this.baseManaCost = baseManaCost;
     }
 
     public abstract void onActivate(Player player, int slot, ItemStack abilityItem);
@@ -178,7 +178,7 @@ public abstract class AbstractAbility {
             if (ModAttributes.COOLDOWN.equals(attribute) && baseCooldown > 0) {
                 return true;
             }
-            if (ModAttributes.MANA_COST.equals(attribute) && manaCost > 0) {
+            if (ModAttributes.MANA_COST.equals(attribute) && baseManaCost > 0) {
                 return true;
             }
         }
