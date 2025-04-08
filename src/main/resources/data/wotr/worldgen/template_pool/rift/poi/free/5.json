@@ -1,0 +1,118 @@
+{
+  "fallback": "wotr:rift/poi/terminator",
+
+  "elements": [
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/5/grave-1-wout",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/5/pris_fountain-3-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/5/campbench-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/5/ducky-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/5/endmushroom-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/5/flowerbed-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/5/lampost-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/5/outdoordinning-1-k",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "fallback": "wotr:rift/room_terminator",
+
+  "elements": [
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/room/stable/333/cave_pillar-1-wout",
+
+        "processors": "wotr:room_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/room/stable/333/caves-1-grimm",
+
+        "processors": "wotr:room_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

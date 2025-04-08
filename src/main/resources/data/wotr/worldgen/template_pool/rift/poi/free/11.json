@@ -1,0 +1,115 @@
+{
+  "fallback": "wotr:rift/poi/terminator",
+
+  "elements": [
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/11/ocean_temple-1-jj",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+
+      "weight": 100,
+      "element": {
+
+        "location": "wotr:rift/poi/free/11/pale_tree-1-jj",
+
+        "processors": "wotr:poi_theme_default",
+
+        "projection": "rigid",
+
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/sculk-1-jj",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/tent-1-k",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/tent-2-k",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/endcrystal-1-k",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/endcrystal-2-k",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/house-1-k",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/nethertree-1-k",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/ritual-1-k",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "location": "wotr:rift/poi/free/11/wagon-1-k",
+        "processors": "wotr:poi_theme_default",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
