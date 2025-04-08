@@ -8,9 +8,11 @@ import com.wanderersoftherift.wotr.item.RiftChestType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -137,6 +139,7 @@ public class ModBlocks {
     public static final BlockFamilyHelper PROCESSOR_BLOCK_12 = registerBuildingBlock("processor_block_12", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_12"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_13 = registerBuildingBlock("processor_block_13", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_13"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_14 = registerBuildingBlock("processor_block_14", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_14"))));
+    public static final BlockFamilyHelper PROCESSOR_BLOCK_15 = registerBuildingBlock("processor_block_15", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_15"))));
 
     private static BlockFamilyHelper registerBuildingBlock(String id, Supplier<Block> sup) {
         DeferredBlock<Block> block = registerBlock(id, sup);
@@ -150,6 +153,11 @@ public class ModBlocks {
                 .withFence(registerBlock(id + FENCE_SUFFIX, () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_SUFFIX)))))
                 .withFenceGate(registerBlock(id + FENCE_GATE_SUFFIX, () -> new FenceGateBlock(OAK, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_GATE_SUFFIX)))))
                 .withTrapdoor(registerBlock(id + TRAPDOOR_SUFFIX, () -> new TrapDoorBlock(BlockSetType.STONE, BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + TRAPDOOR_SUFFIX)))))
+                .withPane(
+                        registerBlock(id + GLASS_BLOCK_SUFFIX, () -> new StainedGlassBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).noOcclusion().lightLevel((state) -> 0).sound(SoundType.GLASS).setId(blockId(id + GLASS_BLOCK_SUFFIX)))),
+                        registerBlock(id + PANE_SUFFIX, () -> new StainedGlassPaneBlock(DyeColor.WHITE, BlockBehaviour.Properties.ofFullCopy(block.get()).noOcclusion().lightLevel((state) -> 0).sound(SoundType.GLASS).setId(blockId(id + PANE_SUFFIX)))))
+                .withDirectionalPillar(registerBlock(id + DIRECTIONAL_PILLAR_SUFFIX, () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + DIRECTIONAL_PILLAR_SUFFIX))) {
+                }))
                 .createBuildBlockHelper();
         BLOCK_FAMILY_HELPERS.add(buildingBlockHelper);
         return buildingBlockHelper;

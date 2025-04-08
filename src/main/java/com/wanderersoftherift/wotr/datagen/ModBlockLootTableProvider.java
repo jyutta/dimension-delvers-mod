@@ -22,6 +22,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> {
             dropSelf(helper.getBlock().get());
             helper.getVariants().forEach((variant, block) -> dropSelf(block.get()));
+            helper.getModVariants().forEach((variant, block) -> dropSelf(block.get()));
         });
         dropSelf(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get());
         dropSelf(ModBlocks.RIFT_CHEST.get());
