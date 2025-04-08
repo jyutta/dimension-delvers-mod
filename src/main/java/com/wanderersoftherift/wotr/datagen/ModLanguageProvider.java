@@ -52,6 +52,7 @@ public class ModLanguageProvider extends LanguageProvider {
         ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> {
             //addBlock(helper.getBlock(), getTranslationString(helper.getBlock().get()));
             helper.getVariants().forEach((variant, block) -> addBlock(block, getTranslationString(block.get())));
+            helper.getModVariants().forEach((variant, block) -> addBlock(block, getTranslationString(block.get())));
         });
 
         add("block." + WanderersOfTheRift.MODID + ".processor_block_1", "Processor Block 1 [Wall]");
