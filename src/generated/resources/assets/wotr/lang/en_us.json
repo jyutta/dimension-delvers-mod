@@ -167,6 +167,7 @@
   "item.wotr.runegem": "Runegem",
   "item.wotr.runegem_geode": "Runegem Geode",
   "itemGroup.wotr": "Wanderers of the Rift",
+  "subtitles.wotr.rift_open": "Rift Opens",
   "tooltip.wotr.essence_header": "Essence:",
   "tooltip.wotr.essence_value": "Essence: %s %s",
   "tooltip.wotr.rift_key_tier": "Rift Tier: %s",

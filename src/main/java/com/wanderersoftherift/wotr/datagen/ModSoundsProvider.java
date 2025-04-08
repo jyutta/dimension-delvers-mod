@@ -17,7 +17,7 @@ public class ModSoundsProvider extends SoundDefinitionsProvider {
         add(ModSoundEvents.RIFT_OPEN.value(), SoundDefinition.definition()
                 .with(
                         sound(WanderersOfTheRift.id("rift_open"), SoundDefinition.SoundType.SOUND)
-                ).subtitle("Rift opens")
+                ).subtitle("subtitles." + WanderersOfTheRift.MODID + ".rift_open")
                 .replace(false)
         );
     }
