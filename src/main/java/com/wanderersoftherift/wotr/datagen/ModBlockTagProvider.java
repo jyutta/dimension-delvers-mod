@@ -1,7 +1,6 @@
 package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.BlockFamily;
@@ -12,7 +11,9 @@ import java.util.concurrent.CompletableFuture;
 
 import static net.minecraft.tags.BlockTags.*;
 
-/* Handles Data Generation for Block Tags of the Wotr mod */
+/**
+ *  Handles Data Generation for Block Tags of the Wotr mod
+ */
 public class ModBlockTagProvider extends BlockTagsProvider {
     public ModBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider, WanderersOfTheRift.MODID);

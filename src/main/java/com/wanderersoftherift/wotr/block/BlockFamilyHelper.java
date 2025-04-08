@@ -26,7 +26,6 @@ public class BlockFamilyHelper {
     public static final String PANE_SUFFIX = "_glass_pane";
     public static final String DIRECTIONAL_PILLAR_SUFFIX = "_directional_pillar";
 
-
     private final String blockId;
     private final Supplier<Block> baseBlock;
     private final Map<BlockFamily.Variant, Supplier<Block>> variants = Maps.newHashMap();
@@ -34,12 +33,14 @@ public class BlockFamilyHelper {
     private BlockFamily blockFamily;
 
     //additional variants that Mojang does not support yet
-    public static enum ModBlockFamilyVariant {
+    public enum ModBlockFamilyVariant {
         GLASS_BLOCK("glass_block"),
         PANE("pane"),
-        DIRECTIONAL_PILLAR("directional_pillar");
+        DIRECTIONAL_PILLAR("directional_pillar")
+        ;
 
         private final String variantName;
+
         ModBlockFamilyVariant(String variantName){
             this.variantName = variantName;
         }
@@ -49,12 +50,8 @@ public class BlockFamilyHelper {
         }
     }
 
-    public BlockFamilyHelper(String blockId,
-                             Supplier<Block> baseBlock,
-                             Map<BlockFamily.Variant, Supplier<Block>> variants,
-                             Map<ModBlockFamilyVariant, Supplier<Block>> modVariants
-
-    ){
+    public BlockFamilyHelper(String blockId, Supplier<Block> baseBlock, Map<BlockFamily.Variant, Supplier<Block>> variants,
+                             Map<ModBlockFamilyVariant, Supplier<Block>> modVariants) {
         this.blockId = blockId;
         this.baseBlock = baseBlock;
         this.variants.putAll(variants);
@@ -74,14 +71,14 @@ public class BlockFamilyHelper {
 
     private BlockFamily generateBlockFamily() {
         BlockFamily.Builder blockFamilyBuilder = new BlockFamily.Builder(baseBlock.get());
-        if(variants.containsKey(SLAB)) blockFamilyBuilder.slab(variants.get(SLAB).get());
-        if(variants.containsKey(STAIRS)) blockFamilyBuilder.stairs(variants.get(STAIRS).get());
-        if(variants.containsKey(BUTTON)) blockFamilyBuilder.button(variants.get(BUTTON).get());
-        if(variants.containsKey(PRESSURE_PLATE)) blockFamilyBuilder.pressurePlate(variants.get(PRESSURE_PLATE).get());
-        if(variants.containsKey(WALL)) blockFamilyBuilder.wall(variants.get(WALL).get());
-        if(variants.containsKey(FENCE)) blockFamilyBuilder.fence(variants.get(FENCE).get());
-        if(variants.containsKey(FENCE_GATE)) blockFamilyBuilder.fenceGate(variants.get(FENCE_GATE).get());
-        if(variants.containsKey(TRAPDOOR)) blockFamilyBuilder.trapdoor(variants.get(TRAPDOOR).get());
+        if (variants.containsKey(SLAB))           blockFamilyBuilder.slab(variants.get(SLAB).get());
+        if (variants.containsKey(STAIRS))         blockFamilyBuilder.stairs(variants.get(STAIRS).get());
+        if (variants.containsKey(BUTTON))         blockFamilyBuilder.button(variants.get(BUTTON).get());
+        if (variants.containsKey(PRESSURE_PLATE)) blockFamilyBuilder.pressurePlate(variants.get(PRESSURE_PLATE).get());
+        if (variants.containsKey(WALL))           blockFamilyBuilder.wall(variants.get(WALL).get());
+        if (variants.containsKey(FENCE))          blockFamilyBuilder.fence(variants.get(FENCE).get());
+        if (variants.containsKey(FENCE_GATE))     blockFamilyBuilder.fenceGate(variants.get(FENCE_GATE).get());
+        if (variants.containsKey(TRAPDOOR))       blockFamilyBuilder.trapdoor(variants.get(TRAPDOOR).get());
         return blockFamilyBuilder.getFamily();
     }
 
@@ -106,7 +103,6 @@ public class BlockFamilyHelper {
     }
 
     public static class Builder {
-
         private String blockId;
         private Supplier<Block> baseBlock;
         private final Map<BlockFamily.Variant, Supplier<Block>> variants = Maps.newHashMap();
@@ -177,6 +173,4 @@ public class BlockFamilyHelper {
             return new BlockFamilyHelper(blockId, baseBlock, variants, modVariants);
         }
     }
-
-
 }

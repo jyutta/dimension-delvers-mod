@@ -110,6 +110,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_header", "Essence:");
         add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
 
+        add("subtitles." + WanderersOfTheRift.MODID + ".rift_open", "Rift Opens");
+
     }
 
     private void addEssenceType(String id, String value) {
