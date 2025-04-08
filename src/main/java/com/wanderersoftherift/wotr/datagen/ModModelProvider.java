@@ -70,15 +70,15 @@ public class ModModelProvider extends ModelProvider {
 
     //todo add models here for pane and pillar
     private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-       if(helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE) != null){
+       if (helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE) != null) {
            createGlassPane(blockModels, helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.GLASS_BLOCK).get(), helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE).get() );
        }
-        if(helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.DIRECTIONAL_PILLAR) != null){
-            createDirectionalPillar(blockModels, helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.DIRECTIONAL_PILLAR).get());
-        }
-                blockModels.family(helper.getBlock().get()).generateFor(helper.getFamily());
 
+       if (helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.DIRECTIONAL_PILLAR) != null) {
+           createDirectionalPillar(blockModels, helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.DIRECTIONAL_PILLAR).get());
+       }
 
+       blockModels.family(helper.getBlock().get()).generateFor(helper.getFamily());
     }
 
     public void generateRunegemItem(Item item, ItemModelGenerators itemModels) {
@@ -172,36 +172,48 @@ public class ModModelProvider extends ModelProvider {
                 .accept(
                         MultiPartGenerator.multiPart(paneBlock)
                                 .with(Variant.variant().with(VariantProperties.MODEL, resourceLocationPanePost))
-                                .with(Condition.condition().term(BlockStateProperties.NORTH, true), Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSide))
+                                .with(
+                                        Condition.condition().term(BlockStateProperties.NORTH, true),
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSide)
+                                )
                                 .with(
                                         Condition.condition().term(BlockStateProperties.EAST, true),
-                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSide).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSide)
+                                                .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
                                 )
-                                .with(Condition.condition().term(BlockStateProperties.SOUTH, true), Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSideAlt))
+                                .with(
+                                        Condition.condition().term(BlockStateProperties.SOUTH, true),
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSideAlt)
+                                )
                                 .with(
                                         Condition.condition().term(BlockStateProperties.WEST, true),
-                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSideAlt).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationPaneSideAlt)
+                                                .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
                                 )
-                                .with(Condition.condition().term(BlockStateProperties.NORTH, false), Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSide))
-                                .with(Condition.condition().term(BlockStateProperties.EAST, false), Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSideAlt))
+                                .with(
+                                        Condition.condition().term(BlockStateProperties.NORTH, false),
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSide)
+                                )
+                                .with(
+                                        Condition.condition().term(BlockStateProperties.EAST, false),
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSideAlt)
+                                )
                                 .with(
                                         Condition.condition().term(BlockStateProperties.SOUTH, false),
-                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSideAlt).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSideAlt)
+                                                .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
                                 )
                                 .with(
                                         Condition.condition().term(BlockStateProperties.WEST, false),
-                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSide).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
+                                        Variant.variant().with(VariantProperties.MODEL, resourceLocationNoSide)
+                                                .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
                                 )
                 );
     }
 
 
-    private void createDirectionalPillar(BlockModelGenerators blockModels, Block directionalPillarBlock){
-
-
+    private void createDirectionalPillar(BlockModelGenerators blockModels, Block directionalPillarBlock) {
         blockModels.createRotatedPillarWithHorizontalVariant(directionalPillarBlock,
-                TexturedModel.COLUMN_ALT,
-                TexturedModel.COLUMN_HORIZONTAL_ALT);
-
+                TexturedModel.COLUMN_ALT, TexturedModel.COLUMN_HORIZONTAL_ALT);
     }
 }
