@@ -29,6 +29,8 @@ import com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes;
 import com.wanderersoftherift.wotr.init.ModOutputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModPayloadHandlers;
 import com.wanderersoftherift.wotr.init.ModProcessors;
+import com.wanderersoftherift.wotr.interop.sophisticatedbackpacks.SophisticatedBackpackInterop;
+import com.wanderersoftherift.wotr.init.ModSoundEvents;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -38,8 +40,10 @@ import net.minecraft.tags.TagKey;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -76,6 +80,7 @@ public class WanderersOfTheRift {
         ModCommands.COMMAND_ARGUMENT_TYPES.register(modEventBus);
         ModEntityDataSerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
         ModAttributes.ATTRIBUTES.register(modEventBus);
+        ModSoundEvents.SOUND_EVENTS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Wotr) to respond directly to events.
@@ -83,6 +88,7 @@ public class WanderersOfTheRift {
         NeoForge.EVENT_BUS.register(this);
 
         modEventBus.addListener(this::addCreative); // Register the item to a creative tab
+        modEventBus.addListener(this::modInterop);
         modEventBus.addListener(ModPayloadHandlers::registerPayloadHandlers);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
@@ -122,6 +128,10 @@ public class WanderersOfTheRift {
      */
     public static <T> TagKey<T> tagId(ResourceKey<? extends Registry<T>> registry, String name) {
         return TagKey.create(registry, id(name));
+    }
+
+    private void modInterop(final FMLCommonSetupEvent event) {
+        ModList.get().getModContainerById("sophisticatedbackpacks").ifPresent(x -> SophisticatedBackpackInterop.load());
     }
 
     @SubscribeEvent

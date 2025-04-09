@@ -5,6 +5,7 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.upgrade.UpgradePool;
 import com.wanderersoftherift.wotr.item.LootBox;
+import com.wanderersoftherift.wotr.item.implicit.GearImplicits;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.item.socket.GearSockets;
 import net.minecraft.core.Holder;
@@ -25,6 +26,7 @@ public class ModDataComponentType {
     public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, WanderersOfTheRift.MODID);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GearSockets>> GEAR_SOCKETS  = register("gear_sockets", GearSockets.CODEC, null);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<GearImplicits>> GEAR_IMPLICITS = register("gear_implicits", GearImplicits.CODEC, null);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<RunegemData>> RUNEGEM_DATA  = register("runegem_data", RunegemData.CODEC, null);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> INVENTORY_SNAPSHOT_ID = register("inventory_snapshot_id", UUIDUtil.CODEC, null);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> RIFT_TIER = register("rift_tier", Codec.INT, ByteBufCodecs.INT);
