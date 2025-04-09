@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.events;
+package com.wanderersoftherift.wotr.gui.tooltip;
 
 
 import com.mojang.datafixers.util.Either;
