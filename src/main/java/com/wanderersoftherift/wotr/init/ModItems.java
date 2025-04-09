@@ -3,13 +3,14 @@ package com.wanderersoftherift.wotr.init;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.item.BuilderGlasses;
 import com.wanderersoftherift.wotr.item.LootBox;
+import com.wanderersoftherift.wotr.item.SkillThread;
 import com.wanderersoftherift.wotr.item.riftkey.RiftKey;
 import com.wanderersoftherift.wotr.item.runegem.Runegem;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.item.runegem.RunegemShape;
 import com.wanderersoftherift.wotr.item.runegem.RunegemTier;
-import net.minecraft.core.component.DataComponents;
 import com.wanderersoftherift.wotr.item.skillgem.SkillGem;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -79,6 +80,11 @@ public class ModItems {
     public static final DeferredItem<Item> SKILL_GEM = ITEMS.register("skill_gem",
             registryName -> new SkillGem(new Item.Properties()
                     .setId(ResourceKey.create(Registries.ITEM, WanderersOfTheRift.id("skill_gem")))
+            ));
+
+    public static final DeferredItem<Item> SKILL_THREAD = ITEMS.register("skill_thread",
+            registryName -> new SkillThread(new Item.Properties().stacksTo(64)
+                    .setId(ResourceKey.create(Registries.ITEM, WanderersOfTheRift.id("skill_thread")))
             ));
 
     public static <T extends Block> DeferredItem<BlockItem> registerSimpleBlockItem(String id, DeferredBlock<T> block) {

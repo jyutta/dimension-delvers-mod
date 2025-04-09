@@ -15,7 +15,7 @@ import java.util.List;
 
 public record AbilitySlotsCooldownsPayload(List<Integer> cooldowns,
                                            List<Integer> remaining) implements CustomPacketPayload {
-    public static final Type<AbilitySlotsCooldownsPayload> ID = new Type<>(WanderersOfTheRift.id("ability_slots_cooldowns"));
+    public static final Type<AbilitySlotsCooldownsPayload> TYPE = new Type<>(WanderersOfTheRift.id("ability_slots_cooldowns"));
     public static final StreamCodec<RegistryFriendlyByteBuf, AbilitySlotsCooldownsPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT.apply(ByteBufCodecs.list()), AbilitySlotsCooldownsPayload::cooldowns,
             ByteBufCodecs.INT.apply(ByteBufCodecs.list()), AbilitySlotsCooldownsPayload::remaining,
@@ -32,7 +32,7 @@ public record AbilitySlotsCooldownsPayload(List<Integer> cooldowns,
 
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
-        return ID;
+        return TYPE;
     }
 
     public void handleOnClient(IPayloadContext context) {

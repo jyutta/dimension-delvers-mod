@@ -101,5 +101,4 @@ public class ScrollContainerWidget<T extends ScrollContainerEntry> extends Abstr
     @Override
     protected void updateWidgetNarration(@NotNull NarrationElementOutput output) {
     }
-
 }

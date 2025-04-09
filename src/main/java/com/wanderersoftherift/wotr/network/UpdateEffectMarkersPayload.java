@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public record UpdateEffectMarkersPayload(Map<Holder<EffectMarker>,Integer> updates, List<Holder<EffectMarker>> remove) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<UpdateEffectMarkersPayload> ID = new CustomPacketPayload.Type<>(WanderersOfTheRift.id("update_effect_markers"));
+    public static final CustomPacketPayload.Type<UpdateEffectMarkersPayload> TYPE = new CustomPacketPayload.Type<>(WanderersOfTheRift.id("update_effect_markers"));
     public static final StreamCodec<RegistryFriendlyByteBuf, UpdateEffectMarkersPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.map(LinkedHashMap::new, ByteBufCodecs.holderRegistry(RegistryEvents.EFFECT_MARKER_REGISTRY), ByteBufCodecs.INT), UpdateEffectMarkersPayload::updates,
             ByteBufCodecs.holderRegistry(RegistryEvents.EFFECT_MARKER_REGISTRY).apply(ByteBufCodecs.list()), UpdateEffectMarkersPayload::remove,
@@ -27,7 +27,7 @@ public record UpdateEffectMarkersPayload(Map<Holder<EffectMarker>,Integer> updat
 
     @Override
     public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
-        return ID;
+        return TYPE;
     }
 
     public void handleOnClient(IPayloadContext context) {

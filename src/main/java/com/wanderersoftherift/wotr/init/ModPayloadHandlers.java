@@ -7,9 +7,10 @@ import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
 import com.wanderersoftherift.wotr.network.AbilitySlotsContentPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsCooldownsPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsUpdatePayload;
+import com.wanderersoftherift.wotr.network.LevelUpAbilityPayload;
 import com.wanderersoftherift.wotr.network.ManaChangePayload;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
-import com.wanderersoftherift.wotr.network.SelectSkillUpgradePayload;
+import com.wanderersoftherift.wotr.network.SelectAbilityUpgradePayload;
 import com.wanderersoftherift.wotr.network.SetEffectMarkerPayload;
 import com.wanderersoftherift.wotr.network.UpdateEffectMarkersPayload;
 import com.wanderersoftherift.wotr.networking.abilities.ClientPayloadHandler;
@@ -37,14 +38,15 @@ public class ModPayloadHandlers {
     public static void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(WanderersOfTheRift.MODID).versioned(PROTOCOL_VERSION);
 
-        registrar.playToServer(SelectSkillUpgradePayload.ID, SelectSkillUpgradePayload.STREAM_CODEC, SelectSkillUpgradePayload::handleOnServer);
-        registrar.playToServer(SelectAbilitySlotPayload.ID, SelectAbilitySlotPayload.STREAM_CODEC, SelectAbilitySlotPayload::handleOnServer);
-        registrar.playToClient(AbilitySlotsContentPayload.ID, AbilitySlotsContentPayload.STREAM_CODEC, AbilitySlotsContentPayload::handleOnClient);
-        registrar.playToClient(AbilitySlotsUpdatePayload.ID, AbilitySlotsUpdatePayload.STREAM_CODEC, AbilitySlotsUpdatePayload::handleOnClient);
-        registrar.playToClient(AbilitySlotsCooldownsPayload.ID, AbilitySlotsCooldownsPayload.STREAM_CODEC, AbilitySlotsCooldownsPayload::handleOnClient);
+        registrar.playToServer(SelectAbilityUpgradePayload.TYPE, SelectAbilityUpgradePayload.STREAM_CODEC, SelectAbilityUpgradePayload::handleOnServer);
+        registrar.playToServer(LevelUpAbilityPayload.TYPE, LevelUpAbilityPayload.STREAM_CODEC, LevelUpAbilityPayload::handleOnServer);
+        registrar.playToServer(SelectAbilitySlotPayload.TYPE, SelectAbilitySlotPayload.STREAM_CODEC, SelectAbilitySlotPayload::handleOnServer);
+        registrar.playToClient(AbilitySlotsContentPayload.TYPE, AbilitySlotsContentPayload.STREAM_CODEC, AbilitySlotsContentPayload::handleOnClient);
+        registrar.playToClient(AbilitySlotsUpdatePayload.TYPE, AbilitySlotsUpdatePayload.STREAM_CODEC, AbilitySlotsUpdatePayload::handleOnClient);
+        registrar.playToClient(AbilitySlotsCooldownsPayload.TYPE, AbilitySlotsCooldownsPayload.STREAM_CODEC, AbilitySlotsCooldownsPayload::handleOnClient);
 
-        registrar.playToClient(SetEffectMarkerPayload.ID, SetEffectMarkerPayload.STREAM_CODEC, SetEffectMarkerPayload::handleOnClient);
-        registrar.playToClient(UpdateEffectMarkersPayload.ID, UpdateEffectMarkersPayload.STREAM_CODEC, UpdateEffectMarkersPayload::handleOnClient);
+        registrar.playToClient(SetEffectMarkerPayload.TYPE, SetEffectMarkerPayload.STREAM_CODEC, SetEffectMarkerPayload::handleOnClient);
+        registrar.playToClient(UpdateEffectMarkersPayload.TYPE, UpdateEffectMarkersPayload.STREAM_CODEC, UpdateEffectMarkersPayload::handleOnClient);
 
         registrar.playToServer(UseAbility.TYPE, UseAbility.STREAM_CODEC, ServerPayloadHandler::handleAbilityOnServer);
         registrar.playToClient(CooldownActivated.TYPE, CooldownActivated.STREAM_CODEC, ClientPayloadHandler::handleCooldownOnClient);

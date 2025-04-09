@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  * @param durationTicks
  */
 public record SetEffectMarkerPayload(Holder<EffectMarker> marker, int durationTicks) implements CustomPacketPayload {
-    public static final Type<SetEffectMarkerPayload> ID = new Type<>(WanderersOfTheRift.id("set_effect_marker"));
+    public static final Type<SetEffectMarkerPayload> TYPE = new Type<>(WanderersOfTheRift.id("set_effect_marker"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SetEffectMarkerPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(RegistryEvents.EFFECT_MARKER_REGISTRY), SetEffectMarkerPayload::marker,
             ByteBufCodecs.INT, SetEffectMarkerPayload::durationTicks,
@@ -28,7 +28,7 @@ public record SetEffectMarkerPayload(Holder<EffectMarker> marker, int durationTi
 
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
-        return ID;
+        return TYPE;
     }
 
     public void handleOnClient(IPayloadContext context) {

@@ -6,8 +6,10 @@ import com.wanderersoftherift.wotr.abilities.upgrade.UpgradePool;
 import com.wanderersoftherift.wotr.gui.menu.SkillBenchMenu;
 import com.wanderersoftherift.wotr.gui.widget.ScrollContainerEntry;
 import com.wanderersoftherift.wotr.gui.widget.ScrollContainerWidget;
-import com.wanderersoftherift.wotr.network.SelectSkillUpgradePayload;
+import com.wanderersoftherift.wotr.network.LevelUpAbilityPayload;
+import com.wanderersoftherift.wotr.network.SelectAbilityUpgradePayload;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractContainerWidget;
@@ -25,6 +27,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -47,8 +50,8 @@ public class SkillBenchScreen extends AbstractContainerScreen<SkillBenchMenu> {
     private static final int BORDER_X = 24;
     public static final int ICON_SIZE = 16;
 
-    private final Component upgradeLabel = Component.translatable("skill_bench." + WanderersOfTheRift.MODID + ".screen.upgrade");
-    private ScrollContainerWidget<ChoiceBar> skillChoices;
+    private final Component upgradeLabel = Component.translatable(WanderersOfTheRift.translationId("container", "skill_bench.upgrade"));
+    private ScrollContainerWidget<ScrollContainerEntry> skillChoices;
 
     public SkillBenchScreen(SkillBenchMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -108,11 +111,22 @@ public class SkillBenchScreen extends AbstractContainerScreen<SkillBenchMenu> {
         UpgradePool pool = menu.getUpgradePool();
         if (pool != null) {
             int count = pool.getChoiceCount();
-            while (skillChoices.children().size() > count) {
-                skillChoices.children().removeLast();
+            boolean needsUnlock = menu.canLevelUp();
+            boolean hasUnlock = !skillChoices.children().isEmpty() && skillChoices.children().getLast() instanceof LockedBar;
+
+            int currentSkills = skillChoices.children().size() - (hasUnlock ? 1 : 0);
+            while (currentSkills > count) {
+                skillChoices.children().remove(--currentSkills);
             }
-            while (skillChoices.children().size() < count) {
-                skillChoices.children().add(new ChoiceBar(0,0, SELECTION_AREA_WIDTH - ScrollContainerWidget.SCROLLBAR_SPACE, skillChoices.children().size(), menu::getUpgradePool));
+            while (currentSkills < count) {
+                skillChoices.children().add(currentSkills, new ChoiceBar(0, 0, SELECTION_AREA_WIDTH - ScrollContainerWidget.SCROLLBAR_SPACE, currentSkills, menu::getUpgradePool));
+                currentSkills++;
+            }
+
+            if (needsUnlock && !hasUnlock) {
+                skillChoices.children().add(new LockedBar(0, 0, SELECTION_AREA_WIDTH - ScrollContainerWidget.SCROLLBAR_SPACE, font, menu));
+            } else if (hasUnlock && !needsUnlock) {
+                skillChoices.children().removeLast();
             }
         } else {
             skillChoices.children().clear();
@@ -120,8 +134,8 @@ public class SkillBenchScreen extends AbstractContainerScreen<SkillBenchMenu> {
     }
 
     private void renderSelection(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        if (menu.isSkillItemPresent()) {
-            ItemStack skillItem = menu.getSkillItem();
+        if (menu.isAbilityItemPresent()) {
+            ItemStack skillItem = menu.getAbilityItem();
             guiGraphics.drawString(font, skillItem.getDisplayName(), this.leftPos + 52, this.topPos + 21, ChatFormatting.BLACK.getColor(), true);
             guiGraphics.drawString(this.font, this.upgradeLabel, leftPos + UPGRADE_LABEL_X, topPos + UPGRADE_LABEL_Y, ChatFormatting.DARK_GRAY.getColor(), false);
         }
@@ -133,10 +147,59 @@ public class SkillBenchScreen extends AbstractContainerScreen<SkillBenchMenu> {
     }
 
     /**
+     * Locked bar that can be unlocked
+     */
+    private static class LockedBar extends AbstractContainerWidget implements ScrollContainerEntry {
+        private static final ResourceLocation BAR_TEXTURE = WanderersOfTheRift.id("textures/gui/container/skill_bench/choice_bar.png");
+        private static final int BORDER_Y = 4;
+
+        private final UnlockButton button;
+
+        LockedBar(int x, int y, int width, Font font, SkillBenchMenu menu) {
+            super(x, y, width, 28, Component.empty());
+            int offset = (width - UPGRADE_WIDTH) / 2;
+            button = new UnlockButton(x + offset, y + BORDER_Y, font, menu);
+        }
+
+        @Override
+        protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            guiGraphics.blit(RenderType::guiTextured, BAR_TEXTURE, this.getX(), this.getY(), 0, 0, this.width, this.height, this.width, this.height);
+            button.setX(getX());
+            button.setY(getY() + 4);
+            button.render(guiGraphics, mouseX, mouseY, partialTick);
+        }
+
+        @Override
+        protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
+            this.defaultButtonNarrationText(narrationElementOutput);
+        }
+
+        @Override
+        protected int contentHeight() {
+            return height;
+        }
+
+        @Override
+        protected double scrollRate() {
+            return 0;
+        }
+
+        @Override
+        public @NotNull List<? extends GuiEventListener> children() {
+            return Collections.singletonList(button);
+        }
+
+        @Override
+        public int getHeight(int width) {
+            return height;
+        }
+    }
+
+    /**
      * A bar of N choices
      */
     private static class ChoiceBar extends AbstractContainerWidget implements ScrollContainerEntry {
-        private static final ResourceLocation CHOICE_BAR = WanderersOfTheRift.id("textures/gui/container/skill_bench/choice_bar.png");
+        private static final ResourceLocation BAR_TEXTURE = WanderersOfTheRift.id("textures/gui/container/skill_bench/choice_bar.png");
         private static final int BORDER_Y = 4;
 
         private final Supplier<UpgradePool> upgradePool;
@@ -162,12 +225,12 @@ public class SkillBenchScreen extends AbstractContainerScreen<SkillBenchMenu> {
         protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
             UpgradePool pool = upgradePool.get();
             while (pool.getChoice(choice).size() > options.size()) {
-                options.add(new ChoiceButton(0,0, choice, options.size(), upgradePool));
+                options.add(new ChoiceButton(0, 0, choice, options.size(), upgradePool));
             }
             while (pool.getChoice(choice).size() < options.size()) {
                 options.removeLast();
             }
-            guiGraphics.blit(RenderType::guiTextured, CHOICE_BAR, this.getX(), this.getY(), 0, 0, this.width, this.height, this.width, this.height);
+            guiGraphics.blit(RenderType::guiTextured, BAR_TEXTURE, this.getX(), this.getY(), 0, 0, this.width, this.height, this.width, this.height);
             int offset = (width - options.size() * UPGRADE_WIDTH - (options.size() - 1) * UPGRADE_SPACING) / 2;
             for (int i = 0; i < options.size(); i++) {
                 ChoiceButton option = options.get(i);
@@ -204,6 +267,65 @@ public class SkillBenchScreen extends AbstractContainerScreen<SkillBenchMenu> {
     }
 
     /**
+     * Button for unlocking an ability level
+     */
+    private static class UnlockButton extends AbstractButton {
+        private static final ResourceLocation LOCK = WanderersOfTheRift.id("textures/gui/container/skill_bench/lock.png");
+        private static final ResourceLocation LOCKED_BUTTON = WanderersOfTheRift.id("textures/gui/container/skill_bench/locked_button.png");
+        private static final ResourceLocation CHOICE_BUTTON = WanderersOfTheRift.id("textures/gui/container/skill_bench/choice_button.png");
+        private static final ResourceLocation HOVERED_CHOICE_BUTTON = WanderersOfTheRift.id("textures/gui/container/skill_bench/hovered_choice_button.png");
+
+        private final Font font;
+        private final SkillBenchMenu menu;
+
+        UnlockButton(int x, int y, Font font, SkillBenchMenu menu) {
+            super(x, y, 20, 20, Component.empty());
+            this.font = font;
+            this.menu = menu;
+            this.setTooltip(Tooltip.create(Component.translatable(WanderersOfTheRift.translationId("container", "skill_bench.unlock"))));
+        }
+
+        @Override
+        public void onPress() {
+            if (menu.costForNextLevel() <= menu.availableThread()) {
+                PacketDistributor.sendToServer(new LevelUpAbilityPayload(menu.getUnlockLevel() + 1));
+            }
+        }
+
+        @Override
+        public void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+            int cost = menu.costForNextLevel();
+            int available = menu.availableThread();
+
+            ResourceLocation buttonTexture;
+            if (cost > available) {
+                buttonTexture = LOCKED_BUTTON;
+                active = false;
+            } else if (this.isHovered()) {
+                buttonTexture = HOVERED_CHOICE_BUTTON;
+                active = true;
+            } else {
+                buttonTexture = CHOICE_BUTTON;
+                active = true;
+            }
+
+            graphics.blit(RenderType::guiTextured, buttonTexture, this.getX(), this.getY(), 0, 0, this.width, this.height, this.width, this.height);
+            graphics.blit(RenderType::guiTextured, LOCK, this.getX() + 2, this.getY() + 2, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+
+            Component costString = Component.literal(Integer.toString(cost));
+            int costX = (this.width - font.width(costString)) / 2;
+            int costY = this.height - font.lineHeight - 2;
+            graphics.drawString(font, costString, this.getX() + costX, this.getY() + costY, ChatFormatting.WHITE.getColor(), true);
+        }
+
+        @Override
+        public void updateWidgetNarration(@NotNull NarrationElementOutput output) {
+            this.defaultButtonNarrationText(output);
+        }
+    }
+
+
+    /**
      * Button for selecting a choice option
      */
     private static class ChoiceButton extends AbstractButton {
@@ -226,21 +348,22 @@ public class SkillBenchScreen extends AbstractContainerScreen<SkillBenchMenu> {
         public void onPress() {
             UpgradePool pool = upgradePool.get();
             if (pool != null && pool.getSelectedIndex(choice) != selection) {
-                PacketDistributor.sendToServer(new SelectSkillUpgradePayload(choice, selection));
+                PacketDistributor.sendToServer(new SelectAbilityUpgradePayload(choice, selection));
             }
         }
 
         @Override
         public void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
             ResourceLocation resourcelocation;
-            if (!isActive()) {
-                return;
-            } else if (isSelected()) {
+            if (isSelected()) {
                 resourcelocation = SELECTED_CHOICE_BUTTON;
-            } else if (this.isHoveredOrFocused()) {
+                active = false;
+            } else if (this.isHovered()) {
                 resourcelocation = HOVERED_CHOICE_BUTTON;
+                active = true;
             } else {
                 resourcelocation = CHOICE_BUTTON;
+                active = true;
             }
 
             graphics.blit(RenderType::guiTextured, resourcelocation, this.getX(), this.getY(), 0, 0, this.width, this.height, this.width, this.height);
@@ -263,7 +386,7 @@ public class SkillBenchScreen extends AbstractContainerScreen<SkillBenchMenu> {
 
         public boolean isSelected() {
             UpgradePool pool = upgradePool.get();
-            return pool.getSelectedIndex(choice)  == selection;
+            return pool.getSelectedIndex(choice) == selection;
         }
 
         @Override

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public record AbilitySlotsContentPayload(List<ItemStack> abilitySlots, int selected) implements CustomPacketPayload {
-    public static final Type<AbilitySlotsContentPayload> ID = new Type<>(WanderersOfTheRift.id("ability_slots_content"));
+    public static final Type<AbilitySlotsContentPayload> TYPE = new Type<>(WanderersOfTheRift.id("ability_slots_content"));
     public static final StreamCodec<RegistryFriendlyByteBuf, AbilitySlotsContentPayload> STREAM_CODEC = StreamCodec.composite(
             ItemStack.OPTIONAL_LIST_STREAM_CODEC, AbilitySlotsContentPayload::abilitySlots,
             ByteBufCodecs.INT, AbilitySlotsContentPayload::selected,
@@ -23,7 +23,7 @@ public record AbilitySlotsContentPayload(List<ItemStack> abilitySlots, int selec
 
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
-        return ID;
+        return TYPE;
     }
 
     public void handleOnClient(IPayloadContext context) {

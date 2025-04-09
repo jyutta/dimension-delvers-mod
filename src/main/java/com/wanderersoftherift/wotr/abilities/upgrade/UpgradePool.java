@@ -42,6 +42,7 @@ public class UpgradePool {
                     ByteBufCodecs.INT.apply(ByteBufCodecs.list()).map(IntArrayList::new, FastUtils::toList), x -> x.selectedUpgrades,
                     UpgradePool::new
             );
+    public static final int SELECTION_PER_LEVEL = 3;
 
     protected final List<List<Holder<Upgrade>>> choices;
     protected final IntList selectedUpgrades;
@@ -138,20 +139,22 @@ public class UpgradePool {
             return new UpgradePool(this);
         }
 
-        public void selectChoice(int choice, int selection) {
+        public Mutable selectChoice(int choice, int selection) {
             Preconditions.checkArgument(choice >= 0 && choice < choices.size());
             Preconditions.checkArgument(selection >= 0 && selection < choices.get(choice).size());
             while (selectedUpgrades.size() <= choice) {
                 selectedUpgrades.add(UNSELECTED);
             }
             selectedUpgrades.set(choice, selection);
+            return this;
         }
 
-        public void generateChoice(RegistryAccess registryAccess, AbstractAbility ability, RandomSource random, int optionCount) {
+        public Mutable generateChoice(RegistryAccess registryAccess, AbstractAbility ability, RandomSource random, int optionCount) {
             generateChoices(registryAccess, ability, 1, random, optionCount);
+            return this;
         }
 
-        public void generateChoices(RegistryAccess registryAccess, AbstractAbility ability, int count, RandomSource random, int optionCount) {
+        public Mutable generateChoices(RegistryAccess registryAccess, AbstractAbility ability, int count, RandomSource random, int optionCount) {
             Object2IntMap<Holder<Upgrade>> availableUpgrades = determineChoices(registryAccess, ability);
 
             for (int i = 0; i < count; i++) {
@@ -167,6 +170,7 @@ public class UpgradePool {
                 choices.add(choice);
                 selectedUpgrades.add(UNSELECTED);
             }
+            return this;
         }
 
         private Object2IntMap<Holder<Upgrade>> determineChoices(RegistryAccess registryAccess, AbstractAbility ability) {

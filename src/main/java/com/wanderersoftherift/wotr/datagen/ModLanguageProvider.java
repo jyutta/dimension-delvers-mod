@@ -44,6 +44,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.RIFT_KEY, "Rift Key");
         addItem(ModItems.RUNEGEM_GEODE, "Runegem Geode");
         addItem(ModItems.SKILL_GEM, "Unidentified Skill");
+        addItem(ModItems.SKILL_THREAD, "Skill Thread");
 
         addEntityType(ModEntityTypes.RIFT_ENTRANCE, "Rift Entrance");
 
@@ -85,7 +86,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("container." + WanderersOfTheRift.MODID + ".key_forge", "Key Forge");
         add("container." + WanderersOfTheRift.MODID + ".skill_bench", "Skill Bench");
 
-        add("skill_bench." + WanderersOfTheRift.MODID + ".screen.upgrade", "Upgrades");
+        add("container." + WanderersOfTheRift.MODID + ".skill_bench.upgrade", "Upgrades");
+        add("container." + WanderersOfTheRift.MODID + ".skill_bench.unlock", "Unlock next choice");
 
         add("command." + WanderersOfTheRift.MODID + ".dev_world_set", "Dev World settings applied:\n - %1$s: Disabled\n - %2$s: Disabled\n - %3$s: Disabled\n - %4$s: Disabled\n - %5$s: Disabled\n - %6$s: Disabled");
         add("command." + WanderersOfTheRift.MODID + ".invalid_item", "Held item is empty!");

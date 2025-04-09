@@ -12,7 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
 public record AbilitySlotsUpdatePayload(int slot, ItemStack stack) implements CustomPacketPayload {
-    public static final Type<AbilitySlotsUpdatePayload> ID = new Type<>(WanderersOfTheRift.id("ability_slots_update"));
+    public static final Type<AbilitySlotsUpdatePayload> TYPE = new Type<>(WanderersOfTheRift.id("ability_slots_update"));
     public static final StreamCodec<RegistryFriendlyByteBuf, AbilitySlotsUpdatePayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, AbilitySlotsUpdatePayload::slot,
             ItemStack.OPTIONAL_STREAM_CODEC, AbilitySlotsUpdatePayload::stack,
@@ -21,7 +21,7 @@ public record AbilitySlotsUpdatePayload(int slot, ItemStack stack) implements Cu
 
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
-        return ID;
+        return TYPE;
     }
 
     public void handleOnClient(IPayloadContext context) {
