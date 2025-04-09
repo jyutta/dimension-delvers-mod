@@ -1,6 +1,7 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.item.implicit.ImplicitConfig;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.modifier.Modifier;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
@@ -41,6 +42,11 @@ public class RegistryEvents {
                 ModDatapackRegistries.RUNEGEM_DATA_KEY,
                 RunegemData.CODEC,
                 RunegemData.CODEC
+        );
+        event.dataPackRegistry(
+                ModDatapackRegistries.GEAR_IMPLICITS_CONFIG,
+                ImplicitConfig.CODEC,
+                ImplicitConfig.CODEC
         );
     }
 }
