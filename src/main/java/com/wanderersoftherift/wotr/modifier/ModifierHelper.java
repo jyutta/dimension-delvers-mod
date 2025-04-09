@@ -1,8 +1,10 @@
 package com.wanderersoftherift.wotr.modifier;
 
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
+import com.wanderersoftherift.wotr.item.implicit.GearImplicits;
 import com.wanderersoftherift.wotr.item.socket.GearSocket;
 import com.wanderersoftherift.wotr.item.socket.GearSockets;
+import com.wanderersoftherift.wotr.modifier.source.GearImplicitModifierSource;
 import com.wanderersoftherift.wotr.modifier.source.GearSocketModifierSource;
 import com.wanderersoftherift.wotr.modifier.source.ModifierSource;
 import net.minecraft.core.Holder;
@@ -10,25 +12,42 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 public class ModifierHelper {
 
     public static void runIterationOnItem(
             ItemStack stack, EquipmentSlot slot, LivingEntity entity, ModifierHelper.ModifierInSlotVisitor visitor
     ) {
         if (!stack.isEmpty()) {
-            GearSockets gearSockets = stack.get(ModDataComponentType.GEAR_SOCKETS);
+            runOnImplicits(stack, slot, entity, visitor);
+            runOnGearSockets(stack, slot, entity, visitor);
+        }
+    }
 
-            if (gearSockets != null && !gearSockets.isEmpty()) {
-                for(GearSocket socket : gearSockets.sockets()) {
-                    if (socket.isEmpty()) {
-                        continue;
-                    }
-                    Holder<Modifier> modifier = socket.modifier().get().modifier();
-                    if (modifier != null) {
-                        ModifierSource source = new GearSocketModifierSource(socket, gearSockets, slot, entity);
-                        visitor.accept(modifier, socket.modifier().get().roll(), source);
-                    }
+    private static void runOnGearSockets(ItemStack stack, EquipmentSlot slot, LivingEntity entity, ModifierInSlotVisitor visitor) {
+        GearSockets gearSockets = stack.get(ModDataComponentType.GEAR_SOCKETS);
+        if (gearSockets != null && !gearSockets.isEmpty()) {
+            for (GearSocket socket : gearSockets.sockets()) {
+                if (socket.isEmpty()) {
+                    continue;
                 }
+                Holder<Modifier> modifier = socket.modifier().get().modifier();
+                if (modifier != null) {
+                    ModifierSource source = new GearSocketModifierSource(socket, gearSockets, slot, entity);
+                    visitor.accept(modifier, socket.modifier().get().roll(), source);
+                }
+            }
+        }
+    }
+
+    private static void runOnImplicits(ItemStack stack, EquipmentSlot slot, LivingEntity entity, ModifierInSlotVisitor visitor) {
+        GearImplicits implicits = stack.get(ModDataComponentType.GEAR_IMPLICITS);
+        if (implicits != null) {
+            List<ModifierInstance> modifierInstances = implicits.modifierInstances(stack, entity.level());
+            for (ModifierInstance modifier : modifierInstances) {
+                    ModifierSource source = new GearImplicitModifierSource(implicits, slot, entity);
+                    visitor.accept(modifier.modifier(), modifier.roll(), source);
             }
         }
     }
