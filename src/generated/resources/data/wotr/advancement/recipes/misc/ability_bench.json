@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "wotr:skill_bench"
+        "recipe": "wotr:ability_bench"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "wotr:skill_bench"
+      "wotr:ability_bench"
     ]
   }
 }

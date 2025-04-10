@@ -3,8 +3,8 @@ package com.wanderersoftherift.wotr.abilities;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.attachment.ManaData;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
-import com.wanderersoftherift.wotr.abilities.mana.ManaData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import net.minecraft.network.chat.Component;
@@ -50,10 +50,10 @@ public class StandardAbility extends AbstractAbility {
         if (this.isOnCooldown(player, slot)) {
             return;
         }
-        EffectContext effectContext = new EffectContext(player, abilityItem);
-        effectContext.enableModifiers();
+        AbilityContext abilityContext = new AbilityContext(player, abilityItem);
+        abilityContext.enableModifiers();
         try {
-            int manaCost = (int) effectContext.getAbilityAttribute(ModAttributes.MANA_COST, getBaseManaCost());
+            int manaCost = (int) abilityContext.getAbilityAttribute(ModAttributes.MANA_COST, getBaseManaCost());
             if (manaCost > 0) {
                 ManaData manaData = player.getData(ModAttachments.MANA);
                 if (manaData.getAmount() < manaCost) {
@@ -62,10 +62,10 @@ public class StandardAbility extends AbstractAbility {
                 manaData.useAmount(player, manaCost);
             }
 
-            this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), effectContext));
-            this.setCooldown(player, slot, effectContext.getAbilityAttribute(ModAttributes.COOLDOWN, baseCooldown));
+            this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), abilityContext));
+            this.setCooldown(player, slot, abilityContext.getAbilityAttribute(ModAttributes.COOLDOWN, baseCooldown));
         } finally {
-            effectContext.disableModifiers();
+            abilityContext.disableModifiers();
         }
     }
 

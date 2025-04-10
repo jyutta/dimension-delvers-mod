@@ -4,7 +4,7 @@ import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
-import com.wanderersoftherift.wotr.abilities.upgrade.Upgrade;
+import com.wanderersoftherift.wotr.abilities.upgrade.AbilityUpgrade;
 import com.wanderersoftherift.wotr.item.implicit.ImplicitConfig;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.modifier.Modifier;
@@ -21,6 +21,7 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 public class RegistryEvents {
 
     public static final ResourceKey<Registry<EffectMarker>> EFFECT_MARKER_REGISTRY = ResourceKey.createRegistryKey(WanderersOfTheRift.id("effect_marker"));
+    public static final ResourceKey<Registry<AbilityUpgrade>> ABILITY_UPGRADE_REGISTRY = ResourceKey.createRegistryKey(WanderersOfTheRift.id("ability_upgrade"));
 
     @SubscribeEvent
     static void registerRegistries(NewRegistryEvent event) {
@@ -61,9 +62,9 @@ public class RegistryEvents {
                 ImplicitConfig.CODEC
         );
         event.dataPackRegistry(
-                Upgrade.UPGRADE_REGISTRY_KEY,
-                Upgrade.CODEC,
-                Upgrade.CODEC
+                ABILITY_UPGRADE_REGISTRY,
+                AbilityUpgrade.CODEC,
+                AbilityUpgrade.CODEC
         );
         event.dataPackRegistry(
                 EFFECT_MARKER_REGISTRY,

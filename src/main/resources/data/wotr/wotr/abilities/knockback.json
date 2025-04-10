@@ -11,7 +11,7 @@
         "range": 10,
         "include_self": false,
         "target": {
-          "attitude": "foe"
+          "sentiment": "foe"
         }
       },
       "velocity": [0, 0, -5],

@@ -40,13 +40,11 @@
               "targeting": {
                 "type": "wotr:self_targeting",
                 "target": {
-                  "attitude": "foe"
+                  "sentiment": "foe"
                 }
               },
               "amount": 10,
-              "damage_type": "wotr:fire",
-              "effects": [
-              ]
+              "damage_type": "wotr:fire"
             }
           ]
         }

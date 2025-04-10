@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.abilities.Targeting;
+package com.wanderersoftherift.wotr.abilities.target;
 
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;

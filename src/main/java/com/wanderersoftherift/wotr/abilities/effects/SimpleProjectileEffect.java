@@ -2,9 +2,9 @@ package com.wanderersoftherift.wotr.abilities.effects;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.wanderersoftherift.wotr.abilities.EffectContext;
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
+import com.wanderersoftherift.wotr.abilities.target.AbstractTargeting;
 import com.wanderersoftherift.wotr.entity.projectile.SimpleEffectProjectile;
 import com.wanderersoftherift.wotr.entity.projectile.SimpleProjectileConfig;
 import com.wanderersoftherift.wotr.init.ModAttributes;
@@ -47,7 +47,7 @@ public class SimpleProjectileEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity source, List<BlockPos> blocks, EffectContext context) {
+    public void apply(Entity source, List<BlockPos> blocks, AbilityContext context) {
         List<BlockPos> targets = getTargeting().getBlocks(source);
         applyParticlesToUser(source);
         if (!targets.isEmpty()) {
@@ -66,15 +66,15 @@ public class SimpleProjectileEffect extends AbstractEffect {
         }
     }
 
-    private float getSpread(EffectContext context) {
+    private float getSpread(AbilityContext context) {
         return context.getAbilityAttribute(ModAttributes.PROJECTILE_SPREAD, 15);
     }
 
-    private int getNumberOfProjectiles(EffectContext context) {
+    private int getNumberOfProjectiles(AbilityContext context) {
         return (int) context.getAbilityAttribute(ModAttributes.PROJECTILE_COUNT, config.projectiles());
     }
 
-    private void spawnProjectile(Entity user, EntityType<?> type, float angle, EffectContext context) {
+    private void spawnProjectile(Entity user, EntityType<?> type, float angle, AbilityContext context) {
         Entity simpleProjectile = type.create((ServerLevel) context.level(), null, user.getOnPos(), EntitySpawnReason.MOB_SUMMONED, false, false);
         if (simpleProjectile instanceof SimpleEffectProjectile projectileEntity) {
             projectileEntity.setPos(user.getEyePosition());
@@ -88,7 +88,7 @@ public class SimpleProjectileEffect extends AbstractEffect {
         }
     }
 
-    public void applyDelayed(Level level, Entity target, List<BlockPos> blocks, EffectContext context) {
+    public void applyDelayed(Level level, Entity target, List<BlockPos> blocks, AbilityContext context) {
         context.enableModifiers();
         try {
             applyParticlesToTarget(target);

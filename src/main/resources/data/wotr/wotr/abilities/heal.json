@@ -13,7 +13,7 @@
         "type": "wotr:area_targeting",
         "range": 2,
         "target": {
-          "attitude": "not_foe"
+          "sentiment": "not_foe"
         }
       }
     },

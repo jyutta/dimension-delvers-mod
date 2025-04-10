@@ -1,7 +1,7 @@
 package com.wanderersoftherift.wotr.gui.layer;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.mana.ManaData;
+import com.wanderersoftherift.wotr.abilities.attachment.ManaData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import net.minecraft.client.DeltaTracker;

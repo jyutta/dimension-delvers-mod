@@ -24,7 +24,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         });
         dropSelf(ModBlocks.DEV_BLOCK.get());
         dropSelf(ModBlocks.KEY_FORGE.get());
-        dropSelf(ModBlocks.SKILL_BENCH.get());
+        dropSelf(ModBlocks.ABILITY_BENCH.get());
         dropSelf(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get());
         dropSelf(ModBlocks.RIFT_CHEST.get());
         dropSelf(ModBlocks.RIFT_SPAWNER.get());

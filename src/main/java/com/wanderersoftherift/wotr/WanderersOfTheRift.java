@@ -2,10 +2,10 @@ package com.wanderersoftherift.wotr;
 
 import com.mojang.logging.LogUtils;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
+import com.wanderersoftherift.wotr.commands.AbilityCommands;
 import com.wanderersoftherift.wotr.commands.DebugCommands;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.commands.RiftMapCommands;
-import com.wanderersoftherift.wotr.commands.SkillGemCommands;
 import com.wanderersoftherift.wotr.commands.SpawnPieceCommand;
 import com.wanderersoftherift.wotr.config.ClientConfig;
 import com.wanderersoftherift.wotr.init.ModAttachments;
@@ -29,8 +29,8 @@ import com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes;
 import com.wanderersoftherift.wotr.init.ModOutputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModPayloadHandlers;
 import com.wanderersoftherift.wotr.init.ModProcessors;
-import com.wanderersoftherift.wotr.interop.sophisticatedbackpacks.SophisticatedBackpackInterop;
 import com.wanderersoftherift.wotr.init.ModSoundEvents;
+import com.wanderersoftherift.wotr.interop.sophisticatedbackpacks.SophisticatedBackpackInterop;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -142,7 +142,7 @@ public class WanderersOfTheRift {
             RiftMapCommands.register(event.getDispatcher(), event.getBuildContext());
         }
         new DebugCommands().registerCommand(event.getDispatcher(), event.getBuildContext());
-        SkillGemCommands.register(event.getDispatcher(), event.getBuildContext());
+        AbilityCommands.register(event.getDispatcher(), event.getBuildContext());
     }
 
     @SubscribeEvent

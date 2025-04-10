@@ -1,6 +1,6 @@
 package com.wanderersoftherift.wotr.networking.abilities;
 
-import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
+import com.wanderersoftherift.wotr.abilities.attachment.PlayerCooldownData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
 import com.wanderersoftherift.wotr.networking.data.ToggleState;

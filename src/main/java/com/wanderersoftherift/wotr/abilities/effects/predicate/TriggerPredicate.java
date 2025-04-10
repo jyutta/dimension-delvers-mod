@@ -8,6 +8,13 @@ import net.minecraft.world.entity.Entity;
 
 import java.util.Optional;
 
+/**
+ * Predicate for determining when an effect should trigger
+ * @param targetPredicate Sub-predicate for checking if the target is in a state to trigger the effect
+ * @param casterPredicate Sub-predicate for checking if the caster is in a state to trigger the effect
+ * @param frequency How many ticks between moments the effect might trigger
+ * @param initialDelay How many ticks before the effect can first trigger
+ */
 public record TriggerPredicate(
         Optional<EntityPredicate> targetPredicate,
         Optional<EntityPredicate> casterPredicate,

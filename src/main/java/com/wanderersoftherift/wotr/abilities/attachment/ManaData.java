@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.abilities.mana;
+package com.wanderersoftherift.wotr.abilities.attachment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,6 +10,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+/**
+ * Data tracking the state of a player's mana pool
+ */
 public class ManaData {
     public static final Codec<ManaData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("amount").forGetter(ManaData::getAmount),
@@ -30,6 +33,40 @@ public class ManaData {
         this.fractionalDegen = fractionalDegen;
     }
 
+    /**
+     *
+     * @return The amount of mana available
+     */
+    public int getAmount() {
+        return amount;
+    }
+
+    /**
+     * Consumes an amount of mana (will not consume past 0). This will be replicated to the player if on the server.
+     * @param owner The owner of the mana pool
+     * @param quantity The quantity of mana to consume
+     */
+    public void useAmount(Player owner, int quantity) {
+        setAmount(owner, amount - quantity);
+    }
+
+    /**
+     * Sets the amount of mana in the pool. This will be replicated to the player if on the server.
+     * @param owner The owner of the mana pool
+     * @param value The new value of mana
+     */
+    public void setAmount(Player owner, int value) {
+        if (value == amount) {
+            return;
+        }
+        this.amount = Math.max(0, value);
+        if (owner.level().isClientSide) {
+            return;
+        }
+        PacketDistributor.sendToPlayer((ServerPlayer) owner, new ManaChangePayload(amount));
+    }
+
+    // Regenerates and/or degenerates the pool.
     public void tick(LivingEntity entity) {
         int maxMana = (int) entity.getAttributeValue(ModAttributes.MAX_MANA);
         if (amount > maxMana) {
@@ -63,19 +100,4 @@ public class ManaData {
         fractionalDegen = fractionalDegen % 1.0;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    public void useAmount(Player owner, int quantity) {
-        setAmount(owner, amount - quantity);
-    }
-
-    public void setAmount(Player owner, int value) {
-        this.amount = value;
-        if (owner.level().isClientSide) {
-            return;
-        }
-        PacketDistributor.sendToPlayer((ServerPlayer) owner, new ManaChangePayload(amount));
-    }
 }

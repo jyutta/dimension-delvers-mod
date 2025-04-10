@@ -1,8 +1,8 @@
 package com.wanderersoftherift.wotr.block;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.AbilitySlots;
-import com.wanderersoftherift.wotr.gui.menu.SkillBenchMenu;
+import com.wanderersoftherift.wotr.abilities.attachment.AbilitySlots;
+import com.wanderersoftherift.wotr.gui.menu.AbilityBenchMenu;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.item.handler.ChangeAwareItemHandler;
 import com.wanderersoftherift.wotr.network.AbilitySlotsUpdatePayload;
@@ -22,10 +22,13 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
-public class SkillBenchBlock extends Block {
-    private static final Component CONTAINER_TITLE = Component.translatable("container."+ WanderersOfTheRift.MODID + ".skill_bench");
+/**
+ * Block for the workbench allowing ability assignment and upgrade
+ */
+public class AbilityBenchBlock extends Block {
+    private static final Component CONTAINER_TITLE = Component.translatable("container."+ WanderersOfTheRift.MODID + ".ability_bench");
 
-    public SkillBenchBlock(Properties properties) {
+    public AbilityBenchBlock(Properties properties) {
         super(properties);
     }
 
@@ -38,7 +41,7 @@ public class SkillBenchBlock extends Block {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new AbilitySlotsUpdatePayload(slot, slots.getStackInSlot(slot)));
                     }
                 };
-            return new SkillBenchMenu(containerId, playerInventory, ContainerLevelAccess.create(level, pos), replicatedSlots);
+            return new AbilityBenchMenu(containerId, playerInventory, ContainerLevelAccess.create(level, pos), replicatedSlots);
         }, CONTAINER_TITLE);
     }
 

@@ -21,6 +21,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Argument for specifying an ability
+ */
 public class AbilityArgument implements ArgumentType<ResourceLocation> {
     private static final Collection<String> EXAMPLES = Stream.of(WanderersOfTheRift.id("fireball"), WanderersOfTheRift.id("mega_boost"))
             .map(ResourceLocation::toString)

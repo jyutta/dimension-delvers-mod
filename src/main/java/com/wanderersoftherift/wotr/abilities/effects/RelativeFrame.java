@@ -8,6 +8,9 @@ import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+/**
+ * Enumeration of possible frames of reference to use in an ability.
+ */
 public enum RelativeFrame implements StringRepresentable {
     ABSOLUTE("absolute") {
         @Override
@@ -70,8 +73,7 @@ public enum RelativeFrame implements StringRepresentable {
         public Vec3 apply(Vec3 base, Entity source, Entity target) {
             return base.yRot(-target.getYRot() * (float) (Math.PI / 180.0));
         }
-    }
-    ;
+    };
 
     public static final StringRepresentable.StringRepresentableCodec<RelativeFrame> CODEC = StringRepresentable.fromEnum(RelativeFrame::values);
 

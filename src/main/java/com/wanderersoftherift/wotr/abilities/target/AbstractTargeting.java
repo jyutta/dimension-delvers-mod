@@ -1,9 +1,9 @@
-package com.wanderersoftherift.wotr.abilities.Targeting;
+package com.wanderersoftherift.wotr.abilities.target;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
-import com.wanderersoftherift.wotr.abilities.EffectContext;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +22,7 @@ public abstract class AbstractTargeting {
      * @param context Context of the effect
      * @return The list of entities selected by the targeting method.
      */
-    public List<Entity> getTargets(Entity currentEntity, List<BlockPos> blocks, EffectContext context) {
+    public List<Entity> getTargets(Entity currentEntity, List<BlockPos> blocks, AbilityContext context) {
         List<Entity> targets = new ArrayList<>();
         if(currentEntity != null) {
             targets.addAll(getTargetsFromEntity(currentEntity, context));
@@ -34,11 +34,11 @@ public abstract class AbstractTargeting {
         return targets;
     }
 
-    protected List<Entity> getTargetsFromEntity(Entity entity, EffectContext context) {
+    protected List<Entity> getTargetsFromEntity(Entity entity, AbilityContext context) {
         return new ArrayList<>();
     }
 
-    protected List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, EffectContext context) {
+    protected List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, AbilityContext context) {
         return new ArrayList<>();
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractTargeting {
         return new ArrayList<>();
     }
 
-    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, EffectContext context) {
+    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, AbilityContext context) {
         return new ArrayList<>();
     }
 

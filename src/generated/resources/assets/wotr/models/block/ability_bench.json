@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "wotr:block/skill_bench"
+    "all": "wotr:block/ability_bench"
   }
 }

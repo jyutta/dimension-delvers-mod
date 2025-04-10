@@ -2,8 +2,8 @@ package com.wanderersoftherift.wotr.entity.projectile;
 
 import com.google.common.collect.Lists;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
-import com.wanderersoftherift.wotr.abilities.EffectContext;
 import com.wanderersoftherift.wotr.abilities.effects.SimpleProjectileEffect;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
@@ -408,7 +408,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
                 caster = livingOwner;
             }
             // TODO: capture and carry across ability item
-            effect.applyDelayed(serverLevel, entity, List.of(entity.blockPosition()), new EffectContext(caster, ItemStack.EMPTY));
+            effect.applyDelayed(serverLevel, entity, List.of(entity.blockPosition()), new AbilityContext(caster, ItemStack.EMPTY));
         }
 
         if (this.getPierceLevel() <= 0) {
@@ -450,7 +450,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         if (this.level() instanceof ServerLevel serverLevel) {
             if (effect != null) {
                 // TODO: capture and carry across ability item
-                effect.applyDelayed(serverLevel, null, List.of(result.getBlockPos()), new EffectContext((LivingEntity) this.getOwner(), ItemStack.EMPTY));
+                effect.applyDelayed(serverLevel, null, List.of(result.getBlockPos()), new AbilityContext((LivingEntity) this.getOwner(), ItemStack.EMPTY));
             }
         }
 

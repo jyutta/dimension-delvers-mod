@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "wotr:skill_bench"
+          "name": "wotr:ability_bench"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "wotr:blocks/skill_bench"
+  "random_sequence": "wotr:blocks/ability_bench"
 }

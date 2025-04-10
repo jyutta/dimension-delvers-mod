@@ -8,7 +8,7 @@ import net.minecraft.core.Holder;
 import java.util.Map;
 
 /**
- * Data tracking the display markers for effects.
+ * Data tracking the display markers for effects. Used as an Attachment
  */
 public class EffectDisplayData {
     private final Object2FloatArrayMap<Holder<EffectMarker>> markers = new Object2FloatArrayMap<>();

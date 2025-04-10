@@ -1,8 +1,10 @@
-package com.wanderersoftherift.wotr.abilities;
+package com.wanderersoftherift.wotr.abilities.attachment;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
+import com.wanderersoftherift.wotr.abilities.StoredAbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.AttachEffect;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
 import com.wanderersoftherift.wotr.network.SetEffectMarkerPayload;
@@ -22,7 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * AttachedEffectData allows effects to be attached to an entity for a durationTicks - after which they are triggered every tick until they expire.
+ * AttachedEffectData is an attachment that allows effects to be attached to an entity.
+ * They persist until their caster is no longer available or their ContinueEffectPredicate returns false.
+ * They will trigger whenever their TriggerPredicate is true. *
  */
 public class AttachedEffectData {
     public static final Codec<AttachedEffectData> CODEC = AttachedEffect.CODEC.listOf().xmap(AttachedEffectData::new, x -> x.effects);
@@ -37,30 +41,14 @@ public class AttachedEffectData {
         this.effects = new ArrayList<>(effects);
     }
 
+    /**
+     * Ticks all effects, and removes expired effect markers.
+     * @param attachedTo The entity this data is attached to
+     * @param level The level the entity is within
+     */
     public void tick(LivingEntity attachedTo, ServerLevel level) {
         List<AttachedEffect> removedEffects = tickEffects(attachedTo, level);
-
-        if (attachedTo instanceof ServerPlayer player) {
-            Map<Holder<EffectMarker>, Integer> updates = new LinkedHashMap<>();
-            List<Holder<EffectMarker>> remove = new ArrayList<>();
-            for (AttachedEffect effect : removedEffects) {
-                effect.attachEffect.getDisplay().ifPresent(display -> {
-                    if (!updates.containsKey(display) && !remove.contains(display)) {
-                        int remainingDuration = getRemainingDuration(display);
-                        if (remainingDuration > 0) {
-                            updates.put(display, remainingDuration);
-                        } else {
-                            remove.add(display);
-                        }
-                    }
-                });
-            }
-            PacketDistributor.sendToPlayer(player, new UpdateEffectMarkersPayload(updates, remove));
-        }
-    }
-
-    private int getRemainingDuration(Holder<EffectMarker> display) {
-        return effects.stream().filter(x -> display.equals(x.attachEffect.getDisplay().orElse(null))).mapToInt(AttachedEffect::getRemainingDuration).max().orElse(0);
+        updateMarkers(attachedTo, removedEffects);
     }
 
     private @NotNull List<AttachedEffect> tickEffects(LivingEntity attachedTo, ServerLevel level) {
@@ -74,7 +62,38 @@ public class AttachedEffectData {
         return removedEffects;
     }
 
-    public void attach(LivingEntity attachedTo, EffectContext context, AttachEffect attachEffect) {
+    private void updateMarkers(LivingEntity attachedTo, List<AttachedEffect> removedEffects) {
+        if (!(attachedTo instanceof ServerPlayer player)) {
+            return;
+        }
+        Map<Holder<EffectMarker>, Integer> updates = new LinkedHashMap<>();
+        List<Holder<EffectMarker>> remove = new ArrayList<>();
+        for (AttachedEffect effect : removedEffects) {
+            effect.attachEffect.getDisplay().ifPresent(display -> {
+                if (!updates.containsKey(display) && !remove.contains(display)) {
+                    int remainingDuration = getRemainingDuration(display);
+                    if (remainingDuration > 0) {
+                        updates.put(display, remainingDuration);
+                    } else {
+                        remove.add(display);
+                    }
+                }
+            });
+        }
+        PacketDistributor.sendToPlayer(player, new UpdateEffectMarkersPayload(updates, remove));
+    }
+
+    private int getRemainingDuration(Holder<EffectMarker> display) {
+        return effects.stream().filter(x -> display.equals(x.attachEffect.getDisplay().orElse(null))).mapToInt(AttachedEffect::getRemainingDuration).max().orElse(0);
+    }
+
+    /**
+     * Adds an AttachEffect.
+     * @param attachedTo The owner of this attachment
+     * @param attachEffect The effect to attach
+     * @param context The context of the effect being attached
+     */
+    public void attach(LivingEntity attachedTo, AttachEffect attachEffect, AbilityContext context) {
         AttachedEffect newEffect = new AttachedEffect(attachEffect, context);
         if (attachedTo instanceof ServerPlayer player) {
             attachEffect.getDisplay().ifPresent(display -> {
@@ -88,6 +107,9 @@ public class AttachedEffectData {
         effects.add(newEffect);
     }
 
+    /**
+     * @return A mapping of EffectMarker to duration for all the current attached effects
+     */
     public Map<Holder<EffectMarker>, Integer> getDisplayData() {
         Map<Holder<EffectMarker>, Integer> result = new LinkedHashMap<>();
         for (AttachedEffect effect : effects) {
@@ -100,6 +122,9 @@ public class AttachedEffectData {
         return result;
     }
 
+    /**
+     * @return if there are no attached effects
+     */
     public boolean isEmpty() {
         return effects.isEmpty();
     }
@@ -107,28 +132,28 @@ public class AttachedEffectData {
     private static class AttachedEffect {
         private static final Codec<AttachedEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                         AttachEffect.CODEC.fieldOf("attachEffect").forGetter(x -> x.attachEffect),
-                        StoredEffectContext.CODEC.fieldOf("context").forGetter(x -> x.context),
+                        StoredAbilityContext.CODEC.fieldOf("context").forGetter(x -> x.context),
                         Codec.INT.fieldOf("triggeredTimes").forGetter(x -> x.triggeredTimes),
                         Codec.INT.fieldOf("ticks").forGetter(x -> x.ticks)
                 ).apply(instance, AttachedEffect::new)
         );
 
         private final AttachEffect attachEffect;
-        private final StoredEffectContext context;
+        private final StoredAbilityContext context;
         private int triggeredTimes;
         private int ticks;
 
         private LivingEntity cachedCaster;
 
-        public AttachedEffect(AttachEffect effect, StoredEffectContext context, int triggeredTimes, int ticks) {
+        public AttachedEffect(AttachEffect effect, StoredAbilityContext context, int triggeredTimes, int ticks) {
             this.attachEffect = effect;
             this.context = context;
             this.triggeredTimes = triggeredTimes;
             this.ticks = ticks;
         }
 
-        public AttachedEffect(AttachEffect effect, EffectContext context) {
-            this(effect, new StoredEffectContext(context), 0, 0);
+        public AttachedEffect(AttachEffect effect, AbilityContext context) {
+            this(effect, new StoredAbilityContext(context), 0, 0);
             this.cachedCaster = context.caster();
         }
 
@@ -136,7 +161,7 @@ public class AttachedEffectData {
          * Ticks this attached effect
          * @param attachedTo The entity it is attached to
          * @param level The level it is within
-         * @return Whether to remove this effect
+         * @return Whether this effect has expired and should be removed
          */
         public boolean tick(Entity attachedTo, ServerLevel level) {
             LivingEntity caster = getCaster(level);
@@ -144,7 +169,7 @@ public class AttachedEffectData {
                 return true;
             }
             if (attachEffect.getTriggerPredicate().matches(attachedTo, ticks, caster)) {
-                EffectContext triggerContext = context.toContext(getCaster(level));
+                AbilityContext triggerContext = context.toContext(getCaster(level));
                 triggerContext.enableModifiers();
                 try {
                     attachEffect.getEffects().forEach(child -> child.apply(attachedTo, Collections.emptyList(), triggerContext));

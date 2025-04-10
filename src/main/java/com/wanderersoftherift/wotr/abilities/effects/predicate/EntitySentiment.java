@@ -10,9 +10,9 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * EntityAttitude provides a number of predicates for checking the Friend/Foe status of different entities.
+ * EntitySentiment provides a number of predicates for checking the Friend/Foe status of different entities.
  */
-public enum EntityAttitude implements StringRepresentable {
+public enum EntitySentiment implements StringRepresentable {
 
     ANY("any") {
         @Override
@@ -68,6 +68,20 @@ public enum EntityAttitude implements StringRepresentable {
             return areNPCsEnemies(a, b);
         }
     };
+
+    public static final StringRepresentable.StringRepresentableCodec<EntitySentiment> CODEC = StringRepresentable.fromEnum(EntitySentiment::values);
+
+    private final String name;
+
+    EntitySentiment(String name) {
+        this.name = name;
+    }
+
+    public abstract boolean matches(Entity a, Entity b);
+
+    public @NotNull String getSerializedName() {
+        return name;
+    }
 
     public static boolean areNPCsEnemies(Entity a, Entity b) {
         if (a.isAlliedTo(b)) {
@@ -131,17 +145,4 @@ public enum EntityAttitude implements StringRepresentable {
         }
     }
 
-    public static final StringRepresentable.StringRepresentableCodec<EntityAttitude> CODEC = StringRepresentable.fromEnum(EntityAttitude::values);
-
-    private final String name;
-
-    EntityAttitude(String name) {
-        this.name = name;
-    }
-
-    public abstract boolean matches(Entity a, Entity b);
-
-    public @NotNull String getSerializedName() {
-        return name;
-    }
 }

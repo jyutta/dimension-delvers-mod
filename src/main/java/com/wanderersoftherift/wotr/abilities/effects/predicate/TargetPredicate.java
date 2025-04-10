@@ -10,20 +10,20 @@ import java.util.Optional;
 
 public record TargetPredicate(
         Optional<EntityPredicate> entityPredicate,
-        EntityAttitude attitude,
+        EntitySentiment attitude,
         boolean excludeCaster
 ) {
     public static final Codec<TargetPredicate> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                             EntityPredicate.CODEC.optionalFieldOf("entity").forGetter(TargetPredicate::entityPredicate),
-                            EntityAttitude.CODEC.optionalFieldOf("attitude", EntityAttitude.ANY).forGetter(TargetPredicate::attitude),
+                            EntitySentiment.CODEC.optionalFieldOf("sentiment", EntitySentiment.ANY).forGetter(TargetPredicate::attitude),
                             Codec.BOOL.optionalFieldOf("exclude_caster", false).forGetter(TargetPredicate::excludeCaster)
                     )
                     .apply(instance, TargetPredicate::new)
     );
 
     public TargetPredicate() {
-        this(Optional.empty(), EntityAttitude.ANY, false);
+        this(Optional.empty(), EntitySentiment.ANY, false);
     }
 
     public boolean matches(Entity target, Entity caster) {

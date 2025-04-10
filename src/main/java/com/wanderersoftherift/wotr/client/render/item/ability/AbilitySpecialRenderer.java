@@ -41,7 +41,8 @@ public record AbilitySpecialRenderer(Holder<Item> baseItem) implements SpecialMo
 
         if (ability != null && ability.getIcon() != null) {
             poseStack.translate(0.03F, 0.04F, 0);
-            RenderType renderType = RenderType.create("abilityIcon",
+            // TODO: Cache
+            RenderType renderType = RenderType.create("ability_icon",
                     DefaultVertexFormat.BLOCK,
                     VertexFormat.Mode.QUADS,
                     786432,

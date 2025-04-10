@@ -1,12 +1,12 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.AbilitySlots;
-import com.wanderersoftherift.wotr.abilities.AttachedEffectData;
-import com.wanderersoftherift.wotr.abilities.Serializable.PlayerCooldownData;
-import com.wanderersoftherift.wotr.abilities.Serializable.PlayerDurationData;
+import com.wanderersoftherift.wotr.abilities.attachment.AbilitySlots;
+import com.wanderersoftherift.wotr.abilities.attachment.AttachedEffectData;
+import com.wanderersoftherift.wotr.abilities.attachment.ManaData;
+import com.wanderersoftherift.wotr.abilities.attachment.PlayerCooldownData;
+import com.wanderersoftherift.wotr.abilities.attachment.PlayerDurationData;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectDisplayData;
-import com.wanderersoftherift.wotr.abilities.mana.ManaData;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -28,7 +28,7 @@ public class ModAttachments {
             "cooldowns", () -> AttachmentType.builder(PlayerCooldownData::new).serialize(PlayerCooldownData.CODEC).build()
     );
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerDurationData>> DURATIONS = ATTACHMENT_TYPES.register(
-            "durations", () -> AttachmentType.serializable(PlayerDurationData::new).build()
+            "durations", () -> AttachmentType.builder(() -> new PlayerDurationData()).serialize(PlayerDurationData.CODEC).build()
     );
     public static final Supplier<AttachmentType<AbilitySlots>> ABILITY_SLOTS = ATTACHMENT_TYPES.register("ability_slots", () -> AttachmentType.builder(AbilitySlots::new).serialize(AbilitySlots.CODEC).copyOnDeath().build());
 

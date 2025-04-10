@@ -1,10 +1,10 @@
-package com.wanderersoftherift.wotr.abilities.Targeting;
+package com.wanderersoftherift.wotr.abilities.target;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.EffectContext;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
@@ -39,7 +39,7 @@ public class AreaTargeting extends AbstractTargeting {
         return range;
     }
 
-    private float getRange(EffectContext context) {
+    private float getRange(AbilityContext context) {
         return context.getAbilityAttribute(ModAttributes.ABILITY_AOE, range);
     }
 
@@ -55,7 +55,7 @@ public class AreaTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromEntity(Entity entity, EffectContext context) {
+    public List<Entity> getTargetsFromEntity(Entity entity, AbilityContext context) {
         float finalRange = getRange(context);
 
         return entity.level().getEntities(
@@ -72,7 +72,7 @@ public class AreaTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, EffectContext context) {
+    public List<Entity> getTargetsFromBlocks(List<BlockPos> blocks, AbilityContext context) {
         WanderersOfTheRift.LOGGER.debug("Targeting from blocks via AOE");
         float finalRange = getRange(context);
 
@@ -100,7 +100,7 @@ public class AreaTargeting extends AbstractTargeting {
 
 
     @Override
-    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, EffectContext context) {
+    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, AbilityContext context) {
         WanderersOfTheRift.LOGGER.info("Targeting blocks in area via AOE");
         float finalRange = getRange(context);
 

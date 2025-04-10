@@ -1,10 +1,10 @@
-package com.wanderersoftherift.wotr.abilities.Targeting;
+package com.wanderersoftherift.wotr.abilities.target;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.EffectContext;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -45,7 +45,7 @@ public class RaycastTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<Entity> getTargetsFromEntity(Entity entity, EffectContext context) {
+    public List<Entity> getTargetsFromEntity(Entity entity, AbilityContext context) {
         WanderersOfTheRift.LOGGER.debug("Targeting Raycast");
 
         //TODO optimize AABB to not look behind player
@@ -78,7 +78,7 @@ public class RaycastTargeting extends AbstractTargeting {
     }
 
     @Override
-    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, EffectContext context) {
+    public List<BlockPos> getBlocksInArea(Entity entity, List<BlockPos> targetPos, AbilityContext context) {
         WanderersOfTheRift.LOGGER.debug("Raycasting blocks in area");
 
         List<BlockPos> blocks = new ArrayList<>();

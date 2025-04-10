@@ -1,7 +1,7 @@
 package com.wanderersoftherift.wotr.network;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.gui.menu.SkillBenchMenu;
+import com.wanderersoftherift.wotr.gui.menu.AbilityBenchMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -28,8 +28,8 @@ public record SelectAbilityUpgradePayload(int choice, int selection) implements 
     }
 
     public void handleOnServer(IPayloadContext context) {
-        if (context.player().containerMenu instanceof SkillBenchMenu menu && menu.stillValid(context.player())) {
-            menu.selectSkill(choice(), selection());
+        if (context.player().containerMenu instanceof AbilityBenchMenu menu && menu.stillValid(context.player())) {
+            menu.selectAbility(choice(), selection());
         }
     }
 }

@@ -35,7 +35,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.RIFT_CHEST, "Rift Chest");
         addBlock(ModBlocks.RIFT_SPAWNER, "Rift Spawner");
         addBlock(ModBlocks.KEY_FORGE, "Key Forge");
-        addBlock(ModBlocks.SKILL_BENCH, "Skill Bench");
+        addBlock(ModBlocks.ABILITY_BENCH, "Ability Bench");
 
         // Adds an item translation.
         addItem(ModItems.EXAMPLE_ITEM, "Example Item");
@@ -84,10 +84,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add("container." + WanderersOfTheRift.MODID + ".rune_anvil.apply", "Apply");
         add("container." + WanderersOfTheRift.MODID + ".rift_chest", "Rift Chest");
         add("container." + WanderersOfTheRift.MODID + ".key_forge", "Key Forge");
-        add("container." + WanderersOfTheRift.MODID + ".skill_bench", "Skill Bench");
+        add("container." + WanderersOfTheRift.MODID + ".ability_bench", "Ability Bench");
 
-        add("container." + WanderersOfTheRift.MODID + ".skill_bench.upgrade", "Upgrades");
-        add("container." + WanderersOfTheRift.MODID + ".skill_bench.unlock", "Unlock next choice");
+        add("container." + WanderersOfTheRift.MODID + ".ability_bench.upgrade", "Upgrades");
+        add("container." + WanderersOfTheRift.MODID + ".ability_bench.unlock", "Unlock next choice");
 
         add("command." + WanderersOfTheRift.MODID + ".dev_world_set", "Dev World settings applied:\n - %1$s: Disabled\n - %2$s: Disabled\n - %3$s: Disabled\n - %4$s: Disabled\n - %5$s: Disabled\n - %6$s: Disabled");
         add("command." + WanderersOfTheRift.MODID + ".invalid_item", "Held item is empty!");
@@ -123,6 +123,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.reduced_motion", "Disables or slows down UI animations, camera shake, or screen effects");
 
         add("command." + WanderersOfTheRift.MODID + ".spawn_piece.generating", "Generating %s");
+        add(WanderersOfTheRift.translationId("command", "make_ability_item.success"), "Applied ability components");
 
         add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_tier", "Rift Tier: %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_value", "Essence: %s %s");
@@ -131,24 +132,24 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add("subtitles." + WanderersOfTheRift.MODID + ".rift_open", "Rift Opens");
 
-        add(WanderersOfTheRift.translationId("upgrade", "aoe.name"), "Area of Effect");
-        add(WanderersOfTheRift.translationId("upgrade", "aoe.description"), "Increases Area of Effect by 1 block");
-        add(WanderersOfTheRift.translationId("upgrade", "cooldown.name"), "Decrease Cooldown");
-        add(WanderersOfTheRift.translationId("upgrade", "cooldown.description"), "Decreases Cooldown by 10%");
-        add(WanderersOfTheRift.translationId("upgrade", "damage.name"), "Damage Up");
-        add(WanderersOfTheRift.translationId("upgrade", "damage.description"), "Increases Damage by 10%");
-        add(WanderersOfTheRift.translationId("upgrade", "drain_life.name"), "Drain Life");
-        add(WanderersOfTheRift.translationId("upgrade", "drain_life.description"), "Drains 1 life per target hit");
-        add(WanderersOfTheRift.translationId("upgrade", "mana_cost.name"), "Mana Cost Decrease");
-        add(WanderersOfTheRift.translationId("upgrade", "mana_cost.description"), "Decreases mana cost by 10%");
-        add(WanderersOfTheRift.translationId("upgrade", "projectile_count.name"), "More Projectiles");
-        add(WanderersOfTheRift.translationId("upgrade", "projectile_count.description"), "Adds an additional projectile");
-        add(WanderersOfTheRift.translationId("upgrade", "projectile_speed.name"), "Projectile Speed");
-        add(WanderersOfTheRift.translationId("upgrade", "projectile_speed.description"), "Increases Projectile speed by 10%");
-        add(WanderersOfTheRift.translationId("upgrade", "projectile_spread.name"), "Projectile Spread Reduction");
-        add(WanderersOfTheRift.translationId("upgrade", "projectile_spread.description"), "Decreases Projectile Spread by 10%");
-        add(WanderersOfTheRift.translationId("upgrade", "healing_power.name"), "Healing Up");
-        add(WanderersOfTheRift.translationId("upgrade", "healing_power.description"), "Heals an additional heart");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "aoe.name"), "Area of Effect");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "aoe.description"), "Increases Area of Effect by 1 block");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "cooldown.name"), "Decrease Cooldown");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "cooldown.description"), "Decreases Cooldown by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "damage.name"), "Damage Up");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "damage.description"), "Increases Damage by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "drain_life.name"), "Drain Life");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "drain_life.description"), "Drains 1 life per target hit");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "mana_cost.name"), "Mana Cost Decrease");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "mana_cost.description"), "Decreases mana cost by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_count.name"), "More Projectiles");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_count.description"), "Adds an additional projectile");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_speed.name"), "Projectile Speed");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_speed.description"), "Increases Projectile speed by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_spread.name"), "Projectile Spread Reduction");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_spread.description"), "Decreases Projectile Spread by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "healing_power.name"), "Healing Up");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "healing_power.description"), "Heals an additional heart");
 
         add(ModKeybinds.ABILITY_CATEGORY, "Abilities");
         add(ModKeybinds.ABILITY_1_KEY.getName(), "Use Ability 1");

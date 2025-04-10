@@ -2,12 +2,12 @@ package com.wanderersoftherift.wotr.abilities.effects;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.wanderersoftherift.wotr.abilities.EffectContext;
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.ContinueEffectPredicate;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TriggerPredicate;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
+import com.wanderersoftherift.wotr.abilities.target.AbstractTargeting;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.RegistryEvents;
 import net.minecraft.core.BlockPos;
@@ -47,7 +47,7 @@ public class AttachEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+    public void apply(Entity user, List<BlockPos> blocks, AbilityContext context) {
         List<Entity> targets = getTargeting().getTargets(user, blocks, context);
 
         applyParticlesToUser(user);
@@ -55,9 +55,8 @@ public class AttachEffect extends AbstractEffect {
         for (Entity target : targets) {
             applyParticlesToTarget(target);
 
-            // I hope this changes
             if (target instanceof LivingEntity livingTarget) {
-                target.getData(ModAttachments.ATTACHED_EFFECTS).attach(livingTarget, context, this);
+                target.getData(ModAttachments.ATTACHED_EFFECTS).attach(livingTarget, this, context);
             }
         }
     }

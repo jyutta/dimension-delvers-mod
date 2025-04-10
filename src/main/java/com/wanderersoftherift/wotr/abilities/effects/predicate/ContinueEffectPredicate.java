@@ -8,6 +8,13 @@ import net.minecraft.world.entity.Entity;
 
 import java.util.Optional;
 
+/**
+ * Predicate for determining if an attached effect should continue
+ * @param targetPredicate Sub-predicate for whether the target is still valid
+ * @param casterPredicate Sub-predicate for whether the caster is still valid
+ * @param duration Maximum duration the effect should continue (or 0 for forever)
+ * @param maxTriggerCount Maximum number of times the effect should trigger (or 0 for no limit)
+ */
 public record ContinueEffectPredicate(
         Optional<EntityPredicate> targetPredicate,
         Optional<EntityPredicate> casterPredicate,

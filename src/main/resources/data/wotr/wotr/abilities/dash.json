@@ -11,11 +11,7 @@
       "targeting": {
         "type": "wotr:self_targeting"
       },
-      "velocity": [0,0.4,1],
-      "effects":
-      [
-
-      ]
+      "velocity": [0,0.4,1]
     },
     {
       "type": "wotr:sound_effect",

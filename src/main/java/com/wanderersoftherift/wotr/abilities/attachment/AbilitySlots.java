@@ -1,7 +1,8 @@
-package com.wanderersoftherift.wotr.abilities;
+package com.wanderersoftherift.wotr.abilities.attachment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +13,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Inventory attachment holding equipped ability items. Also tracks the selected ability slot, which is the last used,
+ * or else manually selected.
+ */
 public class AbilitySlots implements IItemHandlerModifiable {
 
     public static final int ABILITY_BAR_SIZE = 9;
@@ -35,28 +40,47 @@ public class AbilitySlots implements IItemHandlerModifiable {
         this.selected = selected;
     }
 
+    /**
+     * @return The currently selected slot
+     */
     public int getSelectedSlot() {
         return selected;
     }
 
+    /**
+     * @param slot The slot to be selected
+     */
     public void setSelectedSlot(int slot) {
         if (slot >= 0 && slot < ABILITY_BAR_SIZE) {
             selected = slot;
         }
     }
 
+    /**
+     * Decrements the currently selected slot, wrapping around
+     */
     public void decrementSelected() {
         selected = (selected + abilities.size() - 1) % abilities.size();
     }
 
+    /**
+     * Increments the currently selected slot, wrapping around
+     */
     public void incrementSelected() {
         selected = (selected + 1) % abilities.size();
     }
 
-    public List<ItemStack> getAbilities() {
+    /**
+     * @return The list of the contents of the ability slots. Empty slots will contain Item.EMPTY.
+     */
+    public List<ItemStack> getAbilitySlots() {
         return Collections.unmodifiableList(abilities);
     }
 
+    /**
+     * @param slot
+     * @return The ability of the item in the given slot, or null.
+     */
     public AbstractAbility getAbilityInSlot(int slot) {
         ItemStack stack = getStackInSlot(slot);
         if (!stack.isEmpty() && stack.has(ModDataComponentType.ABILITY)) {

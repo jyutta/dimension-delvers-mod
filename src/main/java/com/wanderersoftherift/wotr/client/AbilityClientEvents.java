@@ -1,8 +1,8 @@
 package com.wanderersoftherift.wotr.client;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.AbilitySlots;
-import com.wanderersoftherift.wotr.abilities.mana.ManaData;
+import com.wanderersoftherift.wotr.abilities.attachment.AbilitySlots;
+import com.wanderersoftherift.wotr.abilities.attachment.ManaData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
@@ -20,6 +20,9 @@ import static com.wanderersoftherift.wotr.init.client.ModKeybinds.NEXT_ABILITY_K
 import static com.wanderersoftherift.wotr.init.client.ModKeybinds.PREV_ABILITY_KEY;
 import static com.wanderersoftherift.wotr.init.client.ModKeybinds.USE_ABILITY_KEY;
 
+/**
+ * Events related to abilities - key activation detection and mana ticking.
+ */
 @EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public final class AbilityClientEvents {
 

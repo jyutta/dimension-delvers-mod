@@ -13,11 +13,7 @@
         "range": 200
       },
       "projectile_type": "minecraft:arrow",
-      "velocity": [0,0,0],
-      "effects":
-      [
-
-      ]
+      "velocity": [0,0,0]
     }
 
   ]

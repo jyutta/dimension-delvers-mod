@@ -1,7 +1,7 @@
 package com.wanderersoftherift.wotr.network;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.gui.menu.SkillBenchMenu;
+import com.wanderersoftherift.wotr.gui.menu.AbilityBenchMenu;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -26,7 +26,7 @@ public record LevelUpAbilityPayload(int level) implements CustomPacketPayload {
     }
 
     public void handleOnServer(IPayloadContext context) {
-        if (context.player().containerMenu instanceof SkillBenchMenu menu && menu.stillValid(context.player())) {
+        if (context.player().containerMenu instanceof AbilityBenchMenu menu && menu.stillValid(context.player())) {
             menu.levelUp(level);
         }
     }

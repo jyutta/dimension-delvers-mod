@@ -3,9 +3,9 @@ package com.wanderersoftherift.wotr.abilities.effects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.wanderersoftherift.wotr.abilities.EffectContext;
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
+import com.wanderersoftherift.wotr.abilities.target.AbstractTargeting;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import com.wanderersoftherift.wotr.modifier.effect.AttributeModifierEffect;
@@ -52,7 +52,7 @@ public class DamageEffect extends AbstractEffect {
     }
 
     @Override
-    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+    public void apply(Entity user, List<BlockPos> blocks, AbilityContext context) {
         List<Entity> targets = getTargeting().getTargets(user, blocks, context);
         DamageSource damageSource = new DamageSource(
                 context.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(this.damageTypeKey.getKey()),

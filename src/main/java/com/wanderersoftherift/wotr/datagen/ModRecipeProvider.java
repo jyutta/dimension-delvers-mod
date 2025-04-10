@@ -55,7 +55,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_anvil", this.has(ItemTags.ANVIL))
                 .save(this.output);
 
-        ShapedRecipeBuilder.shaped(getter, RecipeCategory.MISC, ModBlocks.SKILL_BENCH.asItem())
+        ShapedRecipeBuilder.shaped(getter, RecipeCategory.MISC, ModBlocks.ABILITY_BENCH.asItem())
                 .pattern("ggg")
                 .pattern("w w")
                 .pattern("w w")

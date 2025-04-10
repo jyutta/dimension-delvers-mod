@@ -1,8 +1,8 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.abilities.AbilitySlots;
-import com.wanderersoftherift.wotr.abilities.AttachedEffectData;
+import com.wanderersoftherift.wotr.abilities.attachment.AbilitySlots;
+import com.wanderersoftherift.wotr.abilities.attachment.AttachedEffectData;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
 import com.wanderersoftherift.wotr.network.AbilitySlotsContentPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsCooldownsPayload;
@@ -87,7 +87,7 @@ public class ModPayloadHandlers {
         }
 
         AbilitySlots abilitySlots = serverPlayer.getData(ModAttachments.ABILITY_SLOTS);
-        PacketDistributor.sendToPlayer(serverPlayer, new AbilitySlotsContentPayload(abilitySlots.getAbilities(), abilitySlots.getSelectedSlot()));
+        PacketDistributor.sendToPlayer(serverPlayer, new AbilitySlotsContentPayload(abilitySlots.getAbilitySlots(), abilitySlots.getSelectedSlot()));
         PacketDistributor.sendToPlayer(serverPlayer, new AbilitySlotsCooldownsPayload(player.getData(ModAttachments.ABILITY_COOLDOWNS)));
     }
 

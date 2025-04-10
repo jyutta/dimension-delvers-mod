@@ -5,9 +5,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
-import com.wanderersoftherift.wotr.abilities.EffectContext;
-import com.wanderersoftherift.wotr.abilities.Targeting.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
+import com.wanderersoftherift.wotr.abilities.target.AbstractTargeting;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -48,7 +48,7 @@ public abstract class AbstractEffect {
         this.particles = particles;
     }
 
-    public void apply(Entity user, List<BlockPos> blocks, EffectContext context) {
+    public void apply(Entity user, List<BlockPos> blocks, AbilityContext context) {
         for (AbstractEffect effect : getEffects()) {
             effect.apply(user, blocks, context);
         }
