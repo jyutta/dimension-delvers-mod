@@ -51,9 +51,16 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, @NotNull ItemModelGenerators itemModels) {
         blockModels.createTrivialCube(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get());
-        blockModels.createTrivialCube(ModBlocks.ABILITY_BENCH.get());
         blockModels.createTrivialCube(ModBlocks.DEV_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.KEY_FORGE.get());
+
+        ResourceLocation abilityBenchModel = WanderersOfTheRift.id("block/ability_bench");
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.multiVariant(
+                                ModBlocks.ABILITY_BENCH.get(),
+                                Variant.variant().with(VariantProperties.MODEL, abilityBenchModel))
+                        .with(BlockModelGenerators.createHorizontalFacingDispatch())
+        );
 
         ResourceLocation baseChestModel = WanderersOfTheRift.id("block/rift_chest");
         blockModels.blockStateOutput.accept(

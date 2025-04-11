@@ -91,7 +91,7 @@ public class ModBlocks {
     );
 
     public static final DeferredBlock<KeyForgeBlock> KEY_FORGE = registerBlock(
-      "key_forge",
+            "key_forge",
             () -> new KeyForgeBlock(BlockBehaviour.Properties.of()
                     .setId(blockId("key_forge"))
                     .strength(2.0f)
@@ -99,11 +99,13 @@ public class ModBlocks {
             )
     );
 
-    public static final DeferredBlock<AbilityBenchBlock> ABILITY_BENCH = registerBlock("ability_bench", () -> new AbilityBenchBlock(BlockBehaviour.Properties.of()
-            .setId(blockId("ability_bench"))
-            .strength(2.0f)
-            .sound(SoundType.WOOD)
-    ));
+    public static final DeferredBlock<AbilityBenchBlock> ABILITY_BENCH = registerBlock(
+            "ability_bench",
+            () -> new AbilityBenchBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("ability_bench"))
+                    .strength(2.0f)
+                    .sound(SoundType.WOOD)
+            ));
 
     public static final BlockFamilyHelper PROCESSOR_BLOCK_1 = registerBuildingBlock("processor_block_1", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_1"))));
     public static final BlockFamilyHelper PROCESSOR_BLOCK_2 = registerBuildingBlock("processor_block_2", () -> new Block(BlockBehaviour.Properties.of().setId(blockId("processor_block_2"))));
