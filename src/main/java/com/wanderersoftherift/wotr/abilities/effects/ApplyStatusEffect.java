@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
-import com.wanderersoftherift.wotr.abilities.target.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.targeting.AbstractTargeting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;

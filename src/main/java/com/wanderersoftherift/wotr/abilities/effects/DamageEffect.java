@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
-import com.wanderersoftherift.wotr.abilities.target.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import com.wanderersoftherift.wotr.modifier.effect.AttributeModifierEffect;

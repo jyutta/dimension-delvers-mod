@@ -287,7 +287,7 @@ public class AbilityBenchScreen extends AbstractContainerScreen<AbilityBenchMenu
 
         @Override
         public void onPress() {
-            if (menu.costForNextLevel() <= menu.availableThread()) {
+            if (menu.costForNextLevel() <= menu.availableUpgradeCurrency()) {
                 PacketDistributor.sendToServer(new LevelUpAbilityPayload(menu.getUnlockLevel() + 1));
             }
         }
@@ -295,7 +295,7 @@ public class AbilityBenchScreen extends AbstractContainerScreen<AbilityBenchMenu
         @Override
         public void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
             int cost = menu.costForNextLevel();
-            int available = menu.availableThread();
+            int available = menu.availableUpgradeCurrency();
 
             ResourceLocation buttonTexture;
             if (cost > available) {

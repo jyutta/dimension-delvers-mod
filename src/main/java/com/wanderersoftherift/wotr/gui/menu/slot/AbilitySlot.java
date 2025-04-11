@@ -5,6 +5,9 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * A slot that can only contain items with an ability component
+ */
 public class AbilitySlot extends Slot {
 
     public AbilitySlot(Container container, int slot, int x, int y) {

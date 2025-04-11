@@ -17,6 +17,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Payload that transmits a change/delta in the effect markers a client should display.
+ * @param updates Any new or updated EffectMarkers with their remaining durations (in ticks)
+ * @param remove Any EffectMarkers to remove
+ */
 public record UpdateEffectMarkersPayload(Map<Holder<EffectMarker>,Integer> updates, List<Holder<EffectMarker>> remove) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<UpdateEffectMarkersPayload> TYPE = new CustomPacketPayload.Type<>(WanderersOfTheRift.id("update_effect_markers"));
     public static final StreamCodec<RegistryFriendlyByteBuf, UpdateEffectMarkersPayload> STREAM_CODEC = StreamCodec.composite(

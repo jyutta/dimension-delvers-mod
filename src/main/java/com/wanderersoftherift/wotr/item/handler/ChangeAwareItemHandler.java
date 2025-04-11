@@ -4,6 +4,9 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * ItemHandler wrapper that allows definition of an onSlotChanged method.
+ */
 public abstract class ChangeAwareItemHandler implements IItemHandlerModifiable {
     private final IItemHandlerModifiable parent;
 

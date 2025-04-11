@@ -14,7 +14,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.joml.Math;
 
-
+/**
+ * Displays the player's mana. The bar extends based on max capacity, has an animation to its fill
+ */
 public class ManaBar implements LayeredDraw.Layer {
     private static final ResourceLocation TEXTURE = WanderersOfTheRift.id("textures/gui/hud/mana_bar.png");
     private static final int TEXTURE_WIDTH = 29;

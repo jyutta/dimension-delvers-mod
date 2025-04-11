@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.item.skillgem;
+package com.wanderersoftherift.wotr.item;
 
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
@@ -7,8 +7,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SkillGem extends Item {
-    public SkillGem(Properties properties) {
+/**
+ * Item for holding abilities. Any item can really, but this one handles displaying the ability and its name
+ */
+public class AbilityHolder extends Item {
+    public AbilityHolder(Properties properties) {
         super(properties);
     }
 

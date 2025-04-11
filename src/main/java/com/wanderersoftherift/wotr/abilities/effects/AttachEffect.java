@@ -7,7 +7,7 @@ import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.ContinueEffectPredicate;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TriggerPredicate;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
-import com.wanderersoftherift.wotr.abilities.target.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.targeting.AbstractTargeting;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.RegistryEvents;
 import net.minecraft.core.BlockPos;

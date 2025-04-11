@@ -17,6 +17,6 @@ public class ModScreens {
     private static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.RUNE_ANVIL_MENU.get(), RuneAnvilScreen::new);
         event.register(ModMenuTypes.KEY_FORGE_MENU.get(), KeyForgeScreen::new);
-        event.register(ModMenuTypes.SKILL_BENCH_MENU.get(), AbilityBenchScreen::new);
+        event.register(ModMenuTypes.ABILITY_BENCH_MENU.get(), AbilityBenchScreen::new);
     }
 }

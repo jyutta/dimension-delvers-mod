@@ -81,13 +81,13 @@ public class ModModelProvider extends ModelProvider {
         itemModels.generateFlatItem(ModItems.EXAMPLE_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.RIFT_KEY.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.RUNEGEM_GEODE.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(ModItems.BASE_SKILL_GEM.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.BASE_ABILITY_HOLDER.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.SKILL_THREAD.get(), ModelTemplates.FLAT_ITEM);
 
-        itemModels.itemModelOutput.accept(ModItems.SKILL_GEM.get(),
+        itemModels.itemModelOutput.accept(ModItems.ABILITY_HOLDER.get(),
                 new SpecialModelWrapper.Unbaked(
-                  WanderersOfTheRift.id("item/base_skill_gem"),
-                  new AbilitySpecialRenderer.Unbaked(ModItems.BASE_SKILL_GEM)
+                  WanderersOfTheRift.id("item/base_ability_holder"),
+                  new AbilitySpecialRenderer.Unbaked(ModItems.BASE_ABILITY_HOLDER)
                 ));
 
         this.generateRunegemItem(ModItems.RUNEGEM.get(), itemModels);

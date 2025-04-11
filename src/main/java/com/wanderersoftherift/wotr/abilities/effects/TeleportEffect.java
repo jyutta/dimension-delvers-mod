@@ -6,7 +6,7 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.util.ParticleInfo;
 import com.wanderersoftherift.wotr.abilities.effects.util.TeleportInfo;
-import com.wanderersoftherift.wotr.abilities.target.AbstractTargeting;
+import com.wanderersoftherift.wotr.abilities.targeting.AbstractTargeting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 

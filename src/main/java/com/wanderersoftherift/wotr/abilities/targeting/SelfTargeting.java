@@ -1,4 +1,4 @@
-package com.wanderersoftherift.wotr.abilities.target;
+package com.wanderersoftherift.wotr.abilities.targeting;
 
 import com.mojang.serialization.MapCodec;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;

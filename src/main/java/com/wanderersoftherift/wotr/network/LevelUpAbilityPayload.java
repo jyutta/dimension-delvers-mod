@@ -9,7 +9,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**
- * Request to unlock a level of an ability
+ * Request from a client to unlock a level of an ability. Sent on the open AbilityBenchMenu
  * @param level the level to unlock
  */
 public record LevelUpAbilityPayload(int level) implements CustomPacketPayload {

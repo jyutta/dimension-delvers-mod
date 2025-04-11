@@ -22,6 +22,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.wanderersoftherift.wotr.init.ModAttachments.ABILITY_COOLDOWNS;
 
+/**
+ * Bar displaying a players selected abilities and their state.
+ */
 public final class AbilityBar implements LayeredDraw.Layer {
 
     private static final ResourceLocation BACKGROUND = WanderersOfTheRift.id("textures/gui/hud/ability_bar/background.png");
@@ -33,9 +36,12 @@ public final class AbilityBar implements LayeredDraw.Layer {
 
     private static final int BAR_OFFSET_X = -4;
     private static final int BAR_OFFSET_Y = -4;
-    private static final int SKILL_OFFSET_X = 4;
-    private static final int SKILL_START_OFFSET_Y = 4;
-    private static final int SKILL_OFFSET_Y = 2;
+    private static final int ABILITY_OFFSET_X = 4;
+    private static final int ABILITY_START_OFFSET_Y = 4;
+    private static final int ABILITY_OFFSET_Y = 2;
+
+    private static final int SLOT_HEIGHT = 18;
+    private static final int ICON_SIZE = 16;
 
     @Override
     public void render(@NotNull GuiGraphics graphics, @NotNull DeltaTracker deltaTracker) {
@@ -55,25 +61,25 @@ public final class AbilityBar implements LayeredDraw.Layer {
     }
 
     private void renderAbilities(GuiGraphics graphics, AbilitySlots abilitySlots, PlayerCooldownData cooldowns) {
-        int yOffset = BAR_OFFSET_Y + SKILL_START_OFFSET_Y;
+        int yOffset = BAR_OFFSET_Y + ABILITY_START_OFFSET_Y;
         for (int slot = 0; slot < abilitySlots.getSlots(); slot++) {
             AbstractAbility ability = abilitySlots.getAbilityInSlot(slot);
             if (ability != null) {
-                graphics.blit(RenderType::guiTextured, ability.getIcon(), BAR_OFFSET_X + SKILL_OFFSET_X, yOffset + slot * 18, 0, 0, 16, 16, 16, 16);
+                graphics.blit(RenderType::guiTextured, ability.getIcon(), BAR_OFFSET_X + ABILITY_OFFSET_X, yOffset + slot * SLOT_HEIGHT, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
             }
 
             if (cooldowns.isOnCooldown(slot) && cooldowns.getLastCooldownValue(slot) > 0) {
-                int overlayHeight = Math.clamp((16L * cooldowns.getCooldownRemaining(slot) / cooldowns.getLastCooldownValue(slot)), 0, 16);
-                graphics.blit(RenderType::guiTextured, COOLDOWN_OVERLAY, BAR_OFFSET_X + SKILL_OFFSET_X, yOffset + slot * 18 + 16 - overlayHeight, 0, 0, 16, overlayHeight, 16, 16);
+                int overlayHeight = Math.clamp(((long)ICON_SIZE * cooldowns.getCooldownRemaining(slot) / cooldowns.getLastCooldownValue(slot)), 1, ICON_SIZE);
+                graphics.blit(RenderType::guiTextured, COOLDOWN_OVERLAY, BAR_OFFSET_X + ABILITY_OFFSET_X, yOffset + slot * SLOT_HEIGHT + ICON_SIZE - overlayHeight, 0, 0, ICON_SIZE, overlayHeight, ICON_SIZE, ICON_SIZE);
             }
         }
         int selected = abilitySlots.getSelectedSlot();
-        graphics.blit(RenderType::guiTextured, SELECTED_OVERLAY, BAR_OFFSET_X + SKILL_OFFSET_X - 6, yOffset + selected * 18 - 3, 0, 0, 28, 22, 28, 22);
+        graphics.blit(RenderType::guiTextured, SELECTED_OVERLAY, BAR_OFFSET_X + ABILITY_OFFSET_X - 6, yOffset + selected * SLOT_HEIGHT - 3, 0, 0, 28, 22, 28, 22);
     }
 
     private void renderAbilityKeyBinds(GuiGraphics graphics) {
         Font font = Minecraft.getInstance().font;
-        int yOffset = BAR_OFFSET_Y + SKILL_START_OFFSET_Y;
+        int yOffset = BAR_OFFSET_Y + ABILITY_START_OFFSET_Y;
         graphics.pose().pushPose();
         float inverseScale = 1.0f;
         for (int slot = 0; slot < ModKeybinds.ABILITY_SLOT_KEYS.size(); slot++) {
@@ -86,7 +92,7 @@ public final class AbilityBar implements LayeredDraw.Layer {
                 keyText = Component.literal("...");
                 keyTextWidth = font.width(keyText);
             }
-            graphics.drawString(font, keyText, (int) (inverseScale * (BAR_OFFSET_X + SKILL_OFFSET_X + 16)) - keyTextWidth, (int) (inverseScale * (yOffset + (slot + 1) * 18 - 1)) - font.lineHeight, ChatFormatting.WHITE.getColor());
+            graphics.drawString(font, keyText, (int) (inverseScale * (BAR_OFFSET_X + ABILITY_OFFSET_X + ICON_SIZE)) - keyTextWidth, (int) (inverseScale * (yOffset + (slot + 1) * SLOT_HEIGHT - 1)) - font.lineHeight, ChatFormatting.WHITE.getColor());
         }
         graphics.pose().popPose();
     }

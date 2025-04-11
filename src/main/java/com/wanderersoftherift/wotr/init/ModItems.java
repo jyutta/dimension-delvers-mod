@@ -1,6 +1,7 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.item.AbilityHolder;
 import com.wanderersoftherift.wotr.item.BuilderGlasses;
 import com.wanderersoftherift.wotr.item.LootBox;
 import com.wanderersoftherift.wotr.item.SkillThread;
@@ -9,7 +10,6 @@ import com.wanderersoftherift.wotr.item.runegem.Runegem;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.item.runegem.RunegemShape;
 import com.wanderersoftherift.wotr.item.runegem.RunegemTier;
-import com.wanderersoftherift.wotr.item.skillgem.SkillGem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -72,14 +72,14 @@ public class ModItems {
                             new LootBox(ResourceKey.create(Registries.LOOT_TABLE, WanderersOfTheRift.id("loot_box/runegem_geode"))))
             ));
 
-    public static final DeferredItem<Item> BASE_SKILL_GEM = ITEMS.register("base_skill_gem",
+    public static final DeferredItem<Item> BASE_ABILITY_HOLDER = ITEMS.register("base_ability_holder",
             registryName -> new Item(new Item.Properties()
-                    .setId(ResourceKey.create(Registries.ITEM, WanderersOfTheRift.id("base_skill_gem")))
+                    .setId(ResourceKey.create(Registries.ITEM, WanderersOfTheRift.id("base_ability_holder")))
             ));
 
-    public static final DeferredItem<Item> SKILL_GEM = ITEMS.register("skill_gem",
-            registryName -> new SkillGem(new Item.Properties()
-                    .setId(ResourceKey.create(Registries.ITEM, WanderersOfTheRift.id("skill_gem")))
+    public static final DeferredItem<Item> ABILITY_HOLDER = ITEMS.register("ability_holder",
+            registryName -> new AbilityHolder(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, WanderersOfTheRift.id("ability_holder")))
             ));
 
     public static final DeferredItem<Item> SKILL_THREAD = ITEMS.register("skill_thread",

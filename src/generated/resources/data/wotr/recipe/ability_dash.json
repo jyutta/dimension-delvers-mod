@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "I": "minecraft:flint_and_steel",
+    "I": "#minecraft:foot_armor",
     "g": "minecraft:glass_pane"
   },
   "pattern": [
@@ -12,9 +12,9 @@
   ],
   "result": {
     "components": {
-      "wotr:ability": "wotr:fireball"
+      "wotr:ability": "wotr:dash"
     },
     "count": 1,
-    "id": "wotr:skill_gem"
+    "id": "wotr:ability_holder"
   }
 }

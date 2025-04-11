@@ -13,6 +13,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Payload for transmitting ability cooldown slot information to a client
+ * @param cooldowns The initial length of each cooldown (in ticks)
+ * @param remaining The remaining length of each cooldown
+ */
 public record AbilitySlotsCooldownsPayload(List<Integer> cooldowns,
                                            List<Integer> remaining) implements CustomPacketPayload {
     public static final Type<AbilitySlotsCooldownsPayload> TYPE = new Type<>(WanderersOfTheRift.id("ability_slots_cooldowns"));

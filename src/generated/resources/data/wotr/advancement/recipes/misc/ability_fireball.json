@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:skill_gem_dash"
+        "recipe": "wotr:ability_fireball"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:skill_gem_dash"
+      "wotr:ability_fireball"
     ]
   }
 }

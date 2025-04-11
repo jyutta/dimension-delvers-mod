@@ -18,5 +18,5 @@ public class ModMenuTypes {
 
     public static final Supplier<MenuType<KeyForgeMenu>> KEY_FORGE_MENU = MENUS.register("key_forge_menu", () -> new MenuType<>(KeyForgeMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
-    public static final Supplier<MenuType<AbilityBenchMenu>> SKILL_BENCH_MENU = MENUS.register("skill_bench_menu", () -> new MenuType<>(AbilityBenchMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final Supplier<MenuType<AbilityBenchMenu>> ABILITY_BENCH_MENU = MENUS.register("ability_bench_menu", () -> new MenuType<>(AbilityBenchMenu::new, FeatureFlags.DEFAULT_FLAGS));
 }

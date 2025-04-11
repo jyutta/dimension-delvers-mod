@@ -13,6 +13,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Payload for transmitting the contents of the ability slots to a client
+ * @param abilitySlots The items contained in the ability slots (can be {@link ItemStack#EMPTY})
+ * @param selected The currently selected slot
+ */
 public record AbilitySlotsContentPayload(List<ItemStack> abilitySlots, int selected) implements CustomPacketPayload {
     public static final Type<AbilitySlotsContentPayload> TYPE = new Type<>(WanderersOfTheRift.id("ability_slots_content"));
     public static final StreamCodec<RegistryFriendlyByteBuf, AbilitySlotsContentPayload> STREAM_CODEC = StreamCodec.composite(

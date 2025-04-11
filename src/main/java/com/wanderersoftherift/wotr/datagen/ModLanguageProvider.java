@@ -43,7 +43,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.RUNEGEM, "Runegem");
         addItem(ModItems.RIFT_KEY, "Rift Key");
         addItem(ModItems.RUNEGEM_GEODE, "Runegem Geode");
-        addItem(ModItems.SKILL_GEM, "Unidentified Skill");
+        addItem(ModItems.ABILITY_HOLDER, "Empty Ability");
         addItem(ModItems.SKILL_THREAD, "Skill Thread");
 
         addEntityType(ModEntityTypes.RIFT_ENTRANCE, "Rift Entrance");

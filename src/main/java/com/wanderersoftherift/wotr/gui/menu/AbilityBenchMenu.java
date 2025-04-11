@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * The skill bench allows viewing and managing a skill and its upgrades
+ * The ability bench allows viewing and managing an ability and its upgrades
  */
 public class AbilityBenchMenu extends AbstractContainerMenu {
     private static final int INPUT_SLOTS = 2;
@@ -44,7 +44,7 @@ public class AbilityBenchMenu extends AbstractContainerMenu {
     }
 
     public AbilityBenchMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, IItemHandler abilities) {
-        super(ModMenuTypes.SKILL_BENCH_MENU.get(), containerId);
+        super(ModMenuTypes.ABILITY_BENCH_MENU.get(), containerId);
         this.access = access;
         this.inputContainer = new SimpleContainer(INPUT_SLOTS);
         inputContainer.addListener(this::onAbilitySlotChanged);
@@ -55,6 +55,17 @@ public class AbilityBenchMenu extends AbstractContainerMenu {
         addPlayerAbilitySlots(abilities, 4, 46);
     }
 
+    protected void addPlayerAbilitySlots(IItemHandler abilitySlots, int x, int y) {
+        for (int i = 0; i < abilitySlots.getSlots(); i++) {
+            addSlot(new SlotItemHandler(abilitySlots, i, x, y + i * 18));
+        }
+    }
+
+    /**
+     * Adds a base upgrade pool to any inserted ability item
+     *
+     * @param container
+     */
     private void onAbilitySlotChanged(Container container) {
         access.execute((level, blockPos) -> {
             ItemStack item = container.getItem(0);
@@ -71,26 +82,32 @@ public class AbilityBenchMenu extends AbstractContainerMenu {
         });
     }
 
-    protected void addPlayerAbilitySlots(IItemHandler abilitySlots, int x, int y) {
-        for (int i = 0; i < abilitySlots.getSlots(); i++) {
-            addSlot(new SlotItemHandler(abilitySlots, i, x, y + i * 18));
-        }
-    }
-
+    /**
+     * @return Whether an ability item is in the ability input slot
+     */
     public boolean isAbilityItemPresent() {
         ItemStack item = inputContainer.getItem(0);
         return !item.isEmpty() && item.has(ModDataComponentType.ABILITY);
     }
 
+    /**
+     * @return The ability item (or Item.EMPTY)
+     */
     public ItemStack getAbilityItem() {
         return inputContainer.getItem(0);
     }
 
+    /**
+     * @return The ability on the ability item, or null
+     */
     public @Nullable Holder<AbstractAbility> getAbility() {
         ItemStack item = getAbilityItem();
         return item.get(ModDataComponentType.ABILITY);
     }
 
+    /**
+     * @return The upgrade pool on the ability item, or null
+     */
     public @Nullable AbilityUpgradePool getUpgradePool() {
         ItemStack item = getAbilityItem();
         if (!item.isEmpty() && item.has(ModDataComponentType.ABILITY_UPGRADE_POOL)) {
@@ -99,10 +116,16 @@ public class AbilityBenchMenu extends AbstractContainerMenu {
         return null;
     }
 
-    public int availableThread() {
+    /**
+     * @return How much upgrade currency is available
+     */
+    public int availableUpgradeCurrency() {
         return inputContainer.getItem(1).getCount();
     }
 
+    /**
+     * @return Whether the ability could be leveled up (ignoring currency availability)
+     */
     public boolean canLevelUp() {
         AbilityUpgradePool pool = getUpgradePool();
         if (pool != null) {
@@ -111,6 +134,9 @@ public class AbilityBenchMenu extends AbstractContainerMenu {
         return false;
     }
 
+    /**
+     * @return How much currency is required for the next level
+     */
     public int costForNextLevel() {
         AbilityUpgradePool pool = getUpgradePool();
         if (pool != null) {
@@ -119,28 +145,62 @@ public class AbilityBenchMenu extends AbstractContainerMenu {
         return 65;
     }
 
+    /**
+     * Unlocks a new level on the ability, spending currency and adding a new choice. For server-side use only.
+     *
+     * @param level The level to unlock
+     */
     public void levelUp(int level) {
-        AbilityUpgradePool pool = getUpgradePool();
-        if (pool == null || level != pool.getChoiceCount() + 1 || !canLevelUp()) {
-            return;
-        }
-        int available = availableThread();
-        int cost = costForNextLevel();
-        if (available < cost) {
-            return;
-        }
         access.execute((serverLevel, pos) -> {
+            AbilityUpgradePool pool = getUpgradePool();
+            if (pool == null || level != pool.getChoiceCount() + 1 || !canLevelUp()) {
+                return;
+            }
+            int available = availableUpgradeCurrency();
+            int cost = costForNextLevel();
+            if (available < cost) {
+                return;
+            }
             inputContainer.getItem(1).shrink(cost);
             getAbilityItem().set(ModDataComponentType.ABILITY_UPGRADE_POOL, pool.getMutable().generateChoice(serverLevel.registryAccess(), getAbility().value(), serverLevel.getRandom(), AbilityUpgradePool.SELECTION_PER_LEVEL).toImmutable());
         });
     }
 
+    /**
+     * @return The current level of the ability
+     */
     public int getUnlockLevel() {
         AbilityUpgradePool upgradePool = getUpgradePool();
         if (upgradePool != null) {
             return upgradePool.getChoiceCount();
         }
         return 0;
+    }
+
+    /**
+     * Sets the selection for the given choice. For server-side use.
+     *
+     * @param choice
+     * @param selection
+     */
+    public void selectAbility(int choice, int selection) {
+        access.execute((serverLevel, pos) -> {
+            if (isAbilityItemPresent()) {
+                AbilityUpgradePool pool = getUpgradePool();
+                if (choice < 0 || choice >= pool.getChoiceCount()) {
+                    return;
+                }
+                List<Holder<AbilityUpgrade>> options = pool.getChoiceOptions(choice);
+                if (selection < 0 || selection >= options.size()) {
+                    return;
+                }
+
+                AbilityUpgradePool.Mutable mutable = pool.getMutable();
+                mutable.selectChoice(choice, selection);
+                DataComponentPatch patch = DataComponentPatch.builder().set(ModDataComponentType.ABILITY_UPGRADE_POOL.get(), mutable.toImmutable()).build();
+                getAbilityItem().applyComponents(patch);
+            }
+        });
     }
 
     @Override
@@ -192,21 +252,4 @@ public class AbilityBenchMenu extends AbstractContainerMenu {
         return stillValid(this.access, player, ModBlocks.ABILITY_BENCH.get());
     }
 
-    public void selectAbility(int choice, int selection) {
-        if (isAbilityItemPresent()) {
-            AbilityUpgradePool pool = getUpgradePool();
-            if (choice < 0 || choice >= pool.getChoiceCount()) {
-                return;
-            }
-            List<Holder<AbilityUpgrade>> options = pool.getChoiceOptions(choice);
-            if (selection < 0 || selection >= options.size()) {
-                return;
-            }
-
-            AbilityUpgradePool.Mutable mutable = pool.getMutable();
-            mutable.selectChoice(choice, selection);
-            DataComponentPatch patch = DataComponentPatch.builder().set(ModDataComponentType.ABILITY_UPGRADE_POOL.get(), mutable.toImmutable()).build();
-            getAbilityItem().applyComponents(patch);
-        }
-    }
 }

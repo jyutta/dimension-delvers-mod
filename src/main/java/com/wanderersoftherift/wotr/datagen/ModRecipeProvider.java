@@ -65,7 +65,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_plank", this.has(ItemTags.PLANKS))
                 .save(this.output);
 
-        ItemStack dodgeSkillGem = ModItems.SKILL_GEM.toStack();
+        ItemStack dodgeSkillGem = ModItems.ABILITY_HOLDER.toStack();
         dodgeSkillGem.applyComponents(DataComponentPatch.builder()
                 .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY, WanderersOfTheRift.id("dash")))
                 .build());
@@ -76,9 +76,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('g', Blocks.GLASS_PANE.asItem())
                 .define('I', ItemTags.FOOT_ARMOR)
                 .unlockedBy("has_glass_pane", this.has(Blocks.GLASS_PANE.asItem()))
-                .save(this.output, "skill_gem_dash");
+                .save(this.output, "wotr:ability_dash");
 
-        ItemStack fireballSkillGem = ModItems.SKILL_GEM.toStack();
+        ItemStack fireballSkillGem = ModItems.ABILITY_HOLDER.toStack();
         fireballSkillGem.applyComponents(DataComponentPatch.builder()
                 .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY, WanderersOfTheRift.id("fireball")))
                 .build());
@@ -89,9 +89,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('g', Blocks.GLASS_PANE.asItem())
                 .define('I', Items.FLINT_AND_STEEL)
                 .unlockedBy("has_glass_pane", this.has(Blocks.GLASS_PANE.asItem()))
-                .save(this.output, "skill_gem_fireball");
+                .save(this.output, "wotr:ability_fireball");
 
-        ItemStack healSkillGem = ModItems.SKILL_GEM.toStack();
+        ItemStack healSkillGem = ModItems.ABILITY_HOLDER.toStack();
         healSkillGem.applyComponents(DataComponentPatch.builder()
                 .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY, WanderersOfTheRift.id("heal")))
                 .build());
@@ -102,7 +102,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('g', Blocks.GLASS_PANE.asItem())
                 .define('I', Items.APPLE)
                 .unlockedBy("has_glass_pane", this.has(Blocks.GLASS_PANE.asItem()))
-                .save(this.output, "skill_gem_heal");
+                .save(this.output, "wotr:ability_heal");
     }
 
     // The runner to add to the data generator
@@ -119,7 +119,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
         @Override
         public @NotNull String getName() {
-            return "Dimension Delver's Recipes";
+            return "Wanderers of the Rift's Recipes";
         }
     }
 }

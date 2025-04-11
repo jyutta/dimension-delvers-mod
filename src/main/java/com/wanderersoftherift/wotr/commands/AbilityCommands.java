@@ -29,7 +29,7 @@ public class AbilityCommands {
                         .then(Commands.argument("ability", AbilityArgument.ability())
                                 .then(Commands.argument("choices", IntegerArgumentType.integer(1))
                                         .executes(
-                                                (ctx) -> addSkillToCurrentItem(
+                                                (ctx) -> addAbilityToCurrentItem(
                                                         ctx.getSource(),
                                                         AbilityArgument.getAbility(ctx, "ability"),
                                                         IntegerArgumentType.getInteger(ctx, "choices")
@@ -37,7 +37,7 @@ public class AbilityCommands {
                                         ))));
     }
 
-    private static int addSkillToCurrentItem(CommandSourceStack source, AbstractAbility ability, int choices) {
+    private static int addAbilityToCurrentItem(CommandSourceStack source, AbstractAbility ability, int choices) {
         try {
             ServerPlayer player = source.getPlayerOrException();
             ItemStack item = player.getInventory().getSelected();
