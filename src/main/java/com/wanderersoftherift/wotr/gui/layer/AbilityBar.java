@@ -69,7 +69,7 @@ public final class AbilityBar implements LayeredDraw.Layer {
             }
 
             if (cooldowns.isOnCooldown(slot) && cooldowns.getLastCooldownValue(slot) > 0) {
-                int overlayHeight = Math.clamp(((long)ICON_SIZE * cooldowns.getCooldownRemaining(slot) / cooldowns.getLastCooldownValue(slot)), 1, ICON_SIZE);
+                int overlayHeight = Math.clamp((int) (Math.ceil((float) ICON_SIZE * cooldowns.getCooldownRemaining(slot) / cooldowns.getLastCooldownValue(slot))), 1, ICON_SIZE);
                 graphics.blit(RenderType::guiTextured, COOLDOWN_OVERLAY, BAR_OFFSET_X + ABILITY_OFFSET_X, yOffset + slot * SLOT_HEIGHT + ICON_SIZE - overlayHeight, 0, 0, ICON_SIZE, overlayHeight, ICON_SIZE, ICON_SIZE);
             }
         }
@@ -99,9 +99,12 @@ public final class AbilityBar implements LayeredDraw.Layer {
 
     private Component getShortKeyDescription(KeyMapping keyMapping) {
         return switch (keyMapping.getKeyModifier()) {
-            case ALT -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "mod_alt")).append(getUnmodifiedKeyDescription(keyMapping));
-            case SHIFT -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "mod_shift")).append(getUnmodifiedKeyDescription(keyMapping));
-            case CONTROL -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "mod_ctrl")).append(getUnmodifiedKeyDescription(keyMapping));
+            case ALT ->
+                    Component.translatable(WanderersOfTheRift.translationId("keybinds", "mod_alt")).append(getUnmodifiedKeyDescription(keyMapping));
+            case SHIFT ->
+                    Component.translatable(WanderersOfTheRift.translationId("keybinds", "mod_shift")).append(getUnmodifiedKeyDescription(keyMapping));
+            case CONTROL ->
+                    Component.translatable(WanderersOfTheRift.translationId("keybinds", "mod_ctrl")).append(getUnmodifiedKeyDescription(keyMapping));
             case NONE -> getUnmodifiedKeyDescription(keyMapping);
         };
     }
@@ -112,10 +115,14 @@ public final class AbilityBar implements LayeredDraw.Layer {
         }
         if (keyMapping.getKey().getType() == InputConstants.Type.KEYSYM) {
             return switch (keyMapping.getKey().getValue()) {
-                case InputConstants.KEY_LALT -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "l_alt"));
-                case InputConstants.KEY_RALT -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "r_alt"));
-                case InputConstants.KEY_LCONTROL -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "l_ctrl"));
-                case InputConstants.KEY_RCONTROL -> Component.translatable(WanderersOfTheRift.translationId("keybinds", "r_ctrl"));
+                case InputConstants.KEY_LALT ->
+                        Component.translatable(WanderersOfTheRift.translationId("keybinds", "l_alt"));
+                case InputConstants.KEY_RALT ->
+                        Component.translatable(WanderersOfTheRift.translationId("keybinds", "r_alt"));
+                case InputConstants.KEY_LCONTROL ->
+                        Component.translatable(WanderersOfTheRift.translationId("keybinds", "l_ctrl"));
+                case InputConstants.KEY_RCONTROL ->
+                        Component.translatable(WanderersOfTheRift.translationId("keybinds", "r_ctrl"));
                 default -> keyMapping.getKey().getDisplayName();
             };
         }
