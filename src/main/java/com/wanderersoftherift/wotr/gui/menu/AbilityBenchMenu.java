@@ -12,6 +12,7 @@ import com.wanderersoftherift.wotr.init.ModMenuTypes;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -210,41 +211,61 @@ public class AbilityBenchMenu extends AbstractContainerMenu {
     }
 
     @Override
+    protected void clearContainer(@NotNull Player player, @NotNull Container container) {
+        if (player instanceof ServerPlayer) {
+            quickMoveStack(player, 0);
+        }
+        super.clearContainer(player, container);
+    }
+
+    @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         Slot slot = slots.get(index);
-        if (slot.hasItem()) {
-            ItemStack slotStack = slot.getItem();
-            ItemStack originalStack = slotStack.copy();
-            if (slot instanceof AbilitySlot) {
-                if (!this.moveItemStackTo(slotStack, INPUT_SLOTS, INPUT_SLOTS + PLAYER_SLOTS, true)) {
-                    return ItemStack.EMPTY;
-                }
-                slot.onQuickCraft(slotStack, originalStack);
-            } else if (slot instanceof SkillThreadSlot) {
-                if (!this.moveItemStackTo(slotStack, INPUT_SLOTS, INPUT_SLOTS + PLAYER_SLOTS, true)) {
-                    return ItemStack.EMPTY;
-                }
-                slot.onQuickCraft(slotStack, originalStack);
-            } else if (index < INPUT_SLOTS + PLAYER_SLOTS) {
-                if (!this.moveItemStackTo(slotStack, 0, INPUT_SLOTS, false)) {
-                    // Move from player inventory to hotbar
-                    if (index < INPUT_SLOTS + PLAYER_INVENTORY_SLOTS) {
-                        if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + PLAYER_INVENTORY_SLOTS, INPUT_SLOTS + PLAYER_SLOTS, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    }
-                    // Move from hotbar to player inventory
-                    else if (!this.moveItemStackTo(slotStack, INPUT_SLOTS, INPUT_SLOTS + PLAYER_INVENTORY_SLOTS, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
-            } else {
+        if (!slot.hasItem()) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack slotStack = slot.getItem();
+        ItemStack resultStack = slotStack.copy();
+        if (slot instanceof AbilitySlot) {
+            if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + PLAYER_SLOTS, INPUT_SLOTS + PLAYER_SLOTS + AbilitySlots.ABILITY_BAR_SIZE, false)) {
                 if (!this.moveItemStackTo(slotStack, INPUT_SLOTS, INPUT_SLOTS + PLAYER_SLOTS, true)) {
                     return ItemStack.EMPTY;
                 }
             }
+            slot.onQuickCraft(slotStack, resultStack);
+        } else if (slot instanceof SkillThreadSlot) {
+            if (!this.moveItemStackTo(slotStack, INPUT_SLOTS, INPUT_SLOTS + PLAYER_SLOTS, true)) {
+                return ItemStack.EMPTY;
+            }
+            slot.onQuickCraft(slotStack, resultStack);
+        } else if (index < INPUT_SLOTS + PLAYER_SLOTS) {
+            if (!this.moveItemStackTo(slotStack, 0, INPUT_SLOTS, false)
+                    && !this.moveItemStackTo(slotStack, INPUT_SLOTS + PLAYER_SLOTS, PLAYER_SLOTS + AbilitySlots.ABILITY_BAR_SIZE, true)) {
+                // Move from player inventory to hotbar
+                if (index < INPUT_SLOTS + PLAYER_INVENTORY_SLOTS) {
+                    if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + PLAYER_INVENTORY_SLOTS, INPUT_SLOTS + PLAYER_SLOTS, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+                // Move from hotbar to player inventory
+                else if (!this.moveItemStackTo(slotStack, INPUT_SLOTS, INPUT_SLOTS + PLAYER_INVENTORY_SLOTS, false)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+        } else {
+            if (!this.moveItemStackTo(slotStack, 0, INPUT_SLOTS, false)) {
+                if (!this.moveItemStackTo(slotStack, INPUT_SLOTS, PLAYER_SLOTS, true)) {
+                    return ItemStack.EMPTY;
+                }
+            }
         }
-        return ItemStack.EMPTY;
+        if (slotStack.isEmpty()) {
+            slot.set(ItemStack.EMPTY);
+        } else {
+            slot.setChanged();
+        }
+
+        return resultStack;
     }
 
     @Override

@@ -78,7 +78,7 @@ public class ModItems {
             ));
 
     public static final DeferredItem<Item> ABILITY_HOLDER = ITEMS.register("ability_holder",
-            registryName -> new AbilityHolder(new Item.Properties()
+            registryName -> new AbilityHolder(new Item.Properties().stacksTo(1)
                     .setId(ResourceKey.create(Registries.ITEM, WanderersOfTheRift.id("ability_holder")))
             ));
 
