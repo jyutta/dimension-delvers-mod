@@ -4,20 +4,18 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.attachment.AbilitySlots;
 import com.wanderersoftherift.wotr.abilities.attachment.AttachedEffectData;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
+import com.wanderersoftherift.wotr.network.AbilityCooldownUpdatePayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsContentPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsCooldownsPayload;
 import com.wanderersoftherift.wotr.network.AbilitySlotsUpdatePayload;
+import com.wanderersoftherift.wotr.network.AbilityToggleStatePayload;
 import com.wanderersoftherift.wotr.network.LevelUpAbilityPayload;
 import com.wanderersoftherift.wotr.network.ManaChangePayload;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
 import com.wanderersoftherift.wotr.network.SelectAbilityUpgradePayload;
 import com.wanderersoftherift.wotr.network.SetEffectMarkerPayload;
 import com.wanderersoftherift.wotr.network.UpdateEffectMarkersPayload;
-import com.wanderersoftherift.wotr.networking.abilities.ClientPayloadHandler;
-import com.wanderersoftherift.wotr.networking.abilities.ServerPayloadHandler;
-import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
-import com.wanderersoftherift.wotr.networking.data.ToggleState;
-import com.wanderersoftherift.wotr.networking.data.UseAbility;
+import com.wanderersoftherift.wotr.network.UseAbilityPayload;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -48,9 +46,9 @@ public class ModPayloadHandlers {
         registrar.playToClient(SetEffectMarkerPayload.TYPE, SetEffectMarkerPayload.STREAM_CODEC, SetEffectMarkerPayload::handleOnClient);
         registrar.playToClient(UpdateEffectMarkersPayload.TYPE, UpdateEffectMarkersPayload.STREAM_CODEC, UpdateEffectMarkersPayload::handleOnClient);
 
-        registrar.playToServer(UseAbility.TYPE, UseAbility.STREAM_CODEC, ServerPayloadHandler::handleAbilityOnServer);
-        registrar.playToClient(CooldownActivated.TYPE, CooldownActivated.STREAM_CODEC, ClientPayloadHandler::handleCooldownOnClient);
-        registrar.playToClient(ToggleState.TYPE, ToggleState.STREAM_CODEC, ClientPayloadHandler::handleToggleOnClient);
+        registrar.playToServer(UseAbilityPayload.TYPE, UseAbilityPayload.STREAM_CODEC, UseAbilityPayload::handleOnServer);
+        registrar.playToClient(AbilityCooldownUpdatePayload.TYPE, AbilityCooldownUpdatePayload.STREAM_CODEC, AbilityCooldownUpdatePayload::handleOnClient);
+        registrar.playToClient(AbilityToggleStatePayload.TYPE, AbilityToggleStatePayload.STREAM_CODEC, AbilityToggleStatePayload::handleOnClient);
         registrar.playToClient(ManaChangePayload.TYPE, ManaChangePayload.STREAM_CODEC, ManaChangePayload::handleOnClient);
     }
 

@@ -12,7 +12,7 @@ import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import com.wanderersoftherift.wotr.modifier.effect.AttributeModifierEffect;
-import com.wanderersoftherift.wotr.networking.data.CooldownActivated;
+import com.wanderersoftherift.wotr.network.AbilityCooldownUpdatePayload;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -107,7 +107,7 @@ public abstract class AbstractAbility {
             cooldowns.setCooldown(slot, (int) amount);
             player.setData(ModAttachments.ABILITY_COOLDOWNS, cooldowns);
 
-            PacketDistributor.sendToPlayer((ServerPlayer) player, new CooldownActivated(slot, (int) amount, (int) amount));
+            PacketDistributor.sendToPlayer((ServerPlayer) player, new AbilityCooldownUpdatePayload(slot, (int) amount, (int) amount));
         }
     }
 

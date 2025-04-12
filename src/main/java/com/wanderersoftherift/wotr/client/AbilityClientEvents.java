@@ -6,7 +6,7 @@ import com.wanderersoftherift.wotr.abilities.attachment.ManaData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
-import com.wanderersoftherift.wotr.networking.data.UseAbility;
+import com.wanderersoftherift.wotr.network.UseAbilityPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -35,7 +35,7 @@ public final class AbilityClientEvents {
         AbilitySlots abilitySlots = Minecraft.getInstance().player.getData(ModAttachments.ABILITY_SLOTS);
         for (int i = 0; i < ModKeybinds.ABILITY_SLOT_KEYS.size(); i++) {
             while (ABILITY_SLOT_KEYS.get(i).consumeClick()) {
-                PacketDistributor.sendToServer(new UseAbility(i));
+                PacketDistributor.sendToServer(new UseAbilityPayload(i));
                 abilitySlots.setSelectedSlot(i);
             }
         }
@@ -50,7 +50,7 @@ public final class AbilityClientEvents {
             selectionUpdated = true;
         }
         while (USE_ABILITY_KEY.consumeClick()) {
-            PacketDistributor.sendToServer(new UseAbility(abilitySlots.getSelectedSlot()));
+            PacketDistributor.sendToServer(new UseAbilityPayload(abilitySlots.getSelectedSlot()));
             selectionUpdated = false; // Because using a slot selected the slot
         }
         if (selectionUpdated) {

@@ -68,7 +68,7 @@ public class PlayerCooldownData {
 
     public void reduceCooldowns()
     {
-        currentCooldowns.replaceAll(x -> x > 0 ? x - 1 : 0);
+        currentCooldowns.replaceAll(ticksRemaining -> ticksRemaining > 0 ? ticksRemaining - 1 : 0);
     }
 
     public int slots() {
