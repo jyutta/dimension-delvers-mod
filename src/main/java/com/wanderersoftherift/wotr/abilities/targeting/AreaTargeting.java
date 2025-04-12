@@ -19,18 +19,15 @@ import java.util.List;
 public class AreaTargeting extends AbstractTargeting {
     private float range = 0;
     private boolean includeSelf = true;
-    private final TargetPredicate targetPredicate;
 
-    public static final MapCodec<AreaTargeting> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(
-                    TargetPredicate.CODEC.optionalFieldOf("target", new TargetPredicate()).forGetter(AreaTargeting::getTargetPredicate),
-                    Codec.FLOAT.fieldOf("range").forGetter(AreaTargeting::getRange),
-                    Codec.BOOL.optionalFieldOf("include_self", true).forGetter(AreaTargeting::getIncludeSelf)
-            ).apply(instance, AreaTargeting::new)
+    public static final MapCodec<AreaTargeting> CODEC = RecordCodecBuilder.mapCodec(instance -> commonFields(instance)
+            .and(Codec.FLOAT.fieldOf("range").forGetter(AreaTargeting::getRange))
+            .and(Codec.BOOL.optionalFieldOf("include_self", true).forGetter(AreaTargeting::getIncludeSelf))
+            .apply(instance, AreaTargeting::new)
     );
 
     public AreaTargeting(TargetPredicate predicate, float range, boolean includeSelf) {
-        this.targetPredicate = predicate;
+        super(predicate);
         this.range = range;
         this.includeSelf = includeSelf;
     }
@@ -44,10 +41,6 @@ public class AreaTargeting extends AbstractTargeting {
     }
 
     public boolean getIncludeSelf() { return includeSelf; }
-
-    public TargetPredicate getTargetPredicate() {
-        return targetPredicate;
-    }
 
     @Override
     public MapCodec<? extends AbstractTargeting> getCodec() {

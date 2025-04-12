@@ -1,9 +1,12 @@
 package com.wanderersoftherift.wotr.abilities.targeting;
 
+import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.abilities.AbilityContext;
+import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +18,12 @@ import java.util.function.Function;
 public abstract class AbstractTargeting {
     public abstract MapCodec<? extends AbstractTargeting> getCodec();
     public static final Codec<AbstractTargeting> DIRECT_CODEC = AbilityRegistry.EFFECT_TARGETING_REGISTRY.byNameCodec().dispatch(AbstractTargeting::getCodec, Function.identity());
+
+    private final TargetPredicate targetPredicate;
+
+    public AbstractTargeting(TargetPredicate targetPredicate) {
+        this.targetPredicate = targetPredicate;
+    }
 
     /**
      * @param currentEntity This is the entity which is using the effect, this can be any entity down a chain based on the effect list, this determines the location around where the effect is targeting
@@ -52,5 +61,15 @@ public abstract class AbstractTargeting {
 
     public boolean isRelevant(AbstractModifierEffect modifierEffect) {
         return false;
+    }
+
+    public TargetPredicate getTargetPredicate() {
+        return targetPredicate;
+    }
+
+    protected static <T extends AbstractTargeting> Products.P1<RecordCodecBuilder.Mu<T>, TargetPredicate> commonFields(RecordCodecBuilder.Instance<T> instance) {
+        return instance.group(
+                TargetPredicate.CODEC.optionalFieldOf("target", new TargetPredicate()).forGetter(AbstractTargeting::getTargetPredicate)
+        );
     }
 }
