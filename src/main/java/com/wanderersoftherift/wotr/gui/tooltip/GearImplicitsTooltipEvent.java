@@ -3,7 +3,6 @@ package com.wanderersoftherift.wotr.gui.tooltip;
 
 import com.mojang.datafixers.util.Either;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.client.tooltip.ImageTooltipRenderer;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.item.implicit.GearImplicits;
 import com.wanderersoftherift.wotr.modifier.ModifierInstance;
@@ -11,7 +10,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -35,21 +33,17 @@ public class GearImplicitsTooltipEvent {
         if (implicits == null) return;
         List<ModifierInstance> modifierInstances = implicits.modifierInstances(stack, Minecraft.getInstance().level);
 
+        list.add(1, Either.left(Component.translatable("tooltip."+ WanderersOfTheRift.MODID +".implicit").withStyle(ChatFormatting.GRAY)));
+
         List<TooltipComponent> toAdd = new ArrayList<>();
-
         for (ModifierInstance modifierInstance : modifierInstances) {
-
-                float roll = modifierInstance.roll();
-                float roundedValue = (float) (Math.ceil(roll * 100) / 100);
-
-                // TODO: Hardcoded currently, need to see how the modifier stuff develops further
-                MutableComponent cmp = Component.literal("+" + roundedValue + " " + modifierInstance.modifier().getRegisteredName()).withStyle(ChatFormatting.AQUA);
-                toAdd.addLast(new ImageTooltipRenderer.ImageComponent(stack, cmp, WanderersOfTheRift.id("textures/tooltip/attribute/damage_attribute.png")));
+            List<TooltipComponent> tooltipComponents = modifierInstance.getTooltipComponent(stack, ChatFormatting.AQUA);
+            toAdd.addAll(tooltipComponents);
         }
 
 
         for (int i = 0; i < toAdd.size(); i++) {
-            list.add(i + 1, Either.right(toAdd.get(i)));
+            list.add(i + 2, Either.right(toAdd.get(i)));
         }
     }
 }

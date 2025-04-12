@@ -11,6 +11,7 @@ import com.wanderersoftherift.wotr.client.render.blockentity.JigsawBlockEntityRe
 import com.wanderersoftherift.wotr.client.render.entity.RiftEntranceRenderer;
 import com.wanderersoftherift.wotr.client.render.item.properties.select.SelectRuneGemShape;
 import com.wanderersoftherift.wotr.client.tooltip.GearSocketTooltipRenderer;
+import com.wanderersoftherift.wotr.client.tooltip.ImageComponent;
 import com.wanderersoftherift.wotr.client.tooltip.ImageTooltipRenderer;
 import com.wanderersoftherift.wotr.gui.layer.objective.ObjectiveLayer;
 import com.wanderersoftherift.wotr.gui.screen.KeyForgeScreen;
@@ -93,7 +94,7 @@ public final class ClientRegistryEvents {
 
     @SubscribeEvent
     public static void registerClientTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event) {
-        event.register(ImageTooltipRenderer.ImageComponent.class, ImageTooltipRenderer::new);
+        event.register(ImageComponent.class, ImageTooltipRenderer::new);
         event.register(GearSocketTooltipRenderer.GearSocketComponent.class, GearSocketTooltipRenderer::new);
     }
 
