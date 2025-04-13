@@ -19,4 +19,5 @@ public class ModProcessors {
     public static final Supplier<StructureProcessorType<VineProcessor>> VINES = PROCESSORS.register("vines", () -> () -> VineProcessor.CODEC);
     public static final Supplier<StructureProcessorType<MushroomProcessor>> MUSHROOMS = PROCESSORS.register("mushrooms", () -> () -> MushroomProcessor.CODEC);
     public static final Supplier<StructureProcessorType<RiftChestProcessor>> RIFT_CHESTS = PROCESSORS.register("rift_chests", () -> () -> RiftChestProcessor.CODEC);
+    public static final Supplier<StructureProcessorType<TrialSpawnerProcessor>> TRIAL_SPAWNER = PROCESSORS.register("trial_spawner", () -> () -> TrialSpawnerProcessor.CODEC);
 }
