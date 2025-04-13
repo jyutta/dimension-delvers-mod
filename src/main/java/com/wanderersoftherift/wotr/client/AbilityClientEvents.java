@@ -1,12 +1,12 @@
 package com.wanderersoftherift.wotr.client;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.attachment.AbilitySlots;
 import com.wanderersoftherift.wotr.abilities.attachment.ManaData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
 import com.wanderersoftherift.wotr.network.SelectAbilitySlotPayload;
-import com.wanderersoftherift.wotr.network.UseAbilityPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -32,11 +32,15 @@ public final class AbilityClientEvents {
             return;
         }
 
-        AbilitySlots abilitySlots = Minecraft.getInstance().player.getData(ModAttachments.ABILITY_SLOTS);
+        Player player = Minecraft.getInstance().player;
+        AbilitySlots abilitySlots = player.getData(ModAttachments.ABILITY_SLOTS);
         for (int i = 0; i < ModKeybinds.ABILITY_SLOT_KEYS.size(); i++) {
             while (ABILITY_SLOT_KEYS.get(i).consumeClick()) {
-                PacketDistributor.sendToServer(new UseAbilityPayload(i));
-                abilitySlots.setSelectedSlot(i);
+                AbstractAbility ability = abilitySlots.getAbilityInSlot(i);
+                if (ability != null) {
+                    ability.onActivate(player, i, abilitySlots.getStackInSlot(i));
+                    abilitySlots.setSelectedSlot(i);
+                }
             }
         }
 
@@ -50,7 +54,11 @@ public final class AbilityClientEvents {
             selectionUpdated = true;
         }
         while (USE_ABILITY_KEY.consumeClick()) {
-            PacketDistributor.sendToServer(new UseAbilityPayload(abilitySlots.getSelectedSlot()));
+            int slot = abilitySlots.getSelectedSlot();
+            AbstractAbility ability = abilitySlots.getAbilityInSlot(slot);
+            if (ability != null) {
+                ability.onActivate(player, slot, abilitySlots.getStackInSlot(slot));
+            }
             selectionUpdated = false; // Because using a slot selected the slot
         }
         if (selectionUpdated) {

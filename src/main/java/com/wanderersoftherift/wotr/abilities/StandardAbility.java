@@ -7,11 +7,13 @@ import com.wanderersoftherift.wotr.abilities.attachment.ManaData;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
+import com.wanderersoftherift.wotr.network.UseAbilityPayload;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +46,7 @@ public class StandardAbility extends AbstractAbility {
     @Override
     public void onActivate(Player player, int slot, ItemStack abilityItem) {
         if (!this.canPlayerUse(player)) {
-            ((ServerPlayer) player).sendSystemMessage(Component.literal("You cannot use this"));
+            player.displayClientMessage(Component.literal("You cannot use this"), true);
             return;
         }
         if (this.isOnCooldown(player, slot)) {
@@ -54,16 +56,19 @@ public class StandardAbility extends AbstractAbility {
         abilityContext.enableModifiers();
         try {
             int manaCost = (int) abilityContext.getAbilityAttribute(ModAttributes.MANA_COST, getBaseManaCost());
+            ManaData manaData = player.getData(ModAttachments.MANA);
             if (manaCost > 0) {
-                ManaData manaData = player.getData(ModAttachments.MANA);
                 if (manaData.getAmount() < manaCost) {
                     return;
                 }
-                manaData.useAmount(player, manaCost);
             }
-
-            this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), abilityContext));
-            this.setCooldown(player, slot, abilityContext.getAbilityAttribute(ModAttributes.COOLDOWN, baseCooldown));
+            if (player instanceof ServerPlayer) {
+                manaData.useAmount(player, manaCost);
+                this.getEffects().forEach(effect -> effect.apply(player, new ArrayList<>(), abilityContext));
+                this.setCooldown(player, slot, abilityContext.getAbilityAttribute(ModAttributes.COOLDOWN, baseCooldown));
+            } else {
+                PacketDistributor.sendToServer(new UseAbilityPayload(slot));
+            }
         } finally {
             abilityContext.disableModifiers();
         }

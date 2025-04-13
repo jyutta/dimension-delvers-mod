@@ -40,7 +40,7 @@
               "targeting": {
                 "type": "wotr:self_targeting",
                 "target": {
-                  "sentiment": "foe"
+                  "sentiment": "not_friend"
                 }
               },
               "amount": 10,
