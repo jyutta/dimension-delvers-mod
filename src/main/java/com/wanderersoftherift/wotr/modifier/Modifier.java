@@ -4,13 +4,17 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import com.wanderersoftherift.wotr.modifier.source.ModifierSource;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.wanderersoftherift.wotr.init.ModModifiers.MODIFIER_KEY;
@@ -51,4 +55,11 @@ public class Modifier {
         }
     }
 
+    public List<TooltipComponent> getTooltipComponent(ItemStack stack, float roll, ModifierInstance instance, ChatFormatting chatFormatting) {
+        List<TooltipComponent> tooltipComponents = new ArrayList<>();
+        for (AbstractModifierEffect effect : modifierEffects) {
+            tooltipComponents.add(effect.getTooltipComponent(stack, roll, chatFormatting));
+        }
+        return tooltipComponents;
+    }
 }
