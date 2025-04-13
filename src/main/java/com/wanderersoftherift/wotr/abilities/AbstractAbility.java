@@ -15,6 +15,7 @@ import com.wanderersoftherift.wotr.modifier.effect.AttributeModifierEffect;
 import com.wanderersoftherift.wotr.network.AbilityCooldownUpdatePayload;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -42,6 +43,7 @@ public abstract class AbstractAbility {
     private ResourceLocation icon = ResourceLocation.withDefaultNamespace("textures/misc/forcefield.png");
     protected float baseCooldown = 0;
     private int baseManaCost;
+    private Component displayName;
 
     public Holder<Attribute> durationAttribute = null;
     private boolean isToggle = false;
@@ -50,6 +52,7 @@ public abstract class AbstractAbility {
         this.name = abilityName;
         this.effects = effects;
         this.icon = icon;
+        this.displayName = Component.translatable("ability." + getName().getNamespace() + "." + getName().getPath());
     }
 
     public void setIcon(ResourceLocation location) {
@@ -85,8 +88,8 @@ public abstract class AbstractAbility {
         return name;
     }
 
-    public String getTranslationString() {
-        return "ability." + getName().getNamespace() + "." + getName().getPath();
+    public Component getDisplayName() {
+        return displayName;
     }
 
     /*

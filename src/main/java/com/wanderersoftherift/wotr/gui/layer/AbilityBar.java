@@ -7,6 +7,7 @@ import com.wanderersoftherift.wotr.abilities.attachment.AbilitySlots;
 import com.wanderersoftherift.wotr.abilities.attachment.PlayerCooldownData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
+import com.wanderersoftherift.wotr.util.GuiUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
@@ -19,6 +20,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector2i;
+
+import java.util.List;
 
 import static com.wanderersoftherift.wotr.init.ModAttachments.ABILITY_COOLDOWNS;
 
@@ -45,7 +49,8 @@ public final class AbilityBar implements LayeredDraw.Layer {
 
     @Override
     public void render(@NotNull GuiGraphics graphics, @NotNull DeltaTracker deltaTracker) {
-        if (Minecraft.getInstance().options.hideGui) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.options.hideGui) {
             return;
         }
         LocalPlayer player = Minecraft.getInstance().player;
@@ -58,6 +63,31 @@ public final class AbilityBar implements LayeredDraw.Layer {
         renderBackground(graphics, abilitySlots);
         renderAbilities(graphics, abilitySlots, cooldowns);
         renderAbilityKeyBinds(graphics);
+
+        if (!minecraft.mouseHandler.isMouseGrabbed()) {
+            Vector2i mouseScreenPos = GuiUtil.getMouseScreenPosition();
+            renderTooltips(graphics, deltaTracker, abilitySlots, mouseScreenPos.x, mouseScreenPos.y);
+        }
+    }
+
+    private void renderTooltips(@NotNull GuiGraphics graphics, @NotNull DeltaTracker deltaTracker, AbilitySlots abilitySlots, int x, int y) {
+        if (x < BAR_OFFSET_X + ABILITY_OFFSET_X || x >= BAR_OFFSET_X + ABILITY_OFFSET_X + ICON_SIZE) {
+            return;
+        }
+        int yOffset = BAR_OFFSET_Y + ABILITY_START_OFFSET_Y;
+
+        int slot = (y - yOffset) / SLOT_HEIGHT;
+        if (slot >= abilitySlots.getSlots()) {
+            return;
+        }
+        if (y - yOffset - slot * SLOT_HEIGHT >= ICON_SIZE) {
+            return;
+        }
+        AbstractAbility ability = abilitySlots.getAbilityInSlot(slot);
+        if (ability == null) {
+            return;
+        }
+        graphics.renderComponentTooltip(Minecraft.getInstance().font, List.of(ability.getDisplayName()), x, y + 8);
     }
 
     private void renderAbilities(GuiGraphics graphics, AbilitySlots abilitySlots, PlayerCooldownData cooldowns) {

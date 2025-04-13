@@ -105,6 +105,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ability." + WanderersOfTheRift.MODID + ".heal", "Heal");
         add("ability." + WanderersOfTheRift.MODID + ".firetouch", "Nonsense Experimental Ability");
 
+        add(WanderersOfTheRift.translationId("effect_marker", "fireshield"), "Fire Shield");
+
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.title", "Dimension Delvers: Accessibility Settings");
         add("accessibility." + WanderersOfTheRift.MODID + ".menubutton", "DimDelvers Accessibility (tmp)");
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.trypophobia", "Trypophobia");
@@ -129,6 +131,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_value", "Essence: %s %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_header", "Essence:");
         add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
+        add(WanderersOfTheRift.translationId("tooltip", "mana_bar"), "Mana: %s/%s");
 
         add("subtitles." + WanderersOfTheRift.MODID + ".rift_open", "Rift Opens");
 

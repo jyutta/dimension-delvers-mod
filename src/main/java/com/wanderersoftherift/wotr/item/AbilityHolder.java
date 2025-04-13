@@ -19,7 +19,7 @@ public class AbilityHolder extends Item {
     public Component getName(ItemStack stack) {
         Holder<AbstractAbility> abilityHolder = stack.get(ModDataComponentType.ABILITY);
         if (abilityHolder != null) {
-            return Component.translatable(abilityHolder.value().getTranslationString());
+            return abilityHolder.value().getDisplayName();
         }
         return super.getName(stack);
     }

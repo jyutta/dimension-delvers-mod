@@ -4,15 +4,21 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.attachment.ManaData;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
+import com.wanderersoftherift.wotr.util.GuiUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
+import org.joml.Vector2i;
+
+import java.util.List;
 
 /**
  * Displays the player's mana. The bar extends based on max capacity, has an animation to its fill
@@ -40,11 +46,12 @@ public class ManaBar implements LayeredDraw.Layer {
     private float animCounter = 0.f;
 
     @Override
-    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        if (Minecraft.getInstance().options.hideGui) {
+    public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.options.hideGui) {
             return;
         }
-        LocalPlayer player = Minecraft.getInstance().player;
+        LocalPlayer player = minecraft.player;
         int maxMana = (int) player.getAttributeValue(ModAttributes.MAX_MANA);
         if (maxMana == 0) {
             return;
@@ -58,10 +65,21 @@ public class ManaBar implements LayeredDraw.Layer {
 
         ManaData mana = player.getData(ModAttachments.MANA);
 
-        renderBar(guiGraphics, mana.getAmount(), maxMana, frame);
+        int height = renderBar(guiGraphics, mana.getAmount(), maxMana, frame);
+        if (!minecraft.mouseHandler.isMouseGrabbed()) {
+            Vector2i mousePos = GuiUtil.getMouseScreenPosition();
+            renderTooltips(guiGraphics, mana.getAmount(), maxMana, height, mousePos.x, mousePos.y);
+        }
     }
 
-    private void renderBar(GuiGraphics graphics, int amount, int maxMana, int frame) {
+    private void renderTooltips(@NotNull GuiGraphics graphics, int amount, int maxMana, int barHeight, int x, int y) {
+        if (x < BAR_OFFSET_X || x >= BAR_OFFSET_X + BAR_WIDTH || y < BAR_OFFSET_Y || y >= BAR_OFFSET_Y + barHeight) {
+            return;
+        }
+        graphics.renderComponentTooltip(Minecraft.getInstance().font, List.of(Component.translatable(WanderersOfTheRift.translationId("tooltip", "mana_bar"), amount, maxMana)), x, y + 8);
+    }
+
+    private int renderBar(GuiGraphics graphics, int amount, int maxMana, int frame) {
         float rawSectionCount = (float) maxMana / MANA_PER_SECTION;
         int sectionCount = (int) rawSectionCount;
 
@@ -83,6 +101,7 @@ public class ManaBar implements LayeredDraw.Layer {
             yOffset += renderSection(graphics, frame, (sectionCount - 1 - i) % FILL_VARIANTS, yOffset , fill);
         }
         graphics.blit(RenderType::guiTextured, TEXTURE, BAR_OFFSET_X, yOffset, 0, TEXTURE_HEIGHT - BOTTOM_HEIGHT, BAR_WIDTH, BOTTOM_HEIGHT, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+        return yOffset - BAR_OFFSET_Y;
     }
 
     private int renderSection(GuiGraphics graphics, int frame, int variant, int yOffset, int fill) {

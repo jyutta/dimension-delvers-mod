@@ -241,6 +241,7 @@
   "container.wotr.rift_chest": "Rift Chest",
   "container.wotr.rune_anvil": "Rune Anvil",
   "container.wotr.rune_anvil.apply": "Apply",
+  "effect_marker.wotr.fireshield": "Fire Shield",
   "entity.wotr.rift_entrance": "Rift Entrance",
   "essence_type.wotr.earth": "Earth",
   "essence_type.wotr.life": "Life",
@@ -278,6 +279,7 @@
   "subtitles.wotr.rift_open": "Rift Opens",
   "tooltip.wotr.essence_header": "Essence:",
   "tooltip.wotr.essence_value": "Essence: %s %s",
+  "tooltip.wotr.mana_bar": "Mana: %s/%s",
   "tooltip.wotr.rift_key_tier": "Rift Tier: %s",
   "tooltip.wotr.socket": "Sockets: "
 }
