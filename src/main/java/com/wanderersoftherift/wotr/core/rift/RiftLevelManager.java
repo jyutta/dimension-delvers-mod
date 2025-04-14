@@ -2,8 +2,8 @@ package com.wanderersoftherift.wotr.core.rift;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.entity.portal.RiftPortalExitEntity;
-import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModEntities;
+import com.wanderersoftherift.wotr.item.riftkey.RiftConfig;
 import com.wanderersoftherift.wotr.mixin.AccessorMappedRegistry;
 import com.wanderersoftherift.wotr.mixin.AccessorMinecraftServer;
 import com.wanderersoftherift.wotr.network.S2CLevelListUpdatePacket;
@@ -22,7 +22,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.RandomSequences;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.FixedBiomeSource;
@@ -59,7 +58,7 @@ public class RiftLevelManager {
     // TODO: unload the dimesnions if all plauers are disconnected, but still in the dimension
     @SuppressWarnings("deprecation")
     public static ServerLevel getOrCreateRiftLevel(ResourceLocation id, ResourceKey<Level> portalDimension,
-            BlockPos portalPos, @Nullable ItemStack riftKey) {
+            BlockPos portalPos, @Nullable RiftConfig config) {
         var server = ServerLifecycleHooks.getCurrentServer();
         var ow = server.overworld();
 
@@ -84,7 +83,7 @@ public class RiftLevelManager {
             return null;
         }
 
-        ServerLevel level = createRift(id, stem, portalDimension, portalPos, riftKey);
+        ServerLevel level = createRift(id, stem, portalDimension, portalPos, config);
 
         Registry<Level> registry = dimensionRegistry.get();
         if (registry instanceof MappedRegistry<Level> mappedRegistry) {
@@ -99,18 +98,18 @@ public class RiftLevelManager {
         level.getServer().markWorldsDirty();
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(level));
         PacketDistributor.sendToAllPlayers(new S2CLevelListUpdatePacket(id, false));
-        spawnRiftExit(id, riftKey, level, new BlockPos(0, 0, 0).above().getBottomCenter(), Direction.UP);
+        spawnRiftExit(level, new BlockPos(0, 0, 0).above().getBottomCenter());
         WanderersOfTheRift.LOGGER.debug("Created rift level {}", id);
         return level;
     }
 
     /** copy of {@link com.wanderersoftherift.wotr.item.riftkey.RiftKey::spawnRift(Level, Vec3, Direction)} */
     // TODO: clean it up (maybe move as static method to the entity or the spawner class)
-    private static void spawnRiftExit(ResourceLocation id, ItemStack riftKey, Level level, Vec3 pos, Direction dir) {
+    private static void spawnRiftExit(Level level, Vec3 pos) {
         RiftPortalExitEntity rift = new RiftPortalExitEntity(ModEntities.RIFT_EXIT.get(), level);
         rift.setPos(pos);
-        rift.setYRot(dir.toYRot());
-        rift.setBillboard(dir.getAxis().isVertical());
+        rift.setYRot(Direction.UP.toYRot());
+        rift.setBillboard(true);
         level.addFreshEntity(rift);
     }
 
@@ -210,7 +209,7 @@ public class RiftLevelManager {
     }
 
     private static ServerLevel createRift(ResourceLocation id, LevelStem stem, ResourceKey<Level> portalDimension,
-            BlockPos portalPos, @Nullable ItemStack riftKey) {
+            BlockPos portalPos, @Nullable RiftConfig config) {
         AccessorMinecraftServer server = (AccessorMinecraftServer) ServerLifecycleHooks.getCurrentServer();
         var chunkProgressListener = server.getProgressListenerFactory().create(0);
         var storageSource = server.getStorageSource();
@@ -225,12 +224,11 @@ public class RiftLevelManager {
             portalPos = ServerLifecycleHooks.getCurrentServer().overworld().getSharedSpawnPos();
         }
 
-        int seed = new Random().nextInt();
-        if (riftKey != null) {
-            Integer keySeed = riftKey.get(ModDataComponentType.RIFT_SEED);
-            if (keySeed != null) {
-                seed = keySeed;
-            }
+        int seed;
+        if (config != null && config.seed().isPresent()) {
+            seed = config.seed().get();
+        } else {
+            seed = new Random().nextInt();
         }
 
         var riftLevel = new ServerLevel(ServerLifecycleHooks.getCurrentServer(), executor, storageSource,
@@ -242,19 +240,14 @@ public class RiftLevelManager {
         riftData.setPortalPos(portalPos);
         var themeData = LevelRiftThemeData.getFromLevel(riftLevel);
 
-        Holder<RiftTheme> riftTheme = null;
-        int maxDepth = RiftLevelManager.getRiftSize(null);
-        if (riftKey != null) {
-            ResourceLocation theme = riftKey.get(ModDataComponentType.RIFT_THEME);
-            if (theme != null) {
-                riftTheme = LevelRiftThemeData.fromId(theme, riftLevel);
-            }
-            Integer tier = riftKey.getOrDefault(ModDataComponentType.RIFT_TIER, 0);
-            riftData.setTier(tier);
-            maxDepth = RiftLevelManager.getRiftSize(tier);
-        }
-        if (riftTheme == null) {
+        Holder<RiftTheme> riftTheme;
+        int maxDepth;
+        if (config != null) {
+            riftTheme = config.theme();
+            maxDepth = getRiftSize(config.tier());
+        } else {
             riftTheme = LevelRiftThemeData.getRandomTheme(riftLevel);
+            maxDepth = getRiftSize(0);
         }
         themeData.setTheme(riftTheme);
 
@@ -276,10 +269,7 @@ public class RiftLevelManager {
         JigsawPlacement.generateJigsaw(level, templatePool, target, maxDepth, pos, false);
     }
 
-    private static int getRiftSize(Integer tier) {
-        if (tier == null) {
-            return 5;
-        }
+    private static int getRiftSize(int tier) {
         return switch (tier) {
             case 0, 1 -> 5; // no chaos
             case 2 -> 7;

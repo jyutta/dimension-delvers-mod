@@ -3,6 +3,7 @@ package com.wanderersoftherift.wotr.entity.portal;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.core.rift.RiftData;
 import com.wanderersoftherift.wotr.core.rift.RiftLevelManager;
+import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -81,7 +82,7 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
         var axisDir = plDir.getAxisDirection().getStep();
 
         ServerLevel lvl = RiftLevelManager.getOrCreateRiftLevel(riftId, level.dimension(),
-                pos.relative(axis, 3 * axisDir), riftKey);
+                pos.relative(axis, 3 * axisDir), riftKey.get(ModDataComponentType.RIFT_CONFIG));
         if (lvl == null) {
             player.displayClientMessage(Component.translatable(WanderersOfTheRift.MODID + ".rift.create.failed"), true);
             return;
@@ -133,7 +134,7 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
     }
 
     public void setRiftkey(ItemStack key) {
-        this.entityData.set(DATA_RIFTKEY, key);
+        this.entityData.set(DATA_RIFTKEY, key.copy());
     }
 
     public ItemStack getRiftKey() {
