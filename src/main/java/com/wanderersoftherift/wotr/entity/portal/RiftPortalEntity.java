@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.wanderersoftherift.wotr.core.rift.RiftLevelManager.isRiftExists;
 
@@ -38,6 +39,7 @@ public class RiftPortalEntity extends Entity {
     private static final EntityDataAccessor<ItemStack> DATA_RIFTKEY = SynchedEntityData.defineId(RiftPortalEntity.class, EntityDataSerializers.ITEM_STACK);
 
     private boolean generated = false;
+    private ResourceLocation riftDimensionID = WanderersOfTheRift.id("rift_" + UUID.randomUUID().toString());
 
     public RiftPortalEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -47,6 +49,14 @@ public class RiftPortalEntity extends Entity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(DATA_BILLBOARD, true).define(DATA_RIFTKEY, ItemStack.EMPTY);
+    }
+
+    public ResourceLocation getRiftDimensionID() {
+        return riftDimensionID;
+    }
+
+    public void setRiftDimensionID(ResourceLocation riftDimensionID) {
+        this.riftDimensionID = riftDimensionID;
     }
 
     public boolean isGenerated() {
@@ -71,8 +81,7 @@ public class RiftPortalEntity extends Entity {
                 }
             }
             if(!RiftData.isRift(serverLevel) && generated){
-                ResourceLocation riftId = WanderersOfTheRift.id("rift_" + blockPosition().getX() + "_" + blockPosition().getY() + "_" + blockPosition().getZ());
-                if(!isRiftExists(riftId)){
+                if(!isRiftExists(getRiftDimensionID())){
                     this.remove(RemovalReason.DISCARDED);
                 }
             }
@@ -82,7 +91,7 @@ public class RiftPortalEntity extends Entity {
 
     private static InteractionResult tpToRift(ServerPlayer player, ServerLevel level, BlockPos pos, ItemStack riftKey, RiftPortalEntity homePortalEntity) {
         //TODO: Use better ID: UUID or take home dimension in.
-        ResourceLocation riftId = WanderersOfTheRift.id("rift_" + pos.getX() + "_" + pos.getY() + "_" + pos.getZ());
+        ResourceLocation riftId = homePortalEntity.getRiftDimensionID();
         var plDir = player.getDirection().getOpposite();
         var axis = plDir.getAxis();
         var axisDir = plDir.getAxisDirection().getStep();
@@ -146,6 +155,9 @@ public class RiftPortalEntity extends Entity {
         if (tag.contains("riftKey")) {
             setRiftkey(ItemStack.parseOptional(this.level().registryAccess(), tag.getCompound("riftKey")));
         }
+        if (tag.contains("riftDimensionID")) {
+            setRiftDimensionID(ResourceLocation.parse(tag.getString("riftDimensionID")));
+        }
         if(tag.contains("generated")){
             generated = tag.getBoolean("generated");
         }
@@ -155,6 +167,7 @@ public class RiftPortalEntity extends Entity {
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putBoolean(BILLBOARD, isBillboard());
         tag.put("riftKey", getRiftKey().save(this.level().registryAccess(), new CompoundTag()));
+        tag.putString("riftDimensionID", getRiftDimensionID().toString());
         tag.putBoolean("generated", generated);
     }
 
