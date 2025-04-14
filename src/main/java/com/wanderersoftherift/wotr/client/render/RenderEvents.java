@@ -108,8 +108,4 @@ public class RenderEvents {
         }
     }
 
-    @SubscribeEvent
-    private static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlockEntities.DITTO_BLOCK_ENTITY.get(), DittoBlockEntityRenderer::new);
-    }
 }
