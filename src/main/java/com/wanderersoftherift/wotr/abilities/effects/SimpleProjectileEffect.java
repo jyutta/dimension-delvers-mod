@@ -49,20 +49,29 @@ public class SimpleProjectileEffect extends AbstractEffect {
     @Override
     public void apply(Entity source, List<BlockPos> blocks, AbilityContext context) {
         List<BlockPos> targets = getTargeting().getBlocks(source);
-        applyParticlesToUser(source);
-        if (!targets.isEmpty()) {
-            EntityType<?> type = ModEntities.SIMPLE_EFFECT_PROJECTILE.get();
-            int numberOfProjectiles = getNumberOfProjectiles(context);
+        List<Entity> target_entities = getTargeting().getTargets(source, blocks, context);
 
-            float spread = getSpread(context);
-            float f1 = numberOfProjectiles == 1 ? 0.0F : 2.0F * spread / (float) (numberOfProjectiles - 1);
-            float f2 = (float) ((numberOfProjectiles - 1) % 2) * f1 / 2.0F;
-            float f3 = 1.0F;
-            for (int i = 0; i < numberOfProjectiles; i++) {
-                float angle = f2 + f3 * (float)((i + 1) / 2) * f1;
-                f3 = -f3;
-                spawnProjectile(source, type, angle, context);
+        applyParticlesToUser(source);
+        if (!target_entities.isEmpty()) {
+
+            //NOTE: Making a change here based on what I originally envisioned "target" to be used for, and pulling it inline with the other effects
+            //Target to me has always been more of a frame of reference for the effect not what the effect actually "targets" but we can change this later if we want to make the change towards it being the actual target.
+            for(Entity target: target_entities)
+            {
+                EntityType<?> type = ModEntities.SIMPLE_EFFECT_PROJECTILE.get();
+                int numberOfProjectiles = getNumberOfProjectiles(context);
+
+                float spread = getSpread(context);
+                float f1 = numberOfProjectiles == 1 ? 0.0F : 2.0F * spread / (float) (numberOfProjectiles - 1);
+                float f2 = (float) ((numberOfProjectiles - 1) % 2) * f1 / 2.0F;
+                float f3 = 1.0F;
+                for (int i = 0; i < numberOfProjectiles; i++) {
+                    float angle = f2 + f3 * (float)((i + 1) / 2) * f1;
+                    f3 = -f3;
+                    spawnProjectile(target, type, angle, context);
+                }
             }
+
         }
     }
 
