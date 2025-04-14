@@ -143,9 +143,9 @@ public class RiftPortalEntity extends Entity {
         if (tag.contains(BILLBOARD)) {
             setBillboard(tag.getBoolean(BILLBOARD));
         }
-//        if (tag.contains("riftKey")) {
-//            setRiftkey(ItemStack.of(tag.getCompound("riftKey")));
-//        }
+        if (tag.contains("riftKey")) {
+            setRiftkey(ItemStack.parseOptional(this.level().registryAccess(), tag.getCompound("riftKey")));
+        }
         if(tag.contains("generated")){
             generated = tag.getBoolean("generated");
         }
@@ -154,7 +154,7 @@ public class RiftPortalEntity extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putBoolean(BILLBOARD, isBillboard());
-        //tag.put("riftKey", getRiftKey().save(new CompoundTag()));
+        tag.put("riftKey", getRiftKey().save(this.level().registryAccess(), new CompoundTag()));
         tag.putBoolean("generated", generated);
     }
 
