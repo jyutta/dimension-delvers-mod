@@ -4,21 +4,28 @@ import com.google.common.collect.HashMultimap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.client.tooltip.ImageComponent;
 import com.wanderersoftherift.wotr.modifier.source.ModifierSource;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 
 public class AttributeModifierEffect extends AbstractModifierEffect {
     public static final MapCodec<AttributeModifierEffect> MODIFIER_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                     ResourceLocation.CODEC.fieldOf("id").forGetter(AttributeModifierEffect::getId),
                     Attribute.CODEC.fieldOf("attribute").forGetter(AttributeModifierEffect::getAttribute),
-                    Codec.INT.fieldOf("min_roll").forGetter(AttributeModifierEffect::getMinimumRoll),
-                    Codec.INT.fieldOf("max_roll").forGetter(AttributeModifierEffect::getMaximumRoll),
+                    Codec.FLOAT.fieldOf("min_roll").forGetter(AttributeModifierEffect::getMinimumRoll),
+                    Codec.FLOAT.fieldOf("max_roll").forGetter(AttributeModifierEffect::getMaximumRoll),
                     AttributeModifier.Operation.CODEC.fieldOf("operation").forGetter(AttributeModifierEffect::getOperation)
             ).apply(instance, AttributeModifierEffect::new)
     );
@@ -30,11 +37,11 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
 
     private final ResourceLocation id;
     private final Holder<Attribute> attribute;
-    private final int minRoll;
-    private final int maxRoll;
+    private final float minRoll;
+    private final float maxRoll;
     private final AttributeModifier.Operation operation;
 
-    public AttributeModifierEffect(ResourceLocation id, Holder<Attribute> attribute, int minRoll, int maxRoll, AttributeModifier.Operation operation) {
+    public AttributeModifierEffect(ResourceLocation id, Holder<Attribute> attribute, float minRoll, float maxRoll, AttributeModifier.Operation operation) {
         this.id = id;
         this.attribute = attribute;
         this.minRoll = minRoll;
@@ -50,11 +57,11 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
         return attribute;
     }
 
-    public int getMinimumRoll(){
+    public float getMinimumRoll(){
         return minRoll;
     }
 
-    public int getMaximumRoll(){
+    public float getMaximumRoll(){
         return maxRoll;
     }
 
@@ -97,5 +104,31 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
         HashMultimap<Holder<Attribute>, AttributeModifier> hashmultimap = HashMultimap.create();
         hashmultimap.put(this.attribute, this.getModifier(roll, source));
         return hashmultimap;
+    }
+
+    @Override
+    public TooltipComponent getTooltipComponent(ItemStack stack, float roll, ChatFormatting chatFormatting) {
+        return switch (this.getOperation()) {
+            case ADD_VALUE -> getAddTooltipComponent(stack, roll, chatFormatting);
+            case ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL -> getMultiplyTooltipComponent(stack, roll, chatFormatting);
+        };
+    }
+
+    private TooltipComponent getAddTooltipComponent(ItemStack stack, float roll, ChatFormatting chatFormatting) {
+        double calculatedRoll = calculateModifier(roll);
+        float roundedValue = (float) (Math.ceil(calculatedRoll * 100) / 100);
+        String sign = (roundedValue > 0) ? "positive" : "negative";
+
+        MutableComponent cmp = Component.translatable("modifier."+ WanderersOfTheRift.MODID + ".attribute.add." +sign, roundedValue, Component.translatable(attribute.value().getDescriptionId())).withStyle(chatFormatting);
+        return new ImageComponent(stack, cmp, WanderersOfTheRift.id("textures/tooltip/attribute/damage_attribute.png"));
+    }
+
+    private TooltipComponent getMultiplyTooltipComponent(ItemStack stack, float roll, ChatFormatting chatFormatting) {
+        double calculatedRoll = calculateModifier(roll);
+        int roundedValue = (int) Math.ceil(calculatedRoll * 100);
+        String sign = (roundedValue > 0) ? "positive" : "negative";
+
+        MutableComponent cmp = Component.translatable("modifier."+ WanderersOfTheRift.MODID + ".attribute.multiply."+sign, roundedValue, Component.translatable(attribute.value().getDescriptionId())).withStyle(chatFormatting);
+        return new ImageComponent(stack, cmp, WanderersOfTheRift.id("textures/tooltip/attribute/damage_attribute.png"));
     }
 }

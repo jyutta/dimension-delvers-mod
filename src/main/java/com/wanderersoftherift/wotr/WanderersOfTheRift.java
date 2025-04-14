@@ -22,6 +22,7 @@ import com.wanderersoftherift.wotr.init.ModModifierEffects;
 import com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes;
 import com.wanderersoftherift.wotr.init.ModOutputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModProcessors;
+import com.wanderersoftherift.wotr.interop.sophisticatedbackpacks.SophisticatedBackpackInterop;
 import com.wanderersoftherift.wotr.init.ModSoundEvents;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import net.minecraft.client.Minecraft;
@@ -36,6 +37,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -82,6 +84,7 @@ public class WanderersOfTheRift {
         NeoForge.EVENT_BUS.register(this);
 
         modEventBus.addListener(this::addCreative); // Register the item to a creative tab
+        modEventBus.addListener(this::modInterop);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
@@ -117,6 +120,10 @@ public class WanderersOfTheRift {
         LOGGER.info("Reticulating splines");
 
         // Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+    }
+
+    private void modInterop(final FMLCommonSetupEvent event) {
+        ModList.get().getModContainerById("sophisticatedbackpacks").ifPresent(x -> SophisticatedBackpackInterop.load());
     }
 
     @SubscribeEvent
