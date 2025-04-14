@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.RandomSequences;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
@@ -44,6 +45,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class RiftLevelManager {
 
@@ -95,9 +97,6 @@ public class RiftLevelManager {
         level.getServer().markWorldsDirty();
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(level));
         PacketDistributor.sendToAllPlayers(new S2CLevelListUpdatePacket(id, false));
-//        level.setBlock(new BlockPos(0, -1, 0), ModBlocks.RIFT_PORTAL_BLOCK.get().defaultBlockState(), 3);
-
-//        level.setBlock(new BlockPos(0, -1, 0), ModBlocks.RIFT_SPAWNER.get().defaultBlockState(), 3);
         spawnRift(id, riftKey, level, new BlockPos(0,0,0).above().getBottomCenter(), Direction.UP);
         WanderersOfTheRift.LOGGER.debug("Created rift level {}", id);
         return level;
@@ -230,6 +229,14 @@ public class RiftLevelManager {
             portalPos = ServerLifecycleHooks.getCurrentServer().overworld().getSharedSpawnPos();
         }
 
+        int seed = new Random().nextInt();
+        if (riftKey != null) {
+            Integer keySeed = riftKey.get(ModDataComponentType.RIFT_SEED);
+            if (keySeed != null) {
+                seed = keySeed;
+            }
+        }
+
         var riftLevel = new ServerLevel(
             ServerLifecycleHooks.getCurrentServer(),
             executor,
@@ -242,7 +249,7 @@ public class RiftLevelManager {
             0L,
             List.of(),
             false,
-            null
+            RandomSequences.factory(seed).constructor().get()
         );
         var riftData = RiftData.get(riftLevel);
         riftData.setPortalDimension(portalDimension);
