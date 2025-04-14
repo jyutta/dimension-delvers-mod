@@ -47,6 +47,12 @@ import java.util.Optional;
 
 public class RiftLevelManager {
 
+    public static boolean isRiftExists(ResourceLocation id){
+        var server = ServerLifecycleHooks.getCurrentServer();
+        var existingRift = server.forgeGetWorldMap().get(ResourceKey.create(Registries.DIMENSION, id));
+        return existingRift != null;
+    }
+
     //TODO: unload the dimesnions if all plauers are disconnected, but still in the dimension
     @SuppressWarnings("deprecation")
     public static ServerLevel getOrCreateRiftLevel(ResourceLocation id, ResourceKey<Level> portalDimension, BlockPos portalPos, @Nullable ItemStack riftKey) {
