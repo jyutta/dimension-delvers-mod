@@ -69,7 +69,7 @@ public class DamageEffect extends AbstractEffect {
         for (Entity target : targets) {
             applyParticlesToTarget(target);
             if (target instanceof LivingEntity livingTarget) {
-                livingTarget.hurtServer((ServerLevel) user.level(), damageSource, finalDamage);
+                livingTarget.hurtServer((ServerLevel) target.level(), damageSource, finalDamage);
             }
             //Then apply children affects to targets
             super.apply(target, getTargeting().getBlocks(user), context);
