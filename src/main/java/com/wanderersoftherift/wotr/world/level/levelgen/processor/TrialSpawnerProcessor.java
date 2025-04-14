@@ -3,12 +3,9 @@ package com.wanderersoftherift.wotr.world.level.levelgen.processor;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.mixin.TrialSpawnerAccessor;
-import com.wanderersoftherift.wotr.world.level.levelgen.processor.util.ProcessorUtil;
-import com.wanderersoftherift.wotr.world.level.levelgen.processor.util.StructureRandomType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.TrialSpawnerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -45,17 +42,16 @@ public class TrialSpawnerProcessor extends StructureProcessor {
         if (blockInfo.state().getBlock() instanceof TrialSpawnerBlock) {
             BlockEntity blockEntity = ((TrialSpawnerBlock) blockInfo.state().getBlock()).newBlockEntity(blockInfo.pos(), blockInfo.state());
             if(blockEntity instanceof TrialSpawnerBlockEntity trialSpawnerBlockEntity && blockInfo.nbt() != null) {
-                RandomSource random = ProcessorUtil.getRandom(StructureRandomType.BLOCK, blockInfo.pos(), piecePos, structurePos, world, 0);
                 return new StructureTemplate.StructureBlockInfo(
                         blockInfo.pos(),
                         blockInfo.state().setValue(TrialSpawnerBlock.STATE, TrialSpawnerState.INACTIVE),
-                        getBlockEntity(random, world, blockInfo, trialSpawnerBlockEntity));
+                        getBlockEntity(world, blockInfo, trialSpawnerBlockEntity));
             }
         }
         return blockInfo;
     }
 
-    private CompoundTag getBlockEntity(RandomSource random, LevelReader world, StructureTemplate.StructureBlockInfo blockInfo, TrialSpawnerBlockEntity blockEntity) {
+    private CompoundTag getBlockEntity(LevelReader world, StructureTemplate.StructureBlockInfo blockInfo, TrialSpawnerBlockEntity blockEntity) {
         CompoundTag nbt = blockInfo.nbt();
         blockEntity.loadWithComponents(nbt, world.registryAccess());
         blockEntity.getTrialSpawner().getData().reset();

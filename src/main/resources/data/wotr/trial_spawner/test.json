@@ -12,10 +12,22 @@
       "data": {
         "entity": {
           "id": "minecraft:zombie"
-        },
-        "equipment": {
-          "loot_table": "minecraft:equipment/trial_chamber_melee",
-          "slot_drop_chances": 0.0
+        }
+      },
+      "weight": 5
+    },
+    {
+      "data": {
+        "entity": {
+          "id": "minecraft:skeleton"
+        }
+      },
+      "weight": 1
+    },
+    {
+      "data": {
+        "entity": {
+          "id": "minecraft:spider"
         }
       },
       "weight": 1
