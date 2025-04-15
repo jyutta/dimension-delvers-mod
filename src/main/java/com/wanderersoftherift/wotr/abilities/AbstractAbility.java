@@ -156,7 +156,7 @@ public abstract class AbstractAbility {
     /*
     TOGGLE STUFF BELOW
      */
-    public boolean IsToggle() {
+    public boolean isToggle() {
         return this.isToggle;
     }
 
@@ -164,12 +164,12 @@ public abstract class AbstractAbility {
         this.isToggle = shouldToggle;
     }
 
-    public boolean IsToggled(Player player) {
+    public boolean isToggled(Player player) {
 //        return ModAbilities.TOGGLE_ATTACHMENTS.containsKey(this.getName()) && p.getData(ModAbilities.TOGGLE_ATTACHMENTS.get(this.getName()));
         return false;
     }
 
-    public void Toggle(Player player) {
+    public void toggle(Player player) {
         //Change the toggle to opposite and then tell the player
 //        if(TOGGLE_ATTACHMENTS.containsKey(this.getName())) p.setData(TOGGLE_ATTACHMENTS.get(this.getName()), !IsToggled(p));
 //        PacketDistributor.sendToPlayer((ServerPlayer) p, new ToggleState(this.getName().toString(), IsToggled(p)));

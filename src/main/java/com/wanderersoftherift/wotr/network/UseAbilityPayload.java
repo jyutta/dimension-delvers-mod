@@ -37,16 +37,16 @@ public record UseAbilityPayload(int slot) implements CustomPacketPayload {
         AbstractAbility ability = abilityItem.get(ModDataComponentType.ABILITY).value();
         abilitySlots.setSelectedSlot(slot());
 
-        if (ability.IsToggle()) // Should check last toggle, because pressing a button can send multiple packets
+        if (ability.isToggle()) // Should check last toggle, because pressing a button can send multiple packets
         {
-            if (!ability.IsToggled(context.player())) {
+            if (!ability.isToggled(context.player())) {
                 ability.onActivate(context.player(), slot(), abilityItem);
             } else {
                 ability.onDeactivate(context.player(), slot());
             }
 
             if (ability.canPlayerUse(context.player())) {
-                ability.Toggle(context.player());
+                ability.toggle(context.player());
             }
         } else {
             ability.onActivate(context.player(), slot(), abilityItem);
