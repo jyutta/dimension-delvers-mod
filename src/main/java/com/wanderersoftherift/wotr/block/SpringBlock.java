@@ -13,19 +13,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class SpringBlock extends DittoBlock {
-    public static final double[] DELTA_AT_STRENGTH = new double[] {
-            0.54F,
-            0.672F,
-            0.84F,
-            0.98F,
-            1.1F,
-            1.18F,
-            1.27F,
-            1.35F,
-            1.42F,
-            1.5F,
-    };
-    public static final int MAX_STRENGTH = DELTA_AT_STRENGTH.length;
+    public static final int MAX_STRENGTH = 9;
     public static final int MIN_STRENGTH = 0;
     public static final IntegerProperty STRENGTH = IntegerProperty.create("strength", MIN_STRENGTH, MAX_STRENGTH);
 
@@ -43,7 +31,7 @@ public class SpringBlock extends DittoBlock {
     public void launch(@NotNull Entity entity, @NotNull BlockState state) {
         entity.resetFallDistance();
         if (entity.isShiftKeyDown()) return;
-        double delta = DELTA_AT_STRENGTH[state.getValue(STRENGTH) - MIN_STRENGTH];
+        double delta = state.getValue(STRENGTH) * 0.1 + 0.62;
 
         entity.setDeltaMovement(entity.getDeltaMovement().add(0, delta, 0));
     }
