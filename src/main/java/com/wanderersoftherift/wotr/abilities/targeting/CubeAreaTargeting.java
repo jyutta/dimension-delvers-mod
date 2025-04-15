@@ -16,17 +16,17 @@ import net.minecraft.world.phys.AABB;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AreaTargeting extends AbstractTargeting {
+public class CubeAreaTargeting extends AbstractTargeting {
     private float range = 0;
     private boolean includeSelf = true;
 
-    public static final MapCodec<AreaTargeting> CODEC = RecordCodecBuilder.mapCodec(instance -> commonFields(instance)
-            .and(Codec.FLOAT.fieldOf("range").forGetter(AreaTargeting::getRange))
-            .and(Codec.BOOL.optionalFieldOf("include_self", true).forGetter(AreaTargeting::getIncludeSelf))
-            .apply(instance, AreaTargeting::new)
+    public static final MapCodec<CubeAreaTargeting> CODEC = RecordCodecBuilder.mapCodec(instance -> commonFields(instance)
+            .and(Codec.FLOAT.fieldOf("range").forGetter(CubeAreaTargeting::getRange))
+            .and(Codec.BOOL.optionalFieldOf("include_self", true).forGetter(CubeAreaTargeting::getIncludeSelf))
+            .apply(instance, CubeAreaTargeting::new)
     );
 
-    public AreaTargeting(TargetPredicate predicate, float range, boolean includeSelf) {
+    public CubeAreaTargeting(TargetPredicate predicate, float range, boolean includeSelf) {
         super(predicate);
         this.range = range;
         this.includeSelf = includeSelf;
@@ -53,14 +53,7 @@ public class AreaTargeting extends AbstractTargeting {
 
         return entity.level().getEntities(
                 (Entity) null,
-                new AABB(
-                        entity.position().x - (finalRange/2),
-                        entity.position().y - (finalRange/2),
-                        entity.position().z - (finalRange/2),
-                        entity.position().x + (finalRange/2),
-                        entity.position().y + (finalRange/2),
-                        entity.position().z + (finalRange/2)
-                ),
+                AABB.ofSize(entity.position(), finalRange, finalRange, finalRange),
                 (target) -> getTargetPredicate().matches(target, context.caster()) && (includeSelf || !target.is(entity)) );
     }
 

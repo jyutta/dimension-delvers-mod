@@ -3,7 +3,7 @@ package com.wanderersoftherift.wotr.init;
 import com.mojang.serialization.MapCodec;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.targeting.AbstractTargeting;
-import com.wanderersoftherift.wotr.abilities.targeting.AreaTargeting;
+import com.wanderersoftherift.wotr.abilities.targeting.CubeAreaTargeting;
 import com.wanderersoftherift.wotr.abilities.targeting.RaycastTargeting;
 import com.wanderersoftherift.wotr.abilities.targeting.SelfTargeting;
 import net.minecraft.core.Registry;
@@ -27,8 +27,8 @@ public class ModTargetingTypes {
     public static final Supplier<MapCodec<RaycastTargeting>> RAYCAST_TARGETING = TARGETING_TYPES.register(
             "raycast_targeting", () -> RaycastTargeting.CODEC
     );
-    public static final Supplier<MapCodec<AreaTargeting>> AREA_TARGETING = TARGETING_TYPES.register(
-            "area_targeting", () -> AreaTargeting.CODEC
+    public static final Supplier<MapCodec<CubeAreaTargeting>> AREA_TARGETING = TARGETING_TYPES.register(
+            "area_targeting", () -> CubeAreaTargeting.CODEC
     );
 
 }

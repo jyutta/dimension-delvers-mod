@@ -7,7 +7,7 @@ import com.wanderersoftherift.wotr.abilities.effects.HealEffect;
 import com.wanderersoftherift.wotr.abilities.effects.SoundEffect;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.EntitySentiment;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
-import com.wanderersoftherift.wotr.abilities.targeting.AreaTargeting;
+import com.wanderersoftherift.wotr.abilities.targeting.CubeAreaTargeting;
 import com.wanderersoftherift.wotr.abilities.targeting.SelfTargeting;
 import com.wanderersoftherift.wotr.datagen.provider.AbilityProvider;
 import net.minecraft.core.Holder;
@@ -31,7 +31,7 @@ public class ModAbilityProvider extends AbilityProvider {
     public void generate(HolderLookup.Provider registries, Consumer<AbstractAbility> writer) {
         writer.accept(new StandardAbility(WanderersOfTheRift.id("heal"), ResourceLocation.parse("minecraft:textures/mob_effect/regeneration.png"), 200, 10, List.of(
                 new HealEffect(
-                        new AreaTargeting(new TargetPredicate.Builder().withSentiment(EntitySentiment.NOT_FOE).build(), 2, true),
+                        new CubeAreaTargeting(new TargetPredicate.Builder().withSentiment(EntitySentiment.NOT_FOE).build(), 2, true),
                         Collections.emptyList(),
                         Optional.empty(),
                         2),
