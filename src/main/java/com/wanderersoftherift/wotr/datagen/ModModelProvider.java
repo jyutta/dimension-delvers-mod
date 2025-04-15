@@ -2,6 +2,7 @@ package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
+import com.wanderersoftherift.wotr.block.TrapBlock;
 import com.wanderersoftherift.wotr.client.render.item.properties.select.SelectRuneGemShape;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModItems;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplate;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -40,11 +42,16 @@ public class ModModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.DEV_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.KEY_FORGE.get());
-        blockModels.createTrivialCube(ModBlocks.MOB_TRAP_BLOCK.get());
-        blockModels.createTrivialCube(ModBlocks.PLAYER_TRAP_BLOCK.get());
-        blockModels.createTrivialCube(ModBlocks.TRAP_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.DITTO_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.SPRING_BLOCK.get());
+
+        createBlockStatesForTrapBlock(ModBlocks.MOB_TRAP_BLOCK, blockModels);
+        createBlockStatesForTrapBlock(ModBlocks.PLAYER_TRAP_BLOCK, blockModels);
+        createBlockStatesForTrapBlock(ModBlocks.TRAP_BLOCK, blockModels);
+
+        // TODO:
+        //  Ditto Block Model needs to be cutout
+        //  Mob Trap, Player Trap, and Trap Block Item Models need to pull from the /0 models
 
         ResourceLocation baseChestModel = WanderersOfTheRift.id("block/rift_chest");
         blockModels.blockStateOutput.accept(
@@ -71,6 +78,21 @@ public class ModModelProvider extends ModelProvider {
         this.generateRunegemItem(ModItems.RUNEGEM.get(), itemModels);
 
         ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels, itemModels));
+    }
+
+    private void createBlockStatesForTrapBlock(DeferredBlock<? extends Block> trapBlock, BlockModelGenerators generators) {
+        ResourceLocation baseModel = trapBlock.getId();
+        ResourceLocation model0 = ResourceLocation.fromNamespaceAndPath(baseModel.getNamespace(), "block/" + baseModel.getPath() + "/0");
+        ResourceLocation model1 = ResourceLocation.fromNamespaceAndPath(baseModel.getNamespace(), "block/" + baseModel.getPath() + "/1");
+        ResourceLocation model2 = ResourceLocation.fromNamespaceAndPath(baseModel.getNamespace(), "block/" + baseModel.getPath() + "/2");
+        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(trapBlock.get()).with(
+                PropertyDispatch.property(TrapBlock.STAGE)
+                        .select(0, Variant.variant().with(VariantProperties.MODEL, model0))
+                        .select(1, Variant.variant().with(VariantProperties.MODEL, model1))
+                        .select(2, Variant.variant().with(VariantProperties.MODEL, model2))
+                )
+        );
+
     }
 
     private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels, ItemModelGenerators itemModels) {

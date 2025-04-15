@@ -1,9 +1,7 @@
 package com.wanderersoftherift.wotr.block.blockentity;
 
-import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.init.ModBlockEntities;
 import com.wanderersoftherift.wotr.init.ModBlocks;
-import com.wanderersoftherift.wotr.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
@@ -53,7 +51,7 @@ public class DittoBlockEntity extends BlockEntity implements RandomizableContain
 		super.loadAdditional(tag, provider);
 		if (!this.tryLoadLootTable(tag)) {
 			if (tag.contains("item", 10)) {
-				this.item = (ItemStack)ItemStack.parse(provider, tag.getCompound("item")).orElse(ItemStack.EMPTY);
+				this.item = ItemStack.parse(provider, tag.getCompound("item")).orElse(ItemStack.EMPTY);
 			} else {
 				this.item = ItemStack.EMPTY;
 			}
@@ -81,8 +79,8 @@ public class DittoBlockEntity extends BlockEntity implements RandomizableContain
 		return this.lootTableSeed;
 	}
 
-	public void setLootTableSeed(long p_309580_) {
-		this.lootTableSeed = p_309580_;
+	public void setLootTableSeed(long seed) {
+		this.lootTableSeed = seed;
 	}
 
 	protected void collectImplicitComponents(DataComponentMap.Builder builder) {
@@ -101,12 +99,12 @@ public class DittoBlockEntity extends BlockEntity implements RandomizableContain
 	}
 
 	public ItemStack getTheItem() {
-		this.unpackLootTable((Player)null);
+		this.unpackLootTable(null);
 		return this.item;
 	}
 
 	public void setTheItem(ItemStack item) {
-		this.unpackLootTable((Player)null);
+		this.unpackLootTable(null);
 		this.item = item;
 	}
 

@@ -13,9 +13,6 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class SpringBlock extends DittoBlock {
-    public static final int MAX_STRENGTH = 10;
-    public static final int MIN_STRENGTH = 1;
-    public static final IntegerProperty STRENGTH = IntegerProperty.create("strength", MIN_STRENGTH, MAX_STRENGTH);
     public static final double[] DELTA_AT_STRENGTH = new double[] {
             0.54F,
             0.672F,
@@ -28,6 +25,9 @@ public class SpringBlock extends DittoBlock {
             1.42F,
             1.5F,
     };
+    public static final int MAX_STRENGTH = DELTA_AT_STRENGTH.length;
+    public static final int MIN_STRENGTH = 0;
+    public static final IntegerProperty STRENGTH = IntegerProperty.create("strength", MIN_STRENGTH, MAX_STRENGTH);
 
     public SpringBlock(Properties properties) {
         super(properties);

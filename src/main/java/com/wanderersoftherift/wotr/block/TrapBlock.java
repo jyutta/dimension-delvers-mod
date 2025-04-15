@@ -3,6 +3,7 @@ package com.wanderersoftherift.wotr.block;
 
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -20,7 +21,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@ParametersAreNonnullByDefault
 public class TrapBlock extends DittoBlock {
     private static final int DEACTIVATION_TIME = 60;
     private static final int TICK_DELAY = 4;
@@ -38,13 +41,14 @@ public class TrapBlock extends DittoBlock {
         this.registerDefaultState(this.defaultBlockState().setValue(WAITING_FOR_TICK, false));
     }
 
-    protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(DEACTIVATED)) {
             level.setBlockAndUpdate(pos, state.setValue(DEACTIVATED, false).setValue(STAGE, 0).setValue(WAITING_FOR_TICK, false));
             return;
         }
 
-        if (state.getValue(STAGE) + 1 > STAGES) {
+        if (state.getValue(STAGE) == STAGES) {
             fail(level, pos, state);
             return;
         }
@@ -53,7 +57,7 @@ public class TrapBlock extends DittoBlock {
     }
 
     @Override
-    public void stepOn(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Entity entity) {
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
         if (!this.canEntityTick(pos, entity)) {
             return;
         }
@@ -61,7 +65,7 @@ public class TrapBlock extends DittoBlock {
     }
 
     @Override
-    public void fallOn(@NotNull Level level, @NotNull BlockState state, @NotNull BlockPos pos, @NotNull Entity entity, float fallDistance) {
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         if (!this.canEntityTick(pos, entity)) {
             return;
         }
@@ -71,7 +75,7 @@ public class TrapBlock extends DittoBlock {
         scheduleTick(level, pos, state);
     }
 
-    public void scheduleTick(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public void scheduleTick(Level level, BlockPos pos, BlockState state) {
         if (state.getValue(WAITING_FOR_TICK)) {
             return;
         }
@@ -79,26 +83,26 @@ public class TrapBlock extends DittoBlock {
         level.scheduleTick(pos, this, TICK_DELAY);
     }
 
-    public boolean legalEntity(@NotNull Entity entity) {
+    public boolean legalEntity(Entity entity) {
         return true;
     }
 
-    public boolean canEntityTick(@NotNull BlockPos pos, @NotNull Entity entity) {
+    public boolean canEntityTick(BlockPos pos, Entity entity) {
         if (!this.legalEntity(entity)) {
             return false;
         }
         return entity.onGround() && entity.position().y > (double)((float)pos.getY() + 0.6875F);
     }
 
-    public void fail(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state) {
-        BlockPos[] positions = {pos.west(), pos.north(), pos.east(), pos.south(), pos.above(), pos.below()};
-        for (BlockPos checked_pos : positions) {
-            BlockState checked_state = level.getBlockState(checked_pos);
-            if (!(checked_state.getBlock() instanceof TrapBlock)) {
+    public void fail(Level level, BlockPos pos, BlockState state) {
+        for (Direction dir : Direction.values()) {
+            BlockPos checkedPos = pos.relative(dir);
+            BlockState checkedState = level.getBlockState(checkedPos);
+            if (!(checkedState.getBlock() instanceof TrapBlock)) {
                 continue;
             }
-            level.setBlockAndUpdate(checked_pos, checked_state.setValue(STAGE, STAGES));
-            level.scheduleTick(checked_pos, checked_state.getBlock(), 1);
+            level.setBlockAndUpdate(checkedPos, checkedState.setValue(STAGE, STAGES));
+            level.scheduleTick(checkedPos, checkedState.getBlock(), 1);
         }
 
         level.setBlockAndUpdate(pos, state.setValue(DEACTIVATED, true));
@@ -122,7 +126,7 @@ public class TrapBlock extends DittoBlock {
     }
 
     @Override
-    protected @NotNull VoxelShape getCollisionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    protected @NotNull VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (state.getValue(DEACTIVATED)) {
             return Shapes.empty();
         }
@@ -143,4 +147,3 @@ public class TrapBlock extends DittoBlock {
         return ModBlocks.TRAP_BLOCK;
     }
 }
-

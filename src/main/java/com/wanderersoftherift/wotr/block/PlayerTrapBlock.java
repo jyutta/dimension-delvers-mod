@@ -4,10 +4,8 @@ package com.wanderersoftherift.wotr.block;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerTrapBlock extends TrapBlock {
@@ -17,13 +15,7 @@ public class PlayerTrapBlock extends TrapBlock {
 
     @Override
     public boolean legalEntity(@NotNull Entity entity) {
-        if (entity.getType() == EntityType.PLAYER) {
-            return true;
-        }
-        if (entity.getType() == EntityType.ITEM) {
-            return true;
-        }
-        return false;
+        return entity.getType() == EntityType.ITEM || entity.getType() == EntityType.PLAYER;
     }
 
     @Override

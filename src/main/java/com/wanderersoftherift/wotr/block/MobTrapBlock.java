@@ -14,10 +14,7 @@ public class MobTrapBlock extends TrapBlock {
 
     @Override
     public boolean legalEntity(@NotNull Entity entity) {
-        if (entity.getType() == EntityType.PLAYER) {
-            return false;
-        }
-        return true;
+        return entity.getType() != EntityType.PLAYER;
     }
 
     @Override

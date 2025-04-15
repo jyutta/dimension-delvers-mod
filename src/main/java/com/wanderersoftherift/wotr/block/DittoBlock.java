@@ -39,8 +39,8 @@ public class DittoBlock extends BaseEntityBlock {
 		return CODEC;
 	}
 
-	public DittoBlock(BlockBehaviour.Properties p_273064_) {
-		super(p_273064_);
+	public DittoBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(HAS_ITEM, false));
 	}
 
@@ -57,23 +57,62 @@ public class DittoBlock extends BaseEntityBlock {
 		if (level.isClientSide)
 			return InteractionResult.SUCCESS;
 
+		ItemStack itemInBlock = dittoBlockEntity.getTheItem();
+		if (itemInBlock.isEmpty()) {
+			return InteractionResult.PASS;
+		}
+
+		ItemStack itemstack = getBlock().toStack();
+		if (itemInBlock.getItem() != getBlock().asItem()) {
+			Containers.dropContents(level, pos, dittoBlockEntity);
+		} else {
+			return InteractionResult.PASS;
+		}
+		dittoBlockEntity.setTheItem(itemstack);
+
+		level.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.5F);
+		if (level instanceof ServerLevel sLevel) {
+			sLevel.sendParticles(ParticleTypes.DUST_PLUME, (double) pos.getX() + 0.5, (double) pos.getY() + 1.2, (double) pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
+		}
+
+		dittoBlockEntity.setChanged();
+		level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+
+		level.setBlock(pos, dittoBlockEntity.getBlockState().setValue(HAS_ITEM, !dittoBlockEntity.getBlockState().getValue(HAS_ITEM)), 3);
+
+		return InteractionResult.SUCCESS;
+	}
+
+	protected InteractionResult useItemOn(ItemStack item, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+		BlockEntity blockEntity1 = level.getBlockEntity(pos);
+		if (!(blockEntity1 instanceof DittoBlockEntity dittoBlockEntity)) {
+			return InteractionResult.PASS;
+		}
+		if (level.isClientSide) {
+			return InteractionResult.SUCCESS;
+		}
+		if (!(item.getItem() instanceof BlockItem)) {
+			return item == ItemStack.EMPTY ? InteractionResult.TRY_WITH_EMPTY_HAND : InteractionResult.PASS;
+		}
 		ItemStack itemstack1 = dittoBlockEntity.getTheItem();
-		if (!itemstack1.isEmpty()) {
-			ItemStack itemstack = getBlock().toStack();
+		if (!item.isEmpty() && (itemstack1.isEmpty() || !ItemStack.isSameItemSameComponents(itemstack1, item))) {
+			player.awardStat(Stats.ITEM_USED.get(item.getItem()));
+			ItemStack itemstack = item.consumeAndReturn(1, player);
+			float fillPercent;
 			if (dittoBlockEntity.isEmpty()) {
-				return InteractionResult.PASS;
-			} else {
-				if (itemstack1.getItem() != getBlock().asItem())
-					Containers.dropContents(level, pos, dittoBlockEntity);
-				else
-					return InteractionResult.PASS;
 				dittoBlockEntity.setTheItem(itemstack);
+				fillPercent = (float)itemstack.getCount() / (float)itemstack.getMaxStackSize();
+			} else {
+				if (itemstack1.getItem() != getBlock().asItem()) {
+					Containers.dropContents(level, pos, dittoBlockEntity);
+				}
+				dittoBlockEntity.setTheItem(itemstack);
+				fillPercent = (float)itemstack1.getCount() / (float)itemstack1.getMaxStackSize();
 			}
 
-			level.playSound((Player) null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.5F);
-			if (level instanceof ServerLevel) {
-				ServerLevel serverlevel = (ServerLevel) level;
-				serverlevel.sendParticles(ParticleTypes.DUST_PLUME, (double) pos.getX() + (double) 0.5F, (double) pos.getY() + 1.2, (double) pos.getZ() + (double) 0.5F, 7, (double) 0.0F, (double) 0.0F, (double) 0.0F, (double) 0.0F);
+			level.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * fillPercent);
+			if (level instanceof ServerLevel sLevel) {
+				sLevel.sendParticles(ParticleTypes.DUST_PLUME, (double)pos.getX() + 0.5, (double)pos.getY() + 1.2, (double)pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
 			}
 
 			dittoBlockEntity.setChanged();
@@ -82,67 +121,23 @@ public class DittoBlock extends BaseEntityBlock {
 			level.setBlock(pos, dittoBlockEntity.getBlockState().setValue(HAS_ITEM, !dittoBlockEntity.getBlockState().getValue(HAS_ITEM)), 3);
 
 			return InteractionResult.SUCCESS;
-		}
-		return InteractionResult.PASS;
-	}
-
-	protected InteractionResult useItemOn(ItemStack item, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
-		BlockEntity blockEntity1 = level.getBlockEntity(pos);
-		if (blockEntity1 instanceof DittoBlockEntity dittoBlockEntity) {
-			if (level.isClientSide) {
-				return InteractionResult.SUCCESS;
-			} else {
-				if (!(item.getItem() instanceof BlockItem)) {
-					return item == ItemStack.EMPTY ? InteractionResult.TRY_WITH_EMPTY_HAND : InteractionResult.PASS;
-				}
-				ItemStack itemstack1 = dittoBlockEntity.getTheItem();
-				if (!item.isEmpty() && (itemstack1.isEmpty() || !ItemStack.isSameItemSameComponents(itemstack1, item))) {
-					player.awardStat(Stats.ITEM_USED.get(item.getItem()));
-					ItemStack itemstack = item.consumeAndReturn(1, player);
-					float f;
-					if (dittoBlockEntity.isEmpty()) {
-						dittoBlockEntity.setTheItem(itemstack);
-						f = (float)itemstack.getCount() / (float)itemstack.getMaxStackSize();
-					} else {
-						if (!(itemstack1.getItem() == getBlock().asItem()))
-							Containers.dropContents(level, pos, dittoBlockEntity);
-						dittoBlockEntity.setTheItem(itemstack);
-						f = (float)itemstack1.getCount() / (float)itemstack1.getMaxStackSize();
-					}
-
-					level.playSound((Player)null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * f);
-					if (level instanceof ServerLevel) {
-						ServerLevel serverlevel = (ServerLevel)level;
-						serverlevel.sendParticles(ParticleTypes.DUST_PLUME, (double)pos.getX() + (double)0.5F, (double)pos.getY() + 1.2, (double)pos.getZ() + (double)0.5F, 7, (double)0.0F, (double)0.0F, (double)0.0F, (double)0.0F);
-					}
-
-					dittoBlockEntity.setChanged();
-					level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-
-					level.setBlock(pos, dittoBlockEntity.getBlockState().setValue(HAS_ITEM, !dittoBlockEntity.getBlockState().getValue(HAS_ITEM)), 3);
-
-					return InteractionResult.SUCCESS;
-				} else {
-					return InteractionResult.TRY_WITH_EMPTY_HAND;
-				}
-			}
 		} else {
-			return InteractionResult.PASS;
+			return InteractionResult.TRY_WITH_EMPTY_HAND;
 		}
 	}
 
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_273169_) {
-		p_273169_.add(HAS_ITEM);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(HAS_ITEM);
 	}
 
 	@Nullable
-	public BlockEntity newBlockEntity(BlockPos p_273396_, BlockState p_272674_) {
-		return new DittoBlockEntity(p_273396_, p_272674_);
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new DittoBlockEntity(pos, state);
 	}
 
-	protected void onRemove(BlockState p_305821_, Level p_306245_, BlockPos p_305894_, BlockState p_306294_, boolean p_306159_) {
-		Containers.dropContentsOnDestroy(p_305821_, p_306294_, p_306245_, p_305894_);
-		super.onRemove(p_305821_, p_306245_, p_305894_, p_306294_, p_306159_);
+	protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+		Containers.dropContentsOnDestroy(state, newState, level, pos);
+		super.onRemove(state, level, pos, newState, movedByPiston);
 	}
 
 	protected boolean hasAnalogOutputSignal(BlockState state) {
