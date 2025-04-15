@@ -24,6 +24,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -71,11 +72,11 @@ public class RiftPortalEntity extends Entity {
     public void tick() {
         super.tick();
         if (level() instanceof ServerLevel serverLevel) {
-            for (Entity player : serverLevel.getEntities(this, makeBoundingBox(), x -> x instanceof ServerPlayer serverPlayer)) {
+            for (Entity player : serverLevel.getEntities(this, makeBoundingBox(), x -> x instanceof ServerPlayer)) {
                 if (player instanceof ServerPlayer serverPlayer) {
                     if (RiftData.isRift(serverLevel)) {
                         tpHome(serverPlayer, serverLevel);
-                    }else {
+                    } else {
                         tpToRift(serverPlayer, serverLevel, blockPosition(), getRiftKey(), this);
                     }
                 }
