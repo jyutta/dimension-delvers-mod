@@ -48,7 +48,7 @@ public class TrapBlock extends DittoBlock {
             return;
         }
 
-        if (state.getValue(STAGE) == STAGES) {
+        if (state.getValue(STAGE) >= STAGES) {
             fail(level, pos, state);
             return;
         }
