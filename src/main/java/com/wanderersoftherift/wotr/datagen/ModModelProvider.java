@@ -33,7 +33,7 @@ public class ModModelProvider extends ModelProvider {
         super(output, WanderersOfTheRift.MODID);
     }
 
-    private static ResourceLocation createRuneGemShapeModel(ResourceLocation location, Item item, String suffix, ModelTemplate modelTemplate, ItemModelGenerators itemModels) {
+    private static ResourceLocation createRuneGemShapeModel(ResourceLocation location, ModelTemplate modelTemplate, ItemModelGenerators itemModels) {
         return modelTemplate.create(location, TextureMapping.layer0(location), itemModels.modelOutput);
     }
 
@@ -42,16 +42,13 @@ public class ModModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.DEV_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.KEY_FORGE.get());
-        blockModels.createTrivialCube(ModBlocks.DITTO_BLOCK.get());
+        blockModels.createTrivialBlock(ModBlocks.DITTO_BLOCK.get(),
+                TexturedModel.CUBE.updateTemplate(template -> template.extend().renderType("cutout").build()));
         blockModels.createTrivialCube(ModBlocks.SPRING_BLOCK.get());
 
         createBlockStatesForTrapBlock(ModBlocks.MOB_TRAP_BLOCK, blockModels);
         createBlockStatesForTrapBlock(ModBlocks.PLAYER_TRAP_BLOCK, blockModels);
         createBlockStatesForTrapBlock(ModBlocks.TRAP_BLOCK, blockModels);
-
-        // TODO:
-        //  Ditto Block Model needs to be cutout
-        //  Mob Trap, Player Trap, and Trap Block Item Models need to pull from the /0 models
 
         ResourceLocation baseChestModel = WanderersOfTheRift.id("block/rift_chest");
         blockModels.blockStateOutput.accept(
@@ -77,14 +74,23 @@ public class ModModelProvider extends ModelProvider {
 
         this.generateRunegemItem(ModItems.RUNEGEM.get(), itemModels);
 
-        ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels, itemModels));
+        ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels));
     }
 
     private void createBlockStatesForTrapBlock(DeferredBlock<? extends Block> trapBlock, BlockModelGenerators generators) {
-        ResourceLocation baseModel = trapBlock.getId();
-        ResourceLocation model0 = ResourceLocation.fromNamespaceAndPath(baseModel.getNamespace(), "block/" + baseModel.getPath() + "/0");
-        ResourceLocation model1 = ResourceLocation.fromNamespaceAndPath(baseModel.getNamespace(), "block/" + baseModel.getPath() + "/1");
-        ResourceLocation model2 = ResourceLocation.fromNamespaceAndPath(baseModel.getNamespace(), "block/" + baseModel.getPath() + "/2");
+        ResourceLocation model0 = ModelLocationUtils.getModelLocation(trapBlock.get(), "/0");
+        ResourceLocation model1 = ModelLocationUtils.getModelLocation(trapBlock.get(), "/1");
+        ResourceLocation model2 = ModelLocationUtils.getModelLocation(trapBlock.get(), "/2");
+
+        // Item Model (Pull from model0)
+        generators.registerSimpleItemModel(trapBlock.get(), model0);
+
+        // Block Models (one for each variant)
+        ModelTemplates.CUBE_ALL.createWithSuffix(trapBlock.get(), "/0", TextureMapping.cube(model0), generators.modelOutput);
+        ModelTemplates.CUBE_ALL.createWithSuffix(trapBlock.get(), "/1", TextureMapping.cube(model1), generators.modelOutput);
+        ModelTemplates.CUBE_ALL.createWithSuffix(trapBlock.get(), "/2", TextureMapping.cube(model2), generators.modelOutput);
+
+        // Blockstate (point to the three unique block models)
         generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(trapBlock.get()).with(
                 PropertyDispatch.property(TrapBlock.STAGE)
                         .select(0, Variant.variant().with(VariantProperties.MODEL, model0))
@@ -95,7 +101,7 @@ public class ModModelProvider extends ModelProvider {
 
     }
 
-    private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+    private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels) {
        if (helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE) != null) {
            createGlassPane(blockModels, helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.GLASS_BLOCK).get(), helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE).get() );
        }
@@ -112,7 +118,7 @@ public class ModModelProvider extends ModelProvider {
         ResourceLocation shapeLocation = ResourceLocation.fromNamespaceAndPath(WanderersOfTheRift.MODID, "item/runegem/shape/");
         List<SelectItemModel.SwitchCase<RunegemShape>> list = new ArrayList<>(RunegemShape.values().length);
         for (RunegemShape shape : RunegemShape.values()) {
-            ItemModel.Unbaked model = ItemModelUtils.plainModel(createRuneGemShapeModel(shapeLocation.withSuffix(shape.getName()), ModItems.RUNEGEM.get(), shape.getName(), ModelTemplates.FLAT_ITEM, itemModels));
+            ItemModel.Unbaked model = ItemModelUtils.plainModel(createRuneGemShapeModel(shapeLocation.withSuffix(shape.getName()), ModelTemplates.FLAT_ITEM, itemModels));
             list.add(ItemModelUtils.when(shape, model));
         }
         itemModels.itemModelOutput.accept(item, ItemModelUtils.select(new SelectRuneGemShape(), ItemModelUtils.plainModel(modelLocation), list));
