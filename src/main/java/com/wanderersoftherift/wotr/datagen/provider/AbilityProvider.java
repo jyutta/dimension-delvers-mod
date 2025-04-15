@@ -1,7 +1,7 @@
 package com.wanderersoftherift.wotr.datagen.provider;
 
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.init.RegistryEvents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -22,7 +22,7 @@ public abstract class AbilityProvider implements DataProvider {
     private final CompletableFuture<HolderLookup.Provider> registries;
 
     public AbilityProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        this.pathProvider = output.createRegistryElementsPathProvider(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY);
+        this.pathProvider = output.createRegistryElementsPathProvider(RegistryEvents.ABILITY_REGISTRY);
         this.registries = registries;
     }
 

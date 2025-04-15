@@ -1,13 +1,13 @@
 package com.wanderersoftherift.wotr;
 
 import com.mojang.logging.LogUtils;
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.commands.AbilityCommands;
 import com.wanderersoftherift.wotr.commands.DebugCommands;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.commands.RiftMapCommands;
 import com.wanderersoftherift.wotr.commands.SpawnPieceCommand;
 import com.wanderersoftherift.wotr.config.ClientConfig;
+import com.wanderersoftherift.wotr.init.ModAbilityTypes;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.init.ModBlockEntities;
@@ -18,18 +18,19 @@ import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModEffects;
 import com.wanderersoftherift.wotr.init.ModEntities;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
-import com.wanderersoftherift.wotr.init.ModEntityTypes;
 import com.wanderersoftherift.wotr.init.ModInputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModItems;
 import com.wanderersoftherift.wotr.init.ModLootItemFunctionTypes;
 import com.wanderersoftherift.wotr.init.ModLootModifiers;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
+import com.wanderersoftherift.wotr.init.ModMobEffects;
 import com.wanderersoftherift.wotr.init.ModModifierEffects;
 import com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes;
 import com.wanderersoftherift.wotr.init.ModOutputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModPayloadHandlers;
 import com.wanderersoftherift.wotr.init.ModProcessors;
 import com.wanderersoftherift.wotr.init.ModSoundEvents;
+import com.wanderersoftherift.wotr.init.ModTargetingTypes;
 import com.wanderersoftherift.wotr.interop.sophisticatedbackpacks.SophisticatedBackpackInterop;
 import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import net.minecraft.core.Registry;
@@ -59,28 +60,39 @@ public class WanderersOfTheRift {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public WanderersOfTheRift(IEventBus modEventBus, ModContainer modContainer) {
-        // Register things
-        ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
+        // Vanilla elements
+        ModAttributes.ATTRIBUTES.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
-        ModEntities.ENTITIES.register(modEventBus);
-        ModMenuTypes.MENUS.register(modEventBus);
+        ModCommands.COMMAND_ARGUMENT_TYPES.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
-        ModProcessors.PROCESSORS.register(modEventBus);
+        ModEntities.ENTITIES.register(modEventBus);
+        ModEntityDataSerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
+        ModMenuTypes.MENUS.register(modEventBus);
+        ModMobEffects.MOB_EFFECTS.register(modEventBus);
+        ModSoundEvents.SOUND_EVENTS.register(modEventBus);
+
+        // Loot
+        ModLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
+        ModLootItemFunctionTypes.LOOT_ITEM_FUNCTION_TYPES.register(modEventBus);
+
+        // Attachments and components
+        ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
+        ModDataComponentType.DATA_COMPONENTS.register(modEventBus);
+
+        // Rift generation
         ModInputBlockStateTypes.INPUT_BLOCKSTATE_TYPES.register(modEventBus);
         ModOutputBlockStateTypes.OUTPUT_BLOCKSTATE_TYPES.register(modEventBus);
-        ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
-        ModLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
+        ModProcessors.PROCESSORS.register(modEventBus);
+
+        // Abilities
+        ModAbilityTypes.ABILITY_TYPES.register(modEventBus);
+        ModEffects.EFFECTS.register(modEventBus);
+        ModTargetingTypes.TARGETING_TYPES.register(modEventBus);
+
         ModModifierEffects.MODIFIER_EFFECT_TYPES.register(modEventBus);
         ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPES.register(modEventBus);
-        ModEntityTypes.ENTITIES.register(modEventBus);
-        ModLootItemFunctionTypes.LOOT_ITEM_FUNCTION_TYPES.register(modEventBus);
-        ModEffects.EFFECTS.register(modEventBus);
-        ModCommands.COMMAND_ARGUMENT_TYPES.register(modEventBus);
-        ModEntityDataSerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
-        ModAttributes.ATTRIBUTES.register(modEventBus);
-        ModSoundEvents.SOUND_EVENTS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Wotr) to respond directly to events.
@@ -94,10 +106,6 @@ public class WanderersOfTheRift {
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-
-        AbilityRegistry.ABILITY_TYPES.register(modEventBus);
-        AbilityRegistry.EFFECTS.register(modEventBus);
-        AbilityRegistry.EFFECT_TARGETING.register(modEventBus);
     }
 
     /**

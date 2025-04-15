@@ -3,11 +3,11 @@ package com.wanderersoftherift.wotr.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.upgrade.AbilityUpgradePool;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
+import com.wanderersoftherift.wotr.init.RegistryEvents;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -46,7 +46,7 @@ public class AbilityCommands {
                 AbilityUpgradePool.Mutable upgradePool = new AbilityUpgradePool.Mutable();
                 upgradePool.generateChoices(source.getLevel().registryAccess(), ability, choices, source.getLevel().random, 3);
 
-                Registry<AbstractAbility> abilities = source.getLevel().registryAccess().lookupOrThrow(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY);
+                Registry<AbstractAbility> abilities = source.getLevel().registryAccess().lookupOrThrow(RegistryEvents.ABILITY_REGISTRY);
 
                 DataComponentPatch patch = DataComponentPatch.builder()
                         .set(ModDataComponentType.ABILITY.get(), abilities.wrapAsHolder(ability))

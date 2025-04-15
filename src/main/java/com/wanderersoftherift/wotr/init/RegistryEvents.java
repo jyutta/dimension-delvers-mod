@@ -1,6 +1,5 @@
 package com.wanderersoftherift.wotr.init;
 
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
@@ -20,8 +19,11 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 @EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
 
-    public static final ResourceKey<Registry<EffectMarker>> EFFECT_MARKER_REGISTRY = ResourceKey.createRegistryKey(WanderersOfTheRift.id("effect_marker"));
+    /// Datapack registries
+
+    public static final ResourceKey<Registry<AbstractAbility>> ABILITY_REGISTRY = ResourceKey.createRegistryKey(WanderersOfTheRift.id("abilities"));
     public static final ResourceKey<Registry<AbilityUpgrade>> ABILITY_UPGRADE_REGISTRY = ResourceKey.createRegistryKey(WanderersOfTheRift.id("ability_upgrade"));
+    public static final ResourceKey<Registry<EffectMarker>> EFFECT_MARKER_REGISTRY = ResourceKey.createRegistryKey(WanderersOfTheRift.id("effect_marker"));
 
     @SubscribeEvent
     static void registerRegistries(NewRegistryEvent event) {
@@ -29,9 +31,9 @@ public class RegistryEvents {
         event.register(ModInputBlockStateTypes.INPUT_BLOCKSTATE_TYPE_REGISTRY);
         event.register(ModOutputBlockStateTypes.OUTPUT_BLOCKSTATE_TYPE_REGISTRY);
         event.register(ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPE_REGISTRY);
-        event.register(AbilityRegistry.ABILITY_TYPES_REGISTRY);
-        event.register(AbilityRegistry.EFFECTS_REGISTRY);
-        event.register(AbilityRegistry.EFFECT_TARGETING_REGISTRY);
+        event.register(ModAbilityTypes.ABILITY_TYPES_REGISTRY);
+        event.register(ModEffects.EFFECTS_REGISTRY);
+        event.register(ModTargetingTypes.EFFECT_TARGETING_REGISTRY);
     }
 
     @SubscribeEvent
@@ -72,7 +74,7 @@ public class RegistryEvents {
                 EffectMarker.CODEC
         );
         event.dataPackRegistry(
-                AbilityRegistry.DATA_PACK_ABILITY_REG_KEY,
+                ABILITY_REGISTRY,
                 AbstractAbility.DIRECT_CODEC,
                 AbstractAbility.DIRECT_CODEC
         );

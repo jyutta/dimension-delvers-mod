@@ -12,7 +12,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-import static com.wanderersoftherift.wotr.Registries.AbilityRegistry.DATA_PACK_ABILITY_REG_KEY;
+import static com.wanderersoftherift.wotr.init.RegistryEvents.ABILITY_REGISTRY;
 
 @EventBusSubscriber(modid = WanderersOfTheRift.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class GameEvents {
@@ -50,9 +50,9 @@ public class GameEvents {
 
     @SubscribeEvent
     public static void serverLoaded(ServerStartingEvent event) {
-        WanderersOfTheRift.LOGGER.info("Server loaded pack exists: " + event.getServer().registryAccess().lookup(DATA_PACK_ABILITY_REG_KEY).isPresent());
-        if (event.getServer().registryAccess().lookup(DATA_PACK_ABILITY_REG_KEY).isPresent()) {
-            for (AbstractAbility ability : event.getServer().registryAccess().lookup(DATA_PACK_ABILITY_REG_KEY).get()) {
+        WanderersOfTheRift.LOGGER.info("Server loaded pack exists: " + event.getServer().registryAccess().lookup(ABILITY_REGISTRY).isPresent());
+        if (event.getServer().registryAccess().lookup(ABILITY_REGISTRY).isPresent()) {
+            for (AbstractAbility ability : event.getServer().registryAccess().lookup(ABILITY_REGISTRY).get()) {
                 WanderersOfTheRift.LOGGER.info(ability.getName().toString());
             }
         }

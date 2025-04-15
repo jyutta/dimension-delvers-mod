@@ -1,6 +1,7 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.entity.portal.RiftPortalEntity;
 import com.wanderersoftherift.wotr.entity.projectile.SimpleEffectProjectile;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -14,5 +15,11 @@ public class ModEntities {
     public static DeferredHolder<EntityType<?>, EntityType<SimpleEffectProjectile>> SIMPLE_EFFECT_PROJECTILE = ENTITIES.registerEntityType("simple_effect_projectile",
             SimpleEffectProjectile::new,
             MobCategory.MISC);
+
+    public static final DeferredHolder<EntityType<?>, EntityType<RiftPortalEntity>> RIFT_ENTRANCE = ENTITIES.registerEntityType(
+            "rift_entrance",
+            RiftPortalEntity::new,
+            MobCategory.MISC,
+            builder -> builder.sized(0.5f, 3f));
 
 }

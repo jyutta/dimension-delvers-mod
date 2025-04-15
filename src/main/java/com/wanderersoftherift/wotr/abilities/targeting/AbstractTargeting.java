@@ -4,9 +4,9 @@ import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.effects.predicate.TargetPredicate;
+import com.wanderersoftherift.wotr.init.ModTargetingTypes;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 public abstract class AbstractTargeting {
     public abstract MapCodec<? extends AbstractTargeting> getCodec();
-    public static final Codec<AbstractTargeting> DIRECT_CODEC = AbilityRegistry.EFFECT_TARGETING_REGISTRY.byNameCodec().dispatch(AbstractTargeting::getCodec, Function.identity());
+    public static final Codec<AbstractTargeting> DIRECT_CODEC = ModTargetingTypes.EFFECT_TARGETING_REGISTRY.byNameCodec().dispatch(AbstractTargeting::getCodec, Function.identity());
 
     private final TargetPredicate targetPredicate;
 

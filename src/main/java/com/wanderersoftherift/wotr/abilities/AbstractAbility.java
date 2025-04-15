@@ -2,12 +2,12 @@ package com.wanderersoftherift.wotr.abilities;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.attachment.PlayerCooldownData;
 import com.wanderersoftherift.wotr.abilities.attachment.PlayerDurationData;
 import com.wanderersoftherift.wotr.abilities.effects.AbstractEffect;
 import com.wanderersoftherift.wotr.codec.DeferrableRegistryCodec;
+import com.wanderersoftherift.wotr.init.ModAbilityTypes;
 import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
@@ -28,7 +28,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.wanderersoftherift.wotr.Registries.AbilityRegistry.DATA_PACK_ABILITY_REG_KEY;
+import static com.wanderersoftherift.wotr.init.RegistryEvents.ABILITY_REGISTRY;
 
 public abstract class AbstractAbility {
 
@@ -36,9 +36,9 @@ public abstract class AbstractAbility {
 
     public abstract MapCodec<? extends AbstractAbility> getCodec();
 
-    public static final Codec<AbstractAbility> DIRECT_CODEC = AbilityRegistry.ABILITY_TYPES_REGISTRY.byNameCodec().dispatch(AbstractAbility::getCodec, Function.identity());
-    public static final Codec<Holder<AbstractAbility>> CODEC = DeferrableRegistryCodec.create(DATA_PACK_ABILITY_REG_KEY);
-    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<AbstractAbility>> STREAM_CODEC = ByteBufCodecs.holderRegistry(DATA_PACK_ABILITY_REG_KEY);
+    public static final Codec<AbstractAbility> DIRECT_CODEC = ModAbilityTypes.ABILITY_TYPES_REGISTRY.byNameCodec().dispatch(AbstractAbility::getCodec, Function.identity());
+    public static final Codec<Holder<AbstractAbility>> CODEC = DeferrableRegistryCodec.create(ABILITY_REGISTRY);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<AbstractAbility>> STREAM_CODEC = ByteBufCodecs.holderRegistry(ABILITY_REGISTRY);
     private final ResourceLocation name;
     private ResourceLocation icon = ResourceLocation.withDefaultNamespace("textures/misc/forcefield.png");
     protected float baseCooldown = 0;

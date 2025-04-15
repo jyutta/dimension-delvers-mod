@@ -1,10 +1,10 @@
 package com.wanderersoftherift.wotr.datagen;
 
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.RegistryEvents;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPatch;
@@ -67,7 +67,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
         ItemStack dodgeSkillGem = ModItems.ABILITY_HOLDER.toStack();
         dodgeSkillGem.applyComponents(DataComponentPatch.builder()
-                .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY, WanderersOfTheRift.id("dash")))
+                .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("dash")))
                 .build());
         ShapedRecipeBuilder.shaped(getter, RecipeCategory.MISC, dodgeSkillGem)
                 .pattern("ggg")
@@ -80,7 +80,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
         ItemStack fireballSkillGem = ModItems.ABILITY_HOLDER.toStack();
         fireballSkillGem.applyComponents(DataComponentPatch.builder()
-                .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY, WanderersOfTheRift.id("fireball")))
+                .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("fireball")))
                 .build());
         ShapedRecipeBuilder.shaped(getter, RecipeCategory.MISC, fireballSkillGem)
                 .pattern("ggg")
@@ -93,7 +93,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
         ItemStack healSkillGem = ModItems.ABILITY_HOLDER.toStack();
         healSkillGem.applyComponents(DataComponentPatch.builder()
-                .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY, WanderersOfTheRift.id("heal")))
+                .set(ModDataComponentType.ABILITY.get(), DeferredHolder.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("heal")))
                 .build());
         ShapedRecipeBuilder.shaped(getter, RecipeCategory.MISC, healSkillGem)
                 .pattern("ggg")

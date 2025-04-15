@@ -2,7 +2,7 @@ package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.init.ModBlocks;
-import com.wanderersoftherift.wotr.init.ModEntityTypes;
+import com.wanderersoftherift.wotr.init.ModEntities;
 import com.wanderersoftherift.wotr.init.ModItems;
 import com.wanderersoftherift.wotr.init.client.ModKeybinds;
 import com.wanderersoftherift.wotr.item.essence.EssenceValue;
@@ -46,7 +46,8 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.ABILITY_HOLDER, "Empty Ability");
         addItem(ModItems.SKILL_THREAD, "Skill Thread");
 
-        addEntityType(ModEntityTypes.RIFT_ENTRANCE, "Rift Entrance");
+        addEntityType(ModEntities.RIFT_ENTRANCE, "Rift Entrance");
+        addEntityType(ModEntities.SIMPLE_EFFECT_PROJECTILE, "Projectile");
 
         addEssenceType("earth", "Earth");
         addEssenceType("life", "Life");

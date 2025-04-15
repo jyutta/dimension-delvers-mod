@@ -7,9 +7,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import com.wanderersoftherift.wotr.Registries.AbilityRegistry;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
+import com.wanderersoftherift.wotr.init.RegistryEvents;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
@@ -39,7 +39,7 @@ public class AbilityArgument implements ArgumentType<ResourceLocation> {
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
         return context.getSource() instanceof SharedSuggestionProvider
-                ? SharedSuggestionProvider.suggestResource(((SharedSuggestionProvider)context.getSource()).registryAccess().lookupOrThrow(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY).keySet(), builder)
+                ? SharedSuggestionProvider.suggestResource(((SharedSuggestionProvider)context.getSource()).registryAccess().lookupOrThrow(RegistryEvents.ABILITY_REGISTRY).keySet(), builder)
                 : Suggestions.empty();
     }
 
@@ -54,7 +54,7 @@ public class AbilityArgument implements ArgumentType<ResourceLocation> {
 
     public static AbstractAbility getAbility(CommandContext<CommandSourceStack> context, String name) throws CommandSyntaxException {
         ResourceLocation resourcelocation = context.getArgument(name, ResourceLocation.class);
-        Optional<AbstractAbility> result = context.getSource().getLevel().registryAccess().lookup(AbilityRegistry.DATA_PACK_ABILITY_REG_KEY).flatMap(
+        Optional<AbstractAbility> result = context.getSource().getLevel().registryAccess().lookup(RegistryEvents.ABILITY_REGISTRY).flatMap(
                 registry -> Optional.ofNullable(registry.getValue(resourcelocation))
         );
         if (result.isPresent()) {
