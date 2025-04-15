@@ -2,6 +2,7 @@ package com.wanderersoftherift.wotr.init.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.block.blockentity.DittoBlockEntityRenderer;
 import com.wanderersoftherift.wotr.client.ModShaders;
 import com.wanderersoftherift.wotr.client.map.Direction;
 import com.wanderersoftherift.wotr.client.map.MapCell;
@@ -16,6 +17,7 @@ import com.wanderersoftherift.wotr.client.tooltip.ImageTooltipRenderer;
 import com.wanderersoftherift.wotr.gui.layer.objective.ObjectiveLayer;
 import com.wanderersoftherift.wotr.gui.screen.KeyForgeScreen;
 import com.wanderersoftherift.wotr.gui.screen.RuneAnvilScreen;
+import com.wanderersoftherift.wotr.init.ModBlockEntities;
 import com.wanderersoftherift.wotr.init.ModEntityTypes;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
 import net.minecraft.client.KeyMapping;
@@ -80,6 +82,7 @@ public final class ClientRegistryEvents {
                 BlockEntityType.JIGSAW,
                 JigsawBlockEntityRenderer::new
         );
+        event.registerBlockEntityRenderer(ModBlockEntities.DITTO_BLOCK_ENTITY.get(), DittoBlockEntityRenderer::new);
     }
 
     @SubscribeEvent
