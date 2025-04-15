@@ -5,14 +5,21 @@ import com.google.common.collect.Multimap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.client.tooltip.ImageComponent;
 import com.wanderersoftherift.wotr.modifier.source.ModifierSource;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 
 public class AttributeModifierEffect extends AbstractModifierEffect {
     public static final MapCodec<AttributeModifierEffect> MODIFIER_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -97,5 +104,31 @@ public class AttributeModifierEffect extends AbstractModifierEffect {
     private Multimap<Holder<Attribute>, AttributeModifier> makeAttributeMap(double roll, ModifierSource source) {
         return ImmutableMultimap.of(this.attribute, this.getModifier(roll, source));
 
+    }
+
+    @Override
+    public TooltipComponent getTooltipComponent(ItemStack stack, float roll, ChatFormatting chatFormatting) {
+        return switch (this.getOperation()) {
+            case ADD_VALUE -> getAddTooltipComponent(stack, roll, chatFormatting);
+            case ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL -> getMultiplyTooltipComponent(stack, roll, chatFormatting);
+        };
+    }
+
+    private TooltipComponent getAddTooltipComponent(ItemStack stack, float roll, ChatFormatting chatFormatting) {
+        double calculatedRoll = calculateModifier(roll);
+        float roundedValue = (float) (Math.ceil(calculatedRoll * 100) / 100);
+        String sign = (roundedValue > 0) ? "positive" : "negative";
+
+        MutableComponent cmp = Component.translatable("modifier."+ WanderersOfTheRift.MODID + ".attribute.add." +sign, roundedValue, Component.translatable(attribute.value().getDescriptionId())).withStyle(chatFormatting);
+        return new ImageComponent(stack, cmp, WanderersOfTheRift.id("textures/tooltip/attribute/damage_attribute.png"));
+    }
+
+    private TooltipComponent getMultiplyTooltipComponent(ItemStack stack, float roll, ChatFormatting chatFormatting) {
+        double calculatedRoll = calculateModifier(roll);
+        int roundedValue = (int) Math.ceil(calculatedRoll * 100);
+        String sign = (roundedValue > 0) ? "positive" : "negative";
+
+        MutableComponent cmp = Component.translatable("modifier."+ WanderersOfTheRift.MODID + ".attribute.multiply."+sign, roundedValue, Component.translatable(attribute.value().getDescriptionId())).withStyle(chatFormatting);
+        return new ImageComponent(stack, cmp, WanderersOfTheRift.id("textures/tooltip/attribute/damage_attribute.png"));
     }
 }

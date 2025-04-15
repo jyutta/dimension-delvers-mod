@@ -2,11 +2,16 @@ package com.wanderersoftherift.wotr.modifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 
 public record ModifierInstance(Holder<Modifier> modifier, float roll) {
@@ -27,4 +32,9 @@ public record ModifierInstance(Holder<Modifier> modifier, float roll) {
     public static ModifierInstance of(Holder<Modifier> modifier, RandomSource random) {
         return new ModifierInstance(modifier, random.nextFloat());
     }
+
+    public List<TooltipComponent> getTooltipComponent(ItemStack stack, ChatFormatting chatFormatting) {
+        return modifier.value().getTooltipComponent(stack, roll, this, chatFormatting);
+    }
+
 }

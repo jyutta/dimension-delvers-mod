@@ -1,7 +1,7 @@
 package com.wanderersoftherift.wotr.item.runegem;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.client.tooltip.ImageTooltipRenderer;
+import com.wanderersoftherift.wotr.client.tooltip.ImageComponent;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -46,8 +46,8 @@ public class Runegem extends Item {
     public @NotNull Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
         if(stack.has(ModDataComponentType.RUNEGEM_DATA)) {
             RunegemData gemData = stack.get(ModDataComponentType.RUNEGEM_DATA);
-            ImageTooltipRenderer.ImageComponent fancyComponent =
-                    new ImageTooltipRenderer.ImageComponent(stack, Component.empty(), TIER_RESOURCE_LOCATION_MAP.get(Objects.requireNonNull(gemData).tier()));
+            ImageComponent fancyComponent =
+                    new ImageComponent(stack, Component.empty(), TIER_RESOURCE_LOCATION_MAP.get(Objects.requireNonNull(gemData).tier()));
             return Optional.of(fancyComponent);
         }
 

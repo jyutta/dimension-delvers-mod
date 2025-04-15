@@ -131,9 +131,15 @@ public class ModLanguageProvider extends LanguageProvider {
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_value", "Essence: %s %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_header", "Essence:");
         add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
+        add("tooltip." + WanderersOfTheRift.MODID + ".implicit-", "Implicit: ");
         add(WanderersOfTheRift.translationId("tooltip", "mana_bar"), "Mana: %s/%s");
 
         add("subtitles." + WanderersOfTheRift.MODID + ".rift_open", "Rift Opens");
+
+        add("modifier."+ WanderersOfTheRift.MODID + ".attribute.add.positive", "+%s %s");
+        add("modifier."+ WanderersOfTheRift.MODID + ".attribute.add.negative", "%s %s");
+        add("modifier."+ WanderersOfTheRift.MODID + ".attribute.multiply.positive", "+%s%% %s");
+        add("modifier."+ WanderersOfTheRift.MODID + ".attribute.multiply.negative", "%s%% %s");
 
         add(WanderersOfTheRift.translationId("ability_upgrade", "aoe.name"), "Area of Effect");
         add(WanderersOfTheRift.translationId("ability_upgrade", "aoe.description"), "Increases Area of Effect by 1 block");

@@ -102,7 +102,7 @@ public class GearSocketTooltipRenderer implements ClientTooltipComponent {
 
 
     public static Component getSocketDesc() {
-        return Component.translatable("tooltip.wotr.socket");
+        return Component.translatable("tooltip."+ WanderersOfTheRift.MODID +".socket");
     }
 
 

@@ -1,7 +1,7 @@
-package com.wanderersoftherift.wotr.events.client;
+package com.wanderersoftherift.wotr.client;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.events.RenderEvents;
+import com.wanderersoftherift.wotr.client.render.RenderEvents;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

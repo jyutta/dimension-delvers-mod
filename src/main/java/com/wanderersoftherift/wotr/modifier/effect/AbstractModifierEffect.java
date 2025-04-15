@@ -3,12 +3,15 @@ package com.wanderersoftherift.wotr.modifier.effect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.wanderersoftherift.wotr.modifier.source.ModifierSource;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Function;
 
@@ -31,4 +34,5 @@ public abstract class AbstractModifierEffect {
 
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<AbstractModifierEffect>> STREAM_CODEC = ByteBufCodecs.holderRegistry(MODIFIER_EFFECT_KEY);
 
+    public abstract TooltipComponent getTooltipComponent(ItemStack stack, float roll, ChatFormatting chatFormatting);
 }
