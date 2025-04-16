@@ -31,18 +31,18 @@ import static net.minecraft.world.level.block.Blocks.AIR;
 // https://wiki.fabricmc.net/tutorial:chunkgenerator
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class PocRiftChunkGenerator extends ChunkGenerator {
+public class SingleBlockGenerator extends ChunkGenerator {
 
-    public static final MapCodec<PocRiftChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(instance ->
+    public static final MapCodec<SingleBlockGenerator> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
-            BiomeSource.CODEC.fieldOf("biome_source").forGetter(PocRiftChunkGenerator::getBiomeSource),
-            ResourceLocation.CODEC.fieldOf("custom_block").forGetter(PocRiftChunkGenerator::getCustomBlockID)
-                ).apply(instance, PocRiftChunkGenerator::new));
+            BiomeSource.CODEC.fieldOf("biome_source").forGetter(SingleBlockGenerator::getBiomeSource),
+            ResourceLocation.CODEC.fieldOf("custom_block").forGetter(SingleBlockGenerator::getCustomBlockID)
+                ).apply(instance, SingleBlockGenerator::new));
 
     private final ResourceLocation customBlockID;
     private final BlockState customBlock;
 
-    public PocRiftChunkGenerator(BiomeSource biomeSource, ResourceLocation defaultBlock) {
+    public SingleBlockGenerator(BiomeSource biomeSource, ResourceLocation defaultBlock) {
         super(biomeSource);
         this.customBlock = BuiltInRegistries.BLOCK.get(defaultBlock).map(Holder.Reference::value).map(Block::defaultBlockState).orElse(AIR.defaultBlockState());
         this.customBlockID = defaultBlock;
@@ -98,7 +98,7 @@ public class PocRiftChunkGenerator extends ChunkGenerator {
     }
 
     @Override public void addDebugScreenInfo(List<String> info, RandomState random, BlockPos pos) {
-        info.add("MelGen");
+        info.add(customBlockID + " generator");
     }
     public ResourceLocation getCustomBlockID() {
         return customBlockID;
