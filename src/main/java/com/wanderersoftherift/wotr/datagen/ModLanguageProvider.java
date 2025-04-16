@@ -83,8 +83,12 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add("command." + WanderersOfTheRift.MODID + ".dev_world_set", "Dev World settings applied:\n - %1$s: Disabled\n - %2$s: Disabled\n - %3$s: Disabled\n - %4$s: Disabled\n - %5$s: Disabled\n - %6$s: Disabled");
         add("command." + WanderersOfTheRift.MODID + ".invalid_item", "Held item is empty!");
-        add("command." + WanderersOfTheRift.MODID + ".get_item_stack_components.invalid_player", "Player is null!");
+        add("command." + WanderersOfTheRift.MODID + ".invalid_player", "Player is null!");
         add("command." + WanderersOfTheRift.MODID + ".get_item_stack_components.success", "Item Components available for '%1$s'");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.theme.success", "Rift key theme set to '%1$s'");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.tier.success", "Rift key tier set to '%1$s'");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.seed.success", "Rift key seed set to '%1$s'");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.invalid_item", "You must hold a rift key in your hand!");
 
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.title", "Dimension Delvers: Accessibility Settings");
         add("accessibility." + WanderersOfTheRift.MODID + ".menubutton", "DimDelvers Accessibility (tmp)");

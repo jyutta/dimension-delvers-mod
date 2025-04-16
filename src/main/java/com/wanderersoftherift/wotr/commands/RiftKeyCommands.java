@@ -12,6 +12,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -51,15 +52,17 @@ public class RiftKeyCommands extends BaseCommand{
             ItemStack heldItem = player.getMainHandItem();
 
             if(heldItem.getItem() != ModItems.RIFT_KEY.asItem()) {
-                stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_item"));
+                stack.getSource().sendFailure(Component.translatable("command.wotr.rift_key.invalid_item"));
                 return 0;
             }
 
-            heldItem.set(ModDataComponentType.RIFT_TIER, stack.getArgument("tier", Integer.class));
+            Integer tier = stack.getArgument("tier", Integer.class);
+            heldItem.set(ModDataComponentType.RIFT_TIER, tier);
+            stack.getSource().sendSuccess(() -> Component.translatable("command.wotr.rift_key.tier.success", tier), true);
             return 1;
         }
 
-        stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_player"));
+        stack.getSource().sendFailure(Component.translatable("command.wotr.invalid_player"));
         return 0;
     }
 
@@ -70,15 +73,17 @@ public class RiftKeyCommands extends BaseCommand{
             ItemStack heldItem = player.getMainHandItem();
 
             if(heldItem.getItem() != ModItems.RIFT_KEY.asItem()) {
-                stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_item"));
+                stack.getSource().sendFailure(Component.translatable("command.wotr.rift_key.invalid_item"));
                 return 0;
             }
 
-            heldItem.set(ModDataComponentType.RIFT_THEME, ResourceLocationArgument.getId(stack, "theme"));
+            ResourceLocation theme = ResourceLocationArgument.getId(stack, "theme");
+            heldItem.set(ModDataComponentType.RIFT_THEME, theme);
+            stack.getSource().sendSuccess(() -> Component.translatable("command.wotr.rift_key.theme.success", theme.toString()), true);
             return 1;
         }
 
-        stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_player"));
+        stack.getSource().sendFailure(Component.translatable("command.wotr.invalid_player"));
         return 0;
     }
 
@@ -89,15 +94,17 @@ public class RiftKeyCommands extends BaseCommand{
             ItemStack heldItem = player.getMainHandItem();
 
             if(heldItem.getItem() != ModItems.RIFT_KEY.asItem()) {
-                stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_item"));
+                stack.getSource().sendFailure(Component.translatable("command.wotr.rift_key.invalid_item"));
                 return 0;
             }
 
-            heldItem.set(ModDataComponentType.RIFT_SEED, stack.getArgument("seed", Integer.class));
+            Integer seed = stack.getArgument("seed", Integer.class);
+            heldItem.set(ModDataComponentType.RIFT_SEED, seed);
+            stack.getSource().sendSuccess(() -> Component.translatable("command.wotr.rift_key.seed.success", seed), true);
             return 1;
         }
 
-        stack.getSource().sendFailure(Component.translatable("command.dimensiondelvers.get_item_stack_components.invalid_player"));
+        stack.getSource().sendFailure(Component.translatable("command.wotr.invalid_player"));
         return 0;
     }
 }

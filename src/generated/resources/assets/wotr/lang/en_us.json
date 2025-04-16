@@ -200,9 +200,13 @@
   "block.wotr.rift_spawner": "Rift Spawner",
   "block.wotr.rune_anvil": "Rune Anvil",
   "command.wotr.dev_world_set": "Dev World settings applied:\n - %1$s: Disabled\n - %2$s: Disabled\n - %3$s: Disabled\n - %4$s: Disabled\n - %5$s: Disabled\n - %6$s: Disabled",
-  "command.wotr.get_item_stack_components.invalid_player": "Player is null!",
   "command.wotr.get_item_stack_components.success": "Item Components available for '%1$s'",
   "command.wotr.invalid_item": "Held item is empty!",
+  "command.wotr.invalid_player": "Player is null!",
+  "command.wotr.rift_key.invalid_item": "You must hold a rift key in your hand!",
+  "command.wotr.rift_key.seed.success": "Rift key seed set to '%1$s'",
+  "command.wotr.rift_key.theme.success": "Rift key theme set to '%1$s'",
+  "command.wotr.rift_key.tier.success": "Rift key tier set to '%1$s'",
   "command.wotr.spawn_piece.generating": "Generating %s",
   "container.wotr.key_forge": "Key Forge",
   "container.wotr.rift_chest": "Rift Chest",
@@ -227,7 +231,7 @@
   "subtitles.wotr.rift_open": "Rift Opens",
   "tooltip.wotr.essence_header": "Essence:",
   "tooltip.wotr.essence_value": "Essence: %s %s",
-  "tooltip.wotr.implicit": "Implicit: ",
+  "tooltip.wotr.implicit-": "Implicit: ",
   "tooltip.wotr.rift_key_tier": "Rift Tier: %s",
   "tooltip.wotr.socket": "Sockets: "
 }
