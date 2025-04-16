@@ -2,6 +2,7 @@ package com.wanderersoftherift.wotr.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -46,7 +47,7 @@ public class DebugCommands extends BaseCommand {
         gameRules.getRule(GameRules.RULE_DOFIRETICK).set(false, server);
 
         stack.getSource().sendSuccess(() -> Component.translatable(
-                "command.wotr.dev_world_set",
+                "command." + WanderersOfTheRift.MODID + ".dev_world_set",
                 "Daylight Cycle", "Weather Cycle", "Mob Spawning", "Wandering Trader Spawning",
                 "Vine Growth", "Fire Tick"
         ), true);
@@ -61,11 +62,11 @@ public class DebugCommands extends BaseCommand {
             ItemStack heldItem = player.getMainHandItem();
 
             if(heldItem.isEmpty()) {
-                stack.getSource().sendFailure(Component.translatable("command.wotr.invalid_item"));
+                stack.getSource().sendFailure(Component.translatable("command." + WanderersOfTheRift.MODID + ".invalid_item"));
                 return 0;
             }
 
-            stack.getSource().sendSuccess(() -> Component.translatable("command.wotr.get_item_stack_components.success", heldItem.getDisplayName().getString()).withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.UNDERLINE), false);
+            stack.getSource().sendSuccess(() -> Component.translatable("command." + WanderersOfTheRift.MODID + ".get_item_stack_components.success", heldItem.getDisplayName().getString()).withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.UNDERLINE), false);
             for (TypedDataComponent<?> c : heldItem.getComponents()) {
                 player.sendSystemMessage(Component.literal("- " + c.toString()));
             }
@@ -73,7 +74,7 @@ public class DebugCommands extends BaseCommand {
             return 1;
         }
 
-        stack.getSource().sendFailure(Component.translatable("command.wotr.invalid_player"));
+        stack.getSource().sendFailure(Component.translatable("command." + WanderersOfTheRift.MODID + ".invalid_player"));
         return 0;
     }
 }
