@@ -35,6 +35,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import org.apache.commons.io.FileUtils;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -162,23 +163,7 @@ public class RiftLevelManager {
         if(Files.exists(dimPath)){
             WanderersOfTheRift.LOGGER.info("Deleting level {}", dimPath);
             try {
-                Files.walkFileTree(dimPath, new SimpleFileVisitor<>() {
-                    @Override
-                    public FileVisitResult visitFile(Path path, BasicFileAttributes attributes) throws IOException {
-                        WanderersOfTheRift.LOGGER.debug("Deleting {}", path);
-                        Files.deleteIfExists(path);
-                        return FileVisitResult.CONTINUE;
-                    }
-
-                    @Override
-                    public FileVisitResult postVisitDirectory(Path path, IOException exception) throws IOException {
-                        if (exception != null) {
-                            WanderersOfTheRift.LOGGER.error("Failed to delete directory {}", path, exception);
-                        }
-                        Files.deleteIfExists(path);
-                        return FileVisitResult.CONTINUE;
-                    }
-                });
+                FileUtils.deleteDirectory(dimPath.toFile());
             } catch (IOException e) {
                 WanderersOfTheRift.LOGGER.error("Failed to delete level", e);
             }
