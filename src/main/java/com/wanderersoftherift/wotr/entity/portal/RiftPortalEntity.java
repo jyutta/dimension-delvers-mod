@@ -91,7 +91,6 @@ public class RiftPortalEntity extends Entity {
 
 
     private static InteractionResult tpToRift(ServerPlayer player, ServerLevel level, BlockPos pos, ItemStack riftKey, RiftPortalEntity homePortalEntity) {
-        //TODO: Use better ID: UUID or take home dimension in.
         ResourceLocation riftId = homePortalEntity.getRiftDimensionID();
         var plDir = player.getDirection().getOpposite();
         var axis = plDir.getAxis();
