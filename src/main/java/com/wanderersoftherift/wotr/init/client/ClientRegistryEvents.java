@@ -10,6 +10,7 @@ import com.wanderersoftherift.wotr.client.map.MapData;
 import com.wanderersoftherift.wotr.client.map.MapRoom;
 import com.wanderersoftherift.wotr.client.render.blockentity.JigsawBlockEntityRenderer;
 import com.wanderersoftherift.wotr.client.render.entity.RiftEntranceRenderer;
+import com.wanderersoftherift.wotr.client.render.entity.RiftExitRenderer;
 import com.wanderersoftherift.wotr.client.render.item.properties.select.SelectRuneGemShape;
 import com.wanderersoftherift.wotr.client.tooltip.GearSocketTooltipRenderer;
 import com.wanderersoftherift.wotr.client.tooltip.ImageComponent;
@@ -20,6 +21,8 @@ import com.wanderersoftherift.wotr.gui.screen.RuneAnvilScreen;
 import com.wanderersoftherift.wotr.init.ModBlockEntities;
 import com.wanderersoftherift.wotr.init.ModEntityTypes;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
+import com.wanderersoftherift.wotr.world.level.RiftDimensionSpecialEffects;
+import com.wanderersoftherift.wotr.world.level.RiftDimensionType;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -78,6 +81,7 @@ public final class ClientRegistryEvents {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntityTypes.RIFT_ENTRANCE.get(), RiftEntranceRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.RIFT_EXIT.get(), RiftExitRenderer::new);
         event.registerBlockEntityRenderer(
                 BlockEntityType.JIGSAW,
                 JigsawBlockEntityRenderer::new
@@ -116,5 +120,10 @@ public final class ClientRegistryEvents {
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         event.register(JIGSAW_NAME_TOGGLE_KEY);
+    }
+
+    @SubscribeEvent
+    private static void registerClientDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {
+        event.register(RiftDimensionType.RIFT_DIMENSION_RENDERER_KEY, new RiftDimensionSpecialEffects());
     }
 }
