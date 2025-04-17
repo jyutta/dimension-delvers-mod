@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.client.ModShaders;
-import com.wanderersoftherift.wotr.entity.portal.RiftPortalEntity;
+import com.wanderersoftherift.wotr.entity.portal.RiftPortalEntranceEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,7 +25,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 @OnlyIn(Dist.CLIENT)
-public class RiftEntranceRenderer extends EntityRenderer<RiftPortalEntity, RiftEntranceRenderer.RiftRendererEntityState> {
+public class RiftEntranceRenderer extends EntityRenderer<RiftPortalEntranceEntity, RiftEntranceRenderer.RiftRendererEntityState> {
 
     private static final ResourceLocation OUTER_RIFT_LOCATION = WanderersOfTheRift.id("textures/entity/outer_rift.png");
     private static final ResourceLocation INNER_RIFT_LOCATION = WanderersOfTheRift.id("textures/entity/inner_rift.png");
@@ -100,7 +100,7 @@ public class RiftEntranceRenderer extends EntityRenderer<RiftPortalEntity, RiftE
         return new RiftRendererEntityState();
     }
 
-    public void extractRenderState(@NotNull RiftPortalEntity entity, @NotNull RiftRendererEntityState state, float delta) {
+    public void extractRenderState(@NotNull RiftPortalEntranceEntity entity, @NotNull RiftRendererEntityState state, float delta) {
         super.extractRenderState(entity, state, delta);
         state.facingDir = entity.getDirection();
         state.billboard = entity.isBillboard();

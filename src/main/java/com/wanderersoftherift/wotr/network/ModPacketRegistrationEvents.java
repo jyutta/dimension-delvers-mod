@@ -21,5 +21,11 @@ public class ModPacketRegistrationEvents {
                 C2SRuneAnvilApplyPacket.STREAM_CODEC,
                 new C2SRuneAnvilApplyPacket.C2SRuneAnvilApplyPacketHandler()
         );
+
+        registrar.playToClient(
+                S2CLevelListUpdatePacket.TYPE,
+                S2CLevelListUpdatePacket.STREAM_CODEC,
+                new S2CLevelListUpdatePacket.S2CLevelListUpdatePacketHandler()
+        );
     }
 }

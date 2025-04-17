@@ -2,6 +2,7 @@ package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
+import com.wanderersoftherift.wotr.block.TrapBlock;
 import com.wanderersoftherift.wotr.client.render.item.ability.AbilitySpecialRenderer;
 import com.wanderersoftherift.wotr.client.render.item.properties.select.SelectRuneGemShape;
 import com.wanderersoftherift.wotr.init.ModBlocks;
@@ -34,6 +35,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplate;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class ModModelProvider extends ModelProvider {
         super(output, WanderersOfTheRift.MODID);
     }
 
-    private static ResourceLocation createRuneGemShapeModel(ResourceLocation location, Item item, String suffix, ModelTemplate modelTemplate, ItemModelGenerators itemModels) {
+    private static ResourceLocation createRuneGemShapeModel(ResourceLocation location, ModelTemplate modelTemplate, ItemModelGenerators itemModels) {
         return modelTemplate.create(location, TextureMapping.layer0(location), itemModels.modelOutput);
     }
 
@@ -53,6 +55,13 @@ public class ModModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.DEV_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.KEY_FORGE.get());
+        blockModels.createTrivialBlock(ModBlocks.DITTO_BLOCK.get(),
+                TexturedModel.CUBE.updateTemplate(template -> template.extend().renderType("cutout").build()));
+        blockModels.createTrivialCube(ModBlocks.SPRING_BLOCK.get());
+
+        createBlockStatesForTrapBlock(ModBlocks.MOB_TRAP_BLOCK, blockModels);
+        createBlockStatesForTrapBlock(ModBlocks.PLAYER_TRAP_BLOCK, blockModels);
+        createBlockStatesForTrapBlock(ModBlocks.TRAP_BLOCK, blockModels);
 
         ResourceLocation abilityBenchModel = WanderersOfTheRift.id("block/ability_bench");
         blockModels.blockStateOutput.accept(
@@ -92,10 +101,34 @@ public class ModModelProvider extends ModelProvider {
 
         this.generateRunegemItem(ModItems.RUNEGEM.get(), itemModels);
 
-        ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels, itemModels));
+        ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels));
     }
 
-    private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+    private void createBlockStatesForTrapBlock(DeferredBlock<? extends Block> trapBlock, BlockModelGenerators generators) {
+        ResourceLocation model0 = ModelLocationUtils.getModelLocation(trapBlock.get(), "/0");
+        ResourceLocation model1 = ModelLocationUtils.getModelLocation(trapBlock.get(), "/1");
+        ResourceLocation model2 = ModelLocationUtils.getModelLocation(trapBlock.get(), "/2");
+
+        // Item Model (Pull from model0)
+        generators.registerSimpleItemModel(trapBlock.get(), model0);
+
+        // Block Models (one for each variant)
+        ModelTemplates.CUBE_ALL.createWithSuffix(trapBlock.get(), "/0", TextureMapping.cube(model0), generators.modelOutput);
+        ModelTemplates.CUBE_ALL.createWithSuffix(trapBlock.get(), "/1", TextureMapping.cube(model1), generators.modelOutput);
+        ModelTemplates.CUBE_ALL.createWithSuffix(trapBlock.get(), "/2", TextureMapping.cube(model2), generators.modelOutput);
+
+        // Blockstate (point to the three unique block models)
+        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(trapBlock.get()).with(
+                PropertyDispatch.property(TrapBlock.STAGE)
+                        .select(0, Variant.variant().with(VariantProperties.MODEL, model0))
+                        .select(1, Variant.variant().with(VariantProperties.MODEL, model1))
+                        .select(2, Variant.variant().with(VariantProperties.MODEL, model2))
+                )
+        );
+
+    }
+
+    private void createModelsForBuildBlock(BlockFamilyHelper helper, BlockModelGenerators blockModels) {
        if (helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE) != null) {
            createGlassPane(blockModels, helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.GLASS_BLOCK).get(), helper.getModVariants(BlockFamilyHelper.ModBlockFamilyVariant.PANE).get() );
        }
@@ -112,7 +145,7 @@ public class ModModelProvider extends ModelProvider {
         ResourceLocation shapeLocation = ResourceLocation.fromNamespaceAndPath(WanderersOfTheRift.MODID, "item/runegem/shape/");
         List<SelectItemModel.SwitchCase<RunegemShape>> list = new ArrayList<>(RunegemShape.values().length);
         for (RunegemShape shape : RunegemShape.values()) {
-            ItemModel.Unbaked model = ItemModelUtils.plainModel(createRuneGemShapeModel(shapeLocation.withSuffix(shape.getName()), ModItems.RUNEGEM.get(), shape.getName(), ModelTemplates.FLAT_ITEM, itemModels));
+            ItemModel.Unbaked model = ItemModelUtils.plainModel(createRuneGemShapeModel(shapeLocation.withSuffix(shape.getName()), ModelTemplates.FLAT_ITEM, itemModels));
             list.add(ItemModelUtils.when(shape, model));
         }
         itemModels.itemModelOutput.accept(item, ItemModelUtils.select(new SelectRuneGemShape(), ItemModelUtils.plainModel(modelLocation), list));

@@ -31,6 +31,7 @@ public class ModDataComponentType {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> INVENTORY_SNAPSHOT_ID = register("inventory_snapshot_id", UUIDUtil.CODEC, null);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> RIFT_TIER = register("rift_tier", Codec.INT, ByteBufCodecs.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> RIFT_THEME = register("rift_theme", ResourceLocation.CODEC, ResourceLocation.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> RIFT_SEED = register("rift_seed", Codec.INT, ByteBufCodecs.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<LootBox>> LOOT_BOX = register("loot_box", LootBox.CODEC, null);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Holder<AbstractAbility>>> ABILITY = register("ability", AbstractAbility.CODEC, AbstractAbility.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<AbilityUpgradePool>> ABILITY_UPGRADE_POOL = register("ability_upgrade_pool", AbilityUpgradePool.CODEC, AbilityUpgradePool.STREAM_CODEC);
