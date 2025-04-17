@@ -122,6 +122,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("modifier."+ WanderersOfTheRift.MODID + ".attribute.multiply.positive", "+%s%% %s");
         add("modifier."+ WanderersOfTheRift.MODID + ".attribute.multiply.negative", "%s%% %s");
 
+        add(WanderersOfTheRift.MODID + ".rift.create.failed", "Failed to create rift");
+
     }
 
     private void addEssenceType(String id, String value) {

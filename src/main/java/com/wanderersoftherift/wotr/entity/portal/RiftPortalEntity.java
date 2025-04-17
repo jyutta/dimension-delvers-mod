@@ -24,7 +24,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -98,7 +97,7 @@ public class RiftPortalEntity extends Entity {
 
         ServerLevel lvl = RiftLevelManager.getOrCreateRiftLevel(riftId, level.dimension(), pos.relative(axis, 3 * axisDir), riftKey);
         if (lvl == null) {
-            player.displayClientMessage(Component.literal("Failed to create rift"), true);
+            player.displayClientMessage(Component.translatable(WanderersOfTheRift.MODID +".rift.create.failed"), true);
             return InteractionResult.FAIL;
         }
         homePortalEntity.setGenerated(true);
