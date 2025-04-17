@@ -9,6 +9,7 @@ import com.wanderersoftherift.wotr.client.map.MapData;
 import com.wanderersoftherift.wotr.client.map.MapRoom;
 import com.wanderersoftherift.wotr.client.render.blockentity.JigsawBlockEntityRenderer;
 import com.wanderersoftherift.wotr.client.render.entity.RiftEntranceRenderer;
+import com.wanderersoftherift.wotr.client.render.entity.RiftExitRenderer;
 import com.wanderersoftherift.wotr.client.render.item.properties.select.SelectRuneGemShape;
 import com.wanderersoftherift.wotr.client.tooltip.GearSocketTooltipRenderer;
 import com.wanderersoftherift.wotr.client.tooltip.ImageComponent;
@@ -78,6 +79,7 @@ public final class ClientRegistryEvents {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntityTypes.RIFT_ENTRANCE.get(), RiftEntranceRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.RIFT_EXIT.get(), RiftExitRenderer::new);
         event.registerBlockEntityRenderer(
                 BlockEntityType.JIGSAW,
                 JigsawBlockEntityRenderer::new
