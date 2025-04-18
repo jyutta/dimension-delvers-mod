@@ -45,6 +45,7 @@ public class InventorySnapshotSystem {
 
     private static final InventorySnapshotSystem instance = new InventorySnapshotSystem();
 
+    // TODO: Registry
     private final List<ContainerType> containerStrategies = new ArrayList<>();
 
     private InventorySnapshotSystem() {
