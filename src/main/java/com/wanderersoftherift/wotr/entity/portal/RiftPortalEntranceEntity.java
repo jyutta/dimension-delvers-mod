@@ -12,7 +12,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -63,19 +62,13 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
 
     @Override
     public void tick() {
-        super.tick();
-        if (level() instanceof ServerLevel serverLevel) {
-            for (Entity player : serverLevel.getEntities(this, makeBoundingBox(), x -> x instanceof ServerPlayer)) {
-                if (player instanceof ServerPlayer serverPlayer) {
-
-                }
-            }
-            if (generated) {
-                if (!levelExists(getRiftDimensionID())) {
-                    this.remove(RemovalReason.DISCARDED);
-                }
+        if (generated) {
+            if (!levelExists(getRiftDimensionID())) {
+                this.remove(RemovalReason.DISCARDED);
+                return;
             }
         }
+        super.tick();
     }
 
     @Override
