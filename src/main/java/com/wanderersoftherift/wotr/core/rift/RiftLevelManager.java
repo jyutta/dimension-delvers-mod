@@ -95,20 +95,18 @@ public class RiftLevelManager {
         level.getServer().markWorldsDirty();
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(level));
         PacketDistributor.sendToAllPlayers(new S2CLevelListUpdatePacket(id, false));
-        spawnRift(id, riftKey, level, new BlockPos(0, 0, 0).above().getBottomCenter(), Direction.UP);
+        spawnRiftExit(id, riftKey, level, new BlockPos(0, 0, 0).above().getBottomCenter(), Direction.UP);
         WanderersOfTheRift.LOGGER.debug("Created rift level {}", id);
         return level;
     }
 
     /** copy of {@link com.wanderersoftherift.wotr.item.riftkey.RiftKey::spawnRift(Level, Vec3, Direction)} */
     // TODO: clean it up (maybe move as static method to the entity or the spawner class)
-    private static void spawnRift(ResourceLocation id, ItemStack riftKey, Level level, Vec3 pos, Direction dir) {
-        RiftPortalExitEntity rift = new RiftPortalExitEntity(ModEntities.RIFT_ENTRANCE.get(), level);
+    private static void spawnRiftExit(ResourceLocation id, ItemStack riftKey, Level level, Vec3 pos, Direction dir) {
+        RiftPortalExitEntity rift = new RiftPortalExitEntity(ModEntities.RIFT_EXIT.get(), level);
         rift.setPos(pos);
         rift.setYRot(dir.toYRot());
         rift.setBillboard(dir.getAxis().isVertical());
-        rift.setRiftDimensionID(id);
-        rift.setRiftkey(riftKey);
         level.addFreshEntity(rift);
     }
 
