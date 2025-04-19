@@ -5,7 +5,7 @@ import com.wanderersoftherift.wotr.block.RiftSpawnerBlock;
 import com.wanderersoftherift.wotr.entity.portal.PortalSpawnLocation;
 import com.wanderersoftherift.wotr.entity.portal.RiftPortalEntranceEntity;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
-import com.wanderersoftherift.wotr.init.ModEntityTypes;
+import com.wanderersoftherift.wotr.init.ModEntities;
 import com.wanderersoftherift.wotr.init.ModSoundEvents;
 import com.wanderersoftherift.wotr.item.essence.EssenceValue;
 import net.minecraft.ChatFormatting;
@@ -92,7 +92,7 @@ public class RiftKey extends Item {
     }
 
     private void spawnRift(Level level, Vec3 pos, Direction dir, ItemStack riftKey) {
-        RiftPortalEntranceEntity rift = new RiftPortalEntranceEntity(ModEntityTypes.RIFT_ENTRANCE.get(), level);
+        RiftPortalEntranceEntity rift = new RiftPortalEntranceEntity(ModEntities.RIFT_ENTRANCE.get(), level);
         rift.setPos(pos);
         rift.setYRot(dir.toYRot());
         rift.setBillboard(dir.getAxis().isVertical());

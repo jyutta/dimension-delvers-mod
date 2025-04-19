@@ -2,8 +2,9 @@ package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.init.ModBlocks;
-import com.wanderersoftherift.wotr.init.ModEntityTypes;
+import com.wanderersoftherift.wotr.init.ModEntities;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.client.ModKeybinds;
 import com.wanderersoftherift.wotr.item.essence.EssenceValue;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -39,6 +40,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.TRAP_BLOCK, "Trap Block");
         addBlock(ModBlocks.PLAYER_TRAP_BLOCK, "Player Trap Block");
         addBlock(ModBlocks.MOB_TRAP_BLOCK, "Mob Trap Block");
+        addBlock(ModBlocks.ABILITY_BENCH, "Ability Bench");
 
         // Adds an item translation.
         addItem(ModItems.EXAMPLE_ITEM, "Example Item");
@@ -46,8 +48,11 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.RUNEGEM, "Runegem");
         addItem(ModItems.RIFT_KEY, "Rift Key");
         addItem(ModItems.RUNEGEM_GEODE, "Runegem Geode");
+        addItem(ModItems.ABILITY_HOLDER, "Empty Ability");
+        addItem(ModItems.SKILL_THREAD, "Skill Thread");
 
-        addEntityType(ModEntityTypes.RIFT_ENTRANCE, "Rift Entrance");
+        addEntityType(ModEntities.RIFT_ENTRANCE, "Rift Entrance");
+        addEntityType(ModEntities.SIMPLE_EFFECT_PROJECTILE, "Projectile");
 
         addEssenceType("earth", "Earth");
         addEssenceType("life", "Life");
@@ -85,6 +90,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add("container." + WanderersOfTheRift.MODID + ".rune_anvil.apply", "Apply");
         add("container." + WanderersOfTheRift.MODID + ".rift_chest", "Rift Chest");
         add("container." + WanderersOfTheRift.MODID + ".key_forge", "Key Forge");
+        add("container." + WanderersOfTheRift.MODID + ".ability_bench", "Ability Bench");
+
+        add("container." + WanderersOfTheRift.MODID + ".ability_bench.upgrade", "Upgrades");
+        add("container." + WanderersOfTheRift.MODID + ".ability_bench.unlock", "Unlock next choice");
 
         add("command." + WanderersOfTheRift.MODID + ".dev_world_set", "Dev World settings applied:\n - %1$s: Disabled\n - %2$s: Disabled\n - %3$s: Disabled\n - %4$s: Disabled\n - %5$s: Disabled\n - %6$s: Disabled");
         add("command." + WanderersOfTheRift.MODID + ".invalid_item", "Held item is empty!");
@@ -94,6 +103,19 @@ public class ModLanguageProvider extends LanguageProvider {
         add("command." + WanderersOfTheRift.MODID + ".rift_key.tier.success", "Rift key tier set to '%1$s'");
         add("command." + WanderersOfTheRift.MODID + ".rift_key.seed.success", "Rift key seed set to '%1$s'");
         add("command." + WanderersOfTheRift.MODID + ".rift_key.invalid_item", "You must hold a rift key in your hand!");
+
+        add("ability." + WanderersOfTheRift.MODID + ".cannot_unlock", "You must unlock the following to get this boost: ");
+        add("ability." + WanderersOfTheRift.MODID + ".fireball_ability", "Fireball");
+        add("ability." + WanderersOfTheRift.MODID + ".mega_boost", "Mega Boost");
+        add("ability." + WanderersOfTheRift.MODID + ".dash", "Dash");
+        add("ability." + WanderersOfTheRift.MODID + ".summon_skeletons", "Summon Skeletons");
+        add("ability." + WanderersOfTheRift.MODID + ".test_ability", "Test Ability");
+        add("ability." + WanderersOfTheRift.MODID + ".knockback", "Knockback");
+        add("ability." + WanderersOfTheRift.MODID + ".pull", "Pull");
+        add("ability." + WanderersOfTheRift.MODID + ".heal", "Heal");
+        add("ability." + WanderersOfTheRift.MODID + ".firetouch", "Nonsense Experimental Ability");
+
+        add(WanderersOfTheRift.translationId("effect_marker", "fireshield"), "Fire Shield");
 
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.title", "Dimension Delvers: Accessibility Settings");
         add("accessibility." + WanderersOfTheRift.MODID + ".menubutton", "DimDelvers Accessibility (tmp)");
@@ -113,12 +135,14 @@ public class ModLanguageProvider extends LanguageProvider {
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.reduced_motion", "Disables or slows down UI animations, camera shake, or screen effects");
 
         add("command." + WanderersOfTheRift.MODID + ".spawn_piece.generating", "Generating %s");
+        add(WanderersOfTheRift.translationId("command", "make_ability_item.success"), "Applied ability components");
 
         add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_tier", "Rift Tier: %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_value", "Essence: %s %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_header", "Essence:");
         add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
         add("tooltip." + WanderersOfTheRift.MODID + ".implicit-", "Implicit: ");
+        add(WanderersOfTheRift.translationId("tooltip", "mana_bar"), "Mana: %s/%s");
 
         add("subtitles." + WanderersOfTheRift.MODID + ".rift_open", "Rift Opens");
 
@@ -129,6 +153,46 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add(WanderersOfTheRift.MODID + ".rift.create.failed", "Failed to create rift");
 
+        add(WanderersOfTheRift.translationId("ability_upgrade", "aoe.name"), "Area of Effect");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "aoe.description"), "Increases Area of Effect by 1 block");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "cooldown.name"), "Decrease Cooldown");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "cooldown.description"), "Decreases Cooldown by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "damage.name"), "Damage Up");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "damage.description"), "Increases Damage by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "drain_life.name"), "Drain Life");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "drain_life.description"), "Drains 1 life per target hit");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "mana_cost.name"), "Mana Cost Decrease");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "mana_cost.description"), "Decreases mana cost by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_count.name"), "More Projectiles");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_count.description"), "Adds an additional projectile");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_speed.name"), "Projectile Speed");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_speed.description"), "Increases Projectile speed by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_spread.name"), "Projectile Spread Reduction");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "projectile_spread.description"), "Decreases Projectile Spread by 10%");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "healing_power.name"), "Healing Up");
+        add(WanderersOfTheRift.translationId("ability_upgrade", "healing_power.description"), "Heals an additional heart");
+
+        add(ModKeybinds.ABILITY_CATEGORY, "Abilities");
+        add(ModKeybinds.ABILITY_1_KEY.getName(), "Use Ability 1");
+        add(ModKeybinds.ABILITY_2_KEY.getName(), "Use Ability 2");
+        add(ModKeybinds.ABILITY_3_KEY.getName(), "Use Ability 3");
+        add(ModKeybinds.ABILITY_4_KEY.getName(), "Use Ability 4");
+        add(ModKeybinds.ABILITY_5_KEY.getName(), "Use Ability 5");
+        add(ModKeybinds.ABILITY_6_KEY.getName(), "Use Ability 6");
+        add(ModKeybinds.ABILITY_7_KEY.getName(), "Use Ability 7");
+        add(ModKeybinds.ABILITY_8_KEY.getName(), "Use Ability 8");
+        add(ModKeybinds.ABILITY_9_KEY.getName(), "Use Ability 9");
+        add(ModKeybinds.PREV_ABILITY_KEY.getName(), "Select Previous Ability");
+        add(ModKeybinds.NEXT_ABILITY_KEY.getName(), "Select Next Ability");
+        add(ModKeybinds.USE_ABILITY_KEY.getName(), "Use Selected Ability");
+
+        add(WanderersOfTheRift.translationId("keybinds", "l_alt"), "LAlt");
+        add(WanderersOfTheRift.translationId("keybinds", "r_alt"), "RAlt");
+        add(WanderersOfTheRift.translationId("keybinds", "l_ctrl"), "LCtrl");
+        add(WanderersOfTheRift.translationId("keybinds", "r_ctrl"), "RCtrl");
+        add(WanderersOfTheRift.translationId("keybinds", "mod_alt"), "Alt+");
+        add(WanderersOfTheRift.translationId("keybinds", "mod_ctrl"), "Ctrl+");
+        add(WanderersOfTheRift.translationId("keybinds", "mod_shift"), "Shi+");
     }
 
     private void addEssenceType(String id, String value) {

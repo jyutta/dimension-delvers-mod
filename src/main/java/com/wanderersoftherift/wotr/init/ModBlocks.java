@@ -1,18 +1,37 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.block.AbilityBenchBlock;
 import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
+import com.wanderersoftherift.wotr.block.DittoBlock;
+import com.wanderersoftherift.wotr.block.KeyForgeBlock;
+import com.wanderersoftherift.wotr.block.MobTrapBlock;
+import com.wanderersoftherift.wotr.block.PlayerTrapBlock;
 import com.wanderersoftherift.wotr.block.RiftChestEntityBlock;
-import com.wanderersoftherift.wotr.block.*;
+import com.wanderersoftherift.wotr.block.RiftSpawnerBlock;
+import com.wanderersoftherift.wotr.block.RuneAnvilEntityBlock;
+import com.wanderersoftherift.wotr.block.SpringBlock;
+import com.wanderersoftherift.wotr.block.TrapBlock;
 import com.wanderersoftherift.wotr.item.RiftChestType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StainedGlassBlock;
+import net.minecraft.world.level.block.StainedGlassPaneBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -22,7 +41,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.*;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.BUTTON_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.DIRECTIONAL_PILLAR_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.FENCE_GATE_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.FENCE_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.GLASS_BLOCK_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.PANE_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.PLATE_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.SLAB_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.STAIRS_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.TRAPDOOR_SUFFIX;
+import static com.wanderersoftherift.wotr.block.BlockFamilyHelper.WALL_SUFFIX;
 import static net.minecraft.world.level.block.state.properties.WoodType.OAK;
 
 public class ModBlocks {
@@ -67,13 +96,21 @@ public class ModBlocks {
     );
 
     public static final DeferredBlock<KeyForgeBlock> KEY_FORGE = registerBlock(
-      "key_forge",
+            "key_forge",
             () -> new KeyForgeBlock(BlockBehaviour.Properties.of()
                     .setId(blockId("key_forge"))
                     .strength(2.0f)
                     .sound(SoundType.STONE)
             )
     );
+
+    public static final DeferredBlock<AbilityBenchBlock> ABILITY_BENCH = registerBlock(
+            "ability_bench",
+            () -> new AbilityBenchBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("ability_bench"))
+                    .strength(2.0f)
+                    .sound(SoundType.WOOD)
+            ));
 
     public static final DeferredBlock<DittoBlock> DITTO_BLOCK = registerBlock(
             "ditto_block",

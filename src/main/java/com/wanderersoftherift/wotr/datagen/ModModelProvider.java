@@ -3,6 +3,7 @@ package com.wanderersoftherift.wotr.datagen;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
 import com.wanderersoftherift.wotr.block.TrapBlock;
+import com.wanderersoftherift.wotr.client.render.item.ability.AbilitySpecialRenderer;
 import com.wanderersoftherift.wotr.client.render.item.properties.select.SelectRuneGemShape;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModItems;
@@ -10,10 +11,22 @@ import com.wanderersoftherift.wotr.item.runegem.RunegemShape;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.blockstates.*;
-import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.data.models.blockstates.Condition;
+import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.blockstates.Variant;
+import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
+import net.minecraft.client.renderer.item.SpecialModelWrapper;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -50,6 +63,14 @@ public class ModModelProvider extends ModelProvider {
         createBlockStatesForTrapBlock(ModBlocks.PLAYER_TRAP_BLOCK, blockModels);
         createBlockStatesForTrapBlock(ModBlocks.TRAP_BLOCK, blockModels);
 
+        ResourceLocation abilityBenchModel = WanderersOfTheRift.id("block/ability_bench");
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.multiVariant(
+                                ModBlocks.ABILITY_BENCH.get(),
+                                Variant.variant().with(VariantProperties.MODEL, abilityBenchModel))
+                        .with(BlockModelGenerators.createHorizontalFacingDispatch())
+        );
+
         ResourceLocation baseChestModel = WanderersOfTheRift.id("block/rift_chest");
         blockModels.blockStateOutput.accept(
                 MultiVariantGenerator.multiVariant(
@@ -64,13 +85,19 @@ public class ModModelProvider extends ModelProvider {
                         .with(createFacingDispatchFromUpModel())
         );
 
-
-
         itemModels.itemModelOutput.accept(ModItems.BUILDER_GLASSES.get(), ItemModelUtils.plainModel(WanderersOfTheRift.id("item/builder_glasses")));
 
         itemModels.generateFlatItem(ModItems.EXAMPLE_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.RIFT_KEY.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.RUNEGEM_GEODE.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.BASE_ABILITY_HOLDER.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.SKILL_THREAD.get(), ModelTemplates.FLAT_ITEM);
+
+        itemModels.itemModelOutput.accept(ModItems.ABILITY_HOLDER.get(),
+                new SpecialModelWrapper.Unbaked(
+                  WanderersOfTheRift.id("item/base_ability_holder"),
+                  new AbilitySpecialRenderer.Unbaked(ModItems.BASE_ABILITY_HOLDER)
+                ));
 
         this.generateRunegemItem(ModItems.RUNEGEM.get(), itemModels);
 

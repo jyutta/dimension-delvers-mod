@@ -12,16 +12,14 @@ import com.wanderersoftherift.wotr.client.render.blockentity.JigsawBlockEntityRe
 import com.wanderersoftherift.wotr.client.render.entity.AltSpiderRenderer;
 import com.wanderersoftherift.wotr.client.render.entity.RiftEntranceRenderer;
 import com.wanderersoftherift.wotr.client.render.entity.RiftExitRenderer;
+import com.wanderersoftherift.wotr.client.render.entity.SimpleEffectProjectileRenderer;
 import com.wanderersoftherift.wotr.client.render.item.properties.select.SelectRuneGemShape;
 import com.wanderersoftherift.wotr.client.tooltip.GearSocketTooltipRenderer;
 import com.wanderersoftherift.wotr.client.tooltip.ImageComponent;
 import com.wanderersoftherift.wotr.client.tooltip.ImageTooltipRenderer;
 import com.wanderersoftherift.wotr.gui.layer.objective.ObjectiveLayer;
-import com.wanderersoftherift.wotr.gui.screen.KeyForgeScreen;
-import com.wanderersoftherift.wotr.gui.screen.RuneAnvilScreen;
 import com.wanderersoftherift.wotr.init.ModBlockEntities;
-import com.wanderersoftherift.wotr.init.ModEntityTypes;
-import com.wanderersoftherift.wotr.init.ModMenuTypes;
+import com.wanderersoftherift.wotr.init.ModEntities;
 import com.wanderersoftherift.wotr.world.level.RiftDimensionSpecialEffects;
 import com.wanderersoftherift.wotr.world.level.RiftDimensionType;
 import net.minecraft.client.KeyMapping;
@@ -31,13 +29,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import org.joml.Vector3f;
@@ -77,25 +73,18 @@ public final class ClientRegistryEvents {
     }
 
     @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-
-    }
-
-    @SubscribeEvent
-    private static void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenuTypes.RUNE_ANVIL_MENU.get(), RuneAnvilScreen::new);
-        event.register(ModMenuTypes.KEY_FORGE_MENU.get(), KeyForgeScreen::new);
-    }
-
-    @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntityTypes.RIFT_ENTRANCE.get(), RiftEntranceRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.RIFT_EXIT.get(), RiftExitRenderer::new);
+        event.registerEntityRenderer(ModEntities.RIFT_ENTRANCE.get(), RiftEntranceRenderer::new);
+        event.registerEntityRenderer(ModEntities.RIFT_EXIT.get(), RiftExitRenderer::new);
         event.registerEntityRenderer(EntityType.SPIDER, (context) -> new AltSpiderRenderer<>(context, WanderersOfTheRift.id("textures/entity/alt_spider.png"), 1.0f));
         event.registerEntityRenderer(EntityType.CAVE_SPIDER, (context) -> new AltSpiderRenderer<>(context, WanderersOfTheRift.id("textures/entity/alt_cave_spider.png"), 0.75f));
         event.registerBlockEntityRenderer(
                 BlockEntityType.JIGSAW,
                 JigsawBlockEntityRenderer::new
+        );
+        event.registerEntityRenderer(
+                ModEntities.SIMPLE_EFFECT_PROJECTILE.get(),
+                SimpleEffectProjectileRenderer::new
         );
         event.registerBlockEntityRenderer(ModBlockEntities.DITTO_BLOCK_ENTITY.get(), DittoBlockEntityRenderer::new);
     }

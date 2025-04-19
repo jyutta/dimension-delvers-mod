@@ -1,6 +1,8 @@
 package com.wanderersoftherift.wotr.gui.menu;
 
 import com.google.common.collect.ImmutableList;
+import com.wanderersoftherift.wotr.gui.menu.slot.EssenceInputSlot;
+import com.wanderersoftherift.wotr.gui.menu.slot.KeyOutputSlot;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModDataMaps;
@@ -96,35 +98,42 @@ public class KeyForgeMenu extends AbstractContainerMenu {
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         Slot slot = slots.get(index);
-        if (slot.hasItem()) {
-            ItemStack slotStack = slot.getItem();
-            ItemStack originalStack = slotStack.copy();
-            if (slot instanceof KeyOutputSlot) {
-                if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + OUTPUT_SLOTS, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_SLOTS, true)) {
-                    return ItemStack.EMPTY;
-                }
-                slot.onQuickCraft(slotStack, originalStack);
-            } else if (slot instanceof EssenceInputSlot) {
-                if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + OUTPUT_SLOTS, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_SLOTS, true)) {
-                    return ItemStack.EMPTY;
-                }
-                update();
-            } else {
-                if (!this.moveItemStackTo(slotStack, 0, INPUT_SLOTS, false)) {
-                    // Move from player inventory to hotbar
-                    if (index < INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_INVENTORY_SLOTS) {
-                        if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_INVENTORY_SLOTS, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_SLOTS, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    }
-                    // Move from hotbar to player inventory
-                    else if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + OUTPUT_SLOTS, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_INVENTORY_SLOTS, false)) {
+        if (!slot.hasItem()) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack slotStack = slot.getItem();
+        ItemStack resultStack = slotStack.copy();
+        if (slot instanceof KeyOutputSlot) {
+            if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + OUTPUT_SLOTS, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_SLOTS, true)) {
+                return ItemStack.EMPTY;
+            }
+            slot.onQuickCraft(slotStack, resultStack);
+        } else if (slot instanceof EssenceInputSlot) {
+            if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + OUTPUT_SLOTS, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_SLOTS, true)) {
+                return ItemStack.EMPTY;
+            }
+        } else {
+            if (!this.moveItemStackTo(slotStack, 0, INPUT_SLOTS, false)) {
+                // Move from player inventory to hotbar
+                if (index < INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_INVENTORY_SLOTS) {
+                    if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_INVENTORY_SLOTS, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_SLOTS, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
+                // Move from hotbar to player inventory
+                else if (!this.moveItemStackTo(slotStack, INPUT_SLOTS + OUTPUT_SLOTS, INPUT_SLOTS + OUTPUT_SLOTS + PLAYER_INVENTORY_SLOTS, false)) {
+                    return ItemStack.EMPTY;
+                }
             }
         }
-        return ItemStack.EMPTY;
+
+        if (slotStack.isEmpty()) {
+            slot.set(ItemStack.EMPTY);
+        } else {
+            slot.setChanged();
+        }
+
+        return resultStack;
     }
 
     @Override
