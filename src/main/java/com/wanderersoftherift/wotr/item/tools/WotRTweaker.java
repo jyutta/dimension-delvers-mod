@@ -23,13 +23,12 @@ public class WotRTweaker extends Item {
         BlockState state = level.getBlockState(pos);
         Player player = context.getPlayer();
 
-        if (state.getBlock() instanceof TrapBlock) {
-            level.setBlockAndUpdate(pos, ((TrapBlock) state.getBlock()).getTweak());
+        if (state.getBlock() instanceof TrapBlock trapBlock) {
+            level.setBlockAndUpdate(pos, trapBlock.getTweak());
             return InteractionResult.SUCCESS;
         }
         if (state.getBlock() instanceof SpringBlock) {
-            int strength = state.getValue(SpringBlock.STRENGTH);
-            strength++;
+            int strength = state.getValue(SpringBlock.STRENGTH) + 1;
             if (strength > SpringBlock.MAX_STRENGTH) {
                 strength = SpringBlock.MIN_STRENGTH;
             }
