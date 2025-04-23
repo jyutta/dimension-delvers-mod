@@ -144,10 +144,7 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.WHEAT.builtInRegistryHolder(), new EssenceValue(plant, 1, life, 1), false)
                 .add(Items.HAY_BLOCK.builtInRegistryHolder(), new EssenceValue(plant, 1, life, 1), false)
                 .add(Items.SWEET_BERRIES.builtInRegistryHolder(), new EssenceValue(plant, 1, life, 1), false)
-                .add(Items.GLOW_BERRIES.builtInRegistryHolder(), new EssenceValue(plant, 1, light, 1), false);
-
-        // Seeds
-        this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
+                .add(Items.GLOW_BERRIES.builtInRegistryHolder(), new EssenceValue(plant, 1, light, 1), false)
                 .add(Tags.Items.SEEDS, new EssenceValue(plant, 1, life, 1), false);
 
         // Fungi
@@ -198,7 +195,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.RESIN_BRICK_SLAB.builtInRegistryHolder(), new EssenceValue(plant, 1, crystal, 1), false)
                 .add(Items.RESIN_BRICK_STAIRS.builtInRegistryHolder(), new EssenceValue(plant, 1, crystal, 1), false)
                 .add(Items.RESIN_BRICK_WALL.builtInRegistryHolder(), new EssenceValue(plant, 1, crystal, 1), false)
-                .add(Items.CHISELED_RESIN_BRICKS.builtInRegistryHolder(), new EssenceValue(plant, 1, crystal, 1), false);
+                .add(Items.CHISELED_RESIN_BRICKS.builtInRegistryHolder(), new EssenceValue(plant, 1, crystal, 1),
+                        false);
 
         // End flora
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -214,7 +212,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.SCULK_SENSOR.builtInRegistryHolder(), new EssenceValue(dark, 1, life, 1), false)
                 .add(Items.SCULK_VEIN.builtInRegistryHolder(), new EssenceValue(dark, 1, life, 1), false)
                 .add(Items.SCULK_SHRIEKER.builtInRegistryHolder(), new EssenceValue(dark, 1, life, 1), false)
-                .add(Items.CALIBRATED_SCULK_SENSOR.builtInRegistryHolder(), new EssenceValue(dark, 1, crystal, 1), false);
+                .add(Items.CALIBRATED_SCULK_SENSOR.builtInRegistryHolder(), new EssenceValue(dark, 1, crystal, 1),
+                        false);
 
         // Water life
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -225,7 +224,6 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.AXOLOTL_BUCKET.builtInRegistryHolder(), new EssenceValue(water, 1, animal, 1), false)
                 .add(Items.TADPOLE_BUCKET.builtInRegistryHolder(), new EssenceValue(water, 1, animal, 1), false)
                 .add(Items.NAUTILUS_SHELL.builtInRegistryHolder(), new EssenceValue(water, 1, animal, 1), false)
-
 
                 .add(Items.SPONGE.builtInRegistryHolder(), new EssenceValue(water, 1), false)
                 .add(Items.WET_SPONGE.builtInRegistryHolder(), new EssenceValue(water, 1), false)
@@ -313,8 +311,7 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.FERMENTED_SPIDER_EYE.builtInRegistryHolder(), new EssenceValue(animal, 1), false)
                 .add(Items.BAKED_POTATO.builtInRegistryHolder(), new EssenceValue(plant, 1, life, 1), false)
                 .add(Items.RABBIT_STEW.builtInRegistryHolder(), new EssenceValue(animal, 1, life, 1), false)
-                .add(Items.BEETROOT_SOUP.builtInRegistryHolder(), new EssenceValue(plant, 1, life, 1), false)
-        ;
+                .add(Items.BEETROOT_SOUP.builtInRegistryHolder(), new EssenceValue(plant, 1, life, 1), false);
 
         // Eggs
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -340,8 +337,7 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.ENDER_PEARL.builtInRegistryHolder(), new EssenceValue(end, 1, space, 1), false)
                 .add(Items.ENDER_EYE.builtInRegistryHolder(), new EssenceValue(space, 1, knowledge, 1), false)
                 .add(Items.MAGMA_CREAM.builtInRegistryHolder(), new EssenceValue(life, 1, fire, 1), false)
-                .add(Items.SHULKER_SHELL.builtInRegistryHolder(), new EssenceValue(animal, 1, end, 1), false)
-        ;
+                .add(Items.SHULKER_SHELL.builtInRegistryHolder(), new EssenceValue(animal, 1, end, 1), false);
 
         // Bones
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -357,17 +353,26 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(ItemTags.BANNERS, new EssenceValue(fabric, 1, order, 1), false)
                 .add(ItemTags.BEDS, new EssenceValue(fabric, 1, order, 1), false)
                 .add(Tags.Items.DYES, new EssenceValue(order, 1, water, 1), false)
-                .add(Items.FLOWER_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.CREEPER_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.SKULL_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.MOJANG_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.GLOBE_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.PIGLIN_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.FLOW_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.GUSTER_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.FIELD_MASONED_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-                .add(Items.BORDURE_INDENTED_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1), false)
-        ;
+                .add(Items.FLOWER_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1),
+                        false)
+                .add(Items.CREEPER_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1),
+                        false)
+                .add(Items.SKULL_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1),
+                        false)
+                .add(Items.MOJANG_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1),
+                        false)
+                .add(Items.GLOBE_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1),
+                        false)
+                .add(Items.PIGLIN_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1),
+                        false)
+                .add(Items.FLOW_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1),
+                        false)
+                .add(Items.GUSTER_BANNER_PATTERN.builtInRegistryHolder(), new EssenceValue(fabric, 1, knowledge, 1),
+                        false)
+                .add(Items.FIELD_MASONED_BANNER_PATTERN.builtInRegistryHolder(),
+                        new EssenceValue(fabric, 1, knowledge, 1), false)
+                .add(Items.BORDURE_INDENTED_BANNER_PATTERN.builtInRegistryHolder(),
+                        new EssenceValue(fabric, 1, knowledge, 1), false);
 
         // Workstations
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -386,7 +391,6 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.GRINDSTONE.builtInRegistryHolder(), new EssenceValue(earth, 1, chaos, 1), false)
                 .add(Items.SMITHING_TABLE.builtInRegistryHolder(), new EssenceValue(metal, 1, order, 1), false)
                 .add(Items.STONECUTTER.builtInRegistryHolder(), new EssenceValue(earth, 1, order, 1), false)
-
 
         ;
 
@@ -444,7 +448,8 @@ public class ModDataMapProvider extends DataMapProvider {
 
                 .add(Tags.Items.COBBLESTONES_MOSSY, new EssenceValue(earth, 1, plant, 1), false)
                 .add(Items.MOSSY_COBBLESTONE_SLAB.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1), false)
-                .add(Items.MOSSY_COBBLESTONE_STAIRS.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1), false)
+                .add(Items.MOSSY_COBBLESTONE_STAIRS.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1),
+                        false)
                 .add(Items.MOSSY_COBBLESTONE_WALL.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1), false)
 
                 .add(Tags.Items.COBBLESTONES_DEEPSLATE, new EssenceValue(earth, 1), false)
@@ -464,7 +469,6 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.BASALT.builtInRegistryHolder(), new EssenceValue(earth, 1, fire, 1), false)
                 .add(Items.SMOOTH_BASALT.builtInRegistryHolder(), new EssenceValue(earth, 1, fire, 1), false)
                 .add(Items.POLISHED_BASALT.builtInRegistryHolder(), new EssenceValue(earth, 1, fire, 1), false)
-
 
                 .add(Items.POLISHED_ANDESITE.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
                 .add(Items.POLISHED_ANDESITE_SLAB.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
@@ -531,7 +535,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.STONE_BRICK_WALL.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
                 .add(Items.MOSSY_STONE_BRICKS.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1), false)
                 .add(Items.MOSSY_STONE_BRICK_SLAB.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1), false)
-                .add(Items.MOSSY_STONE_BRICK_STAIRS.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1), false)
+                .add(Items.MOSSY_STONE_BRICK_STAIRS.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1),
+                        false)
                 .add(Items.MOSSY_STONE_BRICK_WALL.builtInRegistryHolder(), new EssenceValue(earth, 1, plant, 1), false)
                 .add(Items.TUFF_BRICKS.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
                 .add(Items.TUFF_BRICK_SLAB.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
@@ -542,7 +547,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.POLISHED_BLACKSTONE_BRICK_SLAB.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
                 .add(Items.POLISHED_BLACKSTONE_BRICK_STAIRS.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
                 .add(Items.POLISHED_BLACKSTONE_BRICK_WALL.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
-                .add(Items.CRACKED_POLISHED_BLACKSTONE_BRICKS.builtInRegistryHolder(), new EssenceValue(earth, 1), false);
+                .add(Items.CRACKED_POLISHED_BLACKSTONE_BRICKS.builtInRegistryHolder(), new EssenceValue(earth, 1),
+                        false);
 
         // Nether Stone
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -556,7 +562,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.CHISELED_NETHER_BRICKS.builtInRegistryHolder(), new EssenceValue(nether, 1, earth, 1), false)
                 .add(Items.RED_NETHER_BRICKS.builtInRegistryHolder(), new EssenceValue(nether, 1, earth, 1), false)
                 .add(Items.RED_NETHER_BRICK_SLAB.builtInRegistryHolder(), new EssenceValue(nether, 1, earth, 1), false)
-                .add(Items.RED_NETHER_BRICK_STAIRS.builtInRegistryHolder(), new EssenceValue(nether, 1, earth, 1), false)
+                .add(Items.RED_NETHER_BRICK_STAIRS.builtInRegistryHolder(), new EssenceValue(nether, 1, earth, 1),
+                        false)
                 .add(Items.RED_NETHER_BRICK_WALL.builtInRegistryHolder(), new EssenceValue(nether, 1, earth, 1), false)
                 .add(Items.SOUL_SAND.builtInRegistryHolder(), new EssenceValue(earth, 1, nether, 1), false)
                 .add(Items.SOUL_SOIL.builtInRegistryHolder(), new EssenceValue(earth, 1, nether, 1), false);
@@ -677,7 +684,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.LAPIS_BLOCK.builtInRegistryHolder(), new EssenceValue(crystal, 1), false)
                 .add(Items.QUARTZ.builtInRegistryHolder(), new EssenceValue(crystal, 1, nether, 1), false)
                 .add(Items.QUARTZ_BLOCK.builtInRegistryHolder(), new EssenceValue(crystal, 1, nether, 1), false)
-                .add(Items.CHISELED_QUARTZ_BLOCK.builtInRegistryHolder(), new EssenceValue(crystal, 1, nether, 1), false)
+                .add(Items.CHISELED_QUARTZ_BLOCK.builtInRegistryHolder(), new EssenceValue(crystal, 1, nether, 1),
+                        false)
                 .add(Items.QUARTZ_BRICKS.builtInRegistryHolder(), new EssenceValue(crystal, 1, nether, 1), false)
                 .add(Items.QUARTZ_SLAB.builtInRegistryHolder(), new EssenceValue(crystal, 1, nether, 1), false)
                 .add(Items.QUARTZ_PILLAR.builtInRegistryHolder(), new EssenceValue(crystal, 1, nether, 1), false)
@@ -715,7 +723,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.STONE_PRESSURE_PLATE.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
                 .add(Items.LIGHT_WEIGHTED_PRESSURE_PLATE.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
                 .add(Items.HEAVY_WEIGHTED_PRESSURE_PLATE.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
-                .add(Items.POLISHED_BLACKSTONE_PRESSURE_PLATE.builtInRegistryHolder(), new EssenceValue(earth, 1), false);
+                .add(Items.POLISHED_BLACKSTONE_PRESSURE_PLATE.builtInRegistryHolder(), new EssenceValue(earth, 1),
+                        false);
 
         // Wooden Structures
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -794,7 +803,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.BOOKSHELF.builtInRegistryHolder(), new EssenceValue(order, 1, knowledge, 1), false)
                 .add(Items.CHISELED_BOOKSHELF.builtInRegistryHolder(), new EssenceValue(order, 1, knowledge, 1), false)
                 .add(Items.ENCHANTING_TABLE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.ENCHANTED_GOLDEN_APPLE.builtInRegistryHolder(), new EssenceValue(plant, 1, knowledge, 1), false)
+                .add(Items.ENCHANTED_GOLDEN_APPLE.builtInRegistryHolder(), new EssenceValue(plant, 1, knowledge, 1),
+                        false)
                 .add(Items.BEACON.builtInRegistryHolder(), new EssenceValue(knowledge, 1, crystal, 1), false)
                 .add(Items.CONDUIT.builtInRegistryHolder(), new EssenceValue(knowledge, 1, water, 1), false)
                 .add(Items.HEART_OF_THE_SEA.builtInRegistryHolder(), new EssenceValue(water, 1, crystal, 1), false)
@@ -812,25 +822,44 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.WIND_CHARGE.builtInRegistryHolder(), new EssenceValue(air, 1), false)
                 .add(Items.DRAGON_BREATH.builtInRegistryHolder(), new EssenceValue(end, 1), false)
 
-                .add(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.DUNE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.COAST_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.WILD_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.WARD_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.EYE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.VEX_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.RIB_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.RAISER_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.HOST_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.FLOW_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false)
-                .add(Items.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1), false);
+                .add(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.DUNE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.COAST_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.WILD_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.WARD_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.EYE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.VEX_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.RIB_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(),
+                        new EssenceValue(knowledge, 1), false)
+                .add(Items.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.RAISER_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.HOST_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.FLOW_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false)
+                .add(Items.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE.builtInRegistryHolder(), new EssenceValue(knowledge, 1),
+                        false);
 
         // Light sources
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -859,9 +888,12 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.GLOWSTONE.builtInRegistryHolder(), new EssenceValue(nether, 1, light, 1), false)
                 .add(Items.JACK_O_LANTERN.builtInRegistryHolder(), new EssenceValue(light, 1, plant, 1), false)
                 .add(Items.SEA_LANTERN.builtInRegistryHolder(), new EssenceValue(light, 1, water, 1), false)
-                .add(Items.OCHRE_FROGLIGHT.builtInRegistryHolder(), new EssenceValue(light, 1, water, 1, life, 1), false)
-                .add(Items.VERDANT_FROGLIGHT.builtInRegistryHolder(), new EssenceValue(light, 1, water, 1, life, 1), false)
-                .add(Items.PEARLESCENT_FROGLIGHT.builtInRegistryHolder(), new EssenceValue(light, 1, water, 1, life, 1), false);
+                .add(Items.OCHRE_FROGLIGHT.builtInRegistryHolder(), new EssenceValue(light, 1, water, 1, life, 1),
+                        false)
+                .add(Items.VERDANT_FROGLIGHT.builtInRegistryHolder(), new EssenceValue(light, 1, water, 1, life, 1),
+                        false)
+                .add(Items.PEARLESCENT_FROGLIGHT.builtInRegistryHolder(), new EssenceValue(light, 1, water, 1, life, 1),
+                        false);
 
         // Archaeology
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
@@ -887,19 +919,22 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.IRON_SWORD.builtInRegistryHolder(), new EssenceValue(metal, 1, chaos, 1), false)
                 .add(Items.GOLDEN_SWORD.builtInRegistryHolder(), new EssenceValue(metal, 1, chaos, 1), false)
                 .add(Items.DIAMOND_SWORD.builtInRegistryHolder(), new EssenceValue(crystal, 1, chaos, 1), false)
-                .add(Items.NETHERITE_SWORD.builtInRegistryHolder(), new EssenceValue(nether, 1, metal, 1, chaos, 1), false)
+                .add(Items.NETHERITE_SWORD.builtInRegistryHolder(), new EssenceValue(nether, 1, metal, 1, chaos, 1),
+                        false)
                 .add(Items.WOODEN_AXE.builtInRegistryHolder(), new EssenceValue(plant, 1, chaos, 1), false)
                 .add(Items.STONE_AXE.builtInRegistryHolder(), new EssenceValue(earth, 1, chaos, 1), false)
                 .add(Items.IRON_AXE.builtInRegistryHolder(), new EssenceValue(metal, 1, chaos, 1), false)
                 .add(Items.GOLDEN_AXE.builtInRegistryHolder(), new EssenceValue(metal, 1, chaos, 1), false)
                 .add(Items.DIAMOND_AXE.builtInRegistryHolder(), new EssenceValue(crystal, 1, chaos, 1), false)
-                .add(Items.NETHERITE_AXE.builtInRegistryHolder(), new EssenceValue(metal, 1, nether, 1, chaos, 1), false)
+                .add(Items.NETHERITE_AXE.builtInRegistryHolder(), new EssenceValue(metal, 1, nether, 1, chaos, 1),
+                        false)
                 .add(Items.WOODEN_SHOVEL.builtInRegistryHolder(), new EssenceValue(plant, 1, earth, 1), false)
                 .add(Items.STONE_SHOVEL.builtInRegistryHolder(), new EssenceValue(earth, 1), false)
                 .add(Items.IRON_SHOVEL.builtInRegistryHolder(), new EssenceValue(metal, 1, earth, 1), false)
                 .add(Items.GOLDEN_SHOVEL.builtInRegistryHolder(), new EssenceValue(metal, 1, earth, 1), false)
                 .add(Items.DIAMOND_SHOVEL.builtInRegistryHolder(), new EssenceValue(crystal, 1, earth, 1), false)
-                .add(Items.NETHERITE_SHOVEL.builtInRegistryHolder(), new EssenceValue(metal, 1, nether, 1, earth, 1), false)
+                .add(Items.NETHERITE_SHOVEL.builtInRegistryHolder(), new EssenceValue(metal, 1, nether, 1, earth, 1),
+                        false)
                 .add(Items.WOODEN_HOE.builtInRegistryHolder(), new EssenceValue(plant, 1, life, 1), false)
                 .add(Items.STONE_HOE.builtInRegistryHolder(), new EssenceValue(earth, 1, life, 1), false)
                 .add(Items.IRON_HOE.builtInRegistryHolder(), new EssenceValue(metal, 1, life, 1), false)
@@ -911,7 +946,8 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.IRON_PICKAXE.builtInRegistryHolder(), new EssenceValue(metal, 1, earth, 1), false)
                 .add(Items.GOLDEN_PICKAXE.builtInRegistryHolder(), new EssenceValue(metal, 1, earth, 1), false)
                 .add(Items.DIAMOND_PICKAXE.builtInRegistryHolder(), new EssenceValue(crystal, 1, earth, 1), false)
-                .add(Items.NETHERITE_PICKAXE.builtInRegistryHolder(), new EssenceValue(metal, 1, nether, 1, earth, 1), false)
+                .add(Items.NETHERITE_PICKAXE.builtInRegistryHolder(), new EssenceValue(metal, 1, nether, 1, earth, 1),
+                        false)
 
                 .add(Items.LEATHER_HELMET.builtInRegistryHolder(), new EssenceValue(animal, 1), false)
                 .add(Items.LEATHER_CHESTPLATE.builtInRegistryHolder(), new EssenceValue(animal, 1), false)

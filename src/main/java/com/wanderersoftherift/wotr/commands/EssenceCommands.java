@@ -50,7 +50,13 @@ public class EssenceCommands extends BaseCommand {
 
     private int dumpSpecified(CommandContext<CommandSourceStack> cmd) {
         Registry<Item> registry = cmd.getSource().getServer().registryAccess().lookupOrThrow(Registries.ITEM);
-        List<ResourceLocation> types = registry.stream().map(Item::builtInRegistryHolder).map(x -> x.getData(ModDataMaps.ESSENCE_VALUE_DATA)).filter(Objects::nonNull).flatMap(x -> x.values().keySet().stream()).distinct().toList();
+        List<ResourceLocation> types = registry.stream()
+                .map(Item::builtInRegistryHolder)
+                .map(x -> x.getData(ModDataMaps.ESSENCE_VALUE_DATA))
+                .filter(Objects::nonNull)
+                .flatMap(x -> x.values().keySet().stream())
+                .distinct()
+                .toList();
 
         Joiner itemJoiner = Joiner.on("\",\"");
 
@@ -58,7 +64,6 @@ public class EssenceCommands extends BaseCommand {
             writer.write("\"item\",\"");
             writer.write(itemJoiner.join(types.stream().map(ResourceLocation::toString).toList()));
             writer.write("\"\n");
-
 
             List<Holder.Reference<Item>> items = registry.stream().map(Item::builtInRegistryHolder).toList();
             for (var item : items) {
