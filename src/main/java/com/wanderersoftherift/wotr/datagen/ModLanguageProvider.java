@@ -52,6 +52,7 @@ public class ModLanguageProvider extends LanguageProvider {
         addItem(ModItems.SKILL_THREAD, "Skill Thread");
 
         addEntityType(ModEntities.RIFT_ENTRANCE, "Rift Entrance");
+        addEntityType(ModEntities.RIFT_EXIT, "Rift Egress");
         addEntityType(ModEntities.SIMPLE_EFFECT_PROJECTILE, "Projectile");
 
         addEssenceType("earth", "Earth");
