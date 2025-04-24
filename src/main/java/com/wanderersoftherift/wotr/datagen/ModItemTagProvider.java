@@ -7,7 +7,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -21,8 +20,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
 
-
-        /* Handles all the socketable rrmor */
+        /* Handles all the socketable Armor */
         tag(ModTags.Items.SOCKETABLE_HELMET_SLOT).add(Items.LEATHER_HELMET)
                 .add(Items.CHAINMAIL_HELMET)
                 .add(Items.IRON_HELMET)
