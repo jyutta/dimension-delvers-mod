@@ -23,6 +23,7 @@ import com.wanderersoftherift.wotr.init.ModEntities;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import com.wanderersoftherift.wotr.init.ModInputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.ModLootItemConditionTypes;
 import com.wanderersoftherift.wotr.init.ModLootItemFunctionTypes;
 import com.wanderersoftherift.wotr.init.ModLootModifiers;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
@@ -78,6 +79,7 @@ public class WanderersOfTheRift {
         // Loot
         ModLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         ModLootItemFunctionTypes.LOOT_ITEM_FUNCTION_TYPES.register(modEventBus);
+        ModLootItemConditionTypes.LOOT_ITEM_CONDITION_TYPES.register(modEventBus);
 
         // Attachments and components
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
