@@ -114,7 +114,7 @@ public class AccessibilityOptionsScreen extends Screen {
             boolean initialValue) {
         return CycleButton.booleanBuilder(Component.translatable("options.off"), Component.translatable("options.on"))
                 .withInitialValue(initialValue)
-                .withTooltip(p_321371_ -> Tooltip.create(tooltip))
+                .withTooltip(value -> Tooltip.create(tooltip))
                 .create(name, onChange);
     }
 

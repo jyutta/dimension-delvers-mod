@@ -64,8 +64,8 @@ public class RunegemsFunction extends LootItemConditionalFunction {
     }
 
     public static LootItemConditionalFunction.Builder<?> setTier(RunegemTier tier) {
-        return simpleBuilder((p_298130_) -> {
-            return new RunegemsFunction(p_298130_, tier);
+        return simpleBuilder((conditions) -> {
+            return new RunegemsFunction(conditions, tier);
         });
     }
 }

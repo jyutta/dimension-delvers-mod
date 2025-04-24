@@ -449,10 +449,7 @@ public class SpawnPieceCommand {
     }
 
     private static void checkLoaded(ServerLevel level, ChunkPos start, ChunkPos end) throws CommandSyntaxException {
-        if (ChunkPos.rangeClosed(start, end)
-                .filter(p_313494_ -> !level.isLoaded(p_313494_.getWorldPosition()))
-                .findAny()
-                .isPresent()) {
+        if (ChunkPos.rangeClosed(start, end).anyMatch(pos -> !level.isLoaded(pos.getWorldPosition()))) {
             throw BlockPosArgument.ERROR_NOT_LOADED.create();
         }
     }
