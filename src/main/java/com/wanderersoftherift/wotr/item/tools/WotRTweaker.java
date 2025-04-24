@@ -16,6 +16,7 @@ public class WotRTweaker extends Item {
     public WotRTweaker(Properties properties) {
         super(properties);
     }
+
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
         BlockPos pos = context.getClickedPos();
@@ -23,18 +24,21 @@ public class WotRTweaker extends Item {
         BlockState state = level.getBlockState(pos);
         Player player = context.getPlayer();
 
-        if (state.getBlock() instanceof TrapBlock trapBlock) {
-            level.setBlockAndUpdate(pos, trapBlock.getTweak());
+        if (state.getBlock() instanceof TrapBlock) {
+            level.setBlockAndUpdate(pos, ((TrapBlock) state.getBlock()).getTweak());
             return InteractionResult.SUCCESS;
         }
         if (state.getBlock() instanceof SpringBlock) {
-            int strength = state.getValue(SpringBlock.STRENGTH) + 1;
+            int strength = state.getValue(SpringBlock.STRENGTH);
+            strength++;
             if (strength > SpringBlock.MAX_STRENGTH) {
                 strength = SpringBlock.MIN_STRENGTH;
             }
 
             level.setBlockAndUpdate(pos, state.setValue(SpringBlock.STRENGTH, strength));
-            if (player != null) { message(player, Component.literal("strength = " + strength)); }
+            if (player != null) {
+                message(player, Component.literal("strength = " + strength));
+            }
             return InteractionResult.SUCCESS;
         }
 

@@ -24,12 +24,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @ParametersAreNonnullByDefault
-public class DittoBlockEntity extends BlockEntity implements RandomizableContainer, ContainerSingleItem.BlockContainerSingleItem {
-    private ItemStack item;
+public class DittoBlockEntity extends BlockEntity
+        implements RandomizableContainer, ContainerSingleItem.BlockContainerSingleItem {
 
-    @Nullable
-    protected ResourceKey<LootTable> lootTable;
+    @Nullable protected ResourceKey<LootTable> lootTable;
     protected long lootTableSeed;
+
+    private ItemStack item;
 
     public DittoBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DITTO_BLOCK_ENTITY.get(), pos, state);
@@ -74,7 +75,6 @@ public class DittoBlockEntity extends BlockEntity implements RandomizableContain
     }
 
     @Override
-    @Nullable
     public ResourceKey<LootTable> getLootTable() {
         return this.lootTable;
     }

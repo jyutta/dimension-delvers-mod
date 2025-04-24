@@ -1,6 +1,5 @@
 package com.wanderersoftherift.wotr.block;
 
-
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -32,7 +31,9 @@ public class SpringBlock extends DittoBlock {
 
     public void launch(Entity entity, BlockState state) {
         entity.resetFallDistance();
-        if (entity.isShiftKeyDown()) return;
+        if (entity.isShiftKeyDown()) {
+            return;
+        }
         double delta = state.getValue(STRENGTH) * 0.1 + 0.62;
 
         entity.setDeltaMovement(entity.getDeltaMovement().add(0, delta, 0));

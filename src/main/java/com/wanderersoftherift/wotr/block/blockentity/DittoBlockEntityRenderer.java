@@ -33,30 +33,27 @@ public class DittoBlockEntityRenderer implements BlockEntityRenderer<DittoBlockE
 
     @Override
     @SuppressWarnings("deprecation")
-    public void render(DittoBlockEntity blockEntity, float partialTick, PoseStack stack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-        DittoBlock dittoBlock = (DittoBlock)blockEntity.getBlockState().getBlock();
-        if (!dittoBlock.shouldRender(blockEntity.getBlockState()) || blockEntity.getLevel() == null) {
+    public void render(DittoBlockEntity blockEntity, float partialTick, PoseStack stack,
+            MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+        DittoBlock dittoBlock = (DittoBlock) blockEntity.getBlockState().getBlock();
+        if (!dittoBlock.shouldRender(blockEntity.getBlockState())) {
             return;
         }
-        if ((blockEntity.getTheItem().getItem() instanceof BlockItem blockItem) && blockItem != dittoBlock.getBlock().asItem()) {
-            BlockState blockstate = blockItem.getBlock().defaultBlockState();
-            int i = OverlayTexture.pack(OverlayTexture.u(0.15F), 10);
-            this.dispatcher.renderSingleBlock(blockstate, stack, bufferSource, packedLight, i);
+        if ((blockEntity.getTheItem().getItem() instanceof BlockItem)
+                && blockEntity.getTheItem().getItem() != dittoBlock.getBlock().asItem()) {
+            BlockState blockstate = ((BlockItem) blockEntity.getTheItem().getItem()).getBlock().defaultBlockState();
+            if (blockEntity.getLevel() == null) {
+                return;
+            }
+            int packedUV = OverlayTexture.pack(OverlayTexture.u(0.15F), 10);
+            this.dispatcher.renderSingleBlock(blockstate, stack, bufferSource, packedLight, packedUV);
         } else {
-            this.dispatcher.getModelRenderer().tesselateBlock(
-                    blockEntity.getLevel(),
-                    dispatcher.getBlockModel(blockEntity.getBlockState()),
-                    blockEntity.getBlockState(),
-                    blockEntity.getBlockPos(),
-                    stack,
-                    bufferSource.getBuffer(RenderType.CUTOUT),
-                    false,
-                    RandomSource.create(),
-                    blockEntity.getBlockState().getSeed(blockEntity.getBlockPos()),
-                    packedOverlay,
-                    ModelData.EMPTY,
-                    RenderType.CUTOUT
-            );
+            this.dispatcher.getModelRenderer()
+                    .tesselateBlock(blockEntity.getLevel(), dispatcher.getBlockModel(blockEntity.getBlockState()),
+                            blockEntity.getBlockState(), blockEntity.getBlockPos(), stack,
+                            bufferSource.getBuffer(RenderType.CUTOUT), false, RandomSource.create(),
+                            blockEntity.getBlockState().getSeed(blockEntity.getBlockPos()), packedOverlay,
+                            ModelData.EMPTY, RenderType.CUTOUT);
         }
     }
 }

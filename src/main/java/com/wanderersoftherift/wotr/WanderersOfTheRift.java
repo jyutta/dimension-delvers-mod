@@ -3,6 +3,7 @@ package com.wanderersoftherift.wotr;
 import com.mojang.logging.LogUtils;
 import com.wanderersoftherift.wotr.commands.AbilityCommands;
 import com.wanderersoftherift.wotr.commands.DebugCommands;
+import com.wanderersoftherift.wotr.commands.EssenceCommands;
 import com.wanderersoftherift.wotr.commands.InventorySnapshotCommands;
 import com.wanderersoftherift.wotr.commands.RiftKeyCommands;
 import com.wanderersoftherift.wotr.commands.RiftMapCommands;
@@ -13,8 +14,8 @@ import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.init.ModBlockEntities;
 import com.wanderersoftherift.wotr.init.ModBlocks;
-import com.wanderersoftherift.wotr.init.ModCommands;
 import com.wanderersoftherift.wotr.init.ModChunkGenerators;
+import com.wanderersoftherift.wotr.init.ModCommands;
 import com.wanderersoftherift.wotr.init.ModCreativeTabs;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModEffects;
@@ -22,6 +23,7 @@ import com.wanderersoftherift.wotr.init.ModEntities;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import com.wanderersoftherift.wotr.init.ModInputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.ModLootItemConditionTypes;
 import com.wanderersoftherift.wotr.init.ModLootItemFunctionTypes;
 import com.wanderersoftherift.wotr.init.ModLootModifiers;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
@@ -34,11 +36,9 @@ import com.wanderersoftherift.wotr.init.ModProcessors;
 import com.wanderersoftherift.wotr.init.ModSoundEvents;
 import com.wanderersoftherift.wotr.init.ModTargetingTypes;
 import com.wanderersoftherift.wotr.interop.sophisticatedbackpacks.SophisticatedBackpackInterop;
-import com.wanderersoftherift.wotr.server.inventorySnapshot.InventorySnapshotSystem;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -51,9 +51,8 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 
 @Mod(WanderersOfTheRift.MODID)
@@ -78,6 +77,7 @@ public class WanderersOfTheRift {
         // Loot
         ModLootModifiers.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         ModLootItemFunctionTypes.LOOT_ITEM_FUNCTION_TYPES.register(modEventBus);
+        ModLootItemConditionTypes.LOOT_ITEM_CONDITION_TYPES.register(modEventBus);
 
         // Attachments and components
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
@@ -99,11 +99,13 @@ public class WanderersOfTheRift {
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Wotr) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
+        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like
+        // onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
         modEventBus.addListener(this::addCreative); // Register the item to a creative tab
-        modEventBus.addListener(this::modInterop);
+        modEventBus.addListener(this::loadInterop);
+        modEventBus.addListener(this::registerInterop);
         modEventBus.addListener(ModPayloadHandlers::registerPayloadHandlers);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
@@ -123,9 +125,11 @@ public class WanderersOfTheRift {
 
     /**
      * Helper method to get a translationId string containing our mod id.
+     *
      * @param category The category of the translationId (becomes a prefix)
-     * @param item The translationId item
-     * @return A combination of category, our mod id and the item. e.g. if category is "item" and item is "nosering.description" the result is "item.wotr.nosering.description"
+     * @param item     The translationId item
+     * @return A combination of category, our mod id and the item. e.g. if category is "item" and item is
+     *         "nosering.description" the result is "item.wotr.nosering.description"
      */
     public static String translationId(String category, String item) {
         return category + "." + MODID + "." + item;
@@ -141,8 +145,14 @@ public class WanderersOfTheRift {
         return TagKey.create(registry, id(name));
     }
 
-    private void modInterop(final FMLCommonSetupEvent event) {
+    private void loadInterop(final FMLCommonSetupEvent event) {
         ModList.get().getModContainerById("sophisticatedbackpacks").ifPresent(x -> SophisticatedBackpackInterop.load());
+    }
+
+    public void registerInterop(RegisterEvent event) {
+        ModList.get()
+                .getModContainerById("sophisticatedbackpacks")
+                .ifPresent(x -> SophisticatedBackpackInterop.register(event));
     }
 
     @SubscribeEvent
@@ -155,25 +165,12 @@ public class WanderersOfTheRift {
         new DebugCommands().registerCommand(event.getDispatcher(), event.getBuildContext());
         AbilityCommands.register(event.getDispatcher(), event.getBuildContext());
         new RiftKeyCommands().registerCommand(event.getDispatcher(), event.getBuildContext());
-    }
-
-    @SubscribeEvent
-    private void onDropsFromDeath(LivingDropsEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            InventorySnapshotSystem.getInstance().retainSnapshotItemsOnDeath(player, event);
-        }
-    }
-
-    @SubscribeEvent
-    private void onPlayerDeath(PlayerEvent.PlayerRespawnEvent event) {
-        if (!event.isEndConquered() && event.getEntity() instanceof ServerPlayer player) {
-            InventorySnapshotSystem.getInstance().restoreItemsOnRespawn(player);
-        }
+        new EssenceCommands().registerCommand(event.getDispatcher(), event.getBuildContext());
     }
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        //if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(ModBlocks.EXAMPLE_BLOCK);
+        // if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(ModBlocks.EXAMPLE_BLOCK);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
