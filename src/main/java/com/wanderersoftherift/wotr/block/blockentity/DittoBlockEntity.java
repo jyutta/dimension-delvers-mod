@@ -69,8 +69,7 @@ public class DittoBlockEntity extends BlockEntity
     }
 
     @Override
-    @NotNull
-    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+    @NotNull public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         return this.saveCustomOnly(provider);
     }
 
@@ -114,8 +113,7 @@ public class DittoBlockEntity extends BlockEntity
     }
 
     @Override
-    @NotNull
-    public ItemStack getTheItem() {
+    @NotNull public ItemStack getTheItem() {
         this.unpackLootTable(null);
         return this.item;
     }
@@ -127,8 +125,7 @@ public class DittoBlockEntity extends BlockEntity
     }
 
     @Override
-    @NotNull
-    public BlockEntity getContainerBlockEntity() {
+    @NotNull public BlockEntity getContainerBlockEntity() {
         return this;
     }
 }
