@@ -141,7 +141,9 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
     }
 
     public void setRiftConfig(RiftConfig config) {
-        this.entityData.set(DATA_RIFT_CONFIG, config);
+        if (config != null) {
+            this.entityData.set(DATA_RIFT_CONFIG, config);
+        }
     }
 
     public RiftConfig getRiftConfig() {

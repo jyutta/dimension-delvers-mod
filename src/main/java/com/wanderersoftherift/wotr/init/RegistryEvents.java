@@ -9,6 +9,7 @@ import com.wanderersoftherift.wotr.item.riftkey.ThemeRecipe;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.modifier.Modifier;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
+import com.wanderersoftherift.wotr.rift.objective.ObjectiveType;
 import com.wanderersoftherift.wotr.world.level.levelgen.theme.RiftTheme;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -30,12 +31,15 @@ public class RegistryEvents {
             .createRegistryKey(WanderersOfTheRift.id("effect_marker"));
     public static final ResourceKey<Registry<ThemeRecipe>> RIFT_THEME_RECIPE = ResourceKey
             .createRegistryKey(WanderersOfTheRift.id("rift_theme_recipe"));
+    public static final ResourceKey<Registry<ObjectiveType>> OBJECTIVE_REGISTRY = ResourceKey
+            .createRegistryKey(WanderersOfTheRift.id("objective"));
 
     @SubscribeEvent
     static void registerRegistries(NewRegistryEvent event) {
         event.register(ModModifierEffects.MODIFIER_TYPE_REGISTRY);
         event.register(ModInputBlockStateTypes.INPUT_BLOCKSTATE_TYPE_REGISTRY);
         event.register(ModOutputBlockStateTypes.OUTPUT_BLOCKSTATE_TYPE_REGISTRY);
+        event.register(ModObjectiveTypes.OBJECTIVE_TYPE_REGISTRY);
         event.register(ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPE_REGISTRY);
         event.register(ModAbilityTypes.ABILITY_TYPES_REGISTRY);
         event.register(ModEffects.EFFECTS_REGISTRY);
@@ -55,5 +59,6 @@ public class RegistryEvents {
         event.dataPackRegistry(EFFECT_MARKER_REGISTRY, EffectMarker.CODEC, EffectMarker.CODEC);
         event.dataPackRegistry(ABILITY_REGISTRY, AbstractAbility.DIRECT_CODEC, AbstractAbility.DIRECT_CODEC);
         event.dataPackRegistry(RIFT_THEME_RECIPE, ThemeRecipe.CODEC, ThemeRecipe.CODEC);
+        event.dataPackRegistry(OBJECTIVE_REGISTRY, ObjectiveType.DIRECT_CODEC, ObjectiveType.DIRECT_CODEC);
     }
 }

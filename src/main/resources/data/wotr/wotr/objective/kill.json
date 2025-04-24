@@ -1,0 +1,5 @@
+{
+  "type": "wotr:kill",
+  "min_quantity" : 20,
+  "max_quantity" : 50
+}

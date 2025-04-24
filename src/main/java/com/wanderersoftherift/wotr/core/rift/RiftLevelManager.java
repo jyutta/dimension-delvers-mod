@@ -36,7 +36,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.commons.io.FileUtils;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -51,17 +50,17 @@ public class RiftLevelManager {
      */
     public static boolean levelExists(ResourceLocation id) {
         var server = ServerLifecycleHooks.getCurrentServer();
-        var existingRift = server.forgeGetWorldMap().get(ResourceKey.create(Registries.DIMENSION, id));
-        return existingRift != null;
+        var dimension = server.forgeGetWorldMap().get(ResourceKey.create(Registries.DIMENSION, id));
+        return dimension != null;
     }
 
-    // TODO: unload the dimesnions if all plauers are disconnected, but still in the dimension
+    // TODO: unload the dimensions if all players are disconnected, but still in the dimension
     @SuppressWarnings("deprecation")
     public static ServerLevel getOrCreateRiftLevel(
             ResourceLocation id,
             ResourceKey<Level> portalDimension,
             BlockPos portalPos,
-            @Nullable RiftConfig config) {
+            RiftConfig config) {
         var server = ServerLifecycleHooks.getCurrentServer();
         var ow = server.overworld();
 
@@ -99,7 +98,10 @@ public class RiftLevelManager {
 
         level.getServer().forgeGetWorldMap().put(level.dimension(), level);
         level.getServer().markWorldsDirty();
+
+        NeoForge.EVENT_BUS.post(new RiftEvent.Created(level, config));
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(level));
+
         PacketDistributor.sendToAllPlayers(new S2CLevelListUpdatePacket(id, false));
         spawnRiftExit(level, new BlockPos(0, 0, 0).above().getBottomCenter());
         WanderersOfTheRift.LOGGER.debug("Created rift level {}", id);
@@ -150,11 +152,13 @@ public class RiftLevelManager {
         if (!RiftData.isRift(level)) {
             return;
         }
-        if (!RiftData.get(level).getPlayers().isEmpty()) {
+        RiftData riftData = RiftData.get(level);
+        if (!riftData.getPlayers().isEmpty()) {
             // multiplayer - delete after all players leave
             return;
         }
 
+        NeoForge.EVENT_BUS.post(new RiftEvent.Closing(level, riftData.getConfig()));
         // unload the level
         level.save(null, true, false);
         level.getServer().forgeGetWorldMap().remove(level.dimension());
@@ -216,7 +220,7 @@ public class RiftLevelManager {
             LevelStem stem,
             ResourceKey<Level> portalDimension,
             BlockPos portalPos,
-            @Nullable RiftConfig config) {
+            RiftConfig config) {
         AccessorMinecraftServer server = (AccessorMinecraftServer) ServerLifecycleHooks.getCurrentServer();
         var chunkProgressListener = server.getProgressListenerFactory().create(0);
         var storageSource = server.getStorageSource();
@@ -231,12 +235,7 @@ public class RiftLevelManager {
             portalPos = ServerLifecycleHooks.getCurrentServer().overworld().getSharedSpawnPos();
         }
 
-        int seed;
-        if (config != null && config.seed().isPresent()) {
-            seed = config.seed().get();
-        } else {
-            seed = new Random().nextInt();
-        }
+        int seed = config.seed().orElseGet(() -> new Random().nextInt());
 
         var riftLevel = new ServerLevel(ServerLifecycleHooks.getCurrentServer(), executor, storageSource,
                 new DerivedLevelData(worldData, worldData.overworldData()),
@@ -245,23 +244,18 @@ public class RiftLevelManager {
         var riftData = RiftData.get(riftLevel);
         riftData.setPortalDimension(portalDimension);
         riftData.setPortalPos(portalPos);
+        riftData.setConfig(config);
         var themeData = LevelRiftThemeData.getFromLevel(riftLevel);
 
         Holder<RiftTheme> riftTheme;
         int maxDepth;
-        if (config != null) {
-            riftTheme = config.theme().orElse(LevelRiftThemeData.getRandomTheme(riftLevel));
-            maxDepth = getRiftSize(config.tier());
-            riftData.setTier(config.tier());
-        } else {
-            riftTheme = LevelRiftThemeData.getRandomTheme(riftLevel);
-            maxDepth = getRiftSize(0);
-            riftData.setTier(0);
-        }
+        riftTheme = config.theme().orElse(LevelRiftThemeData.getRandomTheme(riftLevel));
+        maxDepth = getRiftSize(config.tier());
         themeData.setTheme(riftTheme);
 
         placeInitialJigsaw(riftLevel, WanderersOfTheRift.id("rift/room_portal"), WanderersOfTheRift.id("portal"),
                 maxDepth, new BlockPos(0, 2, 0));
+
         return riftLevel;
     }
 

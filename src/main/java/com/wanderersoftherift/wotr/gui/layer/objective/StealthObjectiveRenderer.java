@@ -1,8 +1,8 @@
 package com.wanderersoftherift.wotr.gui.layer.objective;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.rift.objective.AbstractObjective;
-import com.wanderersoftherift.wotr.rift.objective.types.StealthObjective;
+import com.wanderersoftherift.wotr.rift.objective.OngoingObjective;
+import com.wanderersoftherift.wotr.rift.objective.ongoing.StealthOngoingObjective;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,9 +17,9 @@ public class StealthObjectiveRenderer extends ObjectiveRenderer {
             .id("objective/stealth/bar_background");
     private static final ResourceLocation BAR_PROGRESS_SPRITE = WanderersOfTheRift.id("objective/stealth/bar_progress");
 
-    private final StealthObjective stealthObjective;
+    private final StealthOngoingObjective stealthObjective;
 
-    public StealthObjectiveRenderer(StealthObjective stealthObjective) {
+    public StealthObjectiveRenderer(StealthOngoingObjective stealthObjective) {
         this.stealthObjective = stealthObjective;
     }
 
@@ -32,7 +32,7 @@ public class StealthObjectiveRenderer extends ObjectiveRenderer {
         int spacing = 5;
         int x = (guiGraphics.guiWidth() / 2) - (textureWidth / 2);
         int y = 14;
-        float progress = (float) stealthObjective.getAlarmProgress() / stealthObjective.getMaxProgress();
+        float progress = (float) stealthObjective.getAlarmProgress() / stealthObjective.getTargetProgress();
         int progressWidth = (int) (progress * (textureWidth + 1));
         guiGraphics.blitSprite(RenderType::guiTextured, ALARM_SPRITE, x - spacing - 10, y - 2, 10, 10);
         guiGraphics.blitSprite(RenderType::guiTextured, BAR_BACKGROUND_SPRITE, x, y, textureWidth, 5);
@@ -48,8 +48,8 @@ public class StealthObjectiveRenderer extends ObjectiveRenderer {
         }
     }
 
-    public static StealthObjectiveRenderer create(AbstractObjective objective) {
-        if (objective instanceof StealthObjective stealthObjective) {
+    public static StealthObjectiveRenderer create(OngoingObjective objective) {
+        if (objective instanceof StealthOngoingObjective stealthObjective) {
             return new StealthObjectiveRenderer(stealthObjective);
         }
         return null;

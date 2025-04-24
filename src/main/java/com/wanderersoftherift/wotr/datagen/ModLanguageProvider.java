@@ -107,9 +107,14 @@ public class ModLanguageProvider extends LanguageProvider {
         add("command." + WanderersOfTheRift.MODID + ".invalid_player", "Player is null!");
         add("command." + WanderersOfTheRift.MODID + ".get_item_stack_components.success",
                 "Item Components available for '%1$s'");
-        add("command." + WanderersOfTheRift.MODID + ".rift_key.success", "Rift key configured");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.set_tier", "Rift key tier set to %s");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.set_theme", "Rift key theme set to %s");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.set_objective", "Rift key objective set to %s");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.set_seed", "Rift key seed set to %s");
         add("command." + WanderersOfTheRift.MODID + ".invalid_theme", "Invalid theme '%s'");
         add("command." + WanderersOfTheRift.MODID + ".rift_key.invalid_item", "You must hold a rift key in your hand!");
+        add("command." + WanderersOfTheRift.MODID + ".spawn_piece.generating", "Generating %s");
+        add(WanderersOfTheRift.translationId("command", "make_ability_item.success"), "Applied ability components");
 
         add("ability." + WanderersOfTheRift.MODID + ".cannot_unlock",
                 "You must unlock the following to get this boost: ");
@@ -149,11 +154,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.reduced_motion",
                 "Disables or slows down UI animations, camera shake, or screen effects");
 
-        add("command." + WanderersOfTheRift.MODID + ".spawn_piece.generating", "Generating %s");
-        add(WanderersOfTheRift.translationId("command", "make_ability_item.success"), "Applied ability components");
-
-        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_tier", "Rift Tier: %s");
-        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_theme", "Rift Theme: %s");
+        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_tier", "Tier: %s");
+        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_theme", "Theme: %s");
+        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_objective", "Objective: %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_value", "Essence: %s %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_header", "Essence:");
         add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
@@ -216,6 +219,12 @@ public class ModLanguageProvider extends LanguageProvider {
         add(WanderersOfTheRift.translationId("keybinds", "mod_alt"), "Alt+");
         add(WanderersOfTheRift.translationId("keybinds", "mod_ctrl"), "Ctrl+");
         add(WanderersOfTheRift.translationId("keybinds", "mod_shift"), "Shi+");
+
+        add(WanderersOfTheRift.translationId("objective", "kill.name"), "Kill mobs");
+        add(WanderersOfTheRift.translationId("objective", "stealth.name"), "Stealth");
+        add(WanderersOfTheRift.translationId("objective", "kill.description"), "Defeat %s monsters");
+        add(WanderersOfTheRift.translationId("objective", "stealth.description"), "Defeat monsters stealthily");
+        add(WanderersOfTheRift.translationId("gui", "objective_status.complete"), "Objective Complete");
     }
 
     private void addEssenceType(String id, String value) {

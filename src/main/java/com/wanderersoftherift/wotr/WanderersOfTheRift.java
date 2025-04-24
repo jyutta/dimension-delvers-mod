@@ -29,6 +29,7 @@ import com.wanderersoftherift.wotr.init.ModLootModifiers;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
 import com.wanderersoftherift.wotr.init.ModMobEffects;
 import com.wanderersoftherift.wotr.init.ModModifierEffects;
+import com.wanderersoftherift.wotr.init.ModObjectiveTypes;
 import com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes;
 import com.wanderersoftherift.wotr.init.ModOutputBlockStateTypes;
 import com.wanderersoftherift.wotr.init.ModPayloadHandlers;
@@ -94,6 +95,7 @@ public class WanderersOfTheRift {
         ModTargetingTypes.TARGETING_TYPES.register(modEventBus);
 
         ModModifierEffects.MODIFIER_EFFECT_TYPES.register(modEventBus);
+        ModObjectiveTypes.OBJECTIVE_TYPES.register(modEventBus);
         ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPES.register(modEventBus);
         ModChunkGenerators.CHUNK_GENERATORS.register(modEventBus);
 
