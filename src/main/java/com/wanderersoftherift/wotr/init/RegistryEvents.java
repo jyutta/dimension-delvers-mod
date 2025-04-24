@@ -37,6 +37,7 @@ public class RegistryEvents {
         event.register(ModAbilityTypes.ABILITY_TYPES_REGISTRY);
         event.register(ModEffects.EFFECTS_REGISTRY);
         event.register(ModTargetingTypes.EFFECT_TARGETING_REGISTRY);
+        event.register(ModContainerTypes.CONTAINER_TYPE_REGISTRY);
     }
 
     @SubscribeEvent

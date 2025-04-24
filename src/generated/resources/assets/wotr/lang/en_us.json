@@ -252,6 +252,7 @@
   "container.wotr.rune_anvil.apply": "Apply",
   "effect_marker.wotr.fireshield": "Fire Shield",
   "entity.wotr.rift_entrance": "Rift Entrance",
+  "entity.wotr.rift_exit": "Rift Egress",
   "entity.wotr.simple_effect_projectile": "Projectile",
   "essence_type.wotr.earth": "Earth",
   "essence_type.wotr.life": "Life",
