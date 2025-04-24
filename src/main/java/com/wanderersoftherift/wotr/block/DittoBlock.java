@@ -149,6 +149,7 @@ public class DittoBlock extends BaseEntityBlock {
         builder.add(HAS_ITEM);
     }
 
+    @Override
     @Nullable public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new DittoBlockEntity(pos, state);
     }
@@ -176,12 +177,10 @@ public class DittoBlock extends BaseEntityBlock {
         return 0;
     }
 
-    @Override
     public boolean shouldRender(BlockState state) {
         return true;
     }
 
-    @Override
     public DeferredBlock getBlock() {
         return ModBlocks.DITTO_BLOCK;
     }
