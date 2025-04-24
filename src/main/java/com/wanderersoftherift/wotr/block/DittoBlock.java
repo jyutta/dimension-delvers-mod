@@ -54,7 +54,11 @@ public class DittoBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+    protected InteractionResult useWithoutItem(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
             BlockHitResult hitResult) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof DittoBlockEntity dittoBlockEntity)) {
@@ -94,8 +98,14 @@ public class DittoBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected InteractionResult useItemOn(ItemStack item, BlockState state, Level level, BlockPos pos, Player player,
-            InteractionHand hand, BlockHitResult result) {
+    protected InteractionResult useItemOn(
+            ItemStack item,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            BlockHitResult result) {
         BlockEntity blockEntity1 = level.getBlockEntity(pos);
         if (!(blockEntity1 instanceof DittoBlockEntity dittoBlockEntity)) {
             return InteractionResult.PASS;

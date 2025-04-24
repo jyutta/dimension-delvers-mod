@@ -161,9 +161,8 @@ public class ModBlocks {
         DeferredBlock<Block> block = registerBlock(id, sup);
         BlockFamilyHelper buildingBlockHelper = new BlockFamilyHelper.Builder().withBlockId(id)
                 .withBlock(block)
-                .withSlab(registerBlock(id + SLAB_SUFFIX,
-                        () -> new SlabBlock(
-                                BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + SLAB_SUFFIX)))))
+                .withSlab(registerBlock(id + SLAB_SUFFIX, () -> new SlabBlock(
+                        BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + SLAB_SUFFIX)))))
                 .withStairs(registerBlock(id + STAIRS_SUFFIX,
                         () -> new StairBlock(block.get().defaultBlockState(),
                                 BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + STAIRS_SUFFIX)))))
@@ -179,12 +178,10 @@ public class ModBlocks {
                                         .noCollission()
                                         .strength(0.5F)
                                         .setId(blockId(id + PLATE_SUFFIX)))))
-                .withWall(registerBlock(id + WALL_SUFFIX,
-                        () -> new WallBlock(
-                                BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + WALL_SUFFIX)))))
-                .withFence(registerBlock(id + FENCE_SUFFIX,
-                        () -> new FenceBlock(
-                                BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_SUFFIX)))))
+                .withWall(registerBlock(id + WALL_SUFFIX, () -> new WallBlock(
+                        BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + WALL_SUFFIX)))))
+                .withFence(registerBlock(id + FENCE_SUFFIX, () -> new FenceBlock(
+                        BlockBehaviour.Properties.ofFullCopy(block.get()).setId(blockId(id + FENCE_SUFFIX)))))
                 .withFenceGate(registerBlock(id + FENCE_GATE_SUFFIX,
                         () -> new FenceGateBlock(OAK,
                                 BlockBehaviour.Properties.ofFullCopy(block.get())
@@ -217,7 +214,9 @@ public class ModBlocks {
         return buildingBlockHelper;
     }
 
-    private static <T extends Block> DeferredBlock<T> registerChestBlock(String riftChest, Supplier<T> supplier,
+    private static <T extends Block> DeferredBlock<T> registerChestBlock(
+            String riftChest,
+            Supplier<T> supplier,
             RiftChestType riftChestType) {
         DeferredBlock<T> register = registerBlock(riftChest, supplier);
         CHEST_TYPES.put(riftChestType, (DeferredBlock<Block>) register);

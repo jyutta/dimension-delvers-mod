@@ -19,8 +19,8 @@ import static com.wanderersoftherift.wotr.init.ModLootItemFunctionTypes.GEAR_SOC
 
 public class GearSocketsFunction extends LootItemConditionalFunction {
     public static final MapCodec<GearSocketsFunction> CODEC = RecordCodecBuilder.mapCodec(inst -> commonFields(inst)
-            .and(Codec.INT.fieldOf("max_sockets").forGetter(GearSocketsFunction::getMaxSockets))
-            .apply(inst, GearSocketsFunction::new));
+            .and(Codec.INT.fieldOf("max_sockets").forGetter(GearSocketsFunction::getMaxSockets)
+            ).apply(inst, GearSocketsFunction::new));
 
     private final int maxSockets;
 

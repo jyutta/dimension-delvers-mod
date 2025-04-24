@@ -55,7 +55,11 @@ public class GearSocketTooltipRenderer implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderText(Font pFont, int pX, int pY, @NotNull Matrix4f pMatrix4f,
+    public void renderText(
+            Font pFont,
+            int pX,
+            int pY,
+            @NotNull Matrix4f pMatrix4f,
             MultiBufferSource.@NotNull BufferSource pBufferSource) {
         pFont.drawInBatch(getSocketDesc(), pX, pY, ChatFormatting.GRAY.getColor(), true, pMatrix4f, pBufferSource,
                 Font.DisplayMode.NORMAL, 0, 15_728_880);

@@ -68,8 +68,11 @@ public class RiftKey extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.@NotNull TooltipContext context,
-            @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack,
+            Item.@NotNull TooltipContext context,
+            @NotNull List<Component> components,
+            @NotNull TooltipFlag flag) {
         RiftConfig riftConfig = stack.get(ModDataComponentType.RIFT_CONFIG);
         if (riftConfig != null) {
             components.addAll(riftConfig.getTooltips());

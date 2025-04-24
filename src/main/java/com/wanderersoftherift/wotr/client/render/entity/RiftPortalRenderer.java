@@ -37,7 +37,10 @@ public class RiftPortalRenderer extends EntityRenderer<RiftPortalEntity, RiftPor
     }
 
     @Override
-    public void render(RiftRendererEntityState state, PoseStack poseStack, @NotNull MultiBufferSource bufferSource,
+    public void render(
+            RiftRendererEntityState state,
+            PoseStack poseStack,
+            @NotNull MultiBufferSource bufferSource,
             int packedLight) {
         poseStack.pushPose();
 
@@ -87,8 +90,15 @@ public class RiftPortalRenderer extends EntityRenderer<RiftPortalEntity, RiftPor
         super.render(state, poseStack, bufferSource, packedLight);
     }
 
-    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, int packedLight, float x, float y, float z,
-            int u, int v) {
+    private static void vertex(
+            VertexConsumer consumer,
+            PoseStack.Pose pose,
+            int packedLight,
+            float x,
+            float y,
+            float z,
+            int u,
+            int v) {
         consumer.addVertex(pose, x, y, z)
                 .setColor(-1)
                 .setUv((float) u, (float) v)
@@ -102,7 +112,9 @@ public class RiftPortalRenderer extends EntityRenderer<RiftPortalEntity, RiftPor
         return new RiftRendererEntityState();
     }
 
-    public void extractRenderState(@NotNull RiftPortalEntity entity, @NotNull RiftRendererEntityState state,
+    public void extractRenderState(
+            @NotNull RiftPortalEntity entity,
+            @NotNull RiftRendererEntityState state,
             float delta) {
         super.extractRenderState(entity, state, delta);
         state.facingDir = entity.getDirection();

@@ -46,7 +46,9 @@ public class ModModelProvider extends ModelProvider {
         super(output, WanderersOfTheRift.MODID);
     }
 
-    private static ResourceLocation createRuneGemShapeModel(ResourceLocation location, ModelTemplate modelTemplate,
+    private static ResourceLocation createRuneGemShapeModel(
+            ResourceLocation location,
+            ModelTemplate modelTemplate,
             ItemModelGenerators itemModels) {
         return modelTemplate.create(location, TextureMapping.layer0(location), itemModels.modelOutput);
     }
@@ -104,7 +106,8 @@ public class ModModelProvider extends ModelProvider {
         ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> createModelsForBuildBlock(helper, blockModels));
     }
 
-    private void createBlockStatesForTrapBlock(DeferredBlock<? extends Block> trapBlock,
+    private void createBlockStatesForTrapBlock(
+            DeferredBlock<? extends Block> trapBlock,
             BlockModelGenerators generators) {
         ResourceLocation model0 = ModelLocationUtils.getModelLocation(trapBlock.get(), "/0");
         ResourceLocation model1 = ModelLocationUtils.getModelLocation(trapBlock.get(), "/1");
@@ -184,14 +187,13 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createGlassPane(BlockModelGenerators blockModels, Block glassBlock, Block paneBlock) {
-        blockModels.createTrivialBlock(glassBlock,
-                TexturedModel.createDefault(
-                        block -> new TextureMapping().put(TextureSlot.ALL, TextureMapping.getBlockTexture(glassBlock)),
-                        ExtendedModelTemplateBuilder.builder()
-                                .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/cube_all"))
-                                .requiredTextureSlot(TextureSlot.ALL)
-                                .renderType("translucent")
-                                .build()));
+        blockModels.createTrivialBlock(glassBlock, TexturedModel.createDefault(
+                block -> new TextureMapping().put(TextureSlot.ALL, TextureMapping.getBlockTexture(glassBlock)),
+                ExtendedModelTemplateBuilder.builder()
+                        .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/cube_all"))
+                        .requiredTextureSlot(TextureSlot.ALL)
+                        .renderType("translucent")
+                        .build()));
 
         ExtendedModelTemplate panePostTemplate = ExtendedModelTemplateBuilder.builder()
                 .parent(ResourceLocation.fromNamespaceAndPath("minecraft", "block/template_glass_pane_post"))
