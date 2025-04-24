@@ -245,9 +245,11 @@ public class RiftLevelManager {
         if (config != null) {
             riftTheme = config.theme().orElse(LevelRiftThemeData.getRandomTheme(riftLevel));
             maxDepth = getRiftSize(config.tier());
+            riftData.setTier(config.tier());
         } else {
             riftTheme = LevelRiftThemeData.getRandomTheme(riftLevel);
             maxDepth = getRiftSize(0);
+            riftData.setTier(0);
         }
         themeData.setTheme(riftTheme);
 
