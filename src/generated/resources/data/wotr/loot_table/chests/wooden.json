@@ -26,6 +26,11 @@
           "weight": 20
         },
         {
+          "type": "minecraft:loot_table",
+          "value": "wotr:rift/socketed_vanilla_armor",
+          "weight": 20
+        },
+        {
           "type": "minecraft:item",
           "name": "minecraft:emerald",
           "weight": 20
@@ -52,7 +57,7 @@
           "weight": 10
         }
       ],
-      "rolls": 6.0
+      "rolls": 26.0
     }
   ],
   "random_sequence": "wotr:chests/wooden"

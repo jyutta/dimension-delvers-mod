@@ -1,0 +1,297 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 2,
+              "min_tier": 0
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 3
+            }
+          ],
+          "name": "minecraft:iron_sword",
+          "weight": 64
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 2,
+              "min_tier": 0
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 3
+            }
+          ],
+          "name": "minecraft:iron_helmet",
+          "weight": 64
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 2,
+              "min_tier": 0
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 3
+            }
+          ],
+          "name": "minecraft:iron_chestplate",
+          "weight": 64
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 2,
+              "min_tier": 0
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 3
+            }
+          ],
+          "name": "minecraft:iron_leggings",
+          "weight": 64
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 2,
+              "min_tier": 0
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 3
+            }
+          ],
+          "name": "minecraft:iron_boots",
+          "weight": 64
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 4,
+              "min_tier": 1
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 4
+            }
+          ],
+          "name": "minecraft:diamond_sword",
+          "weight": 32
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 4,
+              "min_tier": 1
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 4
+            }
+          ],
+          "name": "minecraft:diamond_helmet",
+          "weight": 32
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 4,
+              "min_tier": 1
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 4
+            }
+          ],
+          "name": "minecraft:diamond_chestplate",
+          "weight": 32
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 4,
+              "min_tier": 1
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 4
+            }
+          ],
+          "name": "minecraft:diamond_leggings",
+          "weight": 32
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 4,
+              "min_tier": 1
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 5,
+              "min_sockets": 4
+            }
+          ],
+          "name": "minecraft:diamond_boots",
+          "weight": 32
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 5,
+              "min_tier": 2
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 6,
+              "min_sockets": 5
+            }
+          ],
+          "name": "minecraft:netherite_sword",
+          "weight": 16
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 5,
+              "min_tier": 2
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 6,
+              "min_sockets": 5
+            }
+          ],
+          "name": "minecraft:netherite_helmet",
+          "weight": 16
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 5,
+              "min_tier": 2
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 6,
+              "min_sockets": 5
+            }
+          ],
+          "name": "minecraft:netherite_chestplate",
+          "weight": 16
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 5,
+              "min_tier": 2
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 6,
+              "min_sockets": 5
+            }
+          ],
+          "name": "minecraft:netherite_leggings",
+          "weight": 16
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 5,
+              "min_tier": 2
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 6,
+              "min_sockets": 5
+            }
+          ],
+          "name": "minecraft:netherite_boots",
+          "weight": 16
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "wotr:rift/socketed_vanilla_armor"
+}

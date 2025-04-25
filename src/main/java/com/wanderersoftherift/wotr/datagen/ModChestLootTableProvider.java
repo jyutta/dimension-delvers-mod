@@ -2,6 +2,7 @@ package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.loot.functions.GearSocketsFunction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -27,14 +28,17 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
 
     public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
         generateRunegemLootTable(consumer);
+        generateSocketedVanillaArmorLootTable(consumer);
         consumer.accept(getResourceKey("chests/wooden"),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(6))
+                                .setRolls(ConstantValue.exactly(26))
                                 .add(LootItem.lootTableItem(Items.IRON_INGOT)
                                         .setWeight(40)
                                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
                                 .add(NestedLootTable.lootTableReference(getResourceKey("rift/runegem")).setWeight(20))
+                                .add(NestedLootTable.lootTableReference(getResourceKey("rift/socketed_vanilla_armor"))
+                                        .setWeight(20))
                                 .add(LootItem.lootTableItem(Items.EMERALD).setWeight(20))
                                 .add(LootItem.lootTableItem(Items.POTION)
                                         .setWeight(20)
@@ -52,6 +56,74 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                         .add(LootItem.lootTableItem(ModItems.CUT_RUNEGEM_GEODE).when(riftTier(2, 5)).setWeight(4))
                         .add(LootItem.lootTableItem(ModItems.POLISHED_RUNEGEM_GEODE).when(riftTier(3, 7)).setWeight(2))
                         .add(LootItem.lootTableItem(ModItems.FRAMED_RUNEGEM_GEODE).when(riftTier(4, 7)).setWeight(1))));
+    }
+
+    private void generateSocketedVanillaArmorLootTable(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+        consumer.accept(getResourceKey("rift/socketed_vanilla_armor"),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(LootItem.lootTableItem(Items.IRON_SWORD)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(64)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 5)))
+                                .add(LootItem.lootTableItem(Items.IRON_HELMET)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(64)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 5)))
+                                .add(LootItem.lootTableItem(Items.IRON_CHESTPLATE)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(64)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 5)))
+                                .add(LootItem.lootTableItem(Items.IRON_LEGGINGS)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(64)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 5)))
+                                .add(LootItem.lootTableItem(Items.IRON_BOOTS)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(64)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 5)))
+                                .add(LootItem.lootTableItem(Items.DIAMOND_SWORD)
+                                        .when(riftTier(1, 4))
+                                        .setWeight(32)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
+                                        .when(riftTier(1, 4))
+                                        .setWeight(32)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.DIAMOND_CHESTPLATE)
+                                        .when(riftTier(1, 4))
+                                        .setWeight(32)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.DIAMOND_LEGGINGS)
+                                        .when(riftTier(1, 4))
+                                        .setWeight(32)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.DIAMOND_BOOTS)
+                                        .when(riftTier(1, 4))
+                                        .setWeight(32)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.NETHERITE_SWORD)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(16)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.NETHERITE_HELMET)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(16)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.NETHERITE_CHESTPLATE)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(16)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.NETHERITE_LEGGINGS)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(16)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.NETHERITE_BOOTS)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(16)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))));
+
     }
 
     private static @NotNull ResourceKey<LootTable> getResourceKey(String path) {
