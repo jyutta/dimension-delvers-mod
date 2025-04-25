@@ -42,8 +42,10 @@ public class ModDataComponentType {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<RiftConfig>> RIFT_CONFIG = register(
             "rift_config", RiftConfig.CODEC, RiftConfig.STREAM_CODEC);
 
-    private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name,
-            final Codec<T> codec, @Nullable final StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
+    private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(
+            String name,
+            final Codec<T> codec,
+            @Nullable final StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
         if (streamCodec == null) {
             return DATA_COMPONENTS.register(name, () -> DataComponentType.<T>builder().persistent(codec).build());
         } else {

@@ -63,16 +63,26 @@ public class ProcessorUtil {
 
     private static final HashMap<Long, RandomSource> RANDOM_SEED_CACHE = new HashMap<>();
 
-    public static RandomSource getRandom(StructureRandomType type, BlockPos blockPos, BlockPos piecePos,
-            BlockPos structurePos, LevelReader world, long processorSeed) {
+    public static RandomSource getRandom(
+            StructureRandomType type,
+            BlockPos blockPos,
+            BlockPos piecePos,
+            BlockPos structurePos,
+            LevelReader world,
+            long processorSeed) {
         RandomSource randomSource = RandomSource
                 .create(getRandomSeed(type, blockPos, piecePos, structurePos, world, processorSeed));
         randomSource.consumeCount(3);
         return randomSource;
     }
 
-    public static long getRandomSeed(StructureRandomType type, BlockPos blockPos, BlockPos piecePos,
-            BlockPos structurePos, LevelReader world, long processorSeed) {
+    public static long getRandomSeed(
+            StructureRandomType type,
+            BlockPos blockPos,
+            BlockPos piecePos,
+            BlockPos structurePos,
+            LevelReader world,
+            long processorSeed) {
         return switch (type) {
             case BLOCK -> getRandomSeed(blockPos, processorSeed);
             case PIECE -> getRandomSeed(piecePos, processorSeed);
@@ -89,8 +99,13 @@ public class ProcessorUtil {
         }
     }
 
-    public static RandomSource getRandom(StructureRandomType type, BlockPos blockPos, BlockPos piecePos,
-            BlockPos structurePos, LevelReader world, Optional<Long> processorSeed) {
+    public static RandomSource getRandom(
+            StructureRandomType type,
+            BlockPos blockPos,
+            BlockPos piecePos,
+            BlockPos structurePos,
+            LevelReader world,
+            Optional<Long> processorSeed) {
         return switch (type) {
             case BLOCK -> RANDOM_SEED_CACHE.computeIfAbsent(structurePos.asLong(),
                     key -> createRandom(getRandomSeed(blockPos, 0L)));
@@ -106,7 +121,9 @@ public class ProcessorUtil {
         return randomSource;
     }
 
-    public static Block getRandomBlockFromBlockTag(TagKey<Block> tagKey, RandomSource random,
+    public static Block getRandomBlockFromBlockTag(
+            TagKey<Block> tagKey,
+            RandomSource random,
             List<Block> exclusionList) {
         List<Block> blockList = BLOCK_TAG_BLOCK_CACHE.getUnchecked(tagKey);
         return getRandomBlockFromBlockList(random, exclusionList, blockList);
@@ -117,7 +134,9 @@ public class ProcessorUtil {
         return getRandomBlockFromBlockList(random, exclusionList, blockList);
     }
 
-    private static Block getRandomBlockFromBlockList(RandomSource random, List<Block> exclusionList,
+    private static Block getRandomBlockFromBlockList(
+            RandomSource random,
+            List<Block> exclusionList,
             List<Block> blockList) {
         List<Block> collect = blockList.stream().filter(block -> !exclusionList.contains(block)).toList();
         if (!collect.isEmpty()) {
@@ -184,7 +203,8 @@ public class ProcessorUtil {
                 .collect(Collectors.toMap(StructureTemplate.StructureBlockInfo::pos, blockInfo -> blockInfo));
     }
 
-    public static StructureTemplate.StructureBlockInfo getBlock(List<StructureTemplate.StructureBlockInfo> pieceBlocks,
+    public static StructureTemplate.StructureBlockInfo getBlock(
+            List<StructureTemplate.StructureBlockInfo> pieceBlocks,
             BlockPos pos) {
         return pieceBlocks.stream().filter(blockInfo -> blockInfo.pos().equals(pos)).findFirst().orElse(null);
     }
@@ -245,7 +265,8 @@ public class ProcessorUtil {
         }
     }
 
-    public static StructureTemplate.StructureBlockInfo getBlockInfo(List<StructureTemplate.StructureBlockInfo> mapByPos,
+    public static StructureTemplate.StructureBlockInfo getBlockInfo(
+            List<StructureTemplate.StructureBlockInfo> mapByPos,
             BlockPos pos) {
         BlockPos firstPos = mapByPos.getFirst().pos();
         BlockPos lastPos = mapByPos.getLast().pos();
