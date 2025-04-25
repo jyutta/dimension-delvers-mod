@@ -57,8 +57,11 @@ public class RiftLevelManager {
 
     // TODO: unload the dimesnions if all plauers are disconnected, but still in the dimension
     @SuppressWarnings("deprecation")
-    public static ServerLevel getOrCreateRiftLevel(ResourceLocation id, ResourceKey<Level> portalDimension,
-            BlockPos portalPos, @Nullable RiftConfig config) {
+    public static ServerLevel getOrCreateRiftLevel(
+            ResourceLocation id,
+            ResourceKey<Level> portalDimension,
+            BlockPos portalPos,
+            @Nullable RiftConfig config) {
         var server = ServerLifecycleHooks.getCurrentServer();
         var ow = server.overworld();
 
@@ -208,8 +211,12 @@ public class RiftLevelManager {
                 ResourceLocation.withDefaultNamespace("bedrock"));
     }
 
-    private static ServerLevel createRift(ResourceLocation id, LevelStem stem, ResourceKey<Level> portalDimension,
-            BlockPos portalPos, @Nullable RiftConfig config) {
+    private static ServerLevel createRift(
+            ResourceLocation id,
+            LevelStem stem,
+            ResourceKey<Level> portalDimension,
+            BlockPos portalPos,
+            @Nullable RiftConfig config) {
         AccessorMinecraftServer server = (AccessorMinecraftServer) ServerLifecycleHooks.getCurrentServer();
         var chunkProgressListener = server.getProgressListenerFactory().create(0);
         var storageSource = server.getStorageSource();
@@ -258,8 +265,12 @@ public class RiftLevelManager {
         return riftLevel;
     }
 
-    private static void placeInitialJigsaw(ServerLevel level, ResourceLocation templatePoolKey, ResourceLocation target,
-            int maxDepth, BlockPos pos) {
+    private static void placeInitialJigsaw(
+            ServerLevel level,
+            ResourceLocation templatePoolKey,
+            ResourceLocation target,
+            int maxDepth,
+            BlockPos pos) {
         var templatePool = level.registryAccess()
                 .lookupOrThrow(Registries.TEMPLATE_POOL)
                 .get(templatePoolKey)

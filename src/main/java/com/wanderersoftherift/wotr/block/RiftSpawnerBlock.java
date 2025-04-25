@@ -45,7 +45,10 @@ public class RiftSpawnerBlock extends Block {
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
+    protected @NotNull VoxelShape getShape(
+            BlockState state,
+            @NotNull BlockGetter level,
+            @NotNull BlockPos pos,
             @NotNull CollisionContext context) {
         return SHAPES.get(state.getValue(BlockStateProperties.FACING));
     }

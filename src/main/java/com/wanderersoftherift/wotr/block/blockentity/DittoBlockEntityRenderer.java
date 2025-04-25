@@ -33,8 +33,13 @@ public class DittoBlockEntityRenderer implements BlockEntityRenderer<DittoBlockE
 
     @Override
     @SuppressWarnings("deprecation")
-    public void render(DittoBlockEntity blockEntity, float partialTick, PoseStack stack, MultiBufferSource bufferSource,
-            int packedLight, int packedOverlay) {
+    public void render(
+            DittoBlockEntity blockEntity,
+            float partialTick,
+            PoseStack stack,
+            MultiBufferSource bufferSource,
+            int packedLight,
+            int packedOverlay) {
         DittoBlock dittoBlock = (DittoBlock) blockEntity.getBlockState().getBlock();
         if (!dittoBlock.shouldRender(blockEntity.getBlockState())) {
             return;

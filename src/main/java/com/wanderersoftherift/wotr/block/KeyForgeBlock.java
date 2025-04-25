@@ -31,8 +31,12 @@ public class KeyForgeBlock extends Block {
                 playerInventory, ContainerLevelAccess.create(level, pos)), CONTAINER_TITLE);
     }
 
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos,
-            @NotNull Player player, @NotNull BlockHitResult hitResult) {
+    protected @NotNull InteractionResult useWithoutItem(
+            @NotNull BlockState state,
+            Level level,
+            @NotNull BlockPos pos,
+            @NotNull Player player,
+            @NotNull BlockHitResult hitResult) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {

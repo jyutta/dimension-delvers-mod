@@ -13,8 +13,8 @@ import static com.wanderersoftherift.wotr.WanderersOfTheRift.LOGGER;
 public class LevelRiftObjectiveData extends SavedData {
 
     public static final Codec<LevelRiftObjectiveData> CODEC = RecordCodecBuilder.create(inst -> inst
-            .group(AbstractObjective.DIRECT_CODEC.fieldOf("objective").forGetter(LevelRiftObjectiveData::getObjective))
-            .apply(inst, LevelRiftObjectiveData::new));
+            .group(AbstractObjective.DIRECT_CODEC.fieldOf("objective").forGetter(LevelRiftObjectiveData::getObjective)
+            ).apply(inst, LevelRiftObjectiveData::new));
 
     private AbstractObjective objective;
 
