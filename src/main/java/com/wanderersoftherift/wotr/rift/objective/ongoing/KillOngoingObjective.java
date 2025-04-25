@@ -14,13 +14,11 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
 public class KillOngoingObjective extends ProgressObjective {
 
-    public static final MapCodec<KillOngoingObjective> CODEC = RecordCodecBuilder
-            .mapCodec(
-                    instance -> instance
-                            .group(Codec.INT.fieldOf("targetKills").forGetter(KillOngoingObjective::getTargetProgress),
-                                    Codec.INT.fieldOf("currentKills")
-                                            .forGetter(KillOngoingObjective::getCurrentProgress))
-                            .apply(instance, KillOngoingObjective::new));
+    public static final MapCodec<KillOngoingObjective> CODEC = RecordCodecBuilder.mapCodec(
+            instance -> instance
+                    .group(Codec.INT.fieldOf("targetKills").forGetter(KillOngoingObjective::getTargetProgress),
+                            Codec.INT.fieldOf("currentKills").forGetter(KillOngoingObjective::getCurrentProgress))
+                    .apply(instance, KillOngoingObjective::new));
 
     private final int targetKills;
     private int currentKills;

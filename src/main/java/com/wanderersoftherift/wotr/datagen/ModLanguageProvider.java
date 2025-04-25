@@ -57,10 +57,29 @@ public class ModLanguageProvider extends LanguageProvider {
         addEntityType(ModEntities.RIFT_EXIT, "Rift Egress");
         addEntityType(ModEntities.SIMPLE_EFFECT_PROJECTILE, "Projectile");
 
-        addEssenceType("earth", "Earth");
+        addEssenceType("animal", "Animal");
+        addEssenceType("plant", "Plant");
         addEssenceType("life", "Life");
+        addEssenceType("death", "Death");
+        addEssenceType("light", "Light");
+        addEssenceType("dark", "Dark");
+        addEssenceType("order", "Order");
+        addEssenceType("chaos", "Chaos");
+        addEssenceType("earth", "Earth");
+        addEssenceType("fire", "Fire");
         addEssenceType("water", "Water");
-        addEssenceType("meat", "Meat");
+        addEssenceType("air", "Air");
+        addEssenceType("time", "Time");
+        addEssenceType("space", "Space");
+
+        addEssenceType("metal", "Metal");
+        addEssenceType("fabric", "Fabric");
+        addEssenceType("crystal", "Crystal");
+        addEssenceType("power", "Power");
+        addEssenceType("knowledge", "Knowledge");
+
+        addEssenceType("nether", "Nether");
+        addEssenceType("end", "End");
 
         addTheme("cave", "Cave");
         addTheme("forest", "Forest");

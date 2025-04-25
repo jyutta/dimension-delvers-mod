@@ -59,7 +59,9 @@ public class RiftData extends SavedData { // TODO: split this
                         level.getServer().overworld().getSharedSpawnPos(), new RiftConfig(0)), "rift_data");
     }
 
-    private static SavedData.Factory<RiftData> factory(ResourceKey<Level> portalDimension, BlockPos portalPos,
+    private static SavedData.Factory<RiftData> factory(
+            ResourceKey<Level> portalDimension,
+            BlockPos portalPos,
             RiftConfig config) {
         return new SavedData.Factory<>(() -> new RiftData(portalDimension, portalPos, List.of(), config),
                 RiftData::load);
@@ -70,10 +72,13 @@ public class RiftData extends SavedData { // TODO: split this
         ResourceKey<Level> portalDimension = ResourceKey.create(Registries.DIMENSION, portalDimensionLocation);
         List<UUID> players = new ArrayList<>();
         tag.getList("Players", Tag.TAG_STRING).forEach(player -> players.add(UUID.fromString(player.getAsString())));
-        RiftConfig config = RiftConfig.CODEC
-                .parse(registries.createSerializationContext(NbtOps.INSTANCE), tag.getCompound("Config"))
-                .resultOrPartial(x -> WanderersOfTheRift.LOGGER.error("Tried to load invalid rift config: '{}'", x))
-                .orElse(new RiftConfig(0));
+        RiftConfig config = new RiftConfig(0);
+        if (tag.contains("Config")) {
+            config = RiftConfig.CODEC
+                    .parse(registries.createSerializationContext(NbtOps.INSTANCE), tag.getCompound("Config"))
+                    .resultOrPartial(x -> WanderersOfTheRift.LOGGER.error("Tried to load invalid rift config: '{}'", x))
+                    .orElse(new RiftConfig(0));
+        }
         return new RiftData(portalDimension, BlockPos.of(tag.getLong("PortalPos")), players, config);
     }
 
@@ -84,8 +89,11 @@ public class RiftData extends SavedData { // TODO: split this
         ListTag playerTag = new ListTag();
         this.players.forEach(player -> playerTag.add(StringTag.valueOf(player.toString())));
         tag.put("Players", playerTag);
-        tag.put("Config", RiftConfig.CODEC.encode(config, registries.createSerializationContext(NbtOps.INSTANCE), tag)
-                .getOrThrow());
+        if (config != null) {
+            tag.put("Config",
+                    RiftConfig.CODEC.encode(config, registries.createSerializationContext(NbtOps.INSTANCE), tag)
+                            .getOrThrow());
+        }
         return tag;
     }
 

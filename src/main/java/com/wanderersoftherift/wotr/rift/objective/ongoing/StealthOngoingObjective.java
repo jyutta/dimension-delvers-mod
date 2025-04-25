@@ -12,8 +12,8 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
 public class StealthOngoingObjective extends OngoingObjective {
 
-    public static final MapCodec<StealthOngoingObjective> CODEC = RecordCodecBuilder.mapCodec(inst -> inst
-            .group(Codec.INT.fieldOf("alarm_progress").forGetter(StealthOngoingObjective::getAlarmProgress),
+    public static final MapCodec<StealthOngoingObjective> CODEC = RecordCodecBuilder.mapCodec(
+            inst -> inst.group(Codec.INT.fieldOf("alarm_progress").forGetter(StealthOngoingObjective::getAlarmProgress),
                     Codec.INT.fieldOf("target_progress").forGetter(StealthOngoingObjective::getAlarmProgress)
             ).apply(inst, StealthOngoingObjective::new));
 

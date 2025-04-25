@@ -5,13 +5,15 @@ import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.effects.marker.EffectMarker;
 import com.wanderersoftherift.wotr.abilities.upgrade.AbilityUpgrade;
 import com.wanderersoftherift.wotr.item.implicit.ImplicitConfig;
-import com.wanderersoftherift.wotr.item.riftkey.ThemeRecipe;
+import com.wanderersoftherift.wotr.item.riftkey.KeyForgeRecipe;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.modifier.Modifier;
 import com.wanderersoftherift.wotr.modifier.effect.AbstractModifierEffect;
 import com.wanderersoftherift.wotr.rift.objective.ObjectiveType;
 import com.wanderersoftherift.wotr.world.level.levelgen.theme.RiftTheme;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -29,8 +31,10 @@ public class RegistryEvents {
             .createRegistryKey(WanderersOfTheRift.id("ability_upgrade"));
     public static final ResourceKey<Registry<EffectMarker>> EFFECT_MARKER_REGISTRY = ResourceKey
             .createRegistryKey(WanderersOfTheRift.id("effect_marker"));
-    public static final ResourceKey<Registry<ThemeRecipe>> RIFT_THEME_RECIPE = ResourceKey
+    public static final ResourceKey<Registry<KeyForgeRecipe<Holder<RiftTheme>>>> RIFT_THEME_RECIPE = ResourceKey
             .createRegistryKey(WanderersOfTheRift.id("rift_theme_recipe"));
+    public static final ResourceKey<Registry<KeyForgeRecipe<Holder<ObjectiveType>>>> RIFT_OBJECTIVE_RECIPE = ResourceKey
+            .createRegistryKey(WanderersOfTheRift.id("rift_objective_recipe"));
     public static final ResourceKey<Registry<ObjectiveType>> OBJECTIVE_REGISTRY = ResourceKey
             .createRegistryKey(WanderersOfTheRift.id("objective"));
 
@@ -58,7 +62,12 @@ public class RegistryEvents {
         event.dataPackRegistry(ABILITY_UPGRADE_REGISTRY, AbilityUpgrade.CODEC, AbilityUpgrade.CODEC);
         event.dataPackRegistry(EFFECT_MARKER_REGISTRY, EffectMarker.CODEC, EffectMarker.CODEC);
         event.dataPackRegistry(ABILITY_REGISTRY, AbstractAbility.DIRECT_CODEC, AbstractAbility.DIRECT_CODEC);
-        event.dataPackRegistry(RIFT_THEME_RECIPE, ThemeRecipe.CODEC, ThemeRecipe.CODEC);
+        event.dataPackRegistry(RIFT_THEME_RECIPE,
+                KeyForgeRecipe.codec(RegistryFixedCodec.create(ModRiftThemes.RIFT_THEME_KEY)),
+                KeyForgeRecipe.codec(RegistryFixedCodec.create(ModRiftThemes.RIFT_THEME_KEY)));
         event.dataPackRegistry(OBJECTIVE_REGISTRY, ObjectiveType.DIRECT_CODEC, ObjectiveType.DIRECT_CODEC);
+        event.dataPackRegistry(RIFT_OBJECTIVE_RECIPE,
+                KeyForgeRecipe.codec(RegistryFixedCodec.create(OBJECTIVE_REGISTRY)),
+                KeyForgeRecipe.codec(RegistryFixedCodec.create(OBJECTIVE_REGISTRY)));
     }
 }

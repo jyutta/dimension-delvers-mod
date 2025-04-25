@@ -12,7 +12,7 @@ public class StealthObjective extends ObjectiveType {
     public static final MapCodec<StealthObjective> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
             ExtraCodecs.POSITIVE_INT.fieldOf("min_stealth_ticks").forGetter(StealthObjective::getMinStealthTicks),
             ExtraCodecs.POSITIVE_INT.fieldOf("max_stealth_ticks").forGetter(StealthObjective::getMaxStealthTicks)
-            ).apply(inst, StealthObjective::new));
+    ).apply(inst, StealthObjective::new));
 
     private int minStealthTicks;
     private int maxStealthTicks;
