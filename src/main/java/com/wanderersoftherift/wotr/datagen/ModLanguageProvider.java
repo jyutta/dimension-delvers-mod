@@ -119,6 +119,15 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add("container." + WanderersOfTheRift.MODID + ".ability_bench.upgrade", "Upgrades");
         add("container." + WanderersOfTheRift.MODID + ".ability_bench.unlock", "Unlock next choice");
+        add(WanderersOfTheRift.translationId("container", "rift_complete"), "Rift Overview");
+
+        add(WanderersOfTheRift.translationId("stat", "result"), "Result: ");
+        add(WanderersOfTheRift.translationId("stat", "result.success"), "Success");
+        add(WanderersOfTheRift.translationId("stat", "result.survived"), "Escaped");
+        add(WanderersOfTheRift.translationId("stat", "result.failed"), "Failed");
+        add(WanderersOfTheRift.translationId("stat", "time"), "Time in rift: ");
+        add(WanderersOfTheRift.translationId("stat", "mobs_killed"), "Mobs killed: ");
+        add(WanderersOfTheRift.translationId("stat", "chests_opened"), "Chests opened: ");
 
         add("command." + WanderersOfTheRift.MODID + ".dev_world_set",
                 "Dev World settings applied:\n - %1$s: Disabled\n - %2$s: Disabled\n - %3$s: Disabled\n - %4$s: Disabled\n - %5$s: Disabled\n - %6$s: Disabled");
@@ -181,6 +190,12 @@ public class ModLanguageProvider extends LanguageProvider {
         add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
         add("tooltip." + WanderersOfTheRift.MODID + ".implicit-", "Implicit: ");
         add(WanderersOfTheRift.translationId("tooltip", "mana_bar"), "Mana: %s/%s");
+        add(WanderersOfTheRift.translationId("tooltip", "rift_key_seed"), "Seed: %s");
+
+        add(WanderersOfTheRift.translationId("itemname", "consolation1"), "Whomp whomp");
+        add(WanderersOfTheRift.translationId("itemname", "consolation2"), "Tissue");
+        add(WanderersOfTheRift.translationId("itemname", "consolation3"), "Success is built on a mountain of failure");
+        add(WanderersOfTheRift.translationId("itemname", "consolation4"), "Think of it as a learning opportunity");
 
         add("subtitles." + WanderersOfTheRift.MODID + ".rift_open", "Rift Opens");
 

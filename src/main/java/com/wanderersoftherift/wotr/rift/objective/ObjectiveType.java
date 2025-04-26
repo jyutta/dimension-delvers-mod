@@ -7,11 +7,23 @@ import net.minecraft.world.level.LevelAccessor;
 
 import java.util.function.Function;
 
-public abstract class ObjectiveType {
-    public static final Codec<ObjectiveType> DIRECT_CODEC = ModObjectiveTypes.OBJECTIVE_TYPE_REGISTRY.byNameCodec()
+/**
+ * Base type for all Objective types.
+ */
+public interface ObjectiveType {
+    Codec<ObjectiveType> DIRECT_CODEC = ModObjectiveTypes.OBJECTIVE_TYPE_REGISTRY.byNameCodec()
             .dispatch(ObjectiveType::getCodec, Function.identity());
 
-    public abstract MapCodec<? extends ObjectiveType> getCodec();
+    /**
+     * @return A codec for the objective type implementation
+     */
+    MapCodec<? extends ObjectiveType> getCodec();
 
-    public abstract OngoingObjective generate(LevelAccessor level);
+    /**
+     * Generates an objective instance from this definition. This allows for randomised elements
+     * 
+     * @param level The level to generate the objective detail for
+     * @return An ongoing objective instance from this objective definition
+     */
+    OngoingObjective generate(LevelAccessor level);
 }

@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import org.jetbrains.annotations.NotNull;
 
 import static com.wanderersoftherift.wotr.WanderersOfTheRift.LOGGER;
 
@@ -37,7 +38,7 @@ public class LevelRiftObjectiveData extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
+    public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
         if (objective != null) {
             OngoingObjective.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.getObjective())
                     .resultOrPartial(LOGGER::error)

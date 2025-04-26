@@ -3,6 +3,7 @@ package com.wanderersoftherift.wotr.core.rift;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import java.util.HashSet;
@@ -22,9 +23,11 @@ public class RiftEvents {
             for (var playerID : data.getPlayers()) {
                 var player = serverLevel.getServer().getPlayerList().getPlayer(playerID);
                 if (player == null) {
-                    continue; // Player is offline
+                    // Player is offline
+                    continue;
                 }
                 if (player.isDeadOrDying()) {
+                    NeoForge.EVENT_BUS.post(new RiftEvent.PlayerDied(player, serverLevel, data.getConfig()));
                     toRemove.add(playerID);
                 }
                 if (player.level() instanceof ServerLevel pLevel && !RiftData.isRift(pLevel) && pLevel != serverLevel) {

@@ -21,6 +21,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Commands relating to configuring a rift key for testing
+ */
 public class RiftKeyCommands extends BaseCommand {
 
     private static final DynamicCommandExceptionType ERROR_INVALID_THEME = new DynamicCommandExceptionType(

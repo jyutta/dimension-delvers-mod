@@ -12,13 +12,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
-public class KillOngoingObjective extends ProgressObjective {
+/**
+ * Ongoing kill objective
+ */
+public class KillOngoingObjective implements ProgressObjective {
 
     public static final MapCodec<KillOngoingObjective> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance
-                    .group(Codec.INT.fieldOf("targetKills").forGetter(KillOngoingObjective::getTargetProgress),
-                            Codec.INT.fieldOf("currentKills").forGetter(KillOngoingObjective::getCurrentProgress))
-                    .apply(instance, KillOngoingObjective::new));
+            instance -> instance.group(
+                    Codec.INT.fieldOf("targetKills").forGetter(KillOngoingObjective::getTargetProgress),
+                    Codec.INT.fieldOf("currentKills").forGetter(KillOngoingObjective::getCurrentProgress)
+            ).apply(instance, KillOngoingObjective::new));
 
     private final int targetKills;
     private int currentKills;
@@ -47,10 +50,6 @@ public class KillOngoingObjective extends ProgressObjective {
     @Override
     public MapCodec<? extends OngoingObjective> getCodec() {
         return CODEC;
-    }
-
-    public boolean isComplete() {
-        return currentKills >= targetKills;
     }
 
     @Override

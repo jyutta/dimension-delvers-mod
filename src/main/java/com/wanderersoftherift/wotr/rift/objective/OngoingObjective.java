@@ -10,14 +10,17 @@ import java.util.function.Function;
 
 import static com.wanderersoftherift.wotr.init.ModOngoingObjectiveTypes.ONGOING_OBJECTIVE_TYPE_REGISTRY;
 
-public abstract class OngoingObjective {
-    public static final Codec<OngoingObjective> DIRECT_CODEC = ONGOING_OBJECTIVE_TYPE_REGISTRY.byNameCodec()
+/**
+ * OngoingObjective is the base type for tracking ongoing progress and other details for an active objective.
+ */
+public interface OngoingObjective {
+    Codec<OngoingObjective> DIRECT_CODEC = ONGOING_OBJECTIVE_TYPE_REGISTRY.byNameCodec()
             .dispatch(OngoingObjective::getCodec, Function.identity());
 
     /**
      * @return The codec for this OngoingObjective
      */
-    public abstract MapCodec<? extends OngoingObjective> getCodec();
+    MapCodec<? extends OngoingObjective> getCodec();
 
     /**
      * Event handler for a living entity death
@@ -27,17 +30,17 @@ public abstract class OngoingObjective {
      * @param data        The rift objective data
      * @return Whether the objective's data has changed (and should be dirty/replicated)
      */
-    public boolean onLivingDeath(LivingDeathEvent event, ServerLevel serverLevel, LevelRiftObjectiveData data) {
+    default boolean onLivingDeath(LivingDeathEvent event, ServerLevel serverLevel, LevelRiftObjectiveData data) {
         return false;
     }
 
     /**
      * @return Whether the objective is complete
      */
-    public abstract boolean isComplete();
+    boolean isComplete();
 
     /**
      * @return The message to display when starting the objective
      */
-    public abstract Component getObjectiveStartMessage();
+    Component getObjectiveStartMessage();
 }

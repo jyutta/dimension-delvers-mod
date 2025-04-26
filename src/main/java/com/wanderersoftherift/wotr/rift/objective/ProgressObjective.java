@@ -1,12 +1,24 @@
 package com.wanderersoftherift.wotr.rift.objective;
 
-public abstract class ProgressObjective extends OngoingObjective {
+/**
+ * Interface for objectives with progress that is tracked numerically against some goal
+ */
+public interface ProgressObjective extends OngoingObjective {
 
-    public abstract int getCurrentProgress();
+    /**
+     * @return Current progress towards the target
+     */
+    int getCurrentProgress();
 
-    public abstract int getTargetProgress();
+    /**
+     * @return Target progress for completion
+     */
+    int getTargetProgress();
 
-    public boolean isComplete() {
+    /**
+     * @return Whether the objective is complete
+     */
+    default boolean isComplete() {
         return getCurrentProgress() >= getTargetProgress();
     }
 }

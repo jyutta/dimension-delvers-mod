@@ -3,6 +3,8 @@ package com.wanderersoftherift.wotr.entity.portal;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.core.rift.RiftData;
 import com.wanderersoftherift.wotr.core.rift.RiftLevelManager;
+import com.wanderersoftherift.wotr.core.rift.stats.StatSnapshot;
+import com.wanderersoftherift.wotr.init.ModAttachments;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import com.wanderersoftherift.wotr.item.riftkey.RiftConfig;
 import net.minecraft.core.BlockPos;
@@ -90,7 +92,7 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
         RiftData.get(lvl).addPlayer(player.getUUID());
 
         var riftSpawnCoords = getRiftSpawnCoords();
-
+        player.setData(ModAttachments.PRE_RIFT_STATS, new StatSnapshot(player));
         player.teleportTo(lvl, riftSpawnCoords.x, riftSpawnCoords.y, riftSpawnCoords.z, Set.of(), player.getYRot(), 0,
                 false);
     }

@@ -8,14 +8,17 @@ import com.wanderersoftherift.wotr.rift.objective.ongoing.KillOngoingObjective;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.LevelAccessor;
 
-public class KillObjective extends ObjectiveType {
+/**
+ * A simple objective to defeat X mobs (and escape)
+ */
+public class KillObjective implements ObjectiveType {
     public static final MapCodec<KillObjective> CODEC = RecordCodecBuilder.mapCodec(inst -> inst
             .group(ExtraCodecs.POSITIVE_INT.fieldOf("min_quantity").forGetter(KillObjective::getMinQuantity),
                     ExtraCodecs.POSITIVE_INT.fieldOf("max_quantity").forGetter(KillObjective::getMaxQuantity))
             .apply(inst, KillObjective::new));
 
-    public int minQuantity;
-    public int maxQuantity;
+    private final int minQuantity;
+    private final int maxQuantity;
 
     public KillObjective(int minQuantity, int maxQuantity) {
         this.minQuantity = minQuantity;
@@ -29,7 +32,7 @@ public class KillObjective extends ObjectiveType {
 
     @Override
     public OngoingObjective generate(LevelAccessor level) {
-        return new KillOngoingObjective(level.getRandom().nextInt(minQuantity, Math.max(minQuantity, maxQuantity)));
+        return new KillOngoingObjective(level.getRandom().nextIntBetweenInclusive(minQuantity, maxQuantity));
     }
 
     public int getMinQuantity() {

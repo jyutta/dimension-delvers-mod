@@ -10,11 +10,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
-public class StealthOngoingObjective extends OngoingObjective {
+/**
+ * Ongoing objective to be stealthy
+ */
+public class StealthOngoingObjective implements OngoingObjective {
 
     public static final MapCodec<StealthOngoingObjective> CODEC = RecordCodecBuilder.mapCodec(
-            inst -> inst.group(Codec.INT.fieldOf("alarm_progress").forGetter(StealthOngoingObjective::getAlarmProgress),
-                    Codec.INT.fieldOf("target_progress").forGetter(StealthOngoingObjective::getAlarmProgress)
+            inst -> inst.group(
+                    Codec.INT.fieldOf("alarm_progress").forGetter(StealthOngoingObjective::getAlarmProgress),
+                    Codec.INT.fieldOf("target_progress").forGetter(StealthOngoingObjective::getTargetProgress)
             ).apply(inst, StealthOngoingObjective::new));
 
     private int alarmProgress;

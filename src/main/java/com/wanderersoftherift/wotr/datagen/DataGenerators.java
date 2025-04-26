@@ -21,6 +21,8 @@ public class DataGenerators {
         event.createProvider((output, lookupProvider) -> new LootTableProvider(output, Set.of(), List.of(
                 new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK),
                 new LootTableProvider.SubProviderEntry(ModChestLootTableProvider::new, LootContextParamSets.CHEST),
+                new LootTableProvider.SubProviderEntry(ModRiftObjectiveLootTableProvider::new,
+                        LootContextParamSets.EMPTY),
                 new LootTableProvider.SubProviderEntry(ModLootBoxLootTableProvider::new, LootContextParamSets.EMPTY)),
                 lookupProvider));
 

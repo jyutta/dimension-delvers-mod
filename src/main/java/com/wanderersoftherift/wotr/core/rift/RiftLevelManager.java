@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.RandomSequences;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
@@ -35,14 +36,22 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
-public class RiftLevelManager {
+/**
+ * Static manager for handing access to, creation, and destruction of a rift
+ */
+public final class RiftLevelManager {
+
+    private RiftLevelManager() {
+    }
 
     /**
      * @param id
@@ -52,6 +61,52 @@ public class RiftLevelManager {
         var server = ServerLifecycleHooks.getCurrentServer();
         var dimension = server.forgeGetWorldMap().get(ResourceKey.create(Registries.DIMENSION, id));
         return dimension != null;
+    }
+
+    /**
+     * @param id
+     * @return The rift level with the given id, if it exists
+     */
+    public static @Nullable ServerLevel getRiftLevel(ResourceLocation id) {
+        var server = ServerLifecycleHooks.getCurrentServer();
+
+        ServerLevel serverLevel = server.forgeGetWorldMap().get(ResourceKey.create(Registries.DIMENSION, id));
+        if (serverLevel != null && RiftData.isRift(serverLevel)) {
+            return serverLevel;
+        }
+        return null;
+    }
+
+    /**
+     * @param player The player to remove from a rift level
+     * @return Whether the player was successfully removed from a rift
+     */
+    public static boolean removePlayerFromRift(ServerPlayer player) {
+        ServerLevel riftLevel = player.serverLevel();
+        if (!RiftData.isRift(riftLevel)) {
+            return false;
+        }
+
+        RiftData riftData = RiftData.get(riftLevel);
+
+        ResourceKey<Level> respawnKey = riftData.getPortalDimension();
+        if (respawnKey == riftLevel.dimension()) {
+            respawnKey = Level.OVERWORLD;
+        }
+
+        ServerLevel respawnDimension = riftLevel.getServer().getLevel(respawnKey);
+        if (respawnDimension == null) {
+            respawnDimension = riftLevel.getServer().overworld();
+        }
+
+        var respawnPos = riftData.getPortalPos().above();
+        player.teleportTo(respawnDimension, respawnPos.getCenter().x(), respawnPos.getY(), respawnPos.getCenter().z(),
+                Set.of(), player.getRespawnAngle(), 0, true);
+        riftData.removePlayer(player.getUUID());
+        if (riftData.getPlayers().isEmpty()) {
+            RiftLevelManager.unregisterAndDeleteLevel(riftLevel);
+        }
+        return true;
     }
 
     // TODO: unload the dimensions if all players are disconnected, but still in the dimension
@@ -108,7 +163,9 @@ public class RiftLevelManager {
         return level;
     }
 
-    /** copy of {@link com.wanderersoftherift.wotr.item.riftkey.RiftKey::spawnRift(Level, Vec3, Direction)} */
+    /**
+     * copy of {@link com.wanderersoftherift.wotr.item.riftkey.RiftKey::spawnRift(Level, Vec3, Direction)}
+     */
     // TODO: clean it up (maybe move as static method to the entity or the spawner class)
     private static void spawnRiftExit(Level level, Vec3 pos) {
         RiftPortalExitEntity rift = new RiftPortalExitEntity(ModEntities.RIFT_EXIT.get(), level);

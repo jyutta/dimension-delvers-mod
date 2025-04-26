@@ -8,14 +8,17 @@ import com.wanderersoftherift.wotr.rift.objective.ongoing.StealthOngoingObjectiv
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.LevelAccessor;
 
-public class StealthObjective extends ObjectiveType {
+/**
+ * An objective to be stealthy
+ */
+public class StealthObjective implements ObjectiveType {
     public static final MapCodec<StealthObjective> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
             ExtraCodecs.POSITIVE_INT.fieldOf("min_stealth_ticks").forGetter(StealthObjective::getMinStealthTicks),
             ExtraCodecs.POSITIVE_INT.fieldOf("max_stealth_ticks").forGetter(StealthObjective::getMaxStealthTicks)
     ).apply(inst, StealthObjective::new));
 
-    private int minStealthTicks;
-    private int maxStealthTicks;
+    private final int minStealthTicks;
+    private final int maxStealthTicks;
 
     public StealthObjective(int minStealthTicks, int maxStealthTicks) {
         this.minStealthTicks = minStealthTicks;

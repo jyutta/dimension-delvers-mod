@@ -23,9 +23,10 @@ import java.util.Optional;
 /**
  * Configuration for generating a rift
  *
- * @param tier  The tier of the rift
- * @param theme The theme of the rift
- * @param seed  Optional, the seed for the rift
+ * @param tier      The tier of the rift
+ * @param theme     The theme of the rift
+ * @param objective The objective of the rift
+ * @param seed      Optional, the seed for the rift
  */
 public record RiftConfig(int tier, Optional<Holder<RiftTheme>> theme, Optional<Holder<ObjectiveType>> objective,
         Optional<Integer> seed) {
@@ -79,6 +80,10 @@ public record RiftConfig(int tier, Optional<Holder<RiftTheme>> theme, Optional<H
             result.add(
                     Component.translatable("tooltip." + WanderersOfTheRift.MODID + ".rift_key_objective", objectiveName)
                             .withColor(ChatFormatting.GRAY.getColor()));
+        });
+        seed.ifPresent(seed -> {
+            result.add(Component.translatable(WanderersOfTheRift.translationId("tooltip", "rift_key_seed"), seed)
+                    .withColor(ChatFormatting.GRAY.getColor()));
         });
         return result;
     }
