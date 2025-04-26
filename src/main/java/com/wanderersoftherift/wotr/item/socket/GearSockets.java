@@ -3,13 +3,19 @@ package com.wanderersoftherift.wotr.item.socket;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.wanderersoftherift.wotr.init.ModTags.Items.SOCKETABLE;
 
@@ -35,7 +41,7 @@ public record GearSockets(List<GearSocket> sockets) {
     public static GearSockets randomSockets(int minSockets, int maxSockets, RandomSource random) {
         List<GearSocket> sockets = new ArrayList<>();
         // sort of pulling in random.nextIntBetweenInclusive, but it didn't work exactly the way I needed it to
-        int actualSockets = random.nextInt(maxSockets - minSockets) + minSockets;
+        int actualSockets = random.nextIntBetweenInclusive(minSockets, maxSockets);
         for (int i = 0; i < actualSockets; i++) {
             GearSocket socket = GearSocket.getRandomSocket(random);
             sockets.add(socket);

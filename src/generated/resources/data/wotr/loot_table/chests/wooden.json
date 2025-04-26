@@ -31,6 +31,16 @@
           "weight": 20
         },
         {
+          "type": "minecraft:loot_table",
+          "value": "wotr:rift/socketed_vanilla_weapons",
+          "weight": 20
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "wotr:rift/socketed_vanilla_tools",
+          "weight": 2000
+        },
+        {
           "type": "minecraft:item",
           "name": "minecraft:emerald",
           "weight": 20

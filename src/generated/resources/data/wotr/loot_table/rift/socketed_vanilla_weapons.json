@@ -20,7 +20,7 @@
               "min_sockets": 3
             }
           ],
-          "name": "minecraft:leather_helmet",
+          "name": "minecraft:wooden_sword",
           "weight": 20
         },
         {
@@ -39,7 +39,7 @@
               "min_sockets": 4
             }
           ],
-          "name": "minecraft:leather_helmet",
+          "name": "minecraft:wooden_sword",
           "weight": 20
         },
         {
@@ -58,7 +58,7 @@
               "min_sockets": 5
             }
           ],
-          "name": "minecraft:leather_helmet",
+          "name": "minecraft:wooden_sword",
           "weight": 20
         },
         {
@@ -77,83 +77,7 @@
               "min_sockets": 6
             }
           ],
-          "name": "minecraft:leather_helmet",
-          "weight": 20
-        },
-        {
-          "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "wotr:rift_level_check",
-              "max_tier": 2,
-              "min_tier": 1
-            }
-          ],
-          "functions": [
-            {
-              "function": "wotr:gear_sockets",
-              "max_sockets": 4,
-              "min_sockets": 3
-            }
-          ],
-          "name": "minecraft:iron_helmet",
-          "weight": 20
-        },
-        {
-          "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "wotr:rift_level_check",
-              "max_tier": 5,
-              "min_tier": 2
-            }
-          ],
-          "functions": [
-            {
-              "function": "wotr:gear_sockets",
-              "max_sockets": 5,
-              "min_sockets": 4
-            }
-          ],
-          "name": "minecraft:iron_helmet",
-          "weight": 20
-        },
-        {
-          "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "wotr:rift_level_check",
-              "max_tier": 7,
-              "min_tier": 5
-            }
-          ],
-          "functions": [
-            {
-              "function": "wotr:gear_sockets",
-              "max_sockets": 6,
-              "min_sockets": 5
-            }
-          ],
-          "name": "minecraft:iron_helmet",
-          "weight": 20
-        },
-        {
-          "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "wotr:rift_level_check",
-              "max_tier": 7,
-              "min_tier": 7
-            }
-          ],
-          "functions": [
-            {
-              "function": "wotr:gear_sockets",
-              "max_sockets": 6,
-              "min_sockets": 6
-            }
-          ],
-          "name": "minecraft:iron_helmet",
+          "name": "minecraft:wooden_sword",
           "weight": 20
         },
         {
@@ -172,7 +96,7 @@
               "min_sockets": 3
             }
           ],
-          "name": "minecraft:diamond_helmet",
+          "name": "minecraft:iron_sword",
           "weight": 20
         },
         {
@@ -191,7 +115,7 @@
               "min_sockets": 4
             }
           ],
-          "name": "minecraft:diamond_helmet",
+          "name": "minecraft:iron_sword",
           "weight": 20
         },
         {
@@ -210,7 +134,7 @@
               "min_sockets": 5
             }
           ],
-          "name": "minecraft:diamond_helmet",
+          "name": "minecraft:iron_sword",
           "weight": 20
         },
         {
@@ -229,7 +153,7 @@
               "min_sockets": 6
             }
           ],
-          "name": "minecraft:diamond_helmet",
+          "name": "minecraft:iron_sword",
           "weight": 20
         },
         {
@@ -248,7 +172,7 @@
               "min_sockets": 3
             }
           ],
-          "name": "minecraft:golden_helmet",
+          "name": "minecraft:diamond_sword",
           "weight": 20
         },
         {
@@ -267,7 +191,7 @@
               "min_sockets": 4
             }
           ],
-          "name": "minecraft:golden_helmet",
+          "name": "minecraft:diamond_sword",
           "weight": 20
         },
         {
@@ -286,7 +210,7 @@
               "min_sockets": 5
             }
           ],
-          "name": "minecraft:golden_helmet",
+          "name": "minecraft:diamond_sword",
           "weight": 20
         },
         {
@@ -305,7 +229,26 @@
               "min_sockets": 6
             }
           ],
-          "name": "minecraft:golden_helmet",
+          "name": "minecraft:diamond_sword",
+          "weight": 20
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "wotr:rift_level_check",
+              "max_tier": 2,
+              "min_tier": 0
+            }
+          ],
+          "functions": [
+            {
+              "function": "wotr:gear_sockets",
+              "max_sockets": 4,
+              "min_sockets": 3
+            }
+          ],
+          "name": "minecraft:golden_sword",
           "weight": 20
         },
         {
@@ -314,7 +257,7 @@
             {
               "condition": "wotr:rift_level_check",
               "max_tier": 5,
-              "min_tier": 4
+              "min_tier": 2
             }
           ],
           "functions": [
@@ -324,7 +267,7 @@
               "min_sockets": 4
             }
           ],
-          "name": "minecraft:elytra",
+          "name": "minecraft:golden_sword",
           "weight": 20
         },
         {
@@ -333,7 +276,7 @@
             {
               "condition": "wotr:rift_level_check",
               "max_tier": 7,
-              "min_tier": 6
+              "min_tier": 5
             }
           ],
           "functions": [
@@ -343,7 +286,7 @@
               "min_sockets": 5
             }
           ],
-          "name": "minecraft:elytra",
+          "name": "minecraft:golden_sword",
           "weight": 20
         },
         {
@@ -362,12 +305,12 @@
               "min_sockets": 6
             }
           ],
-          "name": "minecraft:elytra",
+          "name": "minecraft:golden_sword",
           "weight": 20
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "wotr:rift/socketed_vanilla_armor"
+  "random_sequence": "wotr:rift/socketed_vanilla_weapons"
 }
