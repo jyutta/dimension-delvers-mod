@@ -31,9 +31,9 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
         generateSocketedVanillaArmorLootTable(consumer);
         generateSocketedVanillaWeaponLootTable(consumer);
         generateSocketedVanillaToolLootTable(consumer);
-        consumer.accept(getResourceKey("chests/wooden"),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
+        consumer.accept(getResourceKey("chests/wooden"), LootTable.lootTable()
+                .withPool(
+                        LootPool.lootPool()
                                 .setRolls(UniformGenerator.between(6.0F, 10.0F))
                                 .add(LootItem.lootTableItem(Items.IRON_INGOT)
                                         .setWeight(40)
@@ -64,7 +64,7 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                         .setWeight(20)
                                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(3.0F, 6.0F))))
 
-                        ));
+                ));
     }
 
     private void generateRunegemLootTable(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
@@ -79,7 +79,9 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
     }
 
     /**
-     * Generate a loot table for socketed vanilla armor. This table only contains helmets as the function that rolls sockets currently check specific tags and rerolls the item types
+     * Generate a loot table for socketed vanilla armor. This table only contains helmets as the function that rolls
+     * sockets currently check specific tags and rerolls the item types
+     * 
      * @param consumer
      */
     private void generateSocketedVanillaArmorLootTable(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
@@ -87,102 +89,105 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1))
-                                        //rogue type gear
-                                        .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
-                                                .when(riftTier(0, 2))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(3, 4)))
-                                        .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
-                                                .when(riftTier(2, 5))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(4, 5)))
-                                        .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
-                                                .when(riftTier(5, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(5, 6)))
-                                        .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
-                                                .when(riftTier(7, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                        // Tank Type Gear
-                                        .add(LootItem.lootTableItem(Items.IRON_HELMET)
-                                                .when(riftTier(1, 2))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(3, 4)))
-                                        .add(LootItem.lootTableItem(Items.IRON_HELMET)
-                                                .when(riftTier(2, 5))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(4, 5)))
-                                        .add(LootItem.lootTableItem(Items.IRON_HELMET)
-                                                .when(riftTier(5, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(5, 6)))
-                                        .add(LootItem.lootTableItem(Items.IRON_HELMET)
-                                                .when(riftTier(7, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                        //barbarian type gear
-                                        .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
-                                                .when(riftTier(0, 2))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(3, 4)))
-                                        .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
-                                                .when(riftTier(2, 5))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(4, 5)))
-                                        .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
-                                                .when(riftTier(5, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(5, 6)))
-                                        .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
-                                                .when(riftTier(7, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                        //wizard type gear
-                                        .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
-                                                .when(riftTier(0, 2))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(3, 4)))
-                                        .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
-                                                .when(riftTier(2, 5))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(4, 5)))
-                                        .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
-                                                .when(riftTier(5, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(5, 6)))
-                                        .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
-                                                .when(riftTier(7, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                        //Elytra for fun
-                                        .add(LootItem.lootTableItem(Items.ELYTRA)
-                                                .when(riftTier(4, 5))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(4, 5)))
-                                        .add(LootItem.lootTableItem(Items.ELYTRA)
-                                                .when(riftTier(6, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(5, 6)))
-                                        .add(LootItem.lootTableItem(Items.ELYTRA)
-                                                .when(riftTier(7, 7))
-                                                .setWeight(20)
-                                                .apply(GearSocketsFunction.setGearSockets(6, 6)))
+                                // rogue type gear
+                                .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 4)))
+                                .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
+                                        .when(riftTier(5, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
+                                        .when(riftTier(7, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
+                                // Tank Type Gear
+                                .add(LootItem.lootTableItem(Items.IRON_HELMET)
+                                        .when(riftTier(1, 2))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 4)))
+                                .add(LootItem.lootTableItem(Items.IRON_HELMET)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.IRON_HELMET)
+                                        .when(riftTier(5, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.IRON_HELMET)
+                                        .when(riftTier(7, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
+                                // barbarian type gear
+                                .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 4)))
+                                .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
+                                        .when(riftTier(5, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
+                                        .when(riftTier(7, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
+                                // wizard type gear
+                                .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(3, 4)))
+                                .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
+                                        .when(riftTier(5, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
+                                        .when(riftTier(7, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
+                                // Elytra for fun
+                                .add(LootItem.lootTableItem(Items.ELYTRA)
+                                        .when(riftTier(4, 5))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                .add(LootItem.lootTableItem(Items.ELYTRA)
+                                        .when(riftTier(6, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                .add(LootItem.lootTableItem(Items.ELYTRA)
+                                        .when(riftTier(7, 7))
+                                        .setWeight(20)
+                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
 
                         ));
 
     }
 
     /**
-     * Generate a loot table for socketed vanilla weapons. This table only contains swords as the function that rolls sockets currently check specific tags and rerolls the item types
+     * Generate a loot table for socketed vanilla weapons. This table only contains swords as the function that rolls
+     * sockets currently check specific tags and rerolls the item types
+     * 
      * @param consumer
      */
-    private void generateSocketedVanillaWeaponLootTable(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+    private void generateSocketedVanillaWeaponLootTable(
+            BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
         consumer.accept(getResourceKey("rift/socketed_vanilla_weapons"),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1))
-                                //rogue type weapons
+                                // rogue type weapons
                                 .add(LootItem.lootTableItem(Items.WOODEN_SWORD)
                                         .when(riftTier(0, 2))
                                         .setWeight(20)
@@ -199,7 +204,7 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                         .when(riftTier(7, 7))
                                         .setWeight(20)
                                         .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                //Tank type weapons
+                                // Tank type weapons
                                 .add(LootItem.lootTableItem(Items.IRON_SWORD)
                                         .when(riftTier(0, 2))
                                         .setWeight(20)
@@ -216,7 +221,7 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                         .when(riftTier(7, 7))
                                         .setWeight(20)
                                         .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                //Barbarian type weapons
+                                // Barbarian type weapons
                                 .add(LootItem.lootTableItem(Items.DIAMOND_SWORD)
                                         .when(riftTier(0, 2))
                                         .setWeight(20)
@@ -233,7 +238,7 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                         .when(riftTier(7, 7))
                                         .setWeight(20)
                                         .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                //Wizard type weapons
+                                // Wizard type weapons
                                 .add(LootItem.lootTableItem(Items.GOLDEN_SWORD)
                                         .when(riftTier(0, 2))
                                         .setWeight(20)
@@ -255,7 +260,9 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
     }
 
     /**
-     * Generate a loot table for socketed vanilla tools. as durability is disabled, this just rolls netherite tools with sockets
+     * Generate a loot table for socketed vanilla tools. as durability is disabled, this just rolls netherite tools with
+     * sockets
+     * 
      * @param consumer
      */
     private void generateSocketedVanillaToolLootTable(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
@@ -288,7 +295,7 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                         .when(riftTier(5, 7))
                                         .setWeight(5)
                                         .apply(GearSocketsFunction.setGearSockets(5, 6)))
-                                ));
+                        ));
     }
 
     private static @NotNull ResourceKey<LootTable> getResourceKey(String path) {

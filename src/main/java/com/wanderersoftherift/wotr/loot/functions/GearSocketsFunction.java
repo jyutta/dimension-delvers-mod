@@ -6,11 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.item.socket.GearSockets;
 import com.wanderersoftherift.wotr.util.ItemTagUtil;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.TimeUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -60,13 +57,14 @@ public class GearSocketsFunction extends LootItemConditionalFunction {
 
         ItemStack mutableItemStack = itemStack.copy();
         TagKey<Item> tag = ItemTagUtil.findTagWithPrefixOnItemStack(itemStack, "gear_type.");
-        if(tag == null) {
+        if (tag == null) {
             tag = ItemTagUtil.findTagWithPrefixOnItemStack(itemStack, "weapon_type.");
         }
         if (tag != null) {
             mutableItemStack = ItemTagUtil.getRandomItemStackFromTag(tag, random);
         }
-        mutableItemStack.set(ModDataComponentType.GEAR_SOCKETS, GearSockets.randomSockets(minSockets, maxSockets, random));
+        mutableItemStack.set(ModDataComponentType.GEAR_SOCKETS,
+                GearSockets.randomSockets(minSockets, maxSockets, random));
         return mutableItemStack;
     }
 

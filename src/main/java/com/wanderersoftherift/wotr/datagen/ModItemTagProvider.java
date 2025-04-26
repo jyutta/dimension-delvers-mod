@@ -75,48 +75,33 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(ModTags.Items.SOCKETABLE_OFF_HAND_SLOT).add(Items.SHIELD);
 
-        tag(ModTags.Items.ROGUE_TYPE_GEAR)
-                .add(Items.LEATHER_HELMET)
+        tag(ModTags.Items.ROGUE_TYPE_GEAR).add(Items.LEATHER_HELMET)
                 .add(Items.LEATHER_CHESTPLATE)
                 .add(Items.LEATHER_LEGGINGS)
                 .add(Items.LEATHER_BOOTS);
 
-        tag(ModTags.Items.TANK_TYPE_GEAR)
-                .add(Items.GOLDEN_HELMET)
+        tag(ModTags.Items.TANK_TYPE_GEAR).add(Items.GOLDEN_HELMET)
                 .add(Items.GOLDEN_CHESTPLATE)
                 .add(Items.GOLDEN_LEGGINGS)
                 .add(Items.GOLDEN_BOOTS);
 
-        tag(ModTags.Items.BARBARIAN_TYPE_GEAR)
-                .add(Items.DIAMOND_HELMET)
+        tag(ModTags.Items.BARBARIAN_TYPE_GEAR).add(Items.DIAMOND_HELMET)
                 .add(Items.DIAMOND_CHESTPLATE)
                 .add(Items.DIAMOND_LEGGINGS)
                 .add(Items.DIAMOND_BOOTS);
 
-        tag(ModTags.Items.WIZARD_TYPE_GEAR)
-                .add(Items.GOLDEN_HELMET)
+        tag(ModTags.Items.WIZARD_TYPE_GEAR).add(Items.GOLDEN_HELMET)
                 .add(Items.GOLDEN_CHESTPLATE)
                 .add(Items.GOLDEN_LEGGINGS)
                 .add(Items.GOLDEN_BOOTS);
 
-        tag(ModTags.Items.ROGUE_TYPE_WEAPON)
-                .add(Items.WOODEN_SWORD)
-                .add(Items.WOODEN_AXE)
-                .add(Items.BOW);
+        tag(ModTags.Items.ROGUE_TYPE_WEAPON).add(Items.WOODEN_SWORD).add(Items.WOODEN_AXE).add(Items.BOW);
 
-        tag(ModTags.Items.TANK_TYPE_WEAPON)
-                .add(Items.IRON_SWORD)
-                .add(Items.IRON_AXE)
-                .add(Items.SHIELD);
+        tag(ModTags.Items.TANK_TYPE_WEAPON).add(Items.IRON_SWORD).add(Items.IRON_AXE).add(Items.SHIELD);
 
-        tag(ModTags.Items.BARBARIAN_TYPE_WEAPON)
-                .add(Items.DIAMOND_SWORD)
-                .add(Items.DIAMOND_AXE);
+        tag(ModTags.Items.BARBARIAN_TYPE_WEAPON).add(Items.DIAMOND_SWORD).add(Items.DIAMOND_AXE);
 
-        tag(ModTags.Items.WIZARD_TYPE_WEAPON)
-                .add(Items.GOLDEN_SWORD)
-                .add(Items.GOLDEN_AXE)
-                .add(Items.CROSSBOW);
+        tag(ModTags.Items.WIZARD_TYPE_WEAPON).add(Items.GOLDEN_SWORD).add(Items.GOLDEN_AXE).add(Items.CROSSBOW);
 
     }
 }

@@ -1,22 +1,21 @@
 package com.wanderersoftherift.wotr.util;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ItemTagUtil {
 
-    public static TagKey<Item> findTagWithPrefixOnItemStack(ItemStack itemStack, String prefix){
+    public static TagKey<Item> findTagWithPrefixOnItemStack(ItemStack itemStack, String prefix) {
         for (TagKey<Item> tag : itemStack.getTags().toList()) {
             ResourceLocation tagLocation = tag.location();
-            if ( tagLocation.getPath().startsWith(prefix)) {
+            if (tagLocation.getPath().startsWith(prefix)) {
                 return tag;
             }
         }
@@ -31,12 +30,7 @@ public class ItemTagUtil {
     }
 
     public static List<Item> getItemsFromItemTag(TagKey<Item> tag) {
-        return BuiltInRegistries.ITEM.get(tag)
-                .map(it -> it.stream()
-                        .map(Holder::value)
-                        .toList())
-                .orElseGet(List::of);
+        return BuiltInRegistries.ITEM.get(tag).map(it -> it.stream().map(Holder::value).toList()).orElseGet(List::of);
     }
-
 
 }
