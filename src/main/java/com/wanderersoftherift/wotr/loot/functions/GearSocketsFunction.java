@@ -5,10 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.item.socket.GearSockets;
-import com.wanderersoftherift.wotr.util.ItemTagUtil;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
@@ -53,9 +50,8 @@ public class GearSocketsFunction extends LootItemConditionalFunction {
         return generateItemStack(itemStack, lootContext.getRandom());
     }
 
-    private @NotNull ItemStack generateItemStack(ItemStack itemStack, RandomSource random){
-        itemStack.set(ModDataComponentType.GEAR_SOCKETS,
-                GearSockets.randomSockets(minSockets, maxSockets, random));
+    private @NotNull ItemStack generateItemStack(ItemStack itemStack, RandomSource random) {
+        itemStack.set(ModDataComponentType.GEAR_SOCKETS, GearSockets.randomSockets(minSockets, maxSockets, random));
         return itemStack;
     }
 
