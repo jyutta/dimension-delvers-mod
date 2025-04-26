@@ -28,7 +28,7 @@
         {
           "type": "minecraft:loot_table",
           "value": "wotr:rift/socketed_vanilla_armor",
-          "weight": 20
+          "weight": 2000
         },
         {
           "type": "minecraft:loot_table",

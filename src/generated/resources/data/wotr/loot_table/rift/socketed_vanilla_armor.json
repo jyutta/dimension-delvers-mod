@@ -15,9 +15,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 4,
-              "min_sockets": 3
+              "min_sockets": 3,
+              "tag_location": "gear_type.rogue_type_gear"
             }
           ],
           "name": "minecraft:leather_helmet",
@@ -34,9 +35,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 5,
-              "min_sockets": 4
+              "min_sockets": 4,
+              "tag_location": "gear_type.rogue_type_gear"
             }
           ],
           "name": "minecraft:leather_helmet",
@@ -53,9 +55,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 5
+              "min_sockets": 5,
+              "tag_location": "gear_type.rogue_type_gear"
             }
           ],
           "name": "minecraft:leather_helmet",
@@ -72,9 +75,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 6
+              "min_sockets": 6,
+              "tag_location": "gear_type.rogue_type_gear"
             }
           ],
           "name": "minecraft:leather_helmet",
@@ -86,14 +90,15 @@
             {
               "condition": "wotr:rift_level_check",
               "max_tier": 2,
-              "min_tier": 1
+              "min_tier": 0
             }
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 4,
-              "min_sockets": 3
+              "min_sockets": 3,
+              "tag_location": "gear_type.tank_type_gear"
             }
           ],
           "name": "minecraft:iron_helmet",
@@ -110,9 +115,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 5,
-              "min_sockets": 4
+              "min_sockets": 4,
+              "tag_location": "gear_type.tank_type_gear"
             }
           ],
           "name": "minecraft:iron_helmet",
@@ -129,9 +135,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 5
+              "min_sockets": 5,
+              "tag_location": "gear_type.tank_type_gear"
             }
           ],
           "name": "minecraft:iron_helmet",
@@ -148,9 +155,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 6
+              "min_sockets": 6,
+              "tag_location": "gear_type.tank_type_gear"
             }
           ],
           "name": "minecraft:iron_helmet",
@@ -167,9 +175,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 4,
-              "min_sockets": 3
+              "min_sockets": 3,
+              "tag_location": "gear_type.barbarian_type_gear"
             }
           ],
           "name": "minecraft:diamond_helmet",
@@ -186,9 +195,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 5,
-              "min_sockets": 4
+              "min_sockets": 4,
+              "tag_location": "gear_type.barbarian_type_gear"
             }
           ],
           "name": "minecraft:diamond_helmet",
@@ -205,9 +215,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 5
+              "min_sockets": 5,
+              "tag_location": "gear_type.barbarian_type_gear"
             }
           ],
           "name": "minecraft:diamond_helmet",
@@ -224,9 +235,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 6
+              "min_sockets": 6,
+              "tag_location": "gear_type.barbarian_type_gear"
             }
           ],
           "name": "minecraft:diamond_helmet",
@@ -243,9 +255,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 4,
-              "min_sockets": 3
+              "min_sockets": 3,
+              "tag_location": "gear_type.wizard_type_gear"
             }
           ],
           "name": "minecraft:golden_helmet",
@@ -262,9 +275,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 5,
-              "min_sockets": 4
+              "min_sockets": 4,
+              "tag_location": "gear_type.wizard_type_gear"
             }
           ],
           "name": "minecraft:golden_helmet",
@@ -281,9 +295,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 5
+              "min_sockets": 5,
+              "tag_location": "gear_type.wizard_type_gear"
             }
           ],
           "name": "minecraft:golden_helmet",
@@ -300,9 +315,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 6
+              "min_sockets": 6,
+              "tag_location": "gear_type.wizard_type_gear"
             }
           ],
           "name": "minecraft:golden_helmet",

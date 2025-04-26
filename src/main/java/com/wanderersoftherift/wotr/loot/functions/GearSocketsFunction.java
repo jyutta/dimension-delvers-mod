@@ -53,19 +53,10 @@ public class GearSocketsFunction extends LootItemConditionalFunction {
         return generateItemStack(itemStack, lootContext.getRandom());
     }
 
-    private @NotNull ItemStack generateItemStack(ItemStack itemStack, RandomSource random) {
-
-        ItemStack mutableItemStack = itemStack.copy();
-        TagKey<Item> tag = ItemTagUtil.findTagWithPrefixOnItemStack(itemStack, "gear_type.");
-        if (tag == null) {
-            tag = ItemTagUtil.findTagWithPrefixOnItemStack(itemStack, "weapon_type.");
-        }
-        if (tag != null) {
-            mutableItemStack = ItemTagUtil.getRandomItemStackFromTag(tag, random);
-        }
-        mutableItemStack.set(ModDataComponentType.GEAR_SOCKETS,
+    private @NotNull ItemStack generateItemStack(ItemStack itemStack, RandomSource random){
+        itemStack.set(ModDataComponentType.GEAR_SOCKETS,
                 GearSockets.randomSockets(minSockets, maxSockets, random));
-        return mutableItemStack;
+        return itemStack;
     }
 
     public static LootItemConditionalFunction.Builder<?> setGearSockets(int minSockets, int maxSockets) {

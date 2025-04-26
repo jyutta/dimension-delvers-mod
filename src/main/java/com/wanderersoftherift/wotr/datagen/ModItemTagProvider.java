@@ -80,10 +80,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(Items.LEATHER_LEGGINGS)
                 .add(Items.LEATHER_BOOTS);
 
-        tag(ModTags.Items.TANK_TYPE_GEAR).add(Items.GOLDEN_HELMET)
-                .add(Items.GOLDEN_CHESTPLATE)
-                .add(Items.GOLDEN_LEGGINGS)
-                .add(Items.GOLDEN_BOOTS);
+        tag(ModTags.Items.TANK_TYPE_GEAR).add(Items.IRON_HELMET)
+                .add(Items.IRON_CHESTPLATE)
+                .add(Items.IRON_LEGGINGS)
+                .add(Items.IRON_BOOTS);
 
         tag(ModTags.Items.BARBARIAN_TYPE_GEAR).add(Items.DIAMOND_HELMET)
                 .add(Items.DIAMOND_CHESTPLATE)

@@ -2,7 +2,9 @@ package com.wanderersoftherift.wotr.datagen;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.init.ModTags;
 import com.wanderersoftherift.wotr.loot.functions.GearSocketsFunction;
+import com.wanderersoftherift.wotr.loot.functions.RollGearFunction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -40,7 +42,7 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
                                 .add(NestedLootTable.lootTableReference(getResourceKey("rift/runegem")).setWeight(20))
                                 .add(NestedLootTable.lootTableReference(getResourceKey("rift/socketed_vanilla_armor"))
-                                        .setWeight(20))
+                                        .setWeight(2000))
                                 .add(NestedLootTable.lootTableReference(getResourceKey("rift/socketed_vanilla_weapons"))
                                         .setWeight(20))
                                 .add(NestedLootTable.lootTableReference(getResourceKey("rift/socketed_vanilla_tools"))
@@ -85,6 +87,7 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
      * @param consumer
      */
     private void generateSocketedVanillaArmorLootTable(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+        ResourceLocation location = ModTags.Items.SOCKETABLE_HELMET_SLOT.location();
         consumer.accept(getResourceKey("rift/socketed_vanilla_armor"),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
@@ -93,71 +96,120 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                 .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
                                         .when(riftTier(0, 2))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(3, 4)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                3,
+                                                4,
+                                                ModTags.Items.ROGUE_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
                                         .when(riftTier(2, 5))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                4,
+                                                5,
+                                                ModTags.Items.ROGUE_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
                                         .when(riftTier(5, 7))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                5,
+                                                6,
+                                                ModTags.Items.ROGUE_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.LEATHER_HELMET)
                                         .when(riftTier(7, 7))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                // Tank Type Gear
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                6,
+                                                6,
+                                                ModTags.Items.ROGUE_TYPE_GEAR.location().getPath())))
+                                //tank type gear
                                 .add(LootItem.lootTableItem(Items.IRON_HELMET)
-                                        .when(riftTier(1, 2))
+                                        .when(riftTier(0, 2))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(3, 4)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                3,
+                                                4,
+                                                ModTags.Items.TANK_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.IRON_HELMET)
                                         .when(riftTier(2, 5))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                4,
+                                                5,
+                                                ModTags.Items.TANK_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.IRON_HELMET)
                                         .when(riftTier(5, 7))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                5,
+                                                6,
+                                                ModTags.Items.TANK_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.IRON_HELMET)
                                         .when(riftTier(7, 7))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                6,
+                                                6,
+                                                ModTags.Items.TANK_TYPE_GEAR.location().getPath())))
                                 // barbarian type gear
                                 .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
                                         .when(riftTier(0, 2))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(3, 4)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                3,
+                                                4,
+                                                ModTags.Items.BARBARIAN_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
                                         .when(riftTier(2, 5))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                4,
+                                                5,
+                                                ModTags.Items.BARBARIAN_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
                                         .when(riftTier(5, 7))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                5,
+                                                6,
+                                                ModTags.Items.BARBARIAN_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.DIAMOND_HELMET)
                                         .when(riftTier(7, 7))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                6,
+                                                6,
+                                                ModTags.Items.BARBARIAN_TYPE_GEAR.location().getPath())))
                                 // wizard type gear
                                 .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
                                         .when(riftTier(0, 2))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(3, 4)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                3,
+                                                4,
+                                                ModTags.Items.WIZARD_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
                                         .when(riftTier(2, 5))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(4, 5)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                4,
+                                                5,
+                                                ModTags.Items.WIZARD_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
                                         .when(riftTier(5, 7))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(5, 6)))
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                5,
+                                                6,
+                                                ModTags.Items.WIZARD_TYPE_GEAR.location().getPath())))
                                 .add(LootItem.lootTableItem(Items.GOLDEN_HELMET)
                                         .when(riftTier(7, 7))
                                         .setWeight(20)
-                                        .apply(GearSocketsFunction.setGearSockets(6, 6)))
-                                // Elytra for fun
+                                        .apply(RollGearFunction.rollRiftGear(
+                                                6,
+                                                6,
+                                                ModTags.Items.WIZARD_TYPE_GEAR.location().getPath())))
+
+                                // Elytra for fun at this point probably don't need implicits on elytra, so only rolling sockets
                                 .add(LootItem.lootTableItem(Items.ELYTRA)
                                         .when(riftTier(4, 5))
                                         .setWeight(20)
@@ -170,6 +222,7 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                         .when(riftTier(7, 7))
                                         .setWeight(20)
                                         .apply(GearSocketsFunction.setGearSockets(6, 6)))
+
 
                         ));
 
