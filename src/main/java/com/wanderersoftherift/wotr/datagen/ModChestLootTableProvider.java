@@ -51,7 +51,18 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
                                         .apply(SetPotionFunction.setPotion(Potions.HEALING)))
                                 .add(LootItem.lootTableItem(Items.BREAD).setWeight(20))
                                 .add(LootItem.lootTableItem(Items.EXPERIENCE_BOTTLE).setWeight(10))
-
+                                .add(LootItem.lootTableItem(ModItems.SKILL_THREAD)
+                                        .when(riftTier(0, 2))
+                                        .setWeight(20)
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
+                                .add(LootItem.lootTableItem(ModItems.SKILL_THREAD)
+                                        .when(riftTier(2, 5))
+                                        .setWeight(20)
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F))))
+                                .add(LootItem.lootTableItem(ModItems.SKILL_THREAD)
+                                        .when(riftTier(5, 7))
+                                        .setWeight(20)
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(3.0F, 6.0F))))
 
                         ));
     }
