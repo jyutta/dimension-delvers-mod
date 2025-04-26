@@ -15,9 +15,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 4,
-              "min_sockets": 3
+              "min_sockets": 3,
+              "tag_location": "weapon_type.rogue_type_weapon"
             }
           ],
           "name": "minecraft:wooden_sword",
@@ -34,9 +35,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 5,
-              "min_sockets": 4
+              "min_sockets": 4,
+              "tag_location": "weapon_type.rogue_type_weapon"
             }
           ],
           "name": "minecraft:wooden_sword",
@@ -53,9 +55,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 5
+              "min_sockets": 5,
+              "tag_location": "weapon_type.rogue_type_weapon"
             }
           ],
           "name": "minecraft:wooden_sword",
@@ -72,9 +75,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 6
+              "min_sockets": 6,
+              "tag_location": "weapon_type.rogue_type_weapon"
             }
           ],
           "name": "minecraft:wooden_sword",
@@ -91,9 +95,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 4,
-              "min_sockets": 3
+              "min_sockets": 3,
+              "tag_location": "weapon_type.tank_type_weapon"
             }
           ],
           "name": "minecraft:iron_sword",
@@ -110,9 +115,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 5,
-              "min_sockets": 4
+              "min_sockets": 4,
+              "tag_location": "weapon_type.tank_type_weapon"
             }
           ],
           "name": "minecraft:iron_sword",
@@ -129,9 +135,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 5
+              "min_sockets": 5,
+              "tag_location": "weapon_type.tank_type_weapon"
             }
           ],
           "name": "minecraft:iron_sword",
@@ -148,9 +155,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 6
+              "min_sockets": 6,
+              "tag_location": "weapon_type.tank_type_weapon"
             }
           ],
           "name": "minecraft:iron_sword",
@@ -167,9 +175,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 4,
-              "min_sockets": 3
+              "min_sockets": 3,
+              "tag_location": "weapon_type.barbarian_type_weapon"
             }
           ],
           "name": "minecraft:diamond_sword",
@@ -186,9 +195,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 5,
-              "min_sockets": 4
+              "min_sockets": 4,
+              "tag_location": "weapon_type.barbarian_type_weapon"
             }
           ],
           "name": "minecraft:diamond_sword",
@@ -205,9 +215,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 5
+              "min_sockets": 5,
+              "tag_location": "weapon_type.barbarian_type_weapon"
             }
           ],
           "name": "minecraft:diamond_sword",
@@ -224,9 +235,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 6
+              "min_sockets": 6,
+              "tag_location": "weapon_type.barbarian_type_weapon"
             }
           ],
           "name": "minecraft:diamond_sword",
@@ -243,9 +255,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 4,
-              "min_sockets": 3
+              "min_sockets": 3,
+              "tag_location": "weapon_type.wizard_type_weapon"
             }
           ],
           "name": "minecraft:golden_sword",
@@ -262,9 +275,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 5,
-              "min_sockets": 4
+              "min_sockets": 4,
+              "tag_location": "weapon_type.wizard_type_weapon"
             }
           ],
           "name": "minecraft:golden_sword",
@@ -281,9 +295,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 5
+              "min_sockets": 5,
+              "tag_location": "weapon_type.wizard_type_weapon"
             }
           ],
           "name": "minecraft:golden_sword",
@@ -300,9 +315,10 @@
           ],
           "functions": [
             {
-              "function": "wotr:gear_sockets",
+              "function": "wotr:roll_gear",
               "max_sockets": 6,
-              "min_sockets": 6
+              "min_sockets": 6,
+              "tag_location": "weapon_type.wizard_type_weapon"
             }
           ],
           "name": "minecraft:golden_sword",
