@@ -51,7 +51,7 @@ public class LevelRiftObjectiveData extends SavedData {
     }
 
     public static LevelRiftObjectiveData load(CompoundTag tag, HolderLookup.Provider lookupProvider) {
-        if(!tag.contains("objective")) {
+        if (!tag.contains("objective")) {
             return new LevelRiftObjectiveData(null);
         }
         AbstractObjective objective = AbstractObjective.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.get("objective"))
