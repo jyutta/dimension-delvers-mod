@@ -30,7 +30,6 @@ public class ModLanguageProvider extends LanguageProvider {
         // See https://docs.neoforged.net/docs/1.21.1/resources/client/i18n/ for translation of other types.
 
         // Adds a block translation.
-        addBlock(ModBlocks.DEV_BLOCK, "Dev Block");
         addBlock(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK, "Rune Anvil");
         addBlock(ModBlocks.RIFT_CHEST, "Rift Chest");
         addBlock(ModBlocks.RIFT_SPAWNER, "Rift Spawner");
@@ -43,7 +42,6 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.ABILITY_BENCH, "Ability Bench");
 
         // Adds an item translation.
-        addItem(ModItems.EXAMPLE_ITEM, "Example Item");
         addItem(ModItems.BUILDER_GLASSES, "Builder Glasses");
         addItem(ModItems.RUNEGEM, "Runegem");
         addItem(ModItems.RIFT_KEY, "Rift Key");
@@ -90,6 +88,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
         // Adds a generic translation
         add("itemGroup." + WanderersOfTheRift.MODID, "Wanderers of the Rift");
+        add("itemGroup." + WanderersOfTheRift.MODID + ".dev", "Wanderers of the Rift (Dev only)");
 
         add("item." + WanderersOfTheRift.MODID + ".rift_key.themed", "Rift Key of %s");
 

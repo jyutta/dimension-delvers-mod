@@ -56,7 +56,6 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, @NotNull ItemModelGenerators itemModels) {
         blockModels.createTrivialCube(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get());
-        blockModels.createTrivialCube(ModBlocks.DEV_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.KEY_FORGE.get());
         blockModels.createTrivialBlock(ModBlocks.DITTO_BLOCK.get(),
                 TexturedModel.CUBE.updateTemplate(template -> template.extend().renderType("cutout").build()));
@@ -87,7 +86,6 @@ public class ModModelProvider extends ModelProvider {
         itemModels.itemModelOutput.accept(ModItems.BUILDER_GLASSES.get(),
                 ItemModelUtils.plainModel(WanderersOfTheRift.id("item/builder_glasses")));
 
-        itemModels.generateFlatItem(ModItems.EXAMPLE_ITEM.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.RIFT_KEY.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.RAW_RUNEGEM_GEODE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.SHAPED_RUNEGEM_GEODE.get(), ModelTemplates.FLAT_ITEM);
