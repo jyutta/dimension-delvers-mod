@@ -14,14 +14,14 @@
     "MixinLivingEntity",
     "MixinServerPlayer",
     "MixinSetItemDamageFunction",
-    "MixinSpider",
     "MixinStructureTemplate",
     "MixinWorldDimensions",
     "TrialSpawnerAccessor"
   ],
   "client": [
     "MixinAccessibilityOptionsScreen",
-    "MixinMinecraft"
+    "MixinMinecraft",
+    "MixinSpider"
   ],
   "injectors": {
     "defaultRequire": 1
