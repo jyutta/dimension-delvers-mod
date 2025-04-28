@@ -243,15 +243,6 @@
                 "projection": "rigid",
                 "element_type": "minecraft:single_pool_element"
             }
-        },
-        {
-            "weight": 100,
-            "element": {
-                "location": "wotr:rift/poi/7/wall/whale",
-                "processors": "wotr:in free area for some reason",
-                "projection": "rigid",
-                "element_type": "minecraft:single_pool_element"
-            }
         }
     ]
 }
