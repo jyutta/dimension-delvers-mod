@@ -48,7 +48,7 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
 
     // Server
     public RuneAnvilMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, boolean isServer,
-            Container container) {
+                         Container container) {
         super(ModMenuTypes.RUNE_ANVIL_MENU.get(), containerId);
         this.playerInventory = playerInventory;
         this.access = access;
@@ -89,6 +89,11 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
             public boolean mayPlace(@NotNull ItemStack stack) {
                 return container.canPlaceItem(0, stack);
             }
+
+            @Override
+            public boolean mayPickup(@NotNull Player player) {
+                return container.canTakeItem(RuneAnvilMenu.this.playerInventory, 0, this.getItem());
+            }
         });
     }
 
@@ -127,22 +132,25 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
             return;
         }
 
-        GearSockets sockets = gear.get(ModDataComponentType.GEAR_SOCKETS.get());
-        if (sockets == null) {
+        GearSockets currentSockets = gear.get(ModDataComponentType.GEAR_SOCKETS.get());
+        if (currentSockets == null) {
             return;
         }
 
         List<GearSocket> newSockets = new ArrayList<>();
         for (int i = 0; i < this.activeSocketSlots; i++) {
             RunegemSlot slot = this.socketSlots.get(i);
-            GearSocket currentSocket = slot.getSocket();
+            GearSocket currentSocket = currentSockets.sockets().get(i);
             ItemStack runegem = slot.getItem();
-            if (slot.mayPickup(this.playerInventory.player) && !runegem.isEmpty()) {
-                GearSocket newGearSocket = currentSocket.applyRunegem(gear, runegem,
-                        this.playerInventory.player.level());
-                newSockets.add(newGearSocket);
-            } else {
+            if (runegem.isEmpty()) {
                 newSockets.add(currentSocket);
+            } else {
+                GearSocket newSocket = currentSocket.applyRunegem(gear, runegem,
+                        this.playerInventory.player.level());
+                newSockets.add(newSocket);
+                slot.set(ItemStack.EMPTY);
+                slot.setLockedSocket(newSocket);
+                slot.setSocket(null);
             }
         }
         GearSockets newGearSockets = new GearSockets(newSockets);
@@ -150,12 +158,16 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
     }
 
     private void gearSlotChanged() {
+        returnRunegems(this.playerInventory.player);
+
         ItemStack gear = this.gearSlot.getItem();
         if (gear.isEmpty()) {
             this.activeSocketSlots = 0;
             for (RunegemSlot socketSlot : this.socketSlots) {
                 socketSlot.set(ItemStack.EMPTY);
                 socketSlot.setSocket(null);
+                socketSlot.setLockedSocket(null);
+                socketSlot.setShape(null);
             }
         } else {
             GearSockets sockets = gear.get(ModDataComponentType.GEAR_SOCKETS.get());
@@ -177,24 +189,15 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
                 }
 
                 GearSocket socket = socketList.get(i);
-                slot.setSocket(socket);
-
-                Optional<RunegemData> optionalRunegem = socket.runegem();
-                if (optionalRunegem.isPresent()) {
-                    ItemStack tempStack = ModItems.RUNEGEM.toStack();
-                    tempStack.set(ModDataComponentType.RUNEGEM_DATA.get(), optionalRunegem.get());
-                    slot.set(tempStack);
-                } else {
-                    slot.set(ItemStack.EMPTY);
-                }
+                slot.set(ItemStack.EMPTY);
+                slot.setSocket(null);
+                slot.setLockedSocket(socket.isEmpty() ? null : socket);
+                slot.setShape(socket.shape());
             }
         }
     }
 
     public void returnRunegems(@Nullable Player player) {
-        // have to figure out how to do this properly without just duping the runegems
-        // i think its because mayPickup is returning true since by the time this is called the gear is already changed
-
         if (player == null) {
             player = this.playerInventory.player;
         }

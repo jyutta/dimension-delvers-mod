@@ -3,7 +3,13 @@ package com.wanderersoftherift.wotr.gui.screen;
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.gui.menu.RuneAnvilMenu;
 import com.wanderersoftherift.wotr.gui.menu.slot.RunegemSlot;
+import com.wanderersoftherift.wotr.init.ModDataComponentType;
+import com.wanderersoftherift.wotr.init.ModItems;
+import com.wanderersoftherift.wotr.item.runegem.Runegem;
+import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.item.runegem.RunegemShape;
+import com.wanderersoftherift.wotr.item.runegem.RunegemTier;
+import com.wanderersoftherift.wotr.item.socket.GearSocket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -12,7 +18,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> {
     private static final ResourceLocation BACKGROUND = WanderersOfTheRift
@@ -60,12 +70,21 @@ public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> {
             }
             RunegemShape shape = runegemSlot.getShape();
 
-            guiGraphics.blit(RenderType::guiTextured, SLOTS, x, y, getSlotOffset(shape), 0, 18, 18, 256, 256);
+            guiGraphics.blit(RenderType::guiTextured, SLOTS, x, y, getSlotOffset(shape, false), 0, 18, 18, 256, 256);
         } else {
             guiGraphics.blit(RenderType::guiTextured, SLOTS, x, y, 0, 0, 18, 18, 256, 256);
         }
 
-        super.renderSlot(guiGraphics, slot);
+        if (!slot.hasItem() && slot instanceof RunegemSlot runegemSlot && runegemSlot.getLockedSocket() != null && runegemSlot.getShape() != null) {
+            ItemStack stack = new ItemStack(ModItems.RUNEGEM.get());
+            RunegemShape shape = runegemSlot.getShape();
+            stack.set(ModDataComponentType.RUNEGEM_DATA, new RunegemData(shape, List.of(), RunegemTier.RAW));
+
+            super.renderSlotContents(guiGraphics, stack, slot, null);
+            guiGraphics.blit(RenderType::guiTexturedOverlay, SLOTS, x, y, getSlotOffset(shape, true), 18, 18, 18, 256, 256);
+        } else {
+            super.renderSlot(guiGraphics, slot);
+        }
 
         // Render custom shaped slot overlay for runegem slots
         if (this.hoveredSlot != slot || !(slot instanceof RunegemSlot runegemSlot) || runegemSlot.getShape() == null) {
@@ -73,17 +92,18 @@ public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> {
         }
 
         RunegemShape shape = runegemSlot.getShape();
-        guiGraphics.blit(RenderType::guiTextured, SLOTS, x, y, getSlotOffset(shape), 18, 18, 18, 256, 256);
+        guiGraphics.blit(RenderType::guiTexturedOverlay, SLOTS, x, y, getSlotOffset(shape, false), 18, 18, 18, 256, 256);
     }
 
-    private int getSlotOffset(RunegemShape shape) {
+    private int getSlotOffset(RunegemShape shape, boolean darkOffset) {
+        int start = darkOffset ? 126 : 18;
         return switch (shape) {
-            case DIAMOND -> 18;
-            case TRIANGLE -> 36;
-            case HEART -> 54;
-            case CIRCLE -> 72;
-            case SQUARE -> 90;
-            case PENTAGON -> 108;
+            case DIAMOND -> start;
+            case TRIANGLE -> start + 18;
+            case HEART -> start + 36;
+            case CIRCLE -> start + 54;
+            case SQUARE -> start + 72;
+            case PENTAGON -> start + 90;
         };
     }
 }
