@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -36,11 +37,12 @@ public class RiftDifficultyEvents {
         }
     }
 
-    private static void updateAttribute(Mob mob, Holder<Attribute> attackDamage, double tier) {
-        if (mob.getAttribute(attackDamage) == null) {
+    private static void updateAttribute(LivingEntity livingEntity, Holder<Attribute> attribute, double tier) {
+        AttributeInstance attributeInstance = livingEntity.getAttribute(attribute);
+        if (attributeInstance == null) {
             return;
         }
-        mob.getAttribute(attackDamage).setBaseValue(mob.getAttribute(attackDamage).getBaseValue() * tier);
+        attributeInstance.setBaseValue(attributeInstance.getBaseValue() * tier);
     }
 
     private static double getSpeedMultiplier(int tier) {
@@ -48,10 +50,10 @@ public class RiftDifficultyEvents {
     }
 
     private static double getHealthMultiplier(int tier) {
-        return tier * 0.2 + 1;
+        return tier * 0.3 + 1;
     }
 
     private static double getDamageMultiplier(int tier) {
-        return tier * 0.1 + 1;
+        return tier * 0.15 + 1;
     }
 }
