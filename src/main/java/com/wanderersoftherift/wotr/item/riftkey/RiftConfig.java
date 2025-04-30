@@ -13,7 +13,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
@@ -35,9 +34,7 @@ public record RiftConfig(int tier, Optional<Holder<RiftTheme>> theme, Optional<H
             .create(instance -> instance
                     .group(Codec.INT.fieldOf("tier").forGetter(RiftConfig::tier),
                             RiftTheme.CODEC.optionalFieldOf("theme").forGetter(RiftConfig::theme),
-                            RegistryFixedCodec.create(RegistryEvents.OBJECTIVE_REGISTRY)
-                                    .optionalFieldOf("objective")
-                                    .forGetter(RiftConfig::objective),
+                            ObjectiveType.CODEC.optionalFieldOf("objective").forGetter(RiftConfig::objective),
                             Codec.INT.optionalFieldOf("seed").forGetter(RiftConfig::seed))
                     .apply(instance, RiftConfig::new));
 
