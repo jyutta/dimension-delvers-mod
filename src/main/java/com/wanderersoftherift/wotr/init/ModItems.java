@@ -15,7 +15,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemUseAnimation;
@@ -32,9 +31,7 @@ import java.util.List;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(WanderersOfTheRift.MODID);
     public static final List<DeferredItem<BlockItem>> BLOCK_ITEMS = new ArrayList<>();
-
-    public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties()
-            .food(new FoodProperties.Builder().alwaysEdible().nutrition(1).saturationModifier(2f).build()));
+    public static final List<DeferredItem<BlockItem>> DEV_BLOCK_ITEMS = new ArrayList<>();
 
     public static final DeferredItem<BuilderGlasses> BUILDER_GLASSES = ITEMS.register("builder_glasses",
             BuilderGlasses::new);
@@ -89,6 +86,14 @@ public class ModItems {
     public static <T extends Block> DeferredItem<BlockItem> registerSimpleBlockItem(String id, DeferredBlock<T> block) {
         DeferredItem<BlockItem> simpleBlockItem = ITEMS.registerSimpleBlockItem(id, block);
         BLOCK_ITEMS.add(simpleBlockItem);
+        return simpleBlockItem;
+    }
+
+    public static <T extends Block> DeferredItem<BlockItem> registerSimpleDevBlockItem(
+            String id,
+            DeferredBlock<T> block) {
+        DeferredItem<BlockItem> simpleBlockItem = ITEMS.registerSimpleBlockItem(id, block);
+        DEV_BLOCK_ITEMS.add(simpleBlockItem);
         return simpleBlockItem;
     }
 

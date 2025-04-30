@@ -17,9 +17,8 @@ public class ModCreativeTabs {
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup." + WanderersOfTheRift.MODID))
                     .withTabsBefore(CreativeModeTabs.COMBAT)
-                    .icon(() -> ModItems.EXAMPLE_ITEM.get().getDefaultInstance())
+                    .icon(ModBlocks.ABILITY_BENCH::toStack)
                     .displayItems((parameters, output) -> {
-                        output.accept(ModItems.EXAMPLE_ITEM);
                         output.accept(ModItems.RIFT_KEY);
                         output.accept(ModItems.ABILITY_HOLDER);
                         output.accept(ModItems.SKILL_THREAD);
@@ -29,8 +28,18 @@ public class ModCreativeTabs {
                         output.accept(ModItems.POLISHED_RUNEGEM_GEODE);
                         output.accept(ModItems.FRAMED_RUNEGEM_GEODE);
                         ModItems.BLOCK_ITEMS.forEach(item -> output.accept(item.get()));
-                        output.accept(ModItems.BUILDER_GLASSES);
                     })
                     .build());
 
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> WOTR_DEV_TAB = CREATIVE_MODE_TABS.register(
+            WanderersOfTheRift.MODID + "_dev",
+            () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup." + WanderersOfTheRift.MODID + ".dev"))
+                    .withTabsBefore(CreativeModeTabs.COMBAT)
+                    .icon(() -> ModBlocks.PROCESSOR_BLOCK_3.getBlock().get().asItem().getDefaultInstance())
+                    .displayItems((parameters, output) -> {
+                        output.accept(ModItems.BUILDER_GLASSES);
+                        ModItems.DEV_BLOCK_ITEMS.forEach(item -> output.accept(item.get()));
+                    })
+                    .build());
 }

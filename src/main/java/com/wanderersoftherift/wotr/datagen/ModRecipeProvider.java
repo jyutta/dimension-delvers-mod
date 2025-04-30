@@ -65,6 +65,15 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_plank", this.has(ItemTags.PLANKS))
                 .save(this.output);
 
+        ShapedRecipeBuilder.shaped(getter, RecipeCategory.MISC, ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.asItem())
+                .pattern(" e ")
+                .pattern("eae")
+                .pattern(" e ")
+                .define('a', ItemTags.ANVIL)
+                .define('e', Items.EMERALD)
+                .unlockedBy("has_rune", this.has(ModItems.RUNEGEM))
+                .save(this.output);
+
         ItemStack dodgeSkillGem = ModItems.ABILITY_HOLDER.toStack();
         dodgeSkillGem.applyComponents(DataComponentPatch.builder()
                 .set(ModDataComponentType.ABILITY.get(),
