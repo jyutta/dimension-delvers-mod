@@ -17,6 +17,8 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -43,7 +45,7 @@ public class RiftData extends SavedData { // TODO: split this
         this.players = new ArrayList<>(Objects.requireNonNull(players));
     }
 
-    public static boolean isRift(ServerLevel level) {
+    public static boolean isRift(Level level) {
         Registry<DimensionType> dimTypes = level.registryAccess().lookupOrThrow(Registries.DIMENSION_TYPE);
         Optional<Holder.Reference<DimensionType>> riftType = dimTypes.get(RiftDimensionType.RIFT_DIMENSION_TYPE);
         return riftType.filter(dimensionTypeReference -> dimensionTypeReference.value() == level.dimensionType())
@@ -127,8 +129,8 @@ public class RiftData extends SavedData { // TODO: split this
         this.setDirty();
     }
 
-    public void removePlayer(UUID player) {
-        this.players.remove(player);
+    public void removePlayer(ServerPlayer player) {
+        this.players.remove(player.getUUID());
         this.setDirty();
     }
 
@@ -142,5 +144,13 @@ public class RiftData extends SavedData { // TODO: split this
 
     public int getTier() {
         return config.tier();
+    }
+
+    public boolean containsPlayer(Player player) {
+        return players.contains(player.getUUID());
+    }
+
+    public boolean isRiftEmpty() {
+        return players.isEmpty();
     }
 }

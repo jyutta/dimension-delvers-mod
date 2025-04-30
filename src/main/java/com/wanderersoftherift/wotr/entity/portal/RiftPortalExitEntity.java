@@ -18,7 +18,7 @@ public class RiftPortalExitEntity extends RiftPortalEntity {
 
     @Override
     protected void onPlayerInPortal(ServerPlayer serverPlayer, ServerLevel riftLevel) {
-        RiftLevelManager.removePlayerFromRift(serverPlayer);
+        RiftLevelManager.returnPlayerFromRift(serverPlayer);
     }
 
 }

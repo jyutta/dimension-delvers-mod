@@ -47,7 +47,7 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
         builder.define(DATA_RIFT_CONFIG, new RiftConfig(0));
     }
 
-    public ResourceLocation getRiftDimensionID() {
+    public ResourceLocation getRiftDimensionId() {
         return riftDimensionID;
     }
 
@@ -66,7 +66,7 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
     @Override
     public void tick() {
         if (generated) {
-            if (!levelExists(getRiftDimensionID())) {
+            if (!levelExists(getRiftDimensionId())) {
                 this.remove(RemovalReason.DISCARDED);
                 return;
             }
@@ -77,7 +77,7 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
     @Override
     protected void onPlayerInPortal(ServerPlayer player, ServerLevel level) {
         BlockPos pos = blockPosition();
-        ResourceLocation riftId = this.getRiftDimensionID();
+        ResourceLocation riftId = this.getRiftDimensionId();
         var plDir = player.getDirection().getOpposite();
         var axis = plDir.getAxis();
         var axisDir = plDir.getAxisDirection().getStep();
@@ -138,7 +138,7 @@ public class RiftPortalEntranceEntity extends RiftPortalEntity {
                         .encode(getRiftConfig(),
                                 this.level().registryAccess().createSerializationContext(NbtOps.INSTANCE), tag)
                         .getOrThrow());
-        tag.putString("riftDimensionID", getRiftDimensionID().toString());
+        tag.putString("riftDimensionID", getRiftDimensionId().toString());
         tag.putBoolean("generated", generated);
     }
 

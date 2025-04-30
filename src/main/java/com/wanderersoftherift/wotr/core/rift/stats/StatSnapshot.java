@@ -5,8 +5,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.util.FastUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -19,12 +21,12 @@ import java.util.Map;
 public class StatSnapshot {
 
     public static final Codec<StatSnapshot> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.unboundedMap(ResourceLocation.CODEC, Codec.INT)
+            Codec.unboundedMap(RegistryFixedCodec.create(Registries.CUSTOM_STAT), Codec.INT)
                     .fieldOf("customStats")
                     .forGetter(x -> FastUtils.toMap(x.customStats))
     ).apply(instance, StatSnapshot::new));
 
-    private final Object2IntMap<ResourceLocation> customStats;
+    private final Object2IntMap<Holder<ResourceLocation>> customStats;
 
     public StatSnapshot() {
         customStats = new Object2IntArrayMap<>();
@@ -40,12 +42,12 @@ public class StatSnapshot {
         customStatRegistry.forEach(stat -> {
             int value = player.getStats().getValue(Stats.CUSTOM, stat);
             if (value != 0) {
-                customStats.put(stat, value);
+                customStats.put(customStatRegistry.wrapAsHolder(stat), value);
             }
         });
     }
 
-    private StatSnapshot(Map<ResourceLocation, Integer> rawMap) {
+    private StatSnapshot(Map<Holder<ResourceLocation>, Integer> rawMap) {
         customStats = new Object2IntArrayMap<>(rawMap);
         customStats.defaultReturnValue(0);
     }
@@ -58,7 +60,7 @@ public class StatSnapshot {
         Object2IntMap<ResourceLocation> result = new Object2IntArrayMap<>();
         result.defaultReturnValue(0);
         customStats.forEach((stat, previous) -> {
-            result.put(stat, player.getStats().getValue(Stats.CUSTOM, stat) - previous);
+            result.put(stat.value(), player.getStats().getValue(Stats.CUSTOM, stat.value()) - previous);
         });
         return result;
     }

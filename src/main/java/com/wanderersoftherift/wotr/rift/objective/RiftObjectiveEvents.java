@@ -1,6 +1,7 @@
 package com.wanderersoftherift.wotr.rift.objective;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
+import com.wanderersoftherift.wotr.core.rift.RiftData;
 import com.wanderersoftherift.wotr.core.rift.RiftEvent;
 import com.wanderersoftherift.wotr.core.rift.RiftLevelManager;
 import com.wanderersoftherift.wotr.gui.menu.RiftCompleteMenu;
@@ -73,36 +74,28 @@ public class RiftObjectiveEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerDiedInRift(RiftEvent.PlayerDied event) {
-        event.getPlayer().setData(ModAttachments.DIED_IN_RIFT, true);
-    }
-
-    @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        boolean diedInRift = event.getEntity().getData(ModAttachments.DIED_IN_RIFT);
-        if (diedInRift && event.getEntity() instanceof ServerPlayer player) {
-            event.getEntity()
-                    .openMenu(new SimpleMenuProvider(
-                            (containerId, playerInventory, p) -> new RiftCompleteMenu(containerId, playerInventory,
-                                    ContainerLevelAccess.create(event.getEntity().level(), p.getOnPos()),
-                                    RiftCompleteMenu.FLAG_FAILED,
-                                    event.getEntity()
-                                            .getData(ModAttachments.PRE_RIFT_STATS)
-                                            .getCustomStatDelta(player)),
-                            Component.translatable(WanderersOfTheRift.translationId("container", "rift_complete"))));
-            event.getEntity().setData(ModAttachments.DIED_IN_RIFT, false);
-            if (event.getEntity().containerMenu instanceof RiftCompleteMenu menu) {
-
-                generateObjectiveLoot(menu, player, FAIL_TABLE);
-            }
+        if (!event.getEntity().getData(ModAttachments.DIED_IN_RIFT)
+                || !(event.getEntity() instanceof ServerPlayer player)) {
+            return;
         }
+        player.openMenu(new SimpleMenuProvider(
+                (containerId, playerInventory, p) -> new RiftCompleteMenu(containerId, playerInventory,
+                        ContainerLevelAccess.create(player.level(), p.getOnPos()), RiftCompleteMenu.FLAG_FAILED,
+                        player.getData(ModAttachments.PRE_RIFT_STATS).getCustomStatDelta(player)),
+                Component.translatable(WanderersOfTheRift.translationId("container", "rift_complete"))));
+        if (player.containerMenu instanceof RiftCompleteMenu menu) {
+            generateObjectiveLoot(menu, player, FAIL_TABLE);
+        }
+        player.setData(ModAttachments.DIED_IN_RIFT, false);
     }
 
     @SubscribeEvent
     public static void onPlayerLeaveLevel(PlayerEvent.PlayerChangedDimensionEvent event) {
         ServerLevel riftLevel = RiftLevelManager.getRiftLevel(event.getFrom().location());
 
-        if (riftLevel != null && event.getEntity() instanceof ServerPlayer player) {
+        if (riftLevel != null && event.getEntity() instanceof ServerPlayer player
+                && !RiftData.get(riftLevel).getPlayers().contains(event.getEntity().getUUID())) {
             OngoingObjective objective = LevelRiftObjectiveData.getFromLevel(riftLevel).getObjective();
             boolean success = objective != null && objective.isComplete();
             event.getEntity()

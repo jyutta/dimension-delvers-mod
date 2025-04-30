@@ -29,7 +29,7 @@ public class RiftCommands extends BaseCommand {
         ServerLevel level = ctx.getSource().getLevel();
 
         if (player != null && RiftData.isRift(level)) {
-            RiftLevelManager.removePlayerFromRift(player);
+            RiftLevelManager.returnPlayerFromRift(player);
             return 1;
         }
 
