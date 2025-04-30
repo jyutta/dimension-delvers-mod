@@ -5,23 +5,22 @@ import com.wanderersoftherift.wotr.gui.menu.RuneAnvilMenu;
 import com.wanderersoftherift.wotr.gui.menu.slot.RunegemSlot;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.init.ModItems;
-import com.wanderersoftherift.wotr.item.runegem.Runegem;
 import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.item.runegem.RunegemShape;
 import com.wanderersoftherift.wotr.item.runegem.RunegemTier;
-import com.wanderersoftherift.wotr.item.socket.GearSocket;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> {
@@ -52,6 +51,20 @@ public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> {
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
+
+        ItemStack itemstack = this.menu.getGearSlotItem();
+        if (!itemstack.isEmpty()) {
+            List<Component> tooltip = this.getTooltipFromContainerItem(itemstack);
+
+            int width = tooltip.stream().map(this.font::width).max(Comparator.naturalOrder()).orElse(0) + 8; // TODO-FIX: does not account for tooltip components (like the runegem stuff)
+            int height = tooltip.size() * this.font.lineHeight + (tooltip.size() - 1) + 8;
+
+            int leftX = this.leftPos - width - 25;
+            int rightX = leftX + this.imageWidth + width + 25;
+            int y = this.topPos + this.imageHeight / 2 - height / 2;
+            guiGraphics.renderTooltip(this.font, tooltip, itemstack.getTooltipImage(), itemstack, leftX, y, itemstack.get(DataComponents.TOOLTIP_STYLE));
+            guiGraphics.renderTooltip(this.font, tooltip, itemstack.getTooltipImage(), itemstack, rightX, y, itemstack.get(DataComponents.TOOLTIP_STYLE)); // TODO: show the edited item tooltip
+        }
     }
 
     @Override

@@ -4,9 +4,7 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.gui.menu.slot.RunegemSlot;
 import com.wanderersoftherift.wotr.init.ModBlocks;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
-import com.wanderersoftherift.wotr.init.ModItems;
 import com.wanderersoftherift.wotr.init.ModMenuTypes;
-import com.wanderersoftherift.wotr.item.runegem.RunegemData;
 import com.wanderersoftherift.wotr.item.socket.GearSocket;
 import com.wanderersoftherift.wotr.item.socket.GearSockets;
 import com.wanderersoftherift.wotr.mixin.InvokerAbstractContainerMenu;
@@ -25,7 +23,6 @@ import org.joml.Vector2i;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class RuneAnvilMenu extends AbstractContainerMenu {
     public static final List<Vector2i> RUNE_SLOT_POSITIONS = List.of( // CLOCKWISE FROM TOP CENTER
@@ -62,6 +59,11 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
         this.createInventorySlots(this.playerInventory);
         this.createGearSlot();
         this.createSocketSlots();
+
+        GearSockets gearSockets = this.gearSlot.getItem().get(ModDataComponentType.GEAR_SOCKETS.get());
+        if (gearSockets != null) {
+            this.activeSocketSlots = gearSockets.sockets().size();
+        }
     }
 
     private void createInventorySlots(Inventory inventory) {
@@ -158,7 +160,7 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
     }
 
     private void gearSlotChanged() {
-        returnRunegems(this.playerInventory.player);
+        this.returnRunegems(this.playerInventory.player);
 
         ItemStack gear = this.gearSlot.getItem();
         if (gear.isEmpty()) {
@@ -267,5 +269,9 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
             return ItemStack.EMPTY;
         }
         return ItemStack.EMPTY;
+    }
+
+    public @NotNull ItemStack getGearSlotItem() {
+        return this.gearSlot.getItem().copy();
     }
 }
