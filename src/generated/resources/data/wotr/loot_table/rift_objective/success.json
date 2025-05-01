@@ -37,6 +37,11 @@
           "weight": 30
         },
         {
+          "type": "minecraft:loot_table",
+          "value": "wotr:rift/runegem",
+          "weight": 20
+        },
+        {
           "type": "minecraft:item",
           "name": "minecraft:netherite_ingot",
           "weight": 20

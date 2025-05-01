@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.core.rift.RiftData;
+import com.wanderersoftherift.wotr.init.ModLootContextParams;
 import com.wanderersoftherift.wotr.init.ModLootItemConditionTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -26,11 +27,15 @@ public record RiftLevelCheck(int minTier, int maxTier) implements LootItemCondit
     }
 
     public boolean test(LootContext context) {
-        ServerLevel serverlevel = context.getLevel();
-        if (!RiftData.isRift(serverlevel)) {
-            return false;
+        Integer riftTier = context.getOptionalParameter(ModLootContextParams.RIFT_TIER);
+        if (riftTier == null) {
+            ServerLevel serverlevel = context.getLevel();
+            if (!RiftData.isRift(serverlevel)) {
+                return false;
+            }
+            riftTier = RiftData.get(serverlevel).getTier();
         }
-        return RiftData.get(serverlevel).getTier() >= minTier && RiftData.get(serverlevel).getTier() <= maxTier;
+        return riftTier >= minTier && riftTier <= maxTier;
     }
 
     public static RiftLevelCheck.Builder riftTier() {

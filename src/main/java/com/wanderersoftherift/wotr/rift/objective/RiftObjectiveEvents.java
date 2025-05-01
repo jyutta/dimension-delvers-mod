@@ -6,7 +6,9 @@ import com.wanderersoftherift.wotr.core.rift.RiftEvent;
 import com.wanderersoftherift.wotr.core.rift.RiftLevelManager;
 import com.wanderersoftherift.wotr.gui.menu.RiftCompleteMenu;
 import com.wanderersoftherift.wotr.init.ModAttachments;
+import com.wanderersoftherift.wotr.init.ModLootContextParams;
 import com.wanderersoftherift.wotr.init.RegistryEvents;
+import com.wanderersoftherift.wotr.item.riftkey.RiftConfig;
 import com.wanderersoftherift.wotr.network.S2CRiftObjectiveStatusPacket;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -85,7 +87,8 @@ public class RiftObjectiveEvents {
                         player.getData(ModAttachments.PRE_RIFT_STATS).getCustomStatDelta(player)),
                 Component.translatable(WanderersOfTheRift.translationId("container", "rift_complete"))));
         if (player.containerMenu instanceof RiftCompleteMenu menu) {
-            generateObjectiveLoot(menu, player, FAIL_TABLE);
+            // TODO: Do we need rift config for losing a rift?
+            generateObjectiveLoot(menu, player, FAIL_TABLE, new RiftConfig(0));
         }
         player.setData(ModAttachments.DIED_IN_RIFT, false);
     }
@@ -94,33 +97,39 @@ public class RiftObjectiveEvents {
     public static void onPlayerLeaveLevel(PlayerEvent.PlayerChangedDimensionEvent event) {
         ServerLevel riftLevel = RiftLevelManager.getRiftLevel(event.getFrom().location());
 
-        if (riftLevel != null && event.getEntity() instanceof ServerPlayer player
-                && !RiftData.get(riftLevel).getPlayers().contains(event.getEntity().getUUID())) {
-            OngoingObjective objective = LevelRiftObjectiveData.getFromLevel(riftLevel).getObjective();
-            boolean success = objective != null && objective.isComplete();
-            event.getEntity()
-                    .openMenu(new SimpleMenuProvider(
-                            (containerId, playerInventory, p) -> new RiftCompleteMenu(containerId, playerInventory,
-                                    ContainerLevelAccess.create(event.getEntity().level(), p.getOnPos()),
-                                    success ? RiftCompleteMenu.FLAG_SUCCESS : RiftCompleteMenu.FLAG_SURVIVED,
-                                    event.getEntity()
-                                            .getData(ModAttachments.PRE_RIFT_STATS)
-                                            .getCustomStatDelta(player)),
-                            Component.translatable(WanderersOfTheRift.translationId("container", "rift_complete"))));
+        if (riftLevel == null || !(event.getEntity() instanceof ServerPlayer player)) {
+            return;
+        }
+        RiftData riftData = RiftData.get(riftLevel);
+        if (RiftData.get(riftLevel).getPlayers().contains(event.getEntity().getUUID())) {
+            // Player hasn't actually left the level
+            return;
+        }
 
-            if (event.getEntity().containerMenu instanceof RiftCompleteMenu menu) {
-                generateObjectiveLoot(menu, player, success ? SUCCESS_TABLE : SURVIVE_TABLE);
-            }
+        OngoingObjective objective = LevelRiftObjectiveData.getFromLevel(riftLevel).getObjective();
+        boolean success = objective != null && objective.isComplete();
+        event.getEntity()
+                .openMenu(new SimpleMenuProvider(
+                        (containerId, playerInventory, p) -> new RiftCompleteMenu(containerId, playerInventory,
+                                ContainerLevelAccess.create(event.getEntity().level(), p.getOnPos()),
+                                success ? RiftCompleteMenu.FLAG_SUCCESS : RiftCompleteMenu.FLAG_SURVIVED,
+                                event.getEntity().getData(ModAttachments.PRE_RIFT_STATS).getCustomStatDelta(player)),
+                        Component.translatable(WanderersOfTheRift.translationId("container", "rift_complete"))));
+
+        if (event.getEntity().containerMenu instanceof RiftCompleteMenu menu) {
+            generateObjectiveLoot(menu, player, success ? SUCCESS_TABLE : SURVIVE_TABLE, riftData.getConfig());
         }
     }
 
     private static void generateObjectiveLoot(
             RiftCompleteMenu menu,
             ServerPlayer player,
-            ResourceKey<LootTable> table) {
+            ResourceKey<LootTable> table,
+            RiftConfig riftConfig) {
         ServerLevel level = player.serverLevel();
         LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(table);
         LootParams lootParams = new LootParams.Builder(level).withParameter(LootContextParams.THIS_ENTITY, player)
+                .withParameter(ModLootContextParams.RIFT_TIER, riftConfig.tier())
                 .create(LootContextParamSets.EMPTY);
         lootTable.getRandomItems(lootParams).forEach(item -> menu.addReward(item, player));
     }

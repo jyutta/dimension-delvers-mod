@@ -12,6 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SetNameFunction;
 import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
@@ -33,6 +34,7 @@ public record ModRiftObjectiveLootTableProvider(HolderLookup.Provider registries
                         .add(LootItem.lootTableItem(ModItems.SKILL_THREAD)
                                 .setWeight(30)
                                 .apply(SetItemCountFunction.setCount(BinomialDistributionGenerator.binomial(16, 0.8f))))
+                        .add(NestedLootTable.lootTableReference(getResourceKey("rift/runegem")).setWeight(20))
                         .add(LootItem.lootTableItem(Items.NETHERITE_INGOT).setWeight(20))));
         consumer.accept(getResourceKey("rift_objective/fail"), LootTable.lootTable()
                 .withPool(
