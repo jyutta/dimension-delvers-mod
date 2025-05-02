@@ -5,6 +5,7 @@ import com.wanderersoftherift.wotr.WanderersOfTheRift;
 import com.wanderersoftherift.wotr.abilities.AbilityContext;
 import com.wanderersoftherift.wotr.abilities.AbstractAbility;
 import com.wanderersoftherift.wotr.abilities.effects.SimpleProjectileEffect;
+import com.wanderersoftherift.wotr.init.ModAttributes;
 import com.wanderersoftherift.wotr.init.ModEntityDataSerializers;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.core.BlockPos;
@@ -716,9 +717,9 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         return true;
     }
 
-    public void configure(SimpleProjectileConfig config) {
+    public void configure(SimpleProjectileConfig config, AbilityContext context) {
         this.config = config;
-        this.setPierceLevel(config.pierce());
+        this.setPierceLevel((int) context.getAbilityAttribute(ModAttributes.PROJECTILE_PIERCE, config.pierce()));
         this.setRenderConfig(config.renderConfig());
         setNoGravity(!config.gravityAffected());
     }
