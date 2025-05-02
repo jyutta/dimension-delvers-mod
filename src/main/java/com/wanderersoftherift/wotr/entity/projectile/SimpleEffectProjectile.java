@@ -68,8 +68,8 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
     private static final float INERTIA = 0.999F;
     private static final EntityDataAccessor<Byte> ID_FLAGS = SynchedEntityData.defineId(SimpleEffectProjectile.class,
             EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Byte> PIERCE_LEVEL = SynchedEntityData
-            .defineId(SimpleEffectProjectile.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> PIERCE_LEVEL = SynchedEntityData
+            .defineId(SimpleEffectProjectile.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IN_GROUND = SynchedEntityData
             .defineId(SimpleEffectProjectile.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<SimpleProjectileConfig.SimpleProjectileConfigRenderConfig> RENDER_CONFIG = SynchedEntityData
@@ -130,7 +130,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(ID_FLAGS, (byte) 0);
-        builder.define(PIERCE_LEVEL, (byte) 0);
+        builder.define(PIERCE_LEVEL, 0);
         builder.define(IN_GROUND, false);
         builder.define(RENDER_CONFIG, SimpleProjectileConfig.SimpleProjectileConfigRenderConfig.DEFAULT);
     }
@@ -526,7 +526,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         compound.putBoolean("inGround", this.isInGround());
         compound.putByte("pickup", (byte) this.pickup.ordinal());
         compound.putDouble("damage", this.baseDamage);
-        compound.putByte("PierceLevel", this.getPierceLevel());
+        compound.putInt("PierceLevel", this.getPierceLevel());
         compound.putString("SoundEvent", BuiltInRegistries.SOUND_EVENT.getKey(this.soundEvent).toString());
         if (!this.pickupItemStack.isEmpty()) {
             compound.put("item", this.pickupItemStack.save(this.registryAccess()));
@@ -647,7 +647,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         return this.getType().is(EntityTypeTags.REDIRECTABLE_PROJECTILE);
     }
 
-    private void setPierceLevel(byte pierceLevel) {
+    private void setPierceLevel(int pierceLevel) {
         this.entityData.set(PIERCE_LEVEL, pierceLevel);
     }
 
@@ -672,7 +672,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
         }
     }
 
-    public byte getPierceLevel() {
+    public int getPierceLevel() {
         return this.entityData.get(PIERCE_LEVEL);
     }
 
@@ -718,6 +718,7 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
 
     public void configure(SimpleProjectileConfig config) {
         this.config = config;
+        this.setPierceLevel(config.pierce());
         this.setRenderConfig(config.renderConfig());
         setNoGravity(!config.gravityAffected());
     }

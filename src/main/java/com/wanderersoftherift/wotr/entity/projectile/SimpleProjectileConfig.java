@@ -7,14 +7,15 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-public record SimpleProjectileConfig(int projectiles, float velocity, boolean gravityAffected, float gravity,
-        int groundPersistTicks, SimpleProjectileConfigRenderConfig renderConfig) {
+public record SimpleProjectileConfig(int projectiles, int pierce, float velocity,
+        boolean gravityAffected, float gravity, int groundPersistTicks, SimpleProjectileConfigRenderConfig renderConfig) {
 
     public static final SimpleProjectileConfig DEFAULT = new SimpleProjectileConfig(
-            1, 1.0F, true, 0.05F, 0, SimpleProjectileConfigRenderConfig.DEFAULT);
+            1, 0, 1.0F, true, 0.05F, 0, SimpleProjectileConfigRenderConfig.DEFAULT);
 
     public static final Codec<SimpleProjectileConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.optionalFieldOf("projectiles", 1).forGetter(SimpleProjectileConfig::projectiles),
+            Codec.INT.optionalFieldOf("pierce", 0).forGetter(SimpleProjectileConfig::projectiles),
             Codec.FLOAT.fieldOf("velocity").forGetter(SimpleProjectileConfig::velocity),
             Codec.BOOL.optionalFieldOf("gravity_affected", true).forGetter(SimpleProjectileConfig::gravityAffected),
             Codec.FLOAT.optionalFieldOf("gravity", 0.05F).forGetter(SimpleProjectileConfig::gravity),
