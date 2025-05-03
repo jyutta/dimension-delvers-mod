@@ -56,14 +56,17 @@ public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> {
         if (!itemstack.isEmpty()) {
             List<Component> tooltip = this.getTooltipFromContainerItem(itemstack);
 
-            int width = tooltip.stream().map(this.font::width).max(Comparator.naturalOrder()).orElse(0) + 8; // TODO-FIX: does not account for tooltip components (like the runegem stuff)
+            // TODO-FIX: does not account for tooltip components (like the runegem stuff)
+            int width = tooltip.stream().map(this.font::width).max(Comparator.naturalOrder()).orElse(0) + 8;
             int height = tooltip.size() * this.font.lineHeight + (tooltip.size() - 1) + 8;
 
             int leftX = this.leftPos - width - 25;
             int rightX = leftX + this.imageWidth + width + 25;
             int y = this.topPos + this.imageHeight / 2 - height / 2;
-            guiGraphics.renderTooltip(this.font, tooltip, itemstack.getTooltipImage(), itemstack, leftX, y, itemstack.get(DataComponents.TOOLTIP_STYLE));
-            guiGraphics.renderTooltip(this.font, tooltip, itemstack.getTooltipImage(), itemstack, rightX, y, itemstack.get(DataComponents.TOOLTIP_STYLE)); // TODO: show the edited item tooltip
+            guiGraphics.renderTooltip(this.font, tooltip, itemstack.getTooltipImage(), itemstack, leftX, y,
+                    itemstack.get(DataComponents.TOOLTIP_STYLE));
+            guiGraphics.renderTooltip(this.font, tooltip, itemstack.getTooltipImage(), itemstack, rightX, y,
+                    itemstack.get(DataComponents.TOOLTIP_STYLE)); // TODO: show the edited item tooltip
         }
     }
 
@@ -88,13 +91,15 @@ public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> {
             guiGraphics.blit(RenderType::guiTextured, SLOTS, x, y, 0, 0, 18, 18, 256, 256);
         }
 
-        if (!slot.hasItem() && slot instanceof RunegemSlot runegemSlot && runegemSlot.getLockedSocket() != null && runegemSlot.getShape() != null) {
+        if (!slot.hasItem() && slot instanceof RunegemSlot runegemSlot && runegemSlot.getLockedSocket() != null
+                && runegemSlot.getShape() != null) {
             ItemStack stack = new ItemStack(ModItems.RUNEGEM.get());
             RunegemShape shape = runegemSlot.getShape();
             stack.set(ModDataComponentType.RUNEGEM_DATA, new RunegemData(shape, List.of(), RunegemTier.RAW));
 
             super.renderSlotContents(guiGraphics, stack, slot, null);
-            guiGraphics.blit(RenderType::guiTexturedOverlay, SLOTS, x, y, getSlotOffset(shape, true), 18, 18, 18, 256, 256);
+            guiGraphics.blit(RenderType::guiTexturedOverlay, SLOTS, x, y, getSlotOffset(shape, true), 18, 18, 18, 256,
+                    256);
         } else {
             super.renderSlot(guiGraphics, slot);
         }
@@ -105,11 +110,17 @@ public class RuneAnvilScreen extends AbstractContainerScreen<RuneAnvilMenu> {
         }
 
         RunegemShape shape = runegemSlot.getShape();
-        guiGraphics.blit(RenderType::guiTexturedOverlay, SLOTS, x, y, getSlotOffset(shape, false), 18, 18, 18, 256, 256);
+        guiGraphics.blit(RenderType::guiTexturedOverlay, SLOTS, x, y, getSlotOffset(shape, false), 18, 18, 18, 256,
+                256);
     }
 
     private int getSlotOffset(RunegemShape shape, boolean darkOffset) {
-        int start = darkOffset ? 126 : 18;
+        int start;
+        if (darkOffset) {
+            start = 126;
+        } else {
+            start = 18;
+        }
         return switch (shape) {
             case DIAMOND -> start;
             case TRIANGLE -> start + 18;

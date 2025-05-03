@@ -45,7 +45,7 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
 
     // Server
     public RuneAnvilMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, boolean isServer,
-                         Container container) {
+            Container container) {
         super(ModMenuTypes.RUNE_ANVIL_MENU.get(), containerId);
         this.playerInventory = playerInventory;
         this.access = access;
@@ -147,8 +147,7 @@ public class RuneAnvilMenu extends AbstractContainerMenu {
             if (runegem.isEmpty()) {
                 newSockets.add(currentSocket);
             } else {
-                GearSocket newSocket = currentSocket.applyRunegem(gear, runegem,
-                        this.playerInventory.player.level());
+                GearSocket newSocket = currentSocket.applyRunegem(gear, runegem, this.playerInventory.player.level());
                 newSockets.add(newSocket);
                 slot.set(ItemStack.EMPTY);
                 slot.setLockedSocket(newSocket);

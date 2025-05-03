@@ -7,12 +7,9 @@ import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.Nullable;
 
 public class RunegemSlot extends Slot {
-    @Nullable
-    private RunegemShape shape = null;
-    @Nullable
-    private GearSocket lockedSocket = null;
-    @Nullable
-    private GearSocket socket = null;
+    @Nullable private RunegemShape shape = null;
+    @Nullable private GearSocket lockedSocket = null;
+    @Nullable private GearSocket socket = null;
 
     public RunegemSlot(Container container, int slot, int x, int y) {
         super(container, slot, x, y);
