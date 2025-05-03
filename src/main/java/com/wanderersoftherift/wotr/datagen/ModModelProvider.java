@@ -56,7 +56,6 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, @NotNull ItemModelGenerators itemModels) {
         blockModels.createTrivialCube(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get());
-        blockModels.createTrivialCube(ModBlocks.KEY_FORGE.get());
         blockModels.createTrivialBlock(ModBlocks.DITTO_BLOCK.get(),
                 TexturedModel.CUBE.updateTemplate(template -> template.extend().renderType("cutout").build()));
         blockModels.createTrivialCube(ModBlocks.SPRING_BLOCK.get());
@@ -69,6 +68,11 @@ public class ModModelProvider extends ModelProvider {
         blockModels.blockStateOutput.accept(MultiVariantGenerator
                 .multiVariant(ModBlocks.ABILITY_BENCH.get(),
                         Variant.variant().with(VariantProperties.MODEL, abilityBenchModel))
+                .with(BlockModelGenerators.createHorizontalFacingDispatch()));
+
+        ResourceLocation keyForgeModel = WanderersOfTheRift.id("block/key_forge");
+        blockModels.blockStateOutput.accept(MultiVariantGenerator
+                .multiVariant(ModBlocks.KEY_FORGE.get(), Variant.variant().with(VariantProperties.MODEL, keyForgeModel))
                 .with(BlockModelGenerators.createHorizontalFacingDispatch()));
 
         ResourceLocation baseChestModel = WanderersOfTheRift.id("block/rift_chest");
