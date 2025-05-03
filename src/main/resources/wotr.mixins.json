@@ -16,7 +16,8 @@
     "MixinSetItemDamageFunction",
     "MixinStructureTemplate",
     "MixinWorldDimensions",
-    "TrialSpawnerAccessor"
+    "TrialSpawnerAccessor",
+    "TrialSpawnerBlockEntityAccessor"
   ],
   "client": [
     "MixinAccessibilityOptionsScreen",
