@@ -1,37 +1,20 @@
 package com.wanderersoftherift.wotr.init;
 
 import com.wanderersoftherift.wotr.WanderersOfTheRift;
-import com.wanderersoftherift.wotr.block.AbilityBenchBlock;
-import com.wanderersoftherift.wotr.block.BlockFamilyHelper;
-import com.wanderersoftherift.wotr.block.DittoBlock;
-import com.wanderersoftherift.wotr.block.KeyForgeBlock;
-import com.wanderersoftherift.wotr.block.MobTrapBlock;
-import com.wanderersoftherift.wotr.block.PlayerTrapBlock;
-import com.wanderersoftherift.wotr.block.RiftChestEntityBlock;
-import com.wanderersoftherift.wotr.block.RiftSpawnerBlock;
-import com.wanderersoftherift.wotr.block.RuneAnvilEntityBlock;
-import com.wanderersoftherift.wotr.block.SpringBlock;
-import com.wanderersoftherift.wotr.block.TrapBlock;
+import com.wanderersoftherift.wotr.block.*;
 import com.wanderersoftherift.wotr.item.RiftChestType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ButtonBlock;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.PressurePlateBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.StainedGlassBlock;
-import net.minecraft.world.level.block.StainedGlassPaneBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
-import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -67,6 +50,17 @@ public class ModBlocks {
             () -> new RiftChestEntityBlock(ModBlockEntities.RIFT_CHEST::get,
                     BlockBehaviour.Properties.of().setId(blockId("rift_chest")).strength(1.5F).sound(SoundType.WOOD)),
             RiftChestType.WOODEN);
+
+    public static final DeferredBlock<RiftMobSpawnerBlock> RIFT_MOB_SPAWNER = registerBlock("rift_mob_spawner",
+            () -> new RiftMobSpawnerBlock(BlockBehaviour.Properties.of()
+                    .setId(blockId("rift_mob_spawner"))
+                    .mapColor(MapColor.STONE)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .lightLevel(p_311743_ -> p_311743_.getValue(RiftMobSpawnerBlock.STATE).lightLevel())
+                    .strength(50.0F)
+                    .sound(SoundType.TRIAL_SPAWNER)
+                    .isViewBlocking((blockState, blockGetter, blockPos) -> {return false;})
+                    .noOcclusion()));
 
     public static final DeferredBlock<RiftSpawnerBlock> RIFT_SPAWNER = registerBlock("rift_spawner",
             () -> new RiftSpawnerBlock(BlockBehaviour.Properties.of()
