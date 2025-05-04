@@ -31,10 +31,10 @@ public class TrialSpawnerProcessor extends StructureProcessor {
             pos,
             maxDistance,
             requiresLineOfSight) -> entitySelector.getPlayers(
-            level,
-            player -> player.blockPosition().closerThan(pos, maxDistance) && !player.isCreative()
-                    && !player.isSpectator()
-    ).stream().map(Entity::getUUID).toList();
+                    level,
+                    player -> player.blockPosition().closerThan(pos, maxDistance) && !player.isCreative()
+                            && !player.isSpectator()
+            ).stream().map(Entity::getUUID).toList();
     public static final MapCodec<TrialSpawnerProcessor> CODEC = RecordCodecBuilder.mapCodec(builder -> builder
             .group(TrialSpawnerConfig.CODEC.fieldOf("config").forGetter(TrialSpawnerProcessor::getSpawnerConfig)
             ).apply(builder, TrialSpawnerProcessor::new));
@@ -49,8 +49,7 @@ public class TrialSpawnerProcessor extends StructureProcessor {
         return spawnerConfig;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public StructureTemplate.StructureBlockInfo process(
             LevelReader world,
             BlockPos piecePos,
