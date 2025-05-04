@@ -2,48 +2,46 @@ package com.wanderersoftherift.wotr.item.riftkey;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.wanderersoftherift.wotr.codec.DeferrableRegistryCodec;
-import com.wanderersoftherift.wotr.init.ModRiftThemes;
-import com.wanderersoftherift.wotr.world.level.levelgen.theme.RiftTheme;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * A recipe for imbuing a rift key with a theme. This specifies requirements for the ingredients to be valid for the
- * theme, and a priority for determining the theme to use if there are overlaps.
- */
-public class ThemeRecipe {
-    public static final Codec<ThemeRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            DeferrableRegistryCodec.create(ModRiftThemes.RIFT_THEME_KEY)
-                    .fieldOf("theme")
-                    .forGetter(ThemeRecipe::getTheme),
-            Codec.INT.fieldOf("priority").forGetter(ThemeRecipe::getPriority),
-            EssencePredicate.CODEC.listOf()
-                    .optionalFieldOf("essence_reqs", List.of())
-                    .forGetter(ThemeRecipe::getEssenceRequirements),
-            ItemPredicate.CODEC.listOf()
-                    .optionalFieldOf("item_reqs", List.of())
-                    .forGetter(ThemeRecipe::getItemRequirements))
-            .apply(instance, ThemeRecipe::new));
-
-    private final Holder<RiftTheme> theme;
+public final class KeyForgeRecipe<T> {
     private final int priority;
-
     private final List<EssencePredicate> essenceRequirements;
     private final List<ItemPredicate> itemRequirements;
 
-    public ThemeRecipe(Holder<RiftTheme> theme, int priority, List<EssencePredicate> essenceRequirements,
+    private final T output;
+
+    public KeyForgeRecipe(T output, int priority, List<EssencePredicate> essenceRequirements,
             List<ItemPredicate> itemRequirements) {
-        this.theme = theme;
+        this.output = output;
         this.priority = priority;
         this.essenceRequirements = essenceRequirements;
         this.itemRequirements = itemRequirements;
+    }
+
+    public static <T> Codec<KeyForgeRecipe<T>> codec(Codec<T> outputCodec) {
+        return RecordCodecBuilder
+                .create(instance -> instance
+                        .group(outputCodec.fieldOf("output").forGetter(KeyForgeRecipe::getOutput),
+                                Codec.INT.fieldOf("priority").forGetter(KeyForgeRecipe::getPriority),
+                                EssencePredicate.CODEC.listOf()
+                                        .optionalFieldOf("essence_reqs", List.of())
+                                        .forGetter(KeyForgeRecipe::getEssenceRequirements),
+                                ItemPredicate.CODEC.listOf()
+                                        .optionalFieldOf("item_reqs", List.of())
+                                        .forGetter(KeyForgeRecipe::getItemRequirements))
+                        .apply(instance, KeyForgeRecipe::new));
+    }
+
+    public static <T> Builder<T> create(T output) {
+        return new Builder<>(output);
     }
 
     public boolean matches(List<ItemStack> items, Object2IntMap<ResourceLocation> essences) {
@@ -67,70 +65,71 @@ public class ThemeRecipe {
         return true;
     }
 
-    public Holder<RiftTheme> getTheme() {
-        return theme;
-    }
-
     public int getPriority() {
         return priority;
     }
 
     public List<EssencePredicate> getEssenceRequirements() {
-        return essenceRequirements;
+        return Collections.unmodifiableList(essenceRequirements);
     }
 
     public List<ItemPredicate> getItemRequirements() {
-        return itemRequirements;
+        return Collections.unmodifiableList(itemRequirements);
     }
 
-    public static final class Builder {
-        private final Holder<RiftTheme> theme;
+    public T getOutput() {
+        return output;
+    }
+
+    public static final class Builder<T> {
+        private final T output;
         private int priority = 0;
 
         private final List<EssencePredicate> essenceRequirements = new ArrayList<>();
         private final List<ItemPredicate> itemRequirements = new ArrayList<>();
 
         /**
-         * @param theme The theme this recipe is for
+         * @param output The output this recipe produces
          */
-        public Builder(Holder<RiftTheme> theme) {
-            this.theme = theme;
+        private Builder(T output) {
+            this.output = output;
         }
 
         /**
          * @param priority The priority of this recipe against other recipes (higher overrides lower)
          * @return
          */
-        public Builder setPriority(int priority) {
+        public Builder<T> setPriority(int priority) {
             this.priority = priority;
             return this;
         }
 
         /**
          * Can be specified multiple times, with all requirements needing to be met
-         * 
+         *
          * @param essenceReq A predicate specifying a requirement on a type of essence that has to be met by the
          *                   ingredients.
          * @return
          */
-        public Builder withEssenceReq(EssencePredicate essenceReq) {
+        public Builder<T> withEssenceReq(EssencePredicate essenceReq) {
             this.essenceRequirements.add(essenceReq);
             return this;
         }
 
         /**
          * Can be specified multiple times, with all requirements needing to be met
-         * 
+         *
          * @param itemReq A predicate specifying a requirement on a type of item that has to be met by the ingredients
          * @return
          */
-        public Builder withItemReq(ItemPredicate itemReq) {
+        public Builder<T> withItemReq(ItemPredicate itemReq) {
             this.itemRequirements.add(itemReq);
             return this;
         }
 
-        public ThemeRecipe build() {
-            return new ThemeRecipe(theme, priority, essenceRequirements, itemRequirements);
+        public KeyForgeRecipe<T> build() {
+            return new KeyForgeRecipe<T>(output, priority, essenceRequirements, itemRequirements);
         }
+
     }
 }

@@ -57,10 +57,29 @@ public class ModLanguageProvider extends LanguageProvider {
         addEntityType(ModEntities.RIFT_EXIT, "Rift Egress");
         addEntityType(ModEntities.SIMPLE_EFFECT_PROJECTILE, "Projectile");
 
-        addEssenceType("earth", "Earth");
+        addEssenceType("animal", "Animal");
+        addEssenceType("plant", "Plant");
         addEssenceType("life", "Life");
+        addEssenceType("death", "Death");
+        addEssenceType("light", "Light");
+        addEssenceType("dark", "Dark");
+        addEssenceType("order", "Order");
+        addEssenceType("chaos", "Chaos");
+        addEssenceType("earth", "Earth");
+        addEssenceType("fire", "Fire");
         addEssenceType("water", "Water");
-        addEssenceType("meat", "Meat");
+        addEssenceType("air", "Air");
+        addEssenceType("time", "Time");
+        addEssenceType("space", "Space");
+
+        addEssenceType("metal", "Metal");
+        addEssenceType("fabric", "Fabric");
+        addEssenceType("crystal", "Crystal");
+        addEssenceType("power", "Power");
+        addEssenceType("knowledge", "Knowledge");
+
+        addEssenceType("nether", "Nether");
+        addEssenceType("end", "End");
 
         addTheme("cave", "Cave");
         addTheme("forest", "Forest");
@@ -100,6 +119,15 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add("container." + WanderersOfTheRift.MODID + ".ability_bench.upgrade", "Upgrades");
         add("container." + WanderersOfTheRift.MODID + ".ability_bench.unlock", "Unlock next choice");
+        add(WanderersOfTheRift.translationId("container", "rift_complete"), "Rift Overview");
+
+        add(WanderersOfTheRift.translationId("stat", "result"), "Result: ");
+        add(WanderersOfTheRift.translationId("stat", "result.success"), "Success");
+        add(WanderersOfTheRift.translationId("stat", "result.survived"), "Escaped");
+        add(WanderersOfTheRift.translationId("stat", "result.failed"), "Failed");
+        add(WanderersOfTheRift.translationId("stat", "time"), "Time in rift: ");
+        add(WanderersOfTheRift.translationId("stat", "mobs_killed"), "Mobs killed: ");
+        add(WanderersOfTheRift.translationId("stat", "chests_opened"), "Chests opened: ");
 
         add("command." + WanderersOfTheRift.MODID + ".dev_world_set",
                 "Dev World settings applied:\n - %1$s: Disabled\n - %2$s: Disabled\n - %3$s: Disabled\n - %4$s: Disabled\n - %5$s: Disabled\n - %6$s: Disabled");
@@ -107,9 +135,14 @@ public class ModLanguageProvider extends LanguageProvider {
         add("command." + WanderersOfTheRift.MODID + ".invalid_player", "Player is null!");
         add("command." + WanderersOfTheRift.MODID + ".get_item_stack_components.success",
                 "Item Components available for '%1$s'");
-        add("command." + WanderersOfTheRift.MODID + ".rift_key.success", "Rift key configured");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.set_tier", "Rift key tier set to %s");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.set_theme", "Rift key theme set to %s");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.set_objective", "Rift key objective set to %s");
+        add("command." + WanderersOfTheRift.MODID + ".rift_key.set_seed", "Rift key seed set to %s");
         add("command." + WanderersOfTheRift.MODID + ".invalid_theme", "Invalid theme '%s'");
         add("command." + WanderersOfTheRift.MODID + ".rift_key.invalid_item", "You must hold a rift key in your hand!");
+        add("command." + WanderersOfTheRift.MODID + ".spawn_piece.generating", "Generating %s");
+        add(WanderersOfTheRift.translationId("command", "make_ability_item.success"), "Applied ability components");
 
         add("ability." + WanderersOfTheRift.MODID + ".cannot_unlock",
                 "You must unlock the following to get this boost: ");
@@ -149,16 +182,20 @@ public class ModLanguageProvider extends LanguageProvider {
         add("accessibility." + WanderersOfTheRift.MODID + ".screen.tooltip.reduced_motion",
                 "Disables or slows down UI animations, camera shake, or screen effects");
 
-        add("command." + WanderersOfTheRift.MODID + ".spawn_piece.generating", "Generating %s");
-        add(WanderersOfTheRift.translationId("command", "make_ability_item.success"), "Applied ability components");
-
-        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_tier", "Rift Tier: %s");
-        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_theme", "Rift Theme: %s");
+        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_tier", "Tier: %s");
+        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_theme", "Theme: %s");
+        add("tooltip." + WanderersOfTheRift.MODID + ".rift_key_objective", "Objective: %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_value", "Essence: %s %s");
         add("tooltip." + WanderersOfTheRift.MODID + ".essence_header", "Essence:");
         add("tooltip." + WanderersOfTheRift.MODID + ".socket", "Sockets: ");
         add("tooltip." + WanderersOfTheRift.MODID + ".implicit-", "Implicit: ");
         add(WanderersOfTheRift.translationId("tooltip", "mana_bar"), "Mana: %s/%s");
+        add(WanderersOfTheRift.translationId("tooltip", "rift_key_seed"), "Seed: %s");
+
+        add(WanderersOfTheRift.translationId("itemname", "consolation1"), "Whomp whomp");
+        add(WanderersOfTheRift.translationId("itemname", "consolation2"), "Tissue");
+        add(WanderersOfTheRift.translationId("itemname", "consolation3"), "Success is built on a mountain of failure");
+        add(WanderersOfTheRift.translationId("itemname", "consolation4"), "Think of it as a learning opportunity");
 
         add("subtitles." + WanderersOfTheRift.MODID + ".rift_open", "Rift Opens");
 
@@ -216,6 +253,12 @@ public class ModLanguageProvider extends LanguageProvider {
         add(WanderersOfTheRift.translationId("keybinds", "mod_alt"), "Alt+");
         add(WanderersOfTheRift.translationId("keybinds", "mod_ctrl"), "Ctrl+");
         add(WanderersOfTheRift.translationId("keybinds", "mod_shift"), "Shi+");
+
+        add(WanderersOfTheRift.translationId("objective", "kill.name"), "Kill mobs");
+        add(WanderersOfTheRift.translationId("objective", "stealth.name"), "Stealth");
+        add(WanderersOfTheRift.translationId("objective", "kill.description"), "Defeat %s monsters");
+        add(WanderersOfTheRift.translationId("objective", "stealth.description"), "Defeat monsters stealthily");
+        add(WanderersOfTheRift.translationId("gui", "objective_status.complete"), "Objective Complete");
     }
 
     private void addEssenceType(String id, String value) {
