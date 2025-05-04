@@ -87,7 +87,6 @@ public record ModChestLootTableProvider(HolderLookup.Provider registries) implem
      * @param consumer
      */
     private void generateSocketedVanillaArmorLootTable(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
-        ResourceLocation location = ModTags.Items.SOCKETABLE_HELMET_SLOT.location();
         consumer.accept(getResourceKey("rift/socketed_vanilla_armor"),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()

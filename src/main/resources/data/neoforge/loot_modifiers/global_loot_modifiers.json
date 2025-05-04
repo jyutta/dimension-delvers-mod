@@ -1,6 +1,7 @@
 {
   "replace" : false,
   "entries" : [
-    "wotr:retain_inventory_snapshot_id"
+    "wotr:retain_inventory_snapshot_id",
+    "wotr:remove_enchanted_items_and_add_sockets"
   ]
 }

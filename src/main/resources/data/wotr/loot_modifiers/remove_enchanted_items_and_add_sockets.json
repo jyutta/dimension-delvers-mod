@@ -1,0 +1,12 @@
+{
+  "type": "wotr:remove_enchanted_items_and_add_sockets",
+  "conditions" : [
+    {
+      "condition": "minecraft:inverted",
+      "term": {
+        "condition": "neoforge:loot_table_id",
+        "loot_table_id": "wotr:chests/wooden"
+      }
+    }
+  ]
+}
