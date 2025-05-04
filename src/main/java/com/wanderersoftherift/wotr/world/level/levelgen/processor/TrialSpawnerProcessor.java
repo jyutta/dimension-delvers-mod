@@ -11,7 +11,11 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.TrialSpawnerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
-import net.minecraft.world.level.block.entity.trialspawner.*;
+import net.minecraft.world.level.block.entity.trialspawner.PlayerDetector;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerData;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -21,15 +25,15 @@ import org.jetbrains.annotations.Nullable;
 import static com.wanderersoftherift.wotr.init.ModProcessors.TRIAL_SPAWNER;
 
 public class TrialSpawnerProcessor extends StructureProcessor {
-    private static PlayerDetector RIFT_PLAYERS = (
+    private static final PlayerDetector RIFT_PLAYERS = (
             level,
             entitySelector,
             pos,
             maxDistance,
             requiresLineOfSight) -> entitySelector.getPlayers(
             level,
-            p_390338_ -> p_390338_.blockPosition().closerThan(pos, maxDistance) && !p_390338_.isCreative()
-                    && !p_390338_.isSpectator()
+            player -> player.blockPosition().closerThan(pos, maxDistance) && !player.isCreative()
+                    && !player.isSpectator()
     ).stream().map(Entity::getUUID).toList();
     public static final MapCodec<TrialSpawnerProcessor> CODEC = RecordCodecBuilder.mapCodec(builder -> builder
             .group(TrialSpawnerConfig.CODEC.fieldOf("config").forGetter(TrialSpawnerProcessor::getSpawnerConfig)
@@ -45,7 +49,8 @@ public class TrialSpawnerProcessor extends StructureProcessor {
         return spawnerConfig;
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public StructureTemplate.StructureBlockInfo process(
             LevelReader world,
             BlockPos piecePos,
