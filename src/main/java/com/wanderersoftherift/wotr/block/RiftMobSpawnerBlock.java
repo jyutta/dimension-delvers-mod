@@ -32,48 +32,57 @@ public class RiftMobSpawnerBlock extends BaseEntityBlock {
     public static final EnumProperty<TrialSpawnerState> STATE = BlockStateProperties.TRIAL_SPAWNER_STATE;
     public static final BooleanProperty OMINOUS = BlockStateProperties.OMINOUS;
 
+    public RiftMobSpawnerBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(STATE, TrialSpawnerState.INACTIVE)
+                .setValue(OMINOUS, Boolean.valueOf(false)));
+    }
+
     @Override
     public MapCodec<RiftMobSpawnerBlock> codec() {
         return CODEC;
     }
 
-    public RiftMobSpawnerBlock(BlockBehaviour.Properties properties) {
-        super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(STATE, TrialSpawnerState.INACTIVE).setValue(OMINOUS, Boolean.valueOf(false)));
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
+        stateBuilder.add(STATE, OMINOUS);
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_312785_) {
-        p_312785_.add(STATE, OMINOUS);
-    }
-
-    @Nullable
-    @Override
+    @Nullable @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new RiftMobSpawnerBlockEntity(blockPos, blockState);
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level instanceof ServerLevel serverlevel
-                ? createTickerHelper(
-                blockEntityType,
-                ModBlockEntities.RIFT_MOB_SPAWNER.get(),
-                (p_337976_, p_337977_, p_337978_, p_337979_) -> p_337979_.getTrialSpawner()
-                        .tickServer(serverlevel, p_337977_, p_337978_.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false))
-        )
-                : createTickerHelper(
-                blockEntityType,
-                ModBlockEntities.RIFT_MOB_SPAWNER.get(),
-                (p_337980_, p_337981_, p_337982_, p_337983_) -> p_337983_.getTrialSpawner()
-                        .tickClient(p_337980_, p_337981_, p_337982_.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false))
-        );
+    @Nullable @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level,
+            BlockState blockState,
+            BlockEntityType<T> blockEntityType) {
+        if (level instanceof ServerLevel serverlevel) {
+            return createTickerHelper(
+                    blockEntityType, ModBlockEntities.RIFT_MOB_SPAWNER.get(),
+                    (level1, blockPos, blockState1, spawnerBlockEntity) -> spawnerBlockEntity.getTrialSpawner()
+                            .tickServer(serverlevel, blockPos,
+                                    blockState1.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false))
+            );
+        } else {
+            return createTickerHelper(
+                    blockEntityType, ModBlockEntities.RIFT_MOB_SPAWNER.get(),
+                    (level1, blockPos, blockState1, spawnerBlockEntity) -> spawnerBlockEntity.getTrialSpawner()
+                            .tickClient(level1, blockPos,
+                                    blockState1.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false))
+            );
+        }
     }
 
     @Override
-    public void appendHoverText(ItemStack p_312446_, Item.TooltipContext p_339621_, List<Component> p_312088_, TooltipFlag p_311895_) {
-        super.appendHoverText(p_312446_, p_339621_, p_312088_, p_311895_);
-        Spawner.appendHoverText(p_312446_, p_312088_, "spawn_data");
+    public void appendHoverText(
+            ItemStack itemStack,
+            Item.TooltipContext tooltipContext,
+            List<Component> tooltipComponents,
+            TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, tooltipContext, tooltipComponents, tooltipFlag);
+        Spawner.appendHoverText(itemStack, tooltipComponents, "spawn_data");
     }
 }

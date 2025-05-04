@@ -21,7 +21,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import org.jetbrains.annotations.Nullable;
 
 import static com.wanderersoftherift.wotr.block.blockentity.RiftMobSpawnerBlockEntity.RIFT_PLAYERS;
 import static com.wanderersoftherift.wotr.init.ModProcessors.TRIAL_SPAWNER;
@@ -41,7 +40,6 @@ public class TrialSpawnerProcessor extends StructureProcessor {
         return spawnerConfig;
     }
 
-    @Nullable
     @Override
     public StructureTemplate.StructureBlockInfo process(
             LevelReader world,
@@ -62,8 +60,8 @@ public class TrialSpawnerProcessor extends StructureProcessor {
             }
         }
         if (blockInfo.state().getBlock() instanceof RiftMobSpawnerBlock) {
-            BlockEntity blockEntity = ((RiftMobSpawnerBlock) blockInfo.state().getBlock()).newBlockEntity(blockInfo.pos(),
-                    blockInfo.state());
+            BlockEntity blockEntity = ((RiftMobSpawnerBlock) blockInfo.state().getBlock())
+                    .newBlockEntity(blockInfo.pos(), blockInfo.state());
             if (blockEntity instanceof RiftMobSpawnerBlockEntity spawnerBlockEntity) {
                 return new StructureTemplate.StructureBlockInfo(blockInfo.pos(),
                         blockInfo.state().setValue(RiftMobSpawnerBlock.STATE, TrialSpawnerState.INACTIVE),
@@ -73,9 +71,7 @@ public class TrialSpawnerProcessor extends StructureProcessor {
         return blockInfo;
     }
 
-    private CompoundTag getBlockEntity(
-            LevelReader world,
-            RiftMobSpawnerBlockEntity blockEntity) {
+    private CompoundTag getBlockEntity(LevelReader world, RiftMobSpawnerBlockEntity blockEntity) {
         TrialSpawner trialSpawner = new TrialSpawner(
                 spawnerConfig, spawnerConfig, new TrialSpawnerData(), 72_000, 9, blockEntity, RIFT_PLAYERS,
                 PlayerDetector.EntitySelector.SELECT_FROM_LEVEL);

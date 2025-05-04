@@ -29,40 +29,38 @@ public class RiftMobSpawnerBlockEntity extends BlockEntity implements Spawner, T
             pos,
             maxDistance,
             requiresLineOfSight) -> entitySelector.getPlayers(
-            level,
-            player -> player.blockPosition().closerThan(pos, maxDistance) && !player.isCreative()
-                    && !player.isSpectator()
-    ).stream().map(Entity::getUUID).toList();
+                    level,
+                    player -> player.blockPosition().closerThan(pos, maxDistance) && !player.isCreative()
+                            && !player.isSpectator()
+            ).stream().map(Entity::getUUID).toList();
 
     private TrialSpawner trialSpawner;
 
     public RiftMobSpawnerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.RIFT_MOB_SPAWNER.get(), pos, state);
-        PlayerDetector.EntitySelector playerdetector$entityselector = PlayerDetector.EntitySelector.SELECT_FROM_LEVEL;
-        this.trialSpawner = new TrialSpawner(this, RIFT_PLAYERS, playerdetector$entityselector);
+        PlayerDetector.EntitySelector entityselector = PlayerDetector.EntitySelector.SELECT_FROM_LEVEL;
+        this.trialSpawner = new TrialSpawner(this, RIFT_PLAYERS, entityselector);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag p_338752_, HolderLookup.Provider p_338872_) {
-        super.loadAdditional(p_338752_, p_338872_);
-        this.trialSpawner
-                .codec()
-                .parse(p_338872_.createSerializationContext(NbtOps.INSTANCE), p_338752_)
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider lookup) {
+        super.loadAdditional(tag, lookup);
+        this.trialSpawner.codec()
+                .parse(lookup.createSerializationContext(NbtOps.INSTANCE), tag)
                 .resultOrPartial(LOGGER::error)
-                .ifPresent(p_311911_ -> this.trialSpawner = p_311911_);
+                .ifPresent(trialSpawner -> this.trialSpawner = trialSpawner);
         if (this.level != null) {
             this.markUpdated();
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag p_311806_, HolderLookup.Provider p_324342_) {
-        super.saveAdditional(p_311806_, p_324342_);
-        this.trialSpawner
-                .codec()
-                .encodeStart(p_324342_.createSerializationContext(NbtOps.INSTANCE), this.trialSpawner)
-                .ifSuccess(p_312175_ -> p_311806_.merge((CompoundTag)p_312175_))
-                .ifError(p_338001_ -> LOGGER.warn("Failed to encode TrialSpawner {}", p_338001_.message()));
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider lookup) {
+        super.saveAdditional(tag, lookup);
+        this.trialSpawner.codec()
+                .encodeStart(lookup.createSerializationContext(NbtOps.INSTANCE), this.trialSpawner)
+                .ifSuccess(success -> tag.merge((CompoundTag) success))
+                .ifError(tagError -> LOGGER.warn("Failed to encode TrialSpawner {}", tagError.message()));
     }
 
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
@@ -70,16 +68,16 @@ public class RiftMobSpawnerBlockEntity extends BlockEntity implements Spawner, T
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider p_323524_) {
+    public CompoundTag getUpdateTag(HolderLookup.Provider lookup) {
         return this.trialSpawner.getData().getUpdateTag(this.getBlockState().getValue(RiftMobSpawnerBlock.STATE));
     }
 
     @Override
-    public void setEntityId(EntityType<?> p_311807_, RandomSource p_311976_) {
+    public void setEntityId(EntityType<?> entityType, RandomSource randomSource) {
         if (this.level == null) {
             Util.logAndPauseIfInIde("Expected non-null level");
         } else {
-            this.trialSpawner.overrideEntityToSpawn(p_311807_, this.level);
+            this.trialSpawner.overrideEntityToSpawn(entityType, this.level);
             this.setChanged();
         }
     }
@@ -94,15 +92,18 @@ public class RiftMobSpawnerBlockEntity extends BlockEntity implements Spawner, T
 
     @Override
     public TrialSpawnerState getState() {
-        return !this.getBlockState().hasProperty(BlockStateProperties.TRIAL_SPAWNER_STATE)
-                ? TrialSpawnerState.INACTIVE
-                : this.getBlockState().getValue(BlockStateProperties.TRIAL_SPAWNER_STATE);
+        if (!this.getBlockState().hasProperty(BlockStateProperties.TRIAL_SPAWNER_STATE)) {
+            return TrialSpawnerState.INACTIVE;
+        } else {
+            return this.getBlockState().getValue(BlockStateProperties.TRIAL_SPAWNER_STATE);
+        }
     }
 
     @Override
-    public void setState(Level p_311786_, TrialSpawnerState p_312721_) {
+    public void setState(Level level, TrialSpawnerState spawnerState) {
         this.setChanged();
-        p_311786_.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(BlockStateProperties.TRIAL_SPAWNER_STATE, p_312721_));
+        level.setBlockAndUpdate(this.worldPosition,
+                this.getBlockState().setValue(BlockStateProperties.TRIAL_SPAWNER_STATE, spawnerState));
     }
 
     @Override

@@ -29,7 +29,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
@@ -83,7 +89,8 @@ public final class ClientRegistryEvents {
         event.registerBlockEntityRenderer(BlockEntityType.JIGSAW, JigsawBlockEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.SIMPLE_EFFECT_PROJECTILE.get(), SimpleEffectProjectileRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.DITTO_BLOCK_ENTITY.get(), DittoBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.RIFT_MOB_SPAWNER.get(), RiftMobSpawnerBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.RIFT_MOB_SPAWNER.get(),
+                RiftMobSpawnerBlockEntityRenderer::new);
     }
 
     @SubscribeEvent
