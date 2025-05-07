@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -47,11 +46,15 @@ public record GearSockets(List<GearSocket> sockets) {
         return new GearSockets(new ArrayList<>());
     }
 
-    public static void generateForItem(ItemStack itemStack, Level level, Player player) {
+    public static void generateForItem(ItemStack itemStack, Level level, int minSockets, int maxSockets) {
         if (level.isClientSide() || !itemStack.is(SOCKETABLE)) {
             return;
         }
-        GearSockets sockets = GearSockets.randomSockets(3, level.random);
+        // check if gear already has sockets
+        if (itemStack.get(ModDataComponentType.GEAR_SOCKETS) != null) {
+            return;
+        }
+        GearSockets sockets = GearSockets.randomSockets(minSockets, maxSockets, level.random);
         itemStack.set(ModDataComponentType.GEAR_SOCKETS, sockets);
     }
 }
