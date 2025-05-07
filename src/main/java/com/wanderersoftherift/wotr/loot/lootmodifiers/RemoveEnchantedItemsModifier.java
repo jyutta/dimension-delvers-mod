@@ -2,9 +2,11 @@ package com.wanderersoftherift.wotr.loot.lootmodifiers;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.wanderersoftherift.wotr.item.socket.GearSockets;
+import com.wanderersoftherift.wotr.core.rift.RiftData;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -13,14 +15,12 @@ import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
-import static com.wanderersoftherift.wotr.init.ModTags.Items.SOCKETABLE;
+public class RemoveEnchantedItemsModifier extends LootModifier {
 
-public class RemoveEnchantedItemsModifierAndAddSockets extends LootModifier {
+    public static final MapCodec<RemoveEnchantedItemsModifier> CODEC = RecordCodecBuilder.mapCodec(
+            inst -> LootModifier.codecStart(inst).apply(inst, RemoveEnchantedItemsModifier::new));
 
-    public static final MapCodec<RemoveEnchantedItemsModifierAndAddSockets> CODEC = RecordCodecBuilder.mapCodec(
-            inst -> LootModifier.codecStart(inst).apply(inst, RemoveEnchantedItemsModifierAndAddSockets::new));
-
-    protected RemoveEnchantedItemsModifierAndAddSockets(LootItemCondition[] conditions) {
+    protected RemoveEnchantedItemsModifier(LootItemCondition[] conditions) {
         super(conditions);
     }
 
@@ -29,17 +29,28 @@ public class RemoveEnchantedItemsModifierAndAddSockets extends LootModifier {
             ObjectArrayList<ItemStack> generatedLoot,
             LootContext context) {
 
-        // Iterate through the loot and remove enchantments from each item
+        // Check if the current level is a rift level and return
+        // note this should never be the case, as the conditions from glm should prevent it
+        ServerLevel serverlevel = context.getLevel();
+        if (RiftData.isRift(serverlevel)) {
+            return generatedLoot;
+        }
+
+        ObjectArrayList<ItemStack> overrideLoot = new ObjectArrayList<>();
         for (ItemStack itemStack : generatedLoot) {
+            if (itemStack.getItem() == Items.ENCHANTED_BOOK) {
+                // if item is enchanted book, remove from returned loot
+                continue;
+            }
+
             if (itemStack.isEnchanted()) {
+                // if item is enchanted, remove all enchantments
                 EnchantmentHelper.setEnchantments(itemStack, ItemEnchantments.EMPTY); // Remove all enchantments
             }
-            if (itemStack.is(SOCKETABLE)) {
-                // Add sockets to the item
-                GearSockets.generateForItem(itemStack, context.getLevel(), 2, 4);
-            }
+
+            overrideLoot.add(itemStack);
         }
-        return generatedLoot; // Return the modified loot
+        return overrideLoot; // Return the modified loot
     }
 
     @Override
