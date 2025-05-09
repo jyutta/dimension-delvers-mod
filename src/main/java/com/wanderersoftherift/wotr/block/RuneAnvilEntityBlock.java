@@ -38,17 +38,6 @@ public class RuneAnvilEntityBlock extends BaseEntityBlock {
     private static final Component CONTAINER_TITLE = Component.translatable("container.wotr.rune_anvil");
     private static final VoxelShape SHAPE = makeShape();
 
-    public static VoxelShape makeShape() {
-        VoxelShape shape = Shapes.empty();
-        shape = Shapes.join(shape, Shapes.box(0.1875, 0, 0.125, 0.8125, 0.25, 0.875), BooleanOp.OR);
-        shape = Shapes.join(shape, Shapes.box(0.25, 0.25, 0.1875, 0.75, 0.3125, 0.8125), BooleanOp.OR);
-        shape = Shapes.join(shape, Shapes.box(0.375, 0.3125, 0.3125, 0.625, 0.625, 0.6875), BooleanOp.OR);
-        shape = Shapes.join(shape, Shapes.box(0.25, 0.625, 0, 0.75, 1, 1), BooleanOp.OR);
-        shape = Shapes.join(shape, Shapes.box(0.6625, 0.75, 0.006_25, 0.85, 0.875, 0.256_25), BooleanOp.OR);
-
-        return shape;
-    }
-
     private static final Map<Direction, VoxelShape> SHAPES;
 
     static {
@@ -58,6 +47,22 @@ public class RuneAnvilEntityBlock extends BaseEntityBlock {
         builder.put(Direction.SOUTH, VoxelShapeUtils.rotateHorizontal(SHAPE, Direction.SOUTH));
         builder.put(Direction.WEST, VoxelShapeUtils.rotateHorizontal(SHAPE, Direction.WEST));
         SHAPES = builder.build();
+    }
+
+    public RuneAnvilEntityBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    public static VoxelShape makeShape() {
+        VoxelShape shape = Shapes.empty();
+        shape = Shapes.join(shape, Shapes.box(0.1875, 0, 0.125, 0.8125, 0.25, 0.875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.25, 0.25, 0.1875, 0.75, 0.3125, 0.8125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.375, 0.3125, 0.3125, 0.625, 0.625, 0.6875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.25, 0.625, 0, 0.75, 1, 1), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.6625, 0.75, 0.006_25, 0.85, 0.875, 0.256_25), BooleanOp.OR);
+
+        return shape;
     }
 
     @Override
@@ -78,11 +83,6 @@ public class RuneAnvilEntityBlock extends BaseEntityBlock {
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Direction direction = context.getHorizontalDirection().getOpposite();
         return this.defaultBlockState().setValue(FACING, direction);
-    }
-
-    public RuneAnvilEntityBlock(BlockBehaviour.Properties properties) {
-        super(properties);
-        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
     public @NotNull MapCodec<RuneAnvilEntityBlock> codec() {

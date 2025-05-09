@@ -74,10 +74,10 @@ public class ModModelProvider extends ModelProvider {
                 .multiVariant(ModBlocks.KEY_FORGE.get(), Variant.variant().with(VariantProperties.MODEL, keyForgeModel))
                 .with(BlockModelGenerators.createHorizontalFacingDispatch()));
 
-        ResourceLocation RuneAnvilModel = WanderersOfTheRift.id("block/rune_anvil");
+        ResourceLocation runeAnvilModel = WanderersOfTheRift.id("block/rune_anvil");
         blockModels.blockStateOutput.accept(MultiVariantGenerator
                 .multiVariant(ModBlocks.RUNE_ANVIL_ENTITY_BLOCK.get(),
-                        Variant.variant().with(VariantProperties.MODEL, RuneAnvilModel))
+                        Variant.variant().with(VariantProperties.MODEL, runeAnvilModel))
                 .with(BlockModelGenerators.createHorizontalFacingDispatch()));
 
         ResourceLocation baseChestModel = WanderersOfTheRift.id("block/rift_chest");
