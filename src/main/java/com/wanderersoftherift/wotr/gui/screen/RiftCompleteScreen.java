@@ -22,7 +22,7 @@ public class RiftCompleteScreen extends AbstractContainerScreen<RiftCompleteMenu
     private static final int BACKGROUND_HEIGHT = 236;
 
     private static final int REWARD_LABEL_X = 13;
-    private static final int REWARD_LABEL_Y = 114;
+    private static final int REWARD_LABEL_Y = 112;
 
     private static final int STAT_BLOCK_X = 13;
     private static final int STAT_BLOCK_Y = 20;
@@ -46,12 +46,11 @@ public class RiftCompleteScreen extends AbstractContainerScreen<RiftCompleteMenu
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(RenderType::guiTextured, BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth,
                 this.imageHeight, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
-        guiGraphics.drawString(font, REWARDS_LABEL, REWARD_LABEL_X + leftPos, REWARD_LABEL_Y, ColorUtil.OFF_BLACK,
-                false);
+        guiGraphics.drawString(font, REWARDS_LABEL, REWARD_LABEL_X + leftPos, REWARD_LABEL_Y + topPos,
+                ColorUtil.OFF_BLACK, false);
     }
 
     private void renderStats(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        int line = 0;
         Component status = switch (getMenu().getResult()) {
             case RiftCompleteMenu.FLAG_SUCCESS ->
                 Component.translatable(WanderersOfTheRift.translationId("stat", "result.success"))
@@ -66,17 +65,17 @@ public class RiftCompleteScreen extends AbstractContainerScreen<RiftCompleteMenu
         };
         guiGraphics.drawString(font,
                 Component.translatable(WanderersOfTheRift.translationId("stat", "result")).append(status),
-                STAT_BLOCK_X + leftPos, STAT_BLOCK_Y + line++ * font.lineHeight, ColorUtil.OFF_BLACK, false);
+                STAT_BLOCK_X + leftPos, STAT_BLOCK_Y + topPos, ColorUtil.OFF_BLACK, false);
 
         for (int statIdx = 0; statIdx < RiftCompleteMenu.STATS_SLOTS.size(); statIdx++) {
             ResourceLocation statId = RiftCompleteMenu.STATS_SLOTS.get(statIdx);
             Stat<ResourceLocation> stat = Stats.CUSTOM.get(statId);
 
             Component label = Component.translatable(getTranslationKey(stat)).append(": ");
-            guiGraphics.drawString(font, label, STAT_BLOCK_X + leftPos, STAT_BLOCK_Y + (statIdx + 1) * font.lineHeight,
-                    ColorUtil.OFF_BLACK, false);
+            guiGraphics.drawString(font, label, STAT_BLOCK_X + leftPos,
+                    STAT_BLOCK_Y + (statIdx + 1) * font.lineHeight + topPos, ColorUtil.OFF_BLACK, false);
             guiGraphics.drawString(font, Component.literal(stat.format(menu.getStat(statIdx))),
-                    STAT_BLOCK_X + leftPos + font.width(label), STAT_BLOCK_Y + (statIdx + 1) * font.lineHeight,
+                    STAT_BLOCK_X + leftPos + font.width(label), STAT_BLOCK_Y + (statIdx + 1) * font.lineHeight + topPos,
                     ChatFormatting.BLACK.getColor(), false);
         }
     }
