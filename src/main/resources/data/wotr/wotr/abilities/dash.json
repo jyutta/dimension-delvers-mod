@@ -2,7 +2,7 @@
   "type": "wotr:standard_ability",
   "ability_name": "wotr:dash",
   "icon" : "minecraft:textures/mob_effect/speed.png",
-  "cooldown": 10,
+  "cooldown": 200,
   "mana_cost": 10,
   "effects":
   [
