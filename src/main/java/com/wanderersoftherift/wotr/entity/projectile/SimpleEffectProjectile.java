@@ -172,6 +172,10 @@ public class SimpleEffectProjectile extends Projectile implements GeoEntity {
 
     @Override
     public void tick() {
+        if (tickCount > 600) {
+            this.discard();
+            return;
+        }
         boolean flag = !this.isNoPhysics();
         Vec3 vec3 = this.getDeltaMovement();
         BlockPos blockpos = this.blockPosition();
