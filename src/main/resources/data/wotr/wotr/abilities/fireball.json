@@ -2,7 +2,7 @@
   "type": "wotr:standard_ability",
   "ability_name": "wotr:fireball_ability",
   "icon": "minecraft:textures/item/fire_charge.png",
-  "cooldown": 20,
+  "cooldown": 40,
   "mana_cost": 10,
   "effects": [
     {
