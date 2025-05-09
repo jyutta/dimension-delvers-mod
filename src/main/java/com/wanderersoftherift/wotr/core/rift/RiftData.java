@@ -43,6 +43,7 @@ public class RiftData extends SavedData { // TODO: split this
         this.portalDimension = Objects.requireNonNull(portalDimension);
         this.portalPos = Objects.requireNonNull(portalPos);
         this.players = new ArrayList<>(Objects.requireNonNull(players));
+        this.config = config;
     }
 
     public static boolean isRift(Level level) {
