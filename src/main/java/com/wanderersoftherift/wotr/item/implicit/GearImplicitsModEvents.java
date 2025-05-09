@@ -12,12 +12,31 @@ import static net.neoforged.fml.common.EventBusSubscriber.Bus;
 @EventBusSubscriber(bus = Bus.MOD, modid = MODID)
 public class GearImplicitsModEvents {
 
-    // ToDo: Determine all vanilla and modded items that should have implicits
     @SubscribeEvent
     public static void modifyComponents(ModifyDefaultComponentsEvent event) {
         event.modify(Items.WOODEN_SWORD,
                 builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.STONE_SWORD,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
         event.modify(Items.IRON_SWORD,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.GOLDEN_SWORD,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.DIAMOND_SWORD,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.NETHERITE_SWORD,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.WOODEN_AXE,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.STONE_AXE,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.IRON_AXE,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.GOLDEN_AXE,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.DIAMOND_AXE,
+                builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
+        event.modify(Items.NETHERITE_AXE,
                 builder -> builder.set(ModDataComponentType.GEAR_IMPLICITS.get(), new UnrolledGearImplicits()));
     }
 }

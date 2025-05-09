@@ -18,7 +18,7 @@ public abstract class MixinItem {
     @Inject(method = "onCraftedPostProcess", at = @At("TAIL"))
     public void addCustomDataOnCraftedPostProcess(ItemStack stack, Level level, CallbackInfo ci) {
         // Add custom data to the ItemStack when it is crafted
-        if(level.isClientSide()) {
+        if (level.isClientSide()) {
             return;
         }
         ServerLevel serverLevel = (ServerLevel) level;
