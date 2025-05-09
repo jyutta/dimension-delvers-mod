@@ -3,6 +3,7 @@ package com.wanderersoftherift.wotr.loot.functions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wanderersoftherift.wotr.core.rift.RiftData;
 import com.wanderersoftherift.wotr.init.ModDataComponentType;
 import com.wanderersoftherift.wotr.item.implicit.GearImplicits;
 import com.wanderersoftherift.wotr.item.socket.GearSockets;
@@ -70,6 +71,10 @@ public class RollGearFunction extends LootItemConditionalFunction {
         GearImplicits implicits = itemStack.get(ModDataComponentType.GEAR_IMPLICITS);
         if (implicits != null) {
             implicits.modifierInstances(itemStack, serverLevel);
+        }
+        RiftData riftData = RiftData.get(serverLevel);
+        if (riftData.getTier() > 0) {
+            itemStack.set(ModDataComponentType.ITEM_RIFT_TIER, riftData.getTier());
         }
         return itemStack;
     }
