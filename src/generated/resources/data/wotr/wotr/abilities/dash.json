@@ -1,7 +1,7 @@
 {
   "type": "wotr:standard_ability",
   "ability_name": "wotr:dash",
-  "cooldown": 10,
+  "cooldown": 200,
   "effects": [
     {
       "type": "wotr:movement_effect",

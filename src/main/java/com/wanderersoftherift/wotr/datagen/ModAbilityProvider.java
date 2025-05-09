@@ -37,7 +37,7 @@ public class ModAbilityProvider {
     public static void bootstrapAbilities(BootstrapContext<AbstractAbility> bootstrap) {
         bootstrap.register(ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("dash")),
                 new StandardAbility(WanderersOfTheRift.id("dash"),
-                        ResourceLocation.parse("minecraft:textures/mob_effect/speed.png"), 10, 10,
+                        ResourceLocation.parse("minecraft:textures/mob_effect/speed.png"), 200, 10,
                         List.of(new MovementEffect(new SelfTargeting(new TargetPredicate.Builder().build()),
                                 Collections.emptyList(), Optional.empty(), new Vec3(0, 0.4F, 1),
                                 RelativeFrame.TARGET_FACING),
@@ -49,7 +49,7 @@ public class ModAbilityProvider {
                 ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift
                         .id("fireball")),
                 new StandardAbility(WanderersOfTheRift.id("fireball_ability"),
-                        ResourceLocation.parse("minecraft:textures/item/fire_charge.png"), 20, 10, List
+                        ResourceLocation.parse("minecraft:textures/item/fire_charge.png"), 60, 10, List
                                 .of(new SimpleProjectileEffect(
                                         new SelfTargeting(new TargetPredicate.Builder().build()),
                                         List.of(new DamageEffect(
