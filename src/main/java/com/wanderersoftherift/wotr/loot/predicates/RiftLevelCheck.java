@@ -25,7 +25,7 @@ public record RiftLevelCheck(int minTier, int maxTier) implements LootItemCondit
     }
 
     public boolean test(LootContext context) {
-        Integer riftTier = LootUtil.getRiftTierFromContext(context);
+        int riftTier = LootUtil.getRiftTierFromContext(context);
         return riftTier >= minTier && riftTier <= maxTier;
     }
 

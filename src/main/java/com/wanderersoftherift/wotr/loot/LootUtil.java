@@ -7,7 +7,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 
 public class LootUtil {
 
-    public static Integer getRiftTierFromContext(LootContext context) {
+    public static int getRiftTierFromContext(LootContext context) {
         Integer riftTier = context.getOptionalParameter(ModLootContextParams.RIFT_TIER);
         if (riftTier == null) {
             ServerLevel serverlevel = context.getLevel();
