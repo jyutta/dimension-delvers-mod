@@ -63,7 +63,7 @@ public class ModAbilityProvider {
                                         Optional.of(new ParticleInfo(Optional.empty(), Optional.empty(),
                                                 Optional.of(ParticleTypes.EXPLOSION)
                                         )), new SimpleProjectileConfig(
-                                                1, 1.6F, false, 0.05F, 0,
+                                                1, 0, 1.6F, false, 0.05F, 0,
                                                 new SimpleProjectileConfig.SimpleProjectileConfigRenderConfig(
                                                         ResourceLocation.parse("wotr:geo/ability/fireball.geo.json"),
                                                         ResourceLocation.parse("wotr:textures/ability/fireball.png"),
