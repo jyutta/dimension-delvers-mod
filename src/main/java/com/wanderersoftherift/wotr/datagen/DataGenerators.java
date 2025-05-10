@@ -24,12 +24,11 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent.Client event) {
         event.createDatapackRegistryObjects(
                 new RegistrySetBuilder().add(Registries.DAMAGE_TYPE, bootstrap -> {
-                            bootstrap.register(
-                                    ModDamageTypes.FIRE_DAMAGE, new DamageType("wotr.fire", DamageScaling.NEVER, 0.0F));
-                            bootstrap.register(
-                                    ModDamageTypes.ICE_DAMAGE, new DamageType("wotr.ice", DamageScaling.NEVER, 0.0F));
-                        })
-                        .add(RegistryEvents.ABILITY_REGISTRY, ModAbilityProvider::bootstrapAbilities)
+                    bootstrap.register(
+                            ModDamageTypes.FIRE_DAMAGE, new DamageType("wotr.fire", DamageScaling.NEVER, 0.0F));
+                    bootstrap.register(
+                            ModDamageTypes.ICE_DAMAGE, new DamageType("wotr.ice", DamageScaling.NEVER, 0.0F));
+                }).add(RegistryEvents.ABILITY_REGISTRY, ModAbilityProvider::bootstrapAbilities)
         );
         event.createProvider(ModLanguageProvider::new);
         event.createProvider(ModModelProvider::new);

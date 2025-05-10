@@ -39,8 +39,8 @@ public class ModAbilityProvider {
                 new StandardAbility(WanderersOfTheRift.id("dash"),
                         ResourceLocation.parse("minecraft:textures/mob_effect/speed.png"), 200, 10,
                         List.of(new MovementEffect(new SelfTargeting(new TargetPredicate.Builder().build()),
-                                        Collections.emptyList(), Optional.empty(), new Vec3(0, 0.4F, 1),
-                                        RelativeFrame.TARGET_FACING),
+                                Collections.emptyList(), Optional.empty(), new Vec3(0, 0.4F, 1),
+                                RelativeFrame.TARGET_FACING),
                                 new SoundEffect(new SelfTargeting(new TargetPredicate.Builder().build()),
                                         Collections.emptyList(), Optional.empty(),
                                         Holder.direct(SoundEvents.BREEZE_CHARGE)))));
@@ -50,7 +50,7 @@ public class ModAbilityProvider {
                         .id("fireball")),
                 new StandardAbility(WanderersOfTheRift.id("fireball_ability"),
                         ResourceLocation.parse("minecraft:textures/item/fire_charge.png"), 60, 10, List
-                        .of(new SimpleProjectileEffect(
+                                .of(new SimpleProjectileEffect(
                                         new SelfTargeting(new TargetPredicate.Builder().build()),
                                         List.of(new DamageEffect(
                                                 new CubeAreaTargeting(
@@ -63,15 +63,15 @@ public class ModAbilityProvider {
                                         Optional.of(new ParticleInfo(Optional.empty(), Optional.empty(),
                                                 Optional.of(ParticleTypes.EXPLOSION)
                                         )), new SimpleProjectileConfig(
-                                        1, 0, 1.6F, false, 0.05F, 0,
-                                        new SimpleProjectileConfig.SimpleProjectileConfigRenderConfig(
-                                                ResourceLocation.parse("wotr:geo/ability/fireball.geo.json"),
-                                                ResourceLocation.parse("wotr:textures/ability/fireball.png"),
-                                                ResourceLocation.parse(
-                                                        "wotr:animations/ability/fireball.animations.json")
-                                        )
-                                ))
-                        )
+                                                1, 0, 1.6F, false, 0.05F, 0,
+                                                new SimpleProjectileConfig.SimpleProjectileConfigRenderConfig(
+                                                        ResourceLocation.parse("wotr:geo/ability/fireball.geo.json"),
+                                                        ResourceLocation.parse("wotr:textures/ability/fireball.png"),
+                                                        ResourceLocation.parse(
+                                                                "wotr:animations/ability/fireball.animations.json")
+                                                )
+                                        ))
+                                )
                 )
         );
         bootstrap.register(
@@ -79,7 +79,7 @@ public class ModAbilityProvider {
                         .id("icicles")),
                 new StandardAbility(WanderersOfTheRift.id("icicles_ability"),
                         ResourceLocation.parse("wotr:textures/ability/icon/icicle.png"), 10, 2, List
-                        .of(new SimpleProjectileEffect(
+                                .of(new SimpleProjectileEffect(
                                         new SelfTargeting(new TargetPredicate.Builder().build()),
                                         List.of(new DamageEffect(
                                                 new SelfTargeting(
@@ -87,26 +87,24 @@ public class ModAbilityProvider {
                                                                 EntitySentiment.NOT_FRIEND).build()
                                                 ), Collections.emptyList(), Optional.empty(), 2,
                                                 damageTypeRegistry.getOrThrow(ModDamageTypes.ICE_DAMAGE)
-                                        )),
-                                        Optional.empty()
-                                        , new SimpleProjectileConfig(
-                                        3, 1, 1.7F, false, 0.05F, 20,
-                                        new SimpleProjectileConfig.SimpleProjectileConfigRenderConfig(
-                                                ResourceLocation.parse("wotr:geo/ability/icicle.geo.json"),
-                                                ResourceLocation.parse("wotr:textures/ability/icicle.png"),
-                                                ResourceLocation.parse(
-                                                        "wotr:animations/ability/icicle.animations.json")
-                                        )
-                                ))
-                        )
+                                        )), Optional.empty(), new SimpleProjectileConfig(
+                                                3, 1, 1.7F, false, 0.05F, 20,
+                                                new SimpleProjectileConfig.SimpleProjectileConfigRenderConfig(
+                                                        ResourceLocation.parse("wotr:geo/ability/icicle.geo.json"),
+                                                        ResourceLocation.parse("wotr:textures/ability/icicle.png"),
+                                                        ResourceLocation.parse(
+                                                                "wotr:animations/ability/icicle.animations.json")
+                                                )
+                                        ))
+                                )
                 )
         );
         bootstrap.register(ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("heal")),
                 new StandardAbility(WanderersOfTheRift.id("heal"),
                         ResourceLocation.parse("minecraft:textures/mob_effect/regeneration.png"), 200, 10,
                         List.of(new HealEffect(new CubeAreaTargeting(
-                                        new TargetPredicate.Builder().withSentiment(EntitySentiment.NOT_FOE).build(), 2, true),
-                                        Collections.emptyList(), Optional.empty(), 2),
+                                new TargetPredicate.Builder().withSentiment(EntitySentiment.NOT_FOE).build(), 2, true),
+                                Collections.emptyList(), Optional.empty(), 2),
                                 new SoundEffect(new SelfTargeting(new TargetPredicate.Builder().build()),
                                         Collections.emptyList(), Optional.empty(),
                                         Holder.direct(SoundEvents.SPLASH_POTION_BREAK)))));
