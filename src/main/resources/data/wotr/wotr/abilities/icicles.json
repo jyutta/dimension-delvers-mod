@@ -1,7 +1,7 @@
 {
   "type": "wotr:standard_ability",
   "ability_name": "wotr:icicles_ability",
-  "icon": "wotr:textures/ability/icicle.png",
+  "icon": "wotr:textures/ability/icon/icicle.png",
   "cooldown": 10,
   "mana_cost": 2,
   "effects": [
