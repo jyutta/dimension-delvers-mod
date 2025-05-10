@@ -28,6 +28,7 @@ public class ModDataMapProvider extends DataMapProvider {
     protected void gather(HolderLookup.@NotNull Provider provider) {
         ResourceLocation animal = WanderersOfTheRift.id("animal");
         ResourceLocation plant = WanderersOfTheRift.id("plant");
+        ResourceLocation mushroom = WanderersOfTheRift.id("mushroom");
 
         ResourceLocation life = WanderersOfTheRift.id("life");
         ResourceLocation death = WanderersOfTheRift.id("death");
@@ -151,16 +152,21 @@ public class ModDataMapProvider extends DataMapProvider {
 
         // Fungi
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)
-                .add(Tags.Items.MUSHROOMS, new EssenceValue(life, 1), false)
-                .add(Items.MUSHROOM_STEM.builtInRegistryHolder(), new EssenceValue(life, 1), false)
-                .add(Items.BROWN_MUSHROOM_BLOCK.builtInRegistryHolder(), new EssenceValue(life, 1), false)
-                .add(Items.MYCELIUM.builtInRegistryHolder(), new EssenceValue(earth, 1, life, 1), false)
+                .add(Tags.Items.MUSHROOMS, new EssenceValue(life, 1, mushroom, 1), false)
+                .add(Items.MUSHROOM_STEM.builtInRegistryHolder(), new EssenceValue(life, 1, mushroom, 1), false)
+                .add(Items.BROWN_MUSHROOM_BLOCK.builtInRegistryHolder(), new EssenceValue(life, 1, mushroom, 1), false)
+                .add(Items.MYCELIUM.builtInRegistryHolder(), new EssenceValue(earth, 1, life, 1, mushroom, 1), false)
                 .add(Items.RED_MUSHROOM_BLOCK.builtInRegistryHolder(), new EssenceValue(life, 1), false)
-                .add(Items.CRIMSON_NYLIUM.builtInRegistryHolder(), new EssenceValue(earth, 1, nether, 1), false)
-                .add(Items.WARPED_NYLIUM.builtInRegistryHolder(), new EssenceValue(earth, 1, nether, 1), false)
-                .add(Items.CRIMSON_FUNGUS.builtInRegistryHolder(), new EssenceValue(life, 1, nether, 1), false)
-                .add(Items.WARPED_FUNGUS.builtInRegistryHolder(), new EssenceValue(life, 1, nether, 1), false)
-                .add(Items.GLOW_LICHEN.builtInRegistryHolder(), new EssenceValue(life, 1, light, 1), false);
+                .add(Items.CRIMSON_NYLIUM.builtInRegistryHolder(), new EssenceValue(earth, 1, nether, 1, mushroom, 1),
+                        false)
+                .add(Items.WARPED_NYLIUM.builtInRegistryHolder(), new EssenceValue(earth, 1, nether, 1, mushroom, 1),
+                        false)
+                .add(Items.CRIMSON_FUNGUS.builtInRegistryHolder(), new EssenceValue(life, 1, nether, 1, mushroom, 1),
+                        false)
+                .add(Items.WARPED_FUNGUS.builtInRegistryHolder(), new EssenceValue(life, 1, nether, 1, mushroom, 1),
+                        false)
+                .add(Items.GLOW_LICHEN.builtInRegistryHolder(), new EssenceValue(life, 1, light, 1, mushroom, 1),
+                        false);
 
         // Grasses, ground & wall covers
         this.builder(ModDataMaps.ESSENCE_VALUE_DATA)

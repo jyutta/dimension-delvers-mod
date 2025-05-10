@@ -322,23 +322,23 @@ public class ModModelProvider extends ModelProvider {
                                         .properties(BlockStateProperties.TRIAL_SPAWNER_STATE,
                                                 BlockStateProperties.OMINOUS)
                                         .generate(
-                                                (p_387309_, p_388867_) -> {
-                                                    return switch (p_387309_) {
+                                                (state, isActive) -> {
+                                                    return switch (state) {
                                                         case INACTIVE,
                                                                 COOLDOWN ->
                                                             Variant.variant()
                                                                     .with(VariantProperties.MODEL,
-                                                                            p_388867_ ? resourcelocation3
+                                                                            isActive ? resourcelocation3
                                                                                     : resourcelocation);
                                                         case WAITING_FOR_PLAYERS, ACTIVE,
                                                                 WAITING_FOR_REWARD_EJECTION ->
                                                             Variant.variant()
                                                                     .with(VariantProperties.MODEL,
-                                                                            p_388867_ ? resourcelocation4
+                                                                            isActive ? resourcelocation4
                                                                                     : resourcelocation1);
                                                         case EJECTING_REWARD -> Variant.variant()
                                                                 .with(VariantProperties.MODEL,
-                                                                        p_388867_ ? resourcelocation5
+                                                                        isActive ? resourcelocation5
                                                                                 : resourcelocation2);
                                                     };
                                                 }
