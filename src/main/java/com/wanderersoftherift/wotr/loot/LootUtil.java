@@ -12,7 +12,7 @@ public class LootUtil {
         if (riftTier == null) {
             ServerLevel serverlevel = context.getLevel();
             if (!RiftData.isRift(serverlevel)) {
-                return null;
+                return 0;
             }
             riftTier = RiftData.get(serverlevel).getTier();
         }
