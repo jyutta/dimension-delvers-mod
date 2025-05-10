@@ -198,6 +198,15 @@
                 "projection": "rigid",
                 "element_type": "minecraft:single_pool_element"
             }
+        },
+        {
+            "weight": 88,
+            "element": {
+                "location": "wotr:rift/room/chaos/332/city_stair-3-mal",
+                "processors": "wotr:room_multiple_ruins_and_wood",
+                "projection": "rigid",
+                "element_type": "minecraft:single_pool_element"
+            }
         }
     ]
 }
