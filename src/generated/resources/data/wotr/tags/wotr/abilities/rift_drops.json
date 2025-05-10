@@ -2,6 +2,7 @@
   "values": [
     "wotr:dash",
     "wotr:fireball",
-    "wotr:heal"
+    "wotr:heal",
+    "wotr:icicles"
   ]
 }

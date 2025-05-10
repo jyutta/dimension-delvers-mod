@@ -23,6 +23,7 @@ public class ModAbilityTagsProvider extends TagsProvider<AbstractAbility> {
         tag(ModTags.Abilities.RIFT_DROPS)
                 .add(ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("dash")))
                 .add(ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("fireball")))
-                .add(ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("heal")));
+                .add(ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("heal")))
+                .add(ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift.id("icicles")));
     }
 }

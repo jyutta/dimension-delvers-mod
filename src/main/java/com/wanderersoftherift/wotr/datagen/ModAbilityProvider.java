@@ -63,12 +63,37 @@ public class ModAbilityProvider {
                                         Optional.of(new ParticleInfo(Optional.empty(), Optional.empty(),
                                                 Optional.of(ParticleTypes.EXPLOSION)
                                         )), new SimpleProjectileConfig(
-                                                1, 1.6F, false, 0.05F, 0,
+                                                1, 0, 1.6F, false, 0.05F, 0,
                                                 new SimpleProjectileConfig.SimpleProjectileConfigRenderConfig(
                                                         ResourceLocation.parse("wotr:geo/ability/fireball.geo.json"),
                                                         ResourceLocation.parse("wotr:textures/ability/fireball.png"),
                                                         ResourceLocation.parse(
                                                                 "wotr:animations/ability/fireball.animations.json")
+                                                )
+                                        ))
+                                )
+                )
+        );
+        bootstrap.register(
+                ResourceKey.create(RegistryEvents.ABILITY_REGISTRY, WanderersOfTheRift
+                        .id("icicles")),
+                new StandardAbility(WanderersOfTheRift.id("icicles_ability"),
+                        ResourceLocation.parse("wotr:textures/ability/icon/icicle.png"), 10, 2, List
+                                .of(new SimpleProjectileEffect(
+                                        new SelfTargeting(new TargetPredicate.Builder().build()),
+                                        List.of(new DamageEffect(
+                                                new SelfTargeting(
+                                                        new TargetPredicate.Builder().withSentiment(
+                                                                EntitySentiment.NOT_FRIEND).build()
+                                                ), Collections.emptyList(), Optional.empty(), 2,
+                                                damageTypeRegistry.getOrThrow(ModDamageTypes.ICE_DAMAGE)
+                                        )), Optional.empty(), new SimpleProjectileConfig(
+                                                3, 1, 1.7F, false, 0.05F, 20,
+                                                new SimpleProjectileConfig.SimpleProjectileConfigRenderConfig(
+                                                        ResourceLocation.parse("wotr:geo/ability/icicle.geo.json"),
+                                                        ResourceLocation.parse("wotr:textures/ability/icicle.png"),
+                                                        ResourceLocation.parse(
+                                                                "wotr:animations/ability/icicle.animations.json")
                                                 )
                                         ))
                                 )
