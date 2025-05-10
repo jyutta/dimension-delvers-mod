@@ -2,7 +2,7 @@
   "essence_reqs": [
     {
       "essenceType": "wotr:mushroom",
-      "minPercent": 75.0
+      "minPercent": 50.0
     }
   ],
   "output": "wotr:mushroom",

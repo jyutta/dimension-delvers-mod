@@ -59,6 +59,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
         addEssenceType("animal", "Animal");
         addEssenceType("plant", "Plant");
+        addEssenceType("mushroom", "Mushroom");
         addEssenceType("life", "Life");
         addEssenceType("death", "Death");
         addEssenceType("light", "Light");
@@ -80,9 +81,12 @@ public class ModLanguageProvider extends LanguageProvider {
 
         addEssenceType("nether", "Nether");
         addEssenceType("end", "End");
+        addEssenceType("processor", "Processor");
 
         addTheme("cave", "Cave");
         addTheme("forest", "Forest");
+        addTheme("processor", "Processor");
+        addTheme("mushroom", "Mushroom");
 
         ModBlocks.BLOCK_FAMILY_HELPERS.forEach(helper -> {
             // addBlock(helper.getBlock(), getTranslationString(helper.getBlock().get()));
@@ -147,6 +151,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("ability." + WanderersOfTheRift.MODID + ".cannot_unlock",
                 "You must unlock the following to get this boost: ");
         add("ability." + WanderersOfTheRift.MODID + ".fireball_ability", "Fireball");
+        add("ability." + WanderersOfTheRift.MODID + ".icicles_ability", "Icicles");
         add("ability." + WanderersOfTheRift.MODID + ".mega_boost", "Mega Boost");
         add("ability." + WanderersOfTheRift.MODID + ".dash", "Dash");
         add("ability." + WanderersOfTheRift.MODID + ".summon_skeletons", "Summon Skeletons");
