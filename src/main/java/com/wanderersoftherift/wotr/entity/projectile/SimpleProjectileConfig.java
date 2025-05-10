@@ -7,8 +7,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-public record SimpleProjectileConfig(int projectiles, int pierce, float velocity,
-        boolean gravityAffected, float gravity, int groundPersistTicks, SimpleProjectileConfigRenderConfig renderConfig) {
+public record SimpleProjectileConfig(int projectiles, int pierce, float velocity, boolean gravityAffected,
+        float gravity, int groundPersistTicks, SimpleProjectileConfigRenderConfig renderConfig) {
 
     public static final SimpleProjectileConfig DEFAULT = new SimpleProjectileConfig(
             1, 0, 1.0F, true, 0.05F, 0, SimpleProjectileConfigRenderConfig.DEFAULT);
