@@ -1047,7 +1047,6 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(Items.STRUCTURE_BLOCK.builtInRegistryHolder(), new EssenceValue(processor, 5), false)
                 .add(Items.JIGSAW.builtInRegistryHolder(), new EssenceValue(processor, 1), false)
 
-
                 .build();
     }
 }
