@@ -15,7 +15,7 @@ public record SimpleProjectileConfig(int projectiles, int pierce, float velocity
 
     public static final Codec<SimpleProjectileConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.optionalFieldOf("projectiles", 1).forGetter(SimpleProjectileConfig::projectiles),
-            Codec.INT.optionalFieldOf("pierce", 0).forGetter(SimpleProjectileConfig::projectiles),
+            Codec.INT.optionalFieldOf("pierce", 0).forGetter(SimpleProjectileConfig::pierce),
             Codec.FLOAT.fieldOf("velocity").forGetter(SimpleProjectileConfig::velocity),
             Codec.BOOL.optionalFieldOf("gravity_affected", true).forGetter(SimpleProjectileConfig::gravityAffected),
             Codec.FLOAT.optionalFieldOf("gravity", 0.05F).forGetter(SimpleProjectileConfig::gravity),
